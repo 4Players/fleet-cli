@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Deno
         uses: denoland/setup-deno@v1
@@ -23,7 +23,7 @@ jobs:
           DENO_BUILD_TARGET: x86_64-unknown-linux-gnu
 
       - name: Upload Linux Binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: odin-linux
           path: odin
@@ -32,7 +32,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Deno
         uses: denoland/setup-deno@v1
@@ -45,7 +45,7 @@ jobs:
           DENO_BUILD_TARGET: x86_64-apple-darwin
 
       - name: Upload macOS Binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: odin-macos-x86
           path: odin
@@ -54,7 +54,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Deno
         uses: denoland/setup-deno@v1
@@ -67,7 +67,7 @@ jobs:
           DENO_BUILD_TARGET: aarch64-apple-darwin
 
       - name: Upload macOS Binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: odin-macos-arm
           path: odin
@@ -76,7 +76,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Deno
         uses: denoland/setup-deno@v1
@@ -89,7 +89,7 @@ jobs:
           DENO_BUILD_TARGET: x86_64-pc-windows-msvc
 
       - name: Upload Windows Binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: odin-windows.exe
           path: odin.exe
@@ -99,28 +99,28 @@ jobs:
     needs: [build-linux, build-macos-x86, build-macos-arm, build-windows]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download Linux Binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: odin-linux
           path: .
 
       - name: Download macOS Binary for Intel
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: odin-macos-x86
           path: .
 
       - name: Download macOS Binary for Apple Silicon
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: odin-macos-arm
           path: .          
 
       - name: Download Windows Binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: odin-windows.exe
           path: .
@@ -137,7 +137,7 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset Linux
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -147,7 +147,7 @@ jobs:
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset macOS Intel
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -157,7 +157,7 @@ jobs:
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset macOS Apple Silicon
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -167,7 +167,7 @@ jobs:
           asset_content_type: application/octet-stream          
 
       - name: Upload Release Asset Windows
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
