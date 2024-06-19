@@ -67,7 +67,7 @@ const serverAddress = new Command()
       }
       serverId = await Select.prompt<number>({
         message: "Select server:",
-        options: servers.map((server) => {
+        options: servers.map((server: Server) => {
           return {
             name: `${server.id} - ${server.location!.city} - ${server.serverConfig!.name} - ${server.addr}`,
             value: server.id,
@@ -187,7 +187,7 @@ const showServerLogs = new Command()
       });
     }
 
-    const logs = await apiClient.getServerLogs(
+    const data = await apiClient.getServerLogs(
       serverId,
       options.details,
       options.follow,
@@ -197,7 +197,7 @@ const showServerLogs = new Command()
       options.timestamps,
       options.tail,
     );
-    console.log(logs);
+    console.log(data.logs);
   });
 
 const createBackup = new Command()

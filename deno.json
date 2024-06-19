@@ -7,6 +7,6 @@
   },
   "tasks": {
     "run": "deno run --allow-all src/main.ts",
-    "build": "deno compile --allow-all  --output odin src/main.ts"
+    "build": "deno compile --allow-all --output odin src/main.ts"
   }
 }
