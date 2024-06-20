@@ -1,5 +1,5 @@
 /**
- * B2B_API
+ * ODIN Fleet API
  * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
  *
  * OpenAPI spec version: 0.8.1
@@ -42,11 +42,11 @@ export class AppLocationSetting {
     /**
     * The minimum number of instances that should run at the specific location
     */
-    'autoScalerMin': number;
+    'autoScalerMin'?: number;
     /**
     * The maximum number of instances that should run at the specific location
     */
-    'autoScalerMax': number;
+    'autoScalerMax'?: number | null;
     /**
     * The placement to use
     */

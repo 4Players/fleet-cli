@@ -50,6 +50,6 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
     }
 }
 
-export const server1 = new ServerConfiguration<{  }>("https://api.4np.4players.de/b2b/v1/api", {  })
+export const server1 = new ServerConfiguration<{  }>("https://fleet.4players.io/api", {  })
 
 export const servers = [server1];

@@ -1,44 +1,44 @@
 # .AppApi
 
-All URIs are relative to *https://api.4np.4players.de/b2b/v1/api*
+All URIs are relative to *https://fleet.4players.io/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createApp**](AppApi.md#createApp) | **POST** /apps | Create an app
-[**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /apps/{app}/location-settings | Create a new location setting
-[**createBackup**](AppApi.md#createBackup) | **POST** /services/{service}/backup | Creates a backup of the service
-[**createBinary**](AppApi.md#createBinary) | **POST** /apps/{app}/binaries | Create a binary and the related file
-[**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /docker-registries | Create a new docker registry
-[**createServerConfig**](AppApi.md#createServerConfig) | **POST** /apps/{app}/configs | Create a new server config
-[**deleteApp**](AppApi.md#deleteApp) | **DELETE** /apps/{app} | Delete a specific app
-[**deleteAppLocationSetting**](AppApi.md#deleteAppLocationSetting) | **DELETE** /app-location-settings/{appLocationSetting} | Delete a location setting
-[**deleteAuthToken**](AppApi.md#deleteAuthToken) | **DELETE** /auth/token | Handles the deletion of a user\&#39;s authentication tokens
-[**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /binaries/{binary} | Delete a specified binary
-[**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /docker-registries/{dockerRegistry} | Delete a specific docker registry
-[**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /server-configs/{serverConfig} | Delete a specific server config
-[**getAppById**](AppApi.md#getAppById) | **GET** /apps/{app} | Show a specific app
-[**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /apps/{app}/location-settings | Show all location settings
-[**getApps**](AppApi.md#getApps) | **GET** /apps | Show all apps
-[**getAuthToken**](AppApi.md#getAuthToken) | **POST** /auth/token | Handles user authentication
-[**getBackups**](AppApi.md#getBackups) | **GET** /services/{service}/backups | List all backups for the specified Docker service
-[**getBinaries**](AppApi.md#getBinaries) | **GET** /apps/{app}/binaries | Show all binaries
-[**getBinaryById**](AppApi.md#getBinaryById) | **GET** /binaries/{binary} | Show a specific binary
-[**getDockerRegistries**](AppApi.md#getDockerRegistries) | **GET** /docker-registries | Show all docker registries
-[**getDockerRegistryById**](AppApi.md#getDockerRegistryById) | **GET** /docker-registries/{dockerRegistry} | Display a specific docker registry
-[**getLocations**](AppApi.md#getLocations) | **GET** /nodes/locations | Show a unique listing of locations based on active and ready worker nodes
-[**getMostRecentBackup**](AppApi.md#getMostRecentBackup) | **GET** /services/{service}/backup | Display the most recent backup for the specified Docker service
-[**getServerBackupDownloadUrl**](AppApi.md#getServerBackupDownloadUrl) | **GET** /services/{service}/backup/download | Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \&#39;archive\&#39;
-[**getServerById**](AppApi.md#getServerById) | **GET** /apps/{app}/services/{service} | Display a specific DockerService associated with the given App
-[**getServerConfigById**](AppApi.md#getServerConfigById) | **GET** /server-configs/{serverConfig} | Show a specific server config
-[**getServerConfigs**](AppApi.md#getServerConfigs) | **GET** /apps/{app}/configs | Show all server configs
-[**getServerLogs**](AppApi.md#getServerLogs) | **GET** /services/{service}/logs | Get stdout and stderr logs from a service or task
-[**getServers**](AppApi.md#getServers) | **GET** /apps/{app}/services | Show all services for a given app
-[**restartServer**](AppApi.md#restartServer) | **POST** /services/{service}/restart | Restarts a specific Docker service
-[**restoreBackup**](AppApi.md#restoreBackup) | **POST** /services/{service}/restore | Restore a backup for a specified Docker service
-[**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /app-location-settings/{appLocationSetting} | Update a location setting
-[**updateBinary**](AppApi.md#updateBinary) | **PUT** /binaries/{binary} | Update a binary and the related file
-[**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /docker-registries/{dockerRegistry} | Update a specific docker registry
-[**updateServerConfig**](AppApi.md#updateServerConfig) | **PUT** /server-configs/{serverConfig} | Update a server config
+[**createApp**](AppApi.md#createApp) | **POST** /v1/apps | Create an app
+[**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /v1/apps/{app}/location-settings | Create a new location setting
+[**createBackup**](AppApi.md#createBackup) | **POST** /v1/services/{service}/backup | Creates a backup of the service
+[**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related file
+[**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /v1/docker-registries | Create a new docker registry
+[**createServerConfig**](AppApi.md#createServerConfig) | **POST** /v1/apps/{app}/configs | Create a new server config
+[**deleteApp**](AppApi.md#deleteApp) | **DELETE** /v1/apps/{app} | Delete a specific app
+[**deleteAppLocationSetting**](AppApi.md#deleteAppLocationSetting) | **DELETE** /v1/app-location-settings/{appLocationSetting} | Delete a location setting
+[**deleteAuthToken**](AppApi.md#deleteAuthToken) | **DELETE** /v1/auth/token | Handles the deletion of a user\&#39;s authentication tokens
+[**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /v1/binaries/{binary} | Delete a specified binary
+[**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /v1/docker-registries/{dockerRegistry} | Delete a specific docker registry
+[**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /v1/server-configs/{serverConfig} | Delete a specific server config
+[**getAppById**](AppApi.md#getAppById) | **GET** /v1/apps/{app} | Show a specific app
+[**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
+[**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
+[**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Handles user authentication
+[**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{service}/backups | List all backups for the specified Docker service
+[**getBinaries**](AppApi.md#getBinaries) | **GET** /v1/apps/{app}/binaries | Show all binaries
+[**getBinaryById**](AppApi.md#getBinaryById) | **GET** /v1/binaries/{binary} | Show a specific binary
+[**getDockerRegistries**](AppApi.md#getDockerRegistries) | **GET** /v1/docker-registries | Show all docker registries
+[**getDockerRegistryById**](AppApi.md#getDockerRegistryById) | **GET** /v1/docker-registries/{dockerRegistry} | Display a specific docker registry
+[**getLocations**](AppApi.md#getLocations) | **GET** /v1/nodes/locations | Show a unique listing of locations based on active and ready worker nodes
+[**getMostRecentBackup**](AppApi.md#getMostRecentBackup) | **GET** /v1/services/{service}/backup | Display the most recent backup for the specified Docker service
+[**getServerBackupDownloadUrl**](AppApi.md#getServerBackupDownloadUrl) | **GET** /v1/services/{service}/backup/download | Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \&#39;archive\&#39;
+[**getServerById**](AppApi.md#getServerById) | **GET** /v1/apps/{app}/services/{service} | Display a specific DockerService associated with the given App
+[**getServerConfigById**](AppApi.md#getServerConfigById) | **GET** /v1/server-configs/{serverConfig} | Show a specific server config
+[**getServerConfigs**](AppApi.md#getServerConfigs) | **GET** /v1/apps/{app}/configs | Show all server configs
+[**getServerLogs**](AppApi.md#getServerLogs) | **GET** /v1/services/{service}/logs | Get stdout and stderr logs from a service or task
+[**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services for a given app
+[**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{service}/restart | Restarts a specific Docker service
+[**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{service}/restore | Restore a backup for a specified Docker service
+[**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
+[**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related file
+[**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /v1/docker-registries/{dockerRegistry} | Update a specific docker registry
+[**updateServerConfig**](AppApi.md#updateServerConfig) | **PUT** /v1/server-configs/{serverConfig} | Update a server config
 
 
 # **createApp**

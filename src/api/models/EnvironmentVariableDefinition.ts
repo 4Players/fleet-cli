@@ -1,5 +1,5 @@
 /**
- * B2B_API
+ * ODIN Fleet API
  * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
  *
  * OpenAPI spec version: 0.8.1

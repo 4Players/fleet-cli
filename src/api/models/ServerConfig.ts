@@ -1,5 +1,5 @@
 /**
- * B2B_API
+ * ODIN Fleet API
  * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
  *
  * OpenAPI spec version: 0.8.1
@@ -39,15 +39,15 @@ export class ServerConfig {
     /**
     * The command to run in the container (overrides ENTRYPOINT of the Dockerfile)
     */
-    'command': string;
+    'command': string | null;
     /**
     * The arguments to pass to the command (overrides CMD of the Dockerfile)
     */
-    'args': string;
+    'args': string | null;
     /**
     * The notes of the server config - to keep track of things and to inform colleagues
     */
-    'notes': string;
+    'notes': string | null;
     /**
     * The policy used to restart this server
     */

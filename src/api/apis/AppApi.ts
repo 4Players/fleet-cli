@@ -43,7 +43,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps';
+        const localVarPath = '/v1/apps';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
@@ -86,7 +86,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/location-settings'
+        const localVarPath = '/v1/apps/{app}/location-settings'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -130,7 +130,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/backup'
+        const localVarPath = '/v1/services/{service}/backup'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -174,7 +174,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/binaries'
+        const localVarPath = '/v1/apps/{app}/binaries'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -211,7 +211,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/docker-registries';
+        const localVarPath = '/v1/docker-registries';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
@@ -254,7 +254,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/configs'
+        const localVarPath = '/v1/apps/{app}/configs'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -297,7 +297,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}'
+        const localVarPath = '/v1/apps/{app}'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -328,7 +328,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/app-location-settings/{appLocationSetting}'
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}'
             .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
 
         // Make Request Context
@@ -359,7 +359,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/auth/token';
+        const localVarPath = '/v1/auth/token';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
@@ -395,7 +395,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/binaries/{binary}'
+        const localVarPath = '/v1/binaries/{binary}'
             .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
 
         // Make Request Context
@@ -426,7 +426,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/docker-registries/{dockerRegistry}'
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}'
             .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
 
         // Make Request Context
@@ -458,7 +458,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/server-configs/{serverConfig}'
+        const localVarPath = '/v1/server-configs/{serverConfig}'
             .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
 
         // Make Request Context
@@ -489,7 +489,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}'
+        const localVarPath = '/v1/apps/{app}'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -520,7 +520,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/location-settings'
+        const localVarPath = '/v1/apps/{app}/location-settings'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -544,7 +544,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         let _config = _options || this.configuration;
 
         // Path Params
-        const localVarPath = '/apps';
+        const localVarPath = '/v1/apps';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -570,7 +570,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/auth/token';
+        const localVarPath = '/v1/auth/token';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
@@ -611,7 +611,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/backups'
+        const localVarPath = '/v1/services/{service}/backups'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -642,7 +642,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/binaries'
+        const localVarPath = '/v1/apps/{app}/binaries'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -673,7 +673,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/binaries/{binary}'
+        const localVarPath = '/v1/binaries/{binary}'
             .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
 
         // Make Request Context
@@ -697,7 +697,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         let _config = _options || this.configuration;
 
         // Path Params
-        const localVarPath = '/docker-registries';
+        const localVarPath = '/v1/docker-registries';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -727,7 +727,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/docker-registries/{dockerRegistry}'
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}'
             .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
 
         // Make Request Context
@@ -752,7 +752,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         let _config = _options || this.configuration;
 
         // Path Params
-        const localVarPath = '/nodes/locations';
+        const localVarPath = '/v1/nodes/locations';
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -782,7 +782,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/backup'
+        const localVarPath = '/v1/services/{service}/backup'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -813,7 +813,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/backup/download'
+        const localVarPath = '/v1/services/{service}/backup/download'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -851,7 +851,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/services/{service}'
+        const localVarPath = '/v1/apps/{app}/services/{service}'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)))
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
@@ -883,7 +883,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/server-configs/{serverConfig}'
+        const localVarPath = '/v1/server-configs/{serverConfig}'
             .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
 
         // Make Request Context
@@ -914,7 +914,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/configs'
+        const localVarPath = '/v1/apps/{app}/configs'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -959,7 +959,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/logs'
+        const localVarPath = '/v1/services/{service}/logs'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -1025,7 +1025,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/apps/{app}/services'
+        const localVarPath = '/v1/apps/{app}/services'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
 
         // Make Request Context
@@ -1058,7 +1058,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/restart'
+        const localVarPath = '/v1/services/{service}/restart'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -1102,7 +1102,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/services/{service}/restore'
+        const localVarPath = '/v1/services/{service}/restore'
             .replace('{' + 'service' + '}', encodeURIComponent(String(service)));
 
         // Make Request Context
@@ -1146,7 +1146,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/app-location-settings/{appLocationSetting}'
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}'
             .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
 
         // Make Request Context
@@ -1190,7 +1190,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/binaries/{binary}'
+        const localVarPath = '/v1/binaries/{binary}'
             .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
 
         // Make Request Context
@@ -1234,7 +1234,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/docker-registries/{dockerRegistry}'
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}'
             .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
 
         // Make Request Context
@@ -1278,7 +1278,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
 
         // Path Params
-        const localVarPath = '/server-configs/{serverConfig}'
+        const localVarPath = '/v1/server-configs/{serverConfig}'
             .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
 
         // Make Request Context

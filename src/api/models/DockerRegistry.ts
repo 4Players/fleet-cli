@@ -1,5 +1,5 @@
 /**
- * B2B_API
+ * ODIN Fleet API
  * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
  *
  * OpenAPI spec version: 0.8.1
@@ -29,11 +29,11 @@ export class DockerRegistry {
     /**
     * The username to use for authentication
     */
-    'username': string;
+    'username': string | null;
     /**
     * The password to use for authentication
     */
-    'password': string;
+    'password': string | null;
     /**
     * The URL of the registry
     */
@@ -41,11 +41,11 @@ export class DockerRegistry {
     /**
     * The access token to use for authentication
     */
-    'accessToken': string;
+    'accessToken': string | null;
     /**
     * The URL of the instance
     */
-    'instanceUrl': string;
+    'instanceUrl': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
