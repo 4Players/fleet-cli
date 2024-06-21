@@ -46,7 +46,7 @@ export class AppLocationSetting {
     /**
     * The maximum number of instances that should run at the specific location
     */
-    'autoScalerMax'?: number | null;
+    'autoScalerMax'?: number;
     /**
     * The placement to use
     */
