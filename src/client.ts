@@ -35,6 +35,6 @@ const configuration = (host: string, token?: string) => {
   });
 };
 
-const apiClient = new AppApi(configuration('https://api.4np.4players.de/b2b/v1/api', accessToken));
+const apiClient = new AppApi(configuration('https://fleet.4players.io/api', accessToken));
 
 export { apiClient };
