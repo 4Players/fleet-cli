@@ -5,7 +5,7 @@ import {apiClient} from "./client.ts";
 import {Table} from "$cliffy/table/table.ts";
 import {Confirm, Input, Number, prompt, Select} from "$cliffy/prompt/mod.ts";
 import {
-  Binary,
+  Binary, ConfigFile,
   CreateServerConfigRequest, EnvironmentVariableType,
   Mount,
   PortDefinition,
@@ -246,6 +246,33 @@ const createConfig = new Command()
         mounts.push(mount);
       }
 
+      console.log("Config files are snippets of configuration that you can provide to the container and adjust without updating the docker image. They will be made available at the path you specify inside the container.");
+      console.log("You need to have the content of the config file on your local disk to provide it. You can always provide the config file later by updating the server config.");
+      const configFiles: Array<ConfigFile> = [];
+      while (
+        await Confirm.prompt(
+          configFiles.length === 0
+            ? "Add a config file that will be made available to the container?"
+            : "Add another config file?",
+        )
+        ) {
+        const target = await Input.prompt("File Path inside container (i.e. /path/to/config/file.ini):");
+        const localFile = await Input.prompt("Local file path to config-file (i.e. /Users/xyz/config/file.ini):");
+        var content = '';
+        try {
+          content = await Deno.readTextFile(localFile);
+        } catch (e) {
+          logError("Failed to read file. Error: ", e);
+          console.log("Please provide the content of the file manually (via Dashboard or CLI) at a later time. We'll use an empty file in the meantime.");
+        }
+
+        const configFile: ConfigFile = {
+          target,
+          content,
+        };
+        configFiles.push(configFile);
+      }
+
       payload = {
         binaryId: binaryId,
         name,
@@ -259,7 +286,7 @@ const createConfig = new Command()
         env,
         mounts,
         ports,
-        configFiles: [],
+        configFiles: configFiles,
       };
     }
 

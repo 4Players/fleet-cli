@@ -14,10 +14,6 @@ import { HttpFile } from '../http/http.ts';
 
 export class ConfigFile {
     /**
-    * The name of the config file
-    */
-    'name': string;
-    /**
     * The path in the container
     */
     'target': string;
@@ -29,12 +25,6 @@ export class ConfigFile {
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
-            "format": ""
-        },
         {
             "name": "target",
             "baseName": "target",

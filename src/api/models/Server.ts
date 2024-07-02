@@ -33,6 +33,7 @@ export class Server {
     * The ID of the instance
     */
     'instance': number;
+    'name': string;
     /**
     * The IP address of the node
     */
@@ -97,6 +98,12 @@ export class Server {
             "name": "instance",
             "baseName": "instance",
             "type": "number",
+            "format": ""
+        },
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
             "format": ""
         },
         {
