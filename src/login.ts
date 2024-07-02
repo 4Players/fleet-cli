@@ -48,7 +48,7 @@ export const login = new Command()
   .name("login")
   .description("Log into ODIN with your credentials or access token.")
   .action(async () => {
-    console.log("You can find your ODIN API key in the dashboard of ODIN in the apps settings section.");
+    console.log("You can find your ODIN API key in the dashboard of ODIN in the apps settings section (see https://console.4players.io/settings/api-keys)");
     const apiKey: string = await Input.prompt("Your API key: ");
     if (!apiKey || apiKey.length === 0) {
       console.error("You need to provide an API key.");
