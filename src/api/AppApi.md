@@ -1005,6 +1005,7 @@ No authorization required
 # **getBinaries**
 > Array<Binary> getBinaries()
 
+Eager load file types and config templates to reduce the number of queries.
 
 ### Example
 

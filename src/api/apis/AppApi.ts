@@ -629,6 +629,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param app The app ID
      */

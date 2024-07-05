@@ -17,6 +17,7 @@ import { Mount } from '../models/Mount.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
+import { SecretFile } from '../models/SecretFile.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class ServerConfig {
@@ -72,6 +73,10 @@ export class ServerConfig {
     * The config files to use
     */
     'configFiles': Array<ConfigFile>;
+    /**
+    * The secret files to use
+    */
+    'secretFiles': Array<SecretFile>;
     /**
     * The image that is used in this server config
     */
@@ -156,6 +161,12 @@ export class ServerConfig {
             "name": "configFiles",
             "baseName": "configFiles",
             "type": "Array<ConfigFile>",
+            "format": ""
+        },
+        {
+            "name": "secretFiles",
+            "baseName": "secretFiles",
+            "type": "Array<SecretFile>",
             "format": ""
         },
         {

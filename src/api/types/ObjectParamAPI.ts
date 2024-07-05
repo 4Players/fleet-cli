@@ -39,10 +39,12 @@ import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { Resources } from '../models/Resources.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
+import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
-import { SteamWorks } from '../models/SteamWorks.ts';
+import { Steam } from '../models/Steam.ts';
+import { StoreUpdateSteam } from '../models/StoreUpdateSteam.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
@@ -743,6 +745,7 @@ export class ObjectAppApi {
     }
 
     /**
+     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param param the request object
      */
@@ -751,6 +754,7 @@ export class ObjectAppApi {
     }
 
     /**
+     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param param the request object
      */

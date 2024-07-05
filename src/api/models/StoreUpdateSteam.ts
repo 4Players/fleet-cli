@@ -12,19 +12,19 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export class SteamWorks {
+export class StoreUpdateSteam {
     /**
     * The Steam App ID
     */
-    'steamAppId': string;
+    'steamAppId': number;
     /**
     * The branch to use
     */
-    'branch': string;
+    'branch': string | null;
     /**
     * The password to use
     */
-    'password': string;
+    'password': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -32,7 +32,7 @@ export class SteamWorks {
         {
             "name": "steamAppId",
             "baseName": "steamAppId",
-            "type": "string",
+            "type": "number",
             "format": ""
         },
         {
@@ -49,7 +49,7 @@ export class SteamWorks {
         }    ];
 
     static getAttributeTypeMap() {
-        return SteamWorks.attributeTypeMap;
+        return StoreUpdateSteam.attributeTypeMap;
     }
 
     public constructor() {

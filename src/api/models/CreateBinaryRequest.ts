@@ -14,7 +14,7 @@ import { BinaryType } from '../models/BinaryType.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
-import { SteamWorks } from '../models/SteamWorks.ts';
+import { StoreUpdateSteam } from '../models/StoreUpdateSteam.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
@@ -46,7 +46,7 @@ export class CreateBinaryRequest {
     /**
     * The steam settings
     */
-    'steam'?: SteamWorks;
+    'steam'?: StoreUpdateSteam;
     /**
     * The docker image settings
     */
@@ -94,7 +94,7 @@ export class CreateBinaryRequest {
         {
             "name": "steam",
             "baseName": "steam",
-            "type": "SteamWorks",
+            "type": "StoreUpdateSteam",
             "format": ""
         },
         {

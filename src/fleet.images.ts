@@ -127,7 +127,7 @@ export const createImage = new Command()
       } else if (result.type === "steam") {
         const steam = await prompt([
           {
-            name: "appId",
+            name: "steamAppId",
             message: "What's the id of your Steamworks app?",
             type: Input,
           },
@@ -144,7 +144,7 @@ export const createImage = new Command()
         ]);
 
         payload.steam = {
-          steamAppId: steam.appId!,
+          steamAppId: parseInt(steam.steamAppId!),
           branch: steam.branch!,
           password: steam.password!,
         };

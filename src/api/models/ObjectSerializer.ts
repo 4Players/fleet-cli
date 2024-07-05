@@ -36,10 +36,12 @@ export * from '../models/ResourceAllocations.ts';
 export * from '../models/Resources.ts';
 export * from '../models/RestartPolicy.ts';
 export * from '../models/RestartPolicyCondition.ts';
+export * from '../models/SecretFile.ts';
 export * from '../models/Server.ts';
 export * from '../models/ServerConfig.ts';
 export * from '../models/ServiceLogs.ts';
-export * from '../models/SteamWorks.ts';
+export * from '../models/Steam.ts';
+export * from '../models/StoreUpdateSteam.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/ZipFile.ts';
@@ -50,7 +52,7 @@ import { Auth } from '../models/Auth.ts';
 import { Backup       } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { BackupType } from '../models/BackupType.ts';
-import { Binary            } from '../models/Binary.ts';
+import { Binary             } from '../models/Binary.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { ConfigTemplate } from '../models/ConfigTemplate.ts';
@@ -82,10 +84,12 @@ import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { Resources } from '../models/Resources.ts';
 import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
+import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
-import { SteamWorks } from '../models/SteamWorks.ts';
+import { Steam } from '../models/Steam.ts';
+import { StoreUpdateSteam } from '../models/StoreUpdateSteam.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateDockerRegistryRequest        } from '../models/UpdateDockerRegistryRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
@@ -144,10 +148,12 @@ let typeMap: {[index: string]: any} = {
     "ResourceAllocations": ResourceAllocations,
     "Resources": Resources,
     "RestartPolicy": RestartPolicy,
+    "SecretFile": SecretFile,
     "Server": Server,
     "ServerConfig": ServerConfig,
     "ServiceLogs": ServiceLogs,
-    "SteamWorks": SteamWorks,
+    "Steam": Steam,
+    "StoreUpdateSteam": StoreUpdateSteam,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
     "ZipFile": ZipFile,

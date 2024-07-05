@@ -10,10 +10,12 @@
  * Do not edit the class manually.
  */
 
+import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { Steam } from '../models/Steam.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
@@ -37,7 +39,7 @@ export class Binary {
     /**
     * The type of the binary
     */
-    'type': string;
+    'type': BinaryType;
     /**
     * The operating system of the binary
     */
@@ -62,6 +64,10 @@ export class Binary {
     * The ZIP file of the binary
     */
     'zipFile'?: ZipFile;
+    /**
+    * The steam of the binary
+    */
+    'steam'?: Steam;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -93,7 +99,7 @@ export class Binary {
         {
             "name": "type",
             "baseName": "type",
-            "type": "string",
+            "type": "BinaryType",
             "format": ""
         },
         {
@@ -130,6 +136,12 @@ export class Binary {
             "name": "zipFile",
             "baseName": "zipFile",
             "type": "ZipFile",
+            "format": ""
+        },
+        {
+            "name": "steam",
+            "baseName": "steam",
+            "type": "Steam",
             "format": ""
         }    ];
 

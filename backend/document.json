@@ -524,6 +524,7 @@
         "\/v1\/apps\/{app}\/binaries": {
             "get": {
                 "operationId": "getBinaries",
+                "description": "Eager load file types and config templates to reduce the number of queries.",
                 "summary": "Show all binaries",
                 "tags": [
                     "Binaries"
@@ -610,7 +611,7 @@
                                     },
                                     "steam": {
                                         "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/SteamWorks"
+                                        "$ref": "#\/components\/schemas\/StoreUpdateSteam"
                                     },
                                     "dockerImage": {
                                         "description": "The docker image settings",
@@ -782,7 +783,7 @@
                                     },
                                     "steam": {
                                         "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/SteamWorks"
+                                        "$ref": "#\/components\/schemas\/StoreUpdateSteam"
                                     },
                                     "dockerImage": {
                                         "description": "The docker image settings",
@@ -1726,6 +1727,13 @@
                                             "$ref": "#\/components\/schemas\/ConfigFile"
                                         }
                                     },
+                                    "secretFiles": {
+                                        "type": "array",
+                                        "description": "The secret files used in this server configuration",
+                                        "items": {
+                                            "$ref": "#\/components\/schemas\/SecretFile"
+                                        }
+                                    },
                                     "resources": {
                                         "description": "The resources used in this server configuration",
                                         "$ref": "#\/components\/schemas\/ResourceAllocations"
@@ -1928,6 +1936,13 @@
                                         "description": "The config files used in this server configuration",
                                         "items": {
                                             "$ref": "#\/components\/schemas\/ConfigFile"
+                                        }
+                                    },
+                                    "secretFiles": {
+                                        "type": "array",
+                                        "description": "The secret files used in this server configuration",
+                                        "items": {
+                                            "$ref": "#\/components\/schemas\/SecretFile"
                                         }
                                     },
                                     "resources": {
@@ -2187,8 +2202,8 @@
                         "description": "The version of the binary"
                     },
                     "type": {
-                        "type": "string",
-                        "description": "The type of the binary"
+                        "description": "The type of the binary",
+                        "$ref": "#\/components\/schemas\/BinaryType"
                     },
                     "os": {
                         "description": "The operating system of the binary",
@@ -2216,6 +2231,10 @@
                     "zipFile": {
                         "description": "The ZIP file of the binary",
                         "$ref": "#\/components\/schemas\/ZipFile"
+                    },
+                    "steam": {
+                        "description": "The steam of the binary",
+                        "$ref": "#\/components\/schemas\/Steam"
                     }
                 },
                 "required": [
@@ -2726,6 +2745,24 @@
                 ],
                 "title": "RestartPolicyCondition"
             },
+            "SecretFile": {
+                "type": "object",
+                "properties": {
+                    "target": {
+                        "type": "string",
+                        "description": "The path in the container"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "The content of the secret file"
+                    }
+                },
+                "required": [
+                    "target",
+                    "content"
+                ],
+                "title": "SecretFile"
+            },
             "Server": {
                 "type": "object",
                 "properties": {
@@ -2902,6 +2939,13 @@
                             "$ref": "#\/components\/schemas\/ConfigFile"
                         }
                     },
+                    "secretFiles": {
+                        "type": "array",
+                        "description": "The secret files to use",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/SecretFile"
+                        }
+                    },
                     "binary": {
                         "description": "The image that is used in this server config",
                         "$ref": "#\/components\/schemas\/Binary"
@@ -2920,7 +2964,8 @@
                     "env",
                     "mounts",
                     "ports",
-                    "configFiles"
+                    "configFiles",
+                    "secretFiles"
                 ],
                 "title": "ServerConfig"
             },
@@ -2944,11 +2989,11 @@
                 ],
                 "title": "ServiceLogs"
             },
-            "SteamWorks": {
+            "Steam": {
                 "type": "object",
                 "properties": {
                     "steamAppId": {
-                        "type": "string",
+                        "type": "integer",
                         "description": "The Steam App ID"
                     },
                     "branch": {
@@ -2956,7 +3001,10 @@
                         "description": "The branch to use"
                     },
                     "password": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "description": "The password to use"
                     }
                 },
@@ -2965,7 +3013,36 @@
                     "branch",
                     "password"
                 ],
-                "title": "SteamWorks"
+                "title": "Steam"
+            },
+            "StoreUpdateSteam": {
+                "type": "object",
+                "properties": {
+                    "steamAppId": {
+                        "type": "integer",
+                        "description": "The Steam App ID"
+                    },
+                    "branch": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The branch to use"
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The password to use"
+                    }
+                },
+                "required": [
+                    "steamAppId",
+                    "branch",
+                    "password"
+                ],
+                "title": "StoreUpdateSteam"
             },
             "ZipFile": {
                 "type": "object",

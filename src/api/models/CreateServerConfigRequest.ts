@@ -16,6 +16,7 @@ import { Mount } from '../models/Mount.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
+import { SecretFile } from '../models/SecretFile.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class CreateServerConfigRequest {
@@ -43,6 +44,10 @@ export class CreateServerConfigRequest {
     * The config files used in this server configuration
     */
     'configFiles'?: Array<ConfigFile>;
+    /**
+    * The secret files used in this server configuration
+    */
+    'secretFiles'?: Array<SecretFile>;
     /**
     * The resources used in this server configuration
     */
@@ -101,6 +106,12 @@ export class CreateServerConfigRequest {
             "name": "configFiles",
             "baseName": "configFiles",
             "type": "Array<ConfigFile>",
+            "format": ""
+        },
+        {
+            "name": "secretFiles",
+            "baseName": "secretFiles",
+            "type": "Array<SecretFile>",
             "format": ""
         },
         {
