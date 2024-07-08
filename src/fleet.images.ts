@@ -7,6 +7,7 @@ import {Binary, BinaryType, CreateBinaryRequest, DockerRegistry, OperatingSystem
 import { prompt } from "$cliffy/prompt/prompt.ts";
 import { Input } from "$cliffy/prompt/input.ts";
 import { Select } from "$cliffy/prompt/select.ts";
+import { Number } from "$cliffy/prompt/number.ts";
 import { confirm, logError, logSuccess } from "./utils.ts";
 
 export const imageList = new Command()
@@ -129,7 +130,7 @@ export const createImage = new Command()
           {
             name: "steamAppId",
             message: "What's the id of your Steamworks app?",
-            type: Input,
+            type: Number,
           },
           {
             name: "branch",
@@ -144,7 +145,7 @@ export const createImage = new Command()
         ]);
 
         payload.steam = {
-          steamAppId: parseInt(steam.steamAppId!),
+          steamAppId: steam.steamAppId!,
           branch: steam.branch!,
           password: steam.password!,
         };
