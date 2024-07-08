@@ -41,7 +41,6 @@ export * from '../models/Server.ts';
 export * from '../models/ServerConfig.ts';
 export * from '../models/ServiceLogs.ts';
 export * from '../models/Steam.ts';
-export * from '../models/StoreUpdateSteam.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/ZipFile.ts';
@@ -89,7 +88,6 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
 import { Steam } from '../models/Steam.ts';
-import { StoreUpdateSteam } from '../models/StoreUpdateSteam.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateDockerRegistryRequest        } from '../models/UpdateDockerRegistryRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
@@ -153,7 +151,6 @@ let typeMap: {[index: string]: any} = {
     "ServerConfig": ServerConfig,
     "ServiceLogs": ServiceLogs,
     "Steam": Steam,
-    "StoreUpdateSteam": StoreUpdateSteam,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
     "ZipFile": ZipFile,

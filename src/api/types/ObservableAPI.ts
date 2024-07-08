@@ -45,7 +45,6 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
 import { Steam } from '../models/Steam.ts';
-import { StoreUpdateSteam } from '../models/StoreUpdateSteam.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';

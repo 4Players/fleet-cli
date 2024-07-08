@@ -611,7 +611,7 @@
                                     },
                                     "steam": {
                                         "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/StoreUpdateSteam"
+                                        "$ref": "#\/components\/schemas\/Steam"
                                     },
                                     "dockerImage": {
                                         "description": "The docker image settings",
@@ -783,7 +783,7 @@
                                     },
                                     "steam": {
                                         "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/StoreUpdateSteam"
+                                        "$ref": "#\/components\/schemas\/Steam"
                                     },
                                     "dockerImage": {
                                         "description": "The docker image settings",
@@ -3014,35 +3014,6 @@
                     "password"
                 ],
                 "title": "Steam"
-            },
-            "StoreUpdateSteam": {
-                "type": "object",
-                "properties": {
-                    "steamAppId": {
-                        "type": "integer",
-                        "description": "The Steam App ID"
-                    },
-                    "branch": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The branch to use"
-                    },
-                    "password": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The password to use"
-                    }
-                },
-                "required": [
-                    "steamAppId",
-                    "branch",
-                    "password"
-                ],
-                "title": "StoreUpdateSteam"
             },
             "ZipFile": {
                 "type": "object",

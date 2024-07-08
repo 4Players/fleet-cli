@@ -54,7 +54,6 @@ models/Server.ts
 models/ServerConfig.ts
 models/ServiceLogs.ts
 models/Steam.ts
-models/StoreUpdateSteam.ts
 models/UpdateAppLocationSettingRequest.ts
 models/UpdateDockerRegistryRequest.ts
 models/ZipFile.ts
