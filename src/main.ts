@@ -15,9 +15,9 @@ await new Command()
   .description("Command line tools for ODIN by 4Players.")
   .globalOption("-d, --debug", "Enable debug output.")
   .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
-  .globalOption("--api-key", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
+  .globalOption("--api-key=<apiKey:string>", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
   .globalAction(async (options, ...args) => {
-    const accessToken = await ensureLoginSession();
+    const accessToken = await ensureLoginSession(options.apiKey);
     apiClient = createApiClient(accessToken);
   })
   .action((options, ...args) => {

@@ -121,6 +121,9 @@ const create = new Command()
 export const apps = new Command()
   .name("apps")
   .description("Manage ODIN apps.")
+  .action(() => {
+    apps.showHelp();
+  })
   .command("create", create)
   .command("list", appList)
   .command("select", selectApp);
