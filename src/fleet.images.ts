@@ -36,6 +36,41 @@ export const imageList = new Command()
     table.render();
   });
 
+export const getImageDetails = new Command()
+  .name("get")
+  .description("Get the status of an image.")
+  .option("--imageId <imageId:number>", "Image ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+    let imageId = options.imageId;
+    if (!imageId) {
+      let images: Binary[] = [];
+      try {
+        images = await apiClient.getBinaries(app.id);
+      } catch (error) {
+        logError("Failed to load images. Error: ", error.body.message, error.code);
+        Deno.exit(1);
+      }
+
+      imageId = await Select.prompt({
+        message: "Select the image to get the status for or provide the --imageId=<imageId> flag",
+        options: images.map((image) => {
+          return { name: image.name, value: image.id };
+        }),
+      });
+    }
+
+    let image: Binary;
+    try {
+      image = await apiClient.getBinaryById(imageId);
+    } catch (error) {
+      logError(`Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
+      Deno.exit(1);
+    }
+
+    console.log(JSON.stringify(image, null, 2));
+  });
+
 export const createImage = new Command()
   .name("create")
   .description("Create a new image.")
@@ -268,5 +303,6 @@ export const images = new Command()
     images.showHelp();
   })
   .command("list", imageList)
+  .command("get", getImageDetails)
   .command("create", createImage)
   .command("delete", deleteImage);
