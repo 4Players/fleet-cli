@@ -8,6 +8,7 @@ import { prompt } from "$cliffy/prompt/prompt.ts";
 import { Input } from "$cliffy/prompt/input.ts";
 import { Select } from "$cliffy/prompt/select.ts";
 import { Number } from "$cliffy/prompt/number.ts";
+import {Confirm} from "$cliffy/prompt/confirm.ts";
 import { confirm, logError, logSuccess } from "./utils.ts";
 
 export const imageList = new Command()
@@ -142,12 +143,48 @@ export const createImage = new Command()
             message: "Enter the password (if required)",
             type: Input,
           },
+          {
+            name: "command",
+            message: "Enter the command to start the server",
+            type: Input,
+          },
         ]);
+
+        let steamUsername = null;
+        let steamPassword = null;
+
+        if (await Confirm.prompt("Does your gameserver need to access to Steam CMD?")) {
+          console.log("Please enter your Steam CMD credentials. We don't support 2FA yet, so either create a new account or disable 2FA for your account.");
+          steamUsername = await Input.prompt("Enter your Steam username:");
+          steamPassword = await Input.prompt("Enter your Steam password:");
+        }
+
+        const runtime = await Select.prompt({
+          message: "Select the Steam runtime, if unsure choose Sniper",
+          options: [
+            { name: "Scout (oldest)", value: "scout" },
+            { name: "Soldier", value: "soldier" },
+            { name: "Sniper (latest - if unsure use this)", value: "sniper" }
+          ],
+        });
+
+        const headful = await Confirm.prompt("Does your gameserver need a graphical interface?");
+
+        const requestLicense = await Confirm.prompt("Does your gameserver need to request a license agreement?");
+
+        const unpublished = await Confirm.prompt("Is your Steamworks app unpublished?");
 
         payload.steam = {
           steamAppId: steam.steamAppId!,
           branch: steam.branch!,
           password: steam.password!,
+          command: steam.command!,
+          steamcmdUsername: steamUsername,
+          steamcmdPassword: steamPassword,
+          runtime: runtime as SteamRuntime,
+          headful: headful,
+          requestLicense: requestLicense,
+          unpublished: unpublished,
         };
       }
     }
