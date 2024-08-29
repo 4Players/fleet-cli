@@ -26,8 +26,17 @@ export const getSelectedApp = async (options: CommandOptions): Promise<App|null>
   if (appId <= 0) {
     return null;
   } else {
-    const app = await apiClient.getAppById(appId);
-    return app;
+    try {
+      const app = await apiClient.getAppById(appId);
+      return app;
+    } catch (response) {
+      if (response.code === 403) {
+        logErrorAndExit("You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct.");
+      } else {
+        logErrorAndExit("Failed to load the selected app. Error: " + response.body.message, response.code);
+      }
+      return null;
+    }
   }
 };
 
