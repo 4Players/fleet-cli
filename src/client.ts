@@ -9,8 +9,6 @@ import {
 } from './api/index.ts';
 import { PromiseMiddleware } from './api/middleware.ts';
 
-const accessToken = await ensureLoginSession();
-
 export class CustomizedResponse implements ResponseBody {
   constructor(private body: string) {}
 
@@ -35,6 +33,6 @@ const configuration = (host: string, token?: string) => {
   });
 };
 
-const apiClient = new AppApi(configuration('https://fleet.4players.io/api', accessToken));
-
-export { apiClient };
+export function createApiClient(token: string): AppApi {
+  return new AppApi(configuration('https://fleet.4players.io/api', token));
+}

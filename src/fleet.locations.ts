@@ -1,7 +1,7 @@
 import { Command } from "$cliffy/command/command.ts";
 import { Table } from "$cliffy/table/table.ts";
 import {Location} from "./api/index.ts";
-import {apiClient} from "./client.ts";
+import {apiClient} from "./main.ts";
 import {logError} from "./utils.ts";
 
 const locationsList = new Command()

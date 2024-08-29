@@ -1,7 +1,7 @@
 import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
-import { getSelectedApp } from "./apps.ts";
-import { apiClient } from "./client.ts";
+import {getSelectedAppOrExit} from "./apps.ts";
+import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import {AppLocationSetting, CreateAppLocationSettingRequest, Placement, Location, ServerConfig} from "./api/index.ts";
 import { Input, Number, Select } from "$cliffy/prompt/mod.ts";
@@ -11,7 +11,7 @@ const deploymentsList = new Command()
   .name("list")
   .description("List all server deployments for the selected app.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let deployments: AppLocationSetting[] = [];
     try {
       deployments = await apiClient.getAppLocationSettings(app.id);
@@ -44,7 +44,7 @@ export const createDeployment = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let payload: CreateAppLocationSettingRequest | null = null;
 
@@ -153,11 +153,11 @@ const deleteDeployment = new Command()
   .description("Delete a deployment.")
   .option("--deploymentId <deploymentId:number>", "Deployment ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const selectedApp = await getSelectedAppOrExit(options);
     let deploymentId = options.deploymentId;
     let deployments: AppLocationSetting[] = [];
     try {
-      deployments = await apiClient.getAppLocationSettings(app.id);
+      deployments = await apiClient.getAppLocationSettings(selectedApp.id);
     } catch (error) {
       logError("Failed to load deployments. Error: " + error.body.message, error.code);
       Deno.exit(1);
@@ -176,7 +176,7 @@ const deleteDeployment = new Command()
     try {
       deployment = deployments.find((d) => d.id === deploymentId)!;
     } catch (error) {
-      logError(`Image ${deploymentId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
+      logError(`Image ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`);
       Deno.exit(1);
     }
 

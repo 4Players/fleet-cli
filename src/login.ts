@@ -2,7 +2,15 @@ import { Input } from "$cliffy/prompt/mod.ts";
 import { Command } from "$cliffy/command/command.ts";
 import { ensureDir } from "$std/fs/mod.ts";
 
-const configDir = `${Deno.env.get("HOME")}/.odin`;
+// Get the home directory based on the OS
+const homeDir = Deno.env.get("HOME") || Deno.env.get("USERPROFILE");
+
+if (!homeDir) {
+  console.error("Could not determine the home directory.");
+  Deno.exit(1);
+}
+
+const configDir = `${homeDir}/.odin`;
 const configFile = `${configDir}/config.json`;
 
 export interface Config {
@@ -25,13 +33,28 @@ export async function getConfig(): Promise<Config | null> {
   }
 }
 
-export async function ensureLoginSession(): Promise<string> {
-  const accessKey = await getAccessToken();
-  if (!accessKey) {
-    console.error("You need to login first. Use the `odin login` command.");
-    Deno.exit(1);
+export async function ensureLoginSession(apiKeyOption?: string): Promise<string> {
+  if (apiKeyOption) {
+    return apiKeyOption; // Prioritize the apiKeyOption
   }
-  return accessKey;
+
+  const config = await getConfig();
+  if (config?.accessKey) {
+    return config.accessKey;
+  }
+
+  console.error("You need to login first. Provide the `--api-key` option or enter the API key below.");
+  console.log("You can find your ODIN API key in the dashboard of ODIN in the apps settings section (see https://console.4players.io/settings/api-keys)");
+  const apiKey: string = await Input.prompt("Your API key: ");
+  if (!apiKey || apiKey.length === 0) {
+    console.error("You need to provide an API key.");
+    Deno.exit(1);
+  } else {
+    await saveAccessToken(apiKey);
+    console.log("API key stored, you can now proceed with other commands.");
+  }
+
+  return apiKey;
 }
 
 export async function saveAccessToken(key: string) {

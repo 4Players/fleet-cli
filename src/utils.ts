@@ -2,6 +2,11 @@ import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { Confirm } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 
+export const logErrorAndExit = (message: string, ...optionalParams: unknown[]) => {
+  logError(message, ...optionalParams);
+  Deno.exit(1);
+}
+
 export const logError = (message: string, ...optionalParams: unknown[]) => {
   console.error(`${colors.red("Error")}: ${message}`, ...optionalParams);
 };

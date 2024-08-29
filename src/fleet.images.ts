@@ -1,7 +1,7 @@
 import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
-import { getSelectedApp } from "./apps.ts";
-import { apiClient } from "./client.ts";
+import {getSelectedAppOrExit} from "./apps.ts";
+import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import {Binary, BinaryType, CreateBinaryRequest, DockerRegistry, OperatingSystem} from "./api/index.ts";
 import { prompt } from "$cliffy/prompt/prompt.ts";
@@ -14,10 +14,10 @@ export const imageList = new Command()
   .name("list")
   .description("List all images.")
   .action(async (options: CommandOptions) => {
-    const selectedApp = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let binaries: Binary[] = [];
     try {
-      binaries = await apiClient.getBinaries(selectedApp.id);
+      binaries = await apiClient.getBinaries(app.id);
       if (binaries.length === 0) {
         console.log("No images have been created for the selected app.");
         return;
@@ -41,7 +41,7 @@ export const createImage = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
-    const selectedApp = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let payload: CreateBinaryRequest | null = null;
 
@@ -165,7 +165,7 @@ export const createImage = new Command()
 
       if (confirmed) {
         try {
-          const binary = await apiClient.createBinary(selectedApp.id, payload!);
+          const binary = await apiClient.createBinary(app.id, payload!);
           logSuccess("Image created successfully, ID: ", binary.id, binary);
         } catch (error) {
           logError("Failed to create image. Error: ", error.body.message, error.code, JSON.stringify(payload));
@@ -184,12 +184,12 @@ export const deleteImage = new Command()
   .description("Delete an image.")
   .option("--imageId <imageId:number>", "Image ID.")
   .action(async (options: CommandOptions) => {
-    const selectedApp = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let imageId = options.imageId;
     if (!imageId) {
       let images: Binary[] = [];
       try {
-        images = await apiClient.getBinaries(selectedApp.id);
+        images = await apiClient.getBinaries(app.id);
       } catch (error) {
         logError("Failed to load images. Error: ", error.body.message, error.code);
         Deno.exit(1);
@@ -207,7 +207,7 @@ export const deleteImage = new Command()
     try {
       image = await apiClient.getBinaryById(imageId);
     } catch (error) {
-      const app = await getSelectedApp(options);
+      const app = await getSelectedAppOrExit(options);
       logError(`Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
       Deno.exit(1);
     }

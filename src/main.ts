@@ -2,7 +2,11 @@ import { Command } from "$cliffy/command/mod.ts";
 import { apps } from "./apps.ts";
 import { fleet } from "./fleet.ts";
 import { voice } from "./voice.ts";
-import { login } from "./login.ts";
+import {ensureLoginSession, login} from "./login.ts";
+import { createApiClient } from "./client.ts";
+import {AppApi} from "./api/index.ts";
+
+export let apiClient: AppApi;
 
 await new Command()
   // Main command.
@@ -12,7 +16,10 @@ await new Command()
   .globalOption("-d, --debug", "Enable debug output.")
   .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
   .globalOption("--api-key", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
-  .globalAction(async (options, ...args) => {})
+  .globalAction(async (options, ...args) => {
+    const accessToken = await ensureLoginSession();
+    apiClient = createApiClient(accessToken);
+  })
   .action((options, ...args) => {
     console.log("Please provide a subcommand. Use `odin --help` for more information.");
   })

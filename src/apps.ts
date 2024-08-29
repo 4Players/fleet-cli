@@ -1,13 +1,14 @@
 import { Command } from "$cliffy/command/command.ts";
 import { Config, getConfig, saveConfig } from "./login.ts";
-import { apiClient } from "./client.ts";
+import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import { Input, Select, prompt } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { App, CreateAppRequest } from "./api/index.ts";
+import { logErrorAndExit } from "./utils.ts";
 
-const getAppId = async (options: CommandOptions) => {
+const getAppId = async (options: CommandOptions): Promise<number> => {
   if (options.appId) {
     return options.appId;
   }
@@ -17,15 +18,26 @@ const getAppId = async (options: CommandOptions) => {
     return config.selectedAppId;
   }
 
-  console.log("No app selected. Please select an app first. Use `odin apps select`.");
-  Deno.exit(1);
+  return 0;
 };
 
-export const getSelectedApp = async (options: CommandOptions): Promise<App> => {
+export const getSelectedApp = async (options: CommandOptions): Promise<App|null> => {
   const appId = await getAppId(options);
-  const app = await apiClient.getAppById(appId);
-  return app;
+  if (appId <= 0) {
+    return null;
+  } else {
+    const app = await apiClient.getAppById(appId);
+    return app;
+  }
 };
+
+export const getSelectedAppOrExit = async (options: CommandOptions): Promise<App> => {
+  const app = await getSelectedApp(options);
+  if (!app) {
+    logErrorAndExit("No app selected. Please select an app first. Use `odin apps select` or provide the `--appId` parameter.");
+  }
+  return app!;
+}
 
 const appList = new Command()
   .name("list")
@@ -47,7 +59,7 @@ const appList = new Command()
     const table: Table = new Table();
     table.header(["ID", "Name"]);
     apps.forEach((app) => {
-      table.push([app.id, app.name + colors.rgb24(app.id === selectedApp.id ? " (selected)" : "", 0x1bebda)]);
+      table.push([app.id, app.name + colors.rgb24(app.id === selectedApp?.id ? " (selected)" : "", 0x1bebda)]);
     });
     table.render();
   });

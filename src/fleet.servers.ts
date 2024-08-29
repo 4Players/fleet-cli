@@ -1,7 +1,7 @@
 import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
-import { getSelectedApp } from "./apps.ts";
-import { apiClient } from "./client.ts";
+import {getSelectedAppOrExit} from "./apps.ts";
+import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import { Input, Select } from "$cliffy/prompt/mod.ts";
 import { logError, logSuccess } from "./utils.ts";
@@ -12,7 +12,7 @@ const serverList = new Command()
   .name("list")
   .description("List all servers started for your app.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let servers: Server[] = [];
     try {
       servers = await apiClient.getServers(app.id);
@@ -57,7 +57,7 @@ const serverAddress = new Command()
   .description("Show the address of a server.")
   .option("--serverId=<serverId:string>", "Server ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
       const servers = await apiClient.getServers(app.id);
@@ -95,7 +95,7 @@ const showServerInfo = new Command()
   .description("Show detailed information about a server.")
   .option("--serverId=<serverId:string>", "Server ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
       let servers: Server[] = [];
@@ -162,7 +162,7 @@ const showServerLogs = new Command()
     default: 100,
   })
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
       let servers: Server[] = [];
@@ -207,7 +207,7 @@ const createBackup = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
       let servers: Server[] = [];
@@ -275,7 +275,7 @@ const getBackupDownloadUrl = new Command()
   .description("Get download URL for a backup.")
   .option("--serverId=<serverId:string>", "Server ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let serverId = options.serverId;
     if (!serverId) {
@@ -327,7 +327,7 @@ export const restoreBackup = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let serverId = options.serverId;
     if (!serverId) {
@@ -383,7 +383,7 @@ const restartServer = new Command()
   .description("Restart a server.")
   .option("--serverId=<serverId:string>", "Server ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let serverId = options.serverId;
     if (!serverId) {

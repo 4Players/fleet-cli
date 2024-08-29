@@ -1,7 +1,7 @@
 import {Command} from "$cliffy/command/command.ts";
 import {CommandOptions} from "$cliffy/command/types.ts";
-import {getSelectedApp} from "./apps.ts";
-import {apiClient} from "./client.ts";
+import {getSelectedAppOrExit} from "./apps.ts";
+import {apiClient} from "./main.ts";
 import {Table} from "$cliffy/table/table.ts";
 import {Confirm, Input, Number, prompt, Select} from "$cliffy/prompt/mod.ts";
 import {
@@ -23,11 +23,11 @@ const configsList = new Command()
   .name("list")
   .description("List all server configurations for the selected app.")
   .action(async (options: CommandOptions) => {
-    const selectedApp = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
 
     let configs: ServerConfig[] = [];
     try {
-      configs = await apiClient.getServerConfigs(selectedApp.id);
+      configs = await apiClient.getServerConfigs(app.id);
       if (configs.length === 0) {
         console.log("No server configurations found.");
         return;
@@ -52,11 +52,7 @@ const createConfig = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
-    if (!app) {
-      logError("No app selected. Please select an app first (use `apps select`).");
-      return;
-    }
+    const app = await getSelectedAppOrExit(options);
 
     let payload: CreateServerConfigRequest | null = null;
 
@@ -318,7 +314,7 @@ const deleteConfig = new Command()
   .description("Delete a config.")
   .option("--configId <configId:number>", "Config ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedApp(options);
+    const app = await getSelectedAppOrExit(options);
     let configId = options.configId;
     if (!configId) {
       let configs: ServerConfig[] = [];
@@ -366,3 +362,7 @@ export const configs = new Command()
   .command("list", configsList)
   .command("create", createConfig)
   .command("delete", deleteConfig);
+
+function logAndExit(NO_APP_SELECTED: string) {
+  throw new Error("Function not implemented.");
+}
