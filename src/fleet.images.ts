@@ -28,9 +28,9 @@ export const imageList = new Command()
     }
 
     const table: Table = new Table();
-    table.header(["ID", "Name", "Version", "Type", "OS"]);
+    table.header(["ID", "Name", "Version", "Type", "OS", "Ready", "Status", "Comment/Error"]);
     binaries.forEach((binary) => {
-      table.push([binary.id, binary.name, binary.version, binary.type, binary.os]);
+      table.push([binary.id, binary.name, binary.version, binary.type, binary.os, binary.ready ? "yes" : "no", binary.status, binary.statusMessage ?? '']);
     });
     table.render();
   });
