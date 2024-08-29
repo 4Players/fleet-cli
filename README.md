@@ -101,7 +101,7 @@ Copy an access token that you have generated and paste it into the terminal. The
 You can also provide the access token as an argument to all commands (this overrides the stored access token and is useful in CI/CD scripts where you cannot prompt the user)
 
 ```bash
-odin fleet images list --accessToken=<access-token>
+odin fleet images list --api-key=<api-key>
 ```
 
 Next, you need to select an application to work with. You can list all the applications by running the following command:
