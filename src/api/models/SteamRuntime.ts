@@ -12,13 +12,8 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum DockerRegistryType {
-    Default = 'default',
-    Gitlab = 'gitlab',
-    Github = 'github',
-    Custom = 'custom',
-    Dockerhub = 'dockerhub',
-    Azure = 'azure',
-    Awsecr = 'awsecr',
-    Other = 'other'
+export enum SteamRuntime {
+    Scout = 'scout',
+    Soldier = 'soldier',
+    Sniper = 'sniper'
 }

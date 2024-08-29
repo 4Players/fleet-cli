@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Placement } from '../models/Placement.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { HttpFile } from '../http/http.ts';
@@ -47,6 +48,18 @@ export class AppLocationSetting {
     * The maximum number of instances that should run at the specific location
     */
     'autoScalerMax'?: number;
+    /**
+    * The current status
+    */
+    'status': AppLocationSettingStatus;
+    /**
+    * An optional message
+    */
+    'statusMessage': string | null;
+    /**
+    * Indicates if the app location setting is under maintenance
+    */
+    'maintenance': boolean;
     /**
     * The placement to use
     */
@@ -108,6 +121,24 @@ export class AppLocationSetting {
             "format": ""
         },
         {
+            "name": "status",
+            "baseName": "status",
+            "type": "AppLocationSettingStatus",
+            "format": ""
+        },
+        {
+            "name": "statusMessage",
+            "baseName": "statusMessage",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "maintenance",
+            "baseName": "maintenance",
+            "type": "boolean",
+            "format": ""
+        },
+        {
             "name": "placement",
             "baseName": "placement",
             "type": "Placement",
@@ -127,4 +158,6 @@ export class AppLocationSetting {
     public constructor() {
     }
 }
+
+
 

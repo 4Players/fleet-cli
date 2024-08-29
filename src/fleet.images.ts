@@ -3,7 +3,7 @@ import { CommandOptions } from "$cliffy/command/types.ts";
 import {getSelectedAppOrExit} from "./apps.ts";
 import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
-import {Binary, BinaryType, CreateBinaryRequest, DockerRegistry, OperatingSystem} from "./api/index.ts";
+import {Binary, BinaryType, DockerRegistry, OperatingSystem, SteamRuntime, StoreBinaryRequest} from "./api/index.ts";
 import { prompt } from "$cliffy/prompt/prompt.ts";
 import { Input } from "$cliffy/prompt/input.ts";
 import { Select } from "$cliffy/prompt/select.ts";
@@ -43,11 +43,11 @@ export const createImage = new Command()
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
-    let payload: CreateBinaryRequest | null = null;
+    let payload: StoreBinaryRequest | null = null;
 
     if (options.payload && options.payload.length > 0) {
       try {
-        payload = JSON.parse(options.payload) as CreateBinaryRequest;
+        payload = JSON.parse(options.payload) as StoreBinaryRequest;
       } catch (error) {
         logError("Invalid payload. Please provide a valid JSON string.", error);
         return;

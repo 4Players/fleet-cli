@@ -34,45 +34,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the location setting"
-                                    },
-                                    "serverConfigId": {
-                                        "type": "integer",
-                                        "description": "The id of the server configuration that should be deployed"
-                                    },
-                                    "autoScalerEnabled": {
-                                        "type": "boolean",
-                                        "description": "Whether auto scaler is enabled"
-                                    },
-                                    "autoScalerMin": {
-                                        "type": "integer",
-                                        "description": "The minimum number of instances that should run at the specific location",
-                                        "minimum": 0
-                                    },
-                                    "autoScalerMax": {
-                                        "type": "integer",
-                                        "description": "The maximum number of instances that should run at the specific location"
-                                    },
-                                    "numInstances": {
-                                        "type": "integer",
-                                        "description": "The number of instances that should run at the specific location",
-                                        "minimum": 1
-                                    },
-                                    "placement": {
-                                        "description": "The placement settings that define the location and other constraints",
-                                        "$ref": "#\/components\/schemas\/Placement"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "serverConfigId",
-                                    "autoScalerEnabled",
-                                    "numInstances"
-                                ]
+                                "$ref": "#\/components\/schemas\/UpdateAppLocationSettingRequest"
                             }
                         }
                     }
@@ -126,6 +88,45 @@
                             "application\/json": {
                                 "schema": {
                                     "type": "null"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "get": {
+                "operationId": "getAppLocationSettingById",
+                "summary": "Show a specific app location setting",
+                "tags": [
+                    "AppLocationSettings"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSetting`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/AppLocationSetting"
                                 }
                             }
                         }
@@ -200,51 +201,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the location setting"
-                                    },
-                                    "serverConfigId": {
-                                        "type": "integer",
-                                        "description": "The id of the server configuration that should be deployed"
-                                    },
-                                    "autoScalerEnabled": {
-                                        "type": "boolean",
-                                        "description": "Whether auto scaler is enabled"
-                                    },
-                                    "autoScalerMin": {
-                                        "type": [
-                                            "integer",
-                                            "null"
-                                        ],
-                                        "description": "The minimum number of instances that should run at the specific location",
-                                        "minimum": 0
-                                    },
-                                    "autoScalerMax": {
-                                        "type": [
-                                            "integer",
-                                            "null"
-                                        ],
-                                        "description": "The maximum number of instances that should run at the specific location"
-                                    },
-                                    "numInstances": {
-                                        "type": "integer",
-                                        "description": "The number of instances that should run at the specific location",
-                                        "minimum": 1
-                                    },
-                                    "placement": {
-                                        "description": "The placement settings that define the location and other constraints",
-                                        "$ref": "#\/components\/schemas\/Placement"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "serverConfigId",
-                                    "autoScalerEnabled",
-                                    "numInstances"
-                                ]
+                                "$ref": "#\/components\/schemas\/StoreAppLocationSettingRequest"
                             }
                         }
                     }
@@ -308,16 +265,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the app"
-                                    }
-                                },
-                                "required": [
-                                    "name"
-                                ]
+                                "$ref": "#\/components\/schemas\/StoreAppRequest"
                             }
                         }
                     }
@@ -438,28 +386,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "description": "The email of the user"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "description": "The password of the user"
-                                    },
-                                    "sid": {
-                                        "type": "string",
-                                        "description": "The fusion session id of the user",
-                                        "example": "1234567890ABCDEFG"
-                                    }
-                                },
-                                "required": [
-                                    "email",
-                                    "password",
-                                    "sid"
-                                ]
+                                "$ref": "#\/components\/schemas\/AuthRequest"
                             }
                         }
                     }
@@ -496,7 +423,8 @@
                         "required": true,
                         "description": "The session id of the user",
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "maxLength": 191
                         },
                         "example": "1234567890ABCDEFG"
                     }
@@ -524,7 +452,6 @@
         "\/v1\/apps\/{app}\/binaries": {
             "get": {
                 "operationId": "getBinaries",
-                "description": "Eager load file types and config templates to reduce the number of queries.",
                 "summary": "Show all binaries",
                 "tags": [
                     "Binaries"
@@ -583,47 +510,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the binary"
-                                    },
-                                    "version": {
-                                        "type": "string",
-                                        "description": "The version of the binary"
-                                    },
-                                    "type": {
-                                        "description": "The type of the binary",
-                                        "$ref": "#\/components\/schemas\/BinaryType"
-                                    },
-                                    "os": {
-                                        "description": "The operating system of the binary",
-                                        "$ref": "#\/components\/schemas\/OperatingSystem"
-                                    },
-                                    "dockerCompose": {
-                                        "description": "The docker compose settings",
-                                        "$ref": "#\/components\/schemas\/DockerCompose"
-                                    },
-                                    "zipFile": {
-                                        "description": "The zip file settings",
-                                        "$ref": "#\/components\/schemas\/ZipFile"
-                                    },
-                                    "steam": {
-                                        "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/Steam"
-                                    },
-                                    "dockerImage": {
-                                        "description": "The docker image settings",
-                                        "$ref": "#\/components\/schemas\/DockerImage"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "version",
-                                    "type",
-                                    "os"
-                                ]
+                                "$ref": "#\/components\/schemas\/StoreBinaryRequest"
                             }
                         }
                     }
@@ -696,7 +583,6 @@
             },
             "delete": {
                 "operationId": "deleteBinary",
-                "description": "It first finds the Binary instance by its ID. If the instance is found, it is deleted.\nThe method then returns an HTTP 204 No Content response to indicate successful deletion.",
                 "summary": "Delete a specified binary",
                 "tags": [
                     "Binaries"
@@ -755,47 +641,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the binary"
-                                    },
-                                    "version": {
-                                        "type": "string",
-                                        "description": "The version of the binary"
-                                    },
-                                    "type": {
-                                        "description": "The type of the binary",
-                                        "$ref": "#\/components\/schemas\/BinaryType"
-                                    },
-                                    "os": {
-                                        "description": "The operating system of the binary",
-                                        "$ref": "#\/components\/schemas\/OperatingSystem"
-                                    },
-                                    "dockerCompose": {
-                                        "description": "The docker compose settings",
-                                        "$ref": "#\/components\/schemas\/DockerCompose"
-                                    },
-                                    "zipFile": {
-                                        "description": "The zip file settings",
-                                        "$ref": "#\/components\/schemas\/ZipFile"
-                                    },
-                                    "steam": {
-                                        "description": "The steam settings",
-                                        "$ref": "#\/components\/schemas\/Steam"
-                                    },
-                                    "dockerImage": {
-                                        "description": "The docker image settings",
-                                        "$ref": "#\/components\/schemas\/DockerImage"
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "version",
-                                    "type",
-                                    "os"
-                                ]
+                                "$ref": "#\/components\/schemas\/UpdateBinaryRequest"
                             }
                         }
                     }
@@ -951,56 +797,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "type": {
-                                        "description": "The type of the docker registry",
-                                        "$ref": "#\/components\/schemas\/DockerRegistryType"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the docker registry"
-                                    },
-                                    "url": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The URL of the docker registry"
-                                    },
-                                    "instanceUrl": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The URL of the gitlab instance"
-                                    },
-                                    "username": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The username to use for authentication"
-                                    },
-                                    "accessToken": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The access token to use for authentication"
-                                    },
-                                    "password": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The password to use for authentication"
-                                    }
-                                },
-                                "required": [
-                                    "type",
-                                    "name"
-                                ]
+                                "$ref": "#\/components\/schemas\/StoreDockerRegistryRequest"
                             }
                         }
                     }
@@ -1091,56 +888,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "type": {
-                                        "description": "The type of the docker registry",
-                                        "$ref": "#\/components\/schemas\/DockerRegistryType"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the docker registry"
-                                    },
-                                    "url": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The URL of the docker registry"
-                                    },
-                                    "instanceUrl": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The URL of the instance"
-                                    },
-                                    "username": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The username to use for authentication"
-                                    },
-                                    "accessToken": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The access token to use for authentication"
-                                    },
-                                    "password": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The password to use for authentication"
-                                    }
-                                },
-                                "required": [
-                                    "type",
-                                    "name"
-                                ]
+                                "$ref": "#\/components\/schemas\/UpdateDockerRegistryRequest"
                             }
                         }
                     }
@@ -1207,6 +955,108 @@
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/docker-registries\/{dockerRegistry}\/tagged-images": {
+            "get": {
+                "operationId": "getTaggedImages",
+                "summary": "List all available tagged images",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`TaggedImageCollection`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TaggedImageCollection"
+                                        },
+                                        "meta": {
+                                            "$ref": "#\/components\/schemas\/TaggedImageMetaData"
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "meta"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/docker-registries\/{dockerRegistry}\/tagged-images\/refresh": {
+            "get": {
+                "operationId": "refreshTaggedImages",
+                "summary": "Refresh the cache for all available tagged images",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`TaggedImageCollection`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#\/components\/schemas\/TaggedImageCollection"
+                                        },
+                                        "meta": {
+                                            "$ref": "#\/components\/schemas\/TaggedImageMetaData"
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "meta"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
@@ -1336,16 +1186,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the backup"
-                                    }
-                                },
-                                "required": [
-                                    "name"
-                                ]
+                                "$ref": "#\/components\/schemas\/CreateBackupDockerServiceRequest"
                             }
                         }
                     }
@@ -1688,86 +1529,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the server configuration"
-                                    },
-                                    "args": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
-                                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap"
-                                    },
-                                    "command": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The command to run in the container (overrides ENTRYPOINT of the Dockerfile)"
-                                    },
-                                    "notes": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The notes of the server config - to keep track of things and to inform colleagues"
-                                    },
-                                    "binaryId": {
-                                        "type": "integer",
-                                        "description": "The binary id of the server configuration"
-                                    },
-                                    "configFiles": {
-                                        "type": "array",
-                                        "description": "The config files used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/ConfigFile"
-                                        }
-                                    },
-                                    "secretFiles": {
-                                        "type": "array",
-                                        "description": "The secret files used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/SecretFile"
-                                        }
-                                    },
-                                    "resources": {
-                                        "description": "The resources used in this server configuration",
-                                        "$ref": "#\/components\/schemas\/ResourceAllocations"
-                                    },
-                                    "restartPolicy": {
-                                        "description": "The restart policy of the server configuration",
-                                        "$ref": "#\/components\/schemas\/RestartPolicy"
-                                    },
-                                    "env": {
-                                        "type": "array",
-                                        "description": "The environment variables used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/EnvironmentVariableDefinition"
-                                        }
-                                    },
-                                    "mounts": {
-                                        "type": "array",
-                                        "description": "The mounts used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/Mount"
-                                        }
-                                    },
-                                    "ports": {
-                                        "type": "array",
-                                        "description": "The port definitions",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/PortDefinition"
-                                        }
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "binaryId"
-                                ]
+                                "$ref": "#\/components\/schemas\/StoreServerConfigRequest"
                             }
                         }
                     }
@@ -1840,7 +1602,6 @@
             },
             "delete": {
                 "operationId": "deleteServerConfig",
-                "description": "This method handles the deletion of a ServerConfig record from the database.\nIt first finds the ServerConfig instance by its ID, and if found, deletes it.\nReturns an HTTP 204 No Content response upon successful deletion.",
                 "summary": "Delete a specific server config",
                 "tags": [
                     "ServerConfig"
@@ -1899,86 +1660,7 @@
                     "content": {
                         "application\/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "description": "The name of the server configuration"
-                                    },
-                                    "args": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
-                                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap"
-                                    },
-                                    "command": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The command to run in the container (overrides ENTRYPOINT of the Dockerfile)"
-                                    },
-                                    "notes": {
-                                        "type": [
-                                            "string",
-                                            "null"
-                                        ],
-                                        "description": "The notes of the server config - to keep track of things and to inform colleagues"
-                                    },
-                                    "binaryId": {
-                                        "type": "integer",
-                                        "description": "The binary id of the server configuration"
-                                    },
-                                    "configFiles": {
-                                        "type": "array",
-                                        "description": "The config files used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/ConfigFile"
-                                        }
-                                    },
-                                    "secretFiles": {
-                                        "type": "array",
-                                        "description": "The secret files used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/SecretFile"
-                                        }
-                                    },
-                                    "resources": {
-                                        "description": "The resources used in this server configuration",
-                                        "$ref": "#\/components\/schemas\/ResourceAllocations"
-                                    },
-                                    "restartPolicy": {
-                                        "description": "The restart policy of the server configuration",
-                                        "$ref": "#\/components\/schemas\/RestartPolicy"
-                                    },
-                                    "env": {
-                                        "type": "array",
-                                        "description": "The environment variables used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/EnvironmentVariableDefinition"
-                                        }
-                                    },
-                                    "mounts": {
-                                        "type": "array",
-                                        "description": "The mounts used in this server configuration",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/Mount"
-                                        }
-                                    },
-                                    "ports": {
-                                        "type": "array",
-                                        "description": "The port definitions",
-                                        "items": {
-                                            "$ref": "#\/components\/schemas\/PortDefinition"
-                                        }
-                                    }
-                                },
-                                "required": [
-                                    "name",
-                                    "binaryId"
-                                ]
+                                "$ref": "#\/components\/schemas\/UpdateServerConfigRequest"
                             }
                         }
                     }
@@ -1996,6 +1678,96 @@
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/binaries\/steam\/launchers": {
+            "get": {
+                "operationId": "steamGetLauncher",
+                "summary": "Get launchers for a specific steamworks app ID, optionally filtered by OS",
+                "tags": [
+                    "Steam"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The steamworks app id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "os",
+                        "in": "query",
+                        "description": "The operating system of the binary",
+                        "schema": {
+                            "$ref": "#\/components\/schemas\/OperatingSystem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`SteamLauncherCollection`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/SteamLauncherCollection"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/binaries\/steam\/branches": {
+            "get": {
+                "operationId": "steamGetBranches",
+                "summary": "Get branches for a specific steamworks app ID",
+                "tags": [
+                    "Steam"
+                ],
+                "parameters": [
+                    {
+                        "name": "appId",
+                        "in": "query",
+                        "required": true,
+                        "description": "The steamworks app id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`SteamBranchCollection`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/SteamBranchCollection"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
@@ -2072,6 +1844,21 @@
                         "type": "integer",
                         "description": "The maximum number of instances that should run at the specific location"
                     },
+                    "status": {
+                        "description": "The current status",
+                        "$ref": "#\/components\/schemas\/AppLocationSettingStatus"
+                    },
+                    "statusMessage": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "An optional message"
+                    },
+                    "maintenance": {
+                        "type": "boolean",
+                        "description": "Indicates if the app location setting is under maintenance"
+                    },
                     "placement": {
                         "description": "The placement to use",
                         "$ref": "#\/components\/schemas\/Placement"
@@ -2088,6 +1875,9 @@
                     "serverConfigId",
                     "numInstances",
                     "autoScalerEnabled",
+                    "status",
+                    "statusMessage",
+                    "maintenance",
                     "placement"
                 ],
                 "title": "AppLocationSetting"
@@ -2098,6 +1888,20 @@
                     "$ref": "#\/components\/schemas\/AppLocationSetting"
                 },
                 "title": "AppLocationSettingCollection"
+            },
+            "AppLocationSettingStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "creating",
+                    "updating",
+                    "deleting",
+                    "upscaling",
+                    "downscaling",
+                    "error",
+                    "ready"
+                ],
+                "title": "AppLocationSettingStatus"
             },
             "Auth": {
                 "type": "object",
@@ -2111,6 +1915,33 @@
                     "token"
                 ],
                 "title": "Auth"
+            },
+            "AuthRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "The email of the user",
+                        "maxLength": 255
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "The password of the user"
+                    },
+                    "sid": {
+                        "type": "string",
+                        "description": "The fusion session id of the user",
+                        "example": "1234567890ABCDEFG",
+                        "maxLength": 191
+                    }
+                },
+                "required": [
+                    "email",
+                    "password",
+                    "sid"
+                ],
+                "title": "AuthRequest"
             },
             "Backup": {
                 "type": "object",
@@ -2211,7 +2042,18 @@
                     },
                     "ready": {
                         "type": "boolean",
-                        "description": "Indicates whether the binary is ready for use."
+                        "description": "Indicates whether the binary is ready for use"
+                    },
+                    "status": {
+                        "description": "The current status of the binary",
+                        "$ref": "#\/components\/schemas\/BinaryStatus"
+                    },
+                    "statusMessage": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "An optional message returned by the build process"
                     },
                     "configTemplates": {
                         "type": "array",
@@ -2244,7 +2086,9 @@
                     "version",
                     "type",
                     "os",
-                    "ready"
+                    "ready",
+                    "status",
+                    "statusMessage"
                 ],
                 "title": "Binary"
             },
@@ -2254,6 +2098,18 @@
                     "$ref": "#\/components\/schemas\/Binary"
                 },
                 "title": "BinaryCollection"
+            },
+            "BinaryStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "building",
+                    "deleting",
+                    "updating",
+                    "error",
+                    "ready"
+                ],
+                "title": "BinaryStatus"
             },
             "BinaryType": {
                 "type": "string",
@@ -2328,6 +2184,20 @@
                     "city"
                 ],
                 "title": "Constraints"
+            },
+            "CreateBackupDockerServiceRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the backup",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "CreateBackupDockerServiceRequest"
             },
             "DockerBackupCollection": {
                 "type": "array",
@@ -2415,6 +2285,24 @@
                         ],
                         "format": "uri",
                         "description": "The URL of the instance"
+                    },
+                    "organization": {
+                        "type": "boolean",
+                        "description": "Whether or not the registry is user-owned or organization-owned"
+                    },
+                    "awsAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "AWS access key ID"
+                    },
+                    "awsSecretAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "AWS secret access key"
                     }
                 },
                 "required": [
@@ -2425,7 +2313,10 @@
                     "password",
                     "url",
                     "accessToken",
-                    "instanceUrl"
+                    "instanceUrl",
+                    "organization",
+                    "awsAccessKey",
+                    "awsSecretAccessKey"
                 ],
                 "title": "DockerRegistry"
             },
@@ -2439,15 +2330,14 @@
             "DockerRegistryType": {
                 "type": "string",
                 "enum": [
-                    "dockerhub",
-                    "github",
-                    "gitlab",
-                    "awsecr",
-                    "azure",
-                    "custom",
                     "default",
-                    "proget",
-                    "quay"
+                    "gitlab",
+                    "github",
+                    "custom",
+                    "dockerhub",
+                    "azure",
+                    "awsecr",
+                    "other"
                 ],
                 "title": "DockerRegistryType"
             },
@@ -2903,6 +2793,21 @@
                         ],
                         "description": "The notes of the server config - to keep track of things and to inform colleagues"
                     },
+                    "status": {
+                        "description": "The current status",
+                        "$ref": "#\/components\/schemas\/ServerConfigStatus"
+                    },
+                    "statusMessage": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "An optional message"
+                    },
+                    "maintenance": {
+                        "type": "boolean",
+                        "description": "Indicates if the server config is under maintenance"
+                    },
                     "restartPolicy": {
                         "description": "The policy used to restart this server",
                         "$ref": "#\/components\/schemas\/RestartPolicy"
@@ -2959,6 +2864,9 @@
                     "command",
                     "args",
                     "notes",
+                    "status",
+                    "statusMessage",
+                    "maintenance",
                     "restartPolicy",
                     "resources",
                     "env",
@@ -2975,6 +2883,18 @@
                     "$ref": "#\/components\/schemas\/ServerConfig"
                 },
                 "title": "ServerConfigCollection"
+            },
+            "ServerConfigStatus": {
+                "type": "string",
+                "enum": [
+                    "pending",
+                    "creating",
+                    "updating",
+                    "deleting",
+                    "error",
+                    "ready"
+                ],
+                "title": "ServerConfigStatus"
             },
             "ServiceLogs": {
                 "type": "object",
@@ -3006,14 +2926,770 @@
                             "null"
                         ],
                         "description": "The password to use"
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": "The command to execute"
+                    },
+                    "steamcmdUsername": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The steam account username"
+                    },
+                    "steamcmdPassword": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The steam account password"
+                    },
+                    "headful": {
+                        "type": "boolean",
+                        "description": "Whether or not the binary needs a graphical interface"
+                    },
+                    "requestLicense": {
+                        "type": "boolean",
+                        "description": "Whether or not the the license agreement needs to be requested"
+                    },
+                    "runtime": {
+                        "description": "The steam runtime the server depends on",
+                        "$ref": "#\/components\/schemas\/SteamRuntime"
+                    },
+                    "unpublished": {
+                        "type": "boolean",
+                        "description": "Whether or not the steamworks app is unpublished or published"
                     }
                 },
                 "required": [
                     "steamAppId",
                     "branch",
-                    "password"
+                    "password",
+                    "command",
+                    "steamcmdUsername",
+                    "steamcmdPassword",
+                    "headful",
+                    "requestLicense",
+                    "runtime",
+                    "unpublished"
                 ],
                 "title": "Steam"
+            },
+            "SteamBranch": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the branch"
+                    },
+                    "buildid": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The unique identifier for the build"
+                    },
+                    "pwdrequired": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ],
+                        "description": "Indicates whether a password is required"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "A brief description of the build"
+                    },
+                    "timeupdated": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Last updated timestamp (in Unix epoch format)"
+                    }
+                },
+                "required": [
+                    "name",
+                    "buildid",
+                    "pwdrequired",
+                    "description",
+                    "timeupdated"
+                ],
+                "title": "SteamBranch"
+            },
+            "SteamBranchCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/SteamBranch"
+                },
+                "title": "SteamBranchCollection"
+            },
+            "SteamLauncher": {
+                "type": "object",
+                "properties": {
+                    "executable": {
+                        "type": "string",
+                        "description": "The executable path"
+                    },
+                    "arguments": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The arguments for the executable"
+                    },
+                    "osarch": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The OS architecture of the executable"
+                    },
+                    "oslist": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The OS of the executable"
+                    },
+                    "realm": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The realm of the executable"
+                    },
+                    "betakey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The beta key of the executable"
+                    },
+                    "description": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The description of the executable"
+                    }
+                },
+                "required": [
+                    "executable",
+                    "arguments",
+                    "osarch",
+                    "oslist",
+                    "realm",
+                    "betakey",
+                    "description"
+                ],
+                "title": "SteamLauncher"
+            },
+            "SteamLauncherCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/SteamLauncher"
+                },
+                "title": "SteamLauncherCollection"
+            },
+            "SteamRuntime": {
+                "type": "string",
+                "enum": [
+                    "scout",
+                    "soldier",
+                    "sniper"
+                ],
+                "title": "SteamRuntime"
+            },
+            "StoreAppLocationSettingRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the location setting",
+                        "maxLength": 255
+                    },
+                    "serverConfigId": {
+                        "type": "integer",
+                        "description": "The id of the server configuration that should be deployed"
+                    },
+                    "autoScalerEnabled": {
+                        "type": "boolean",
+                        "description": "Whether auto scaler is enabled"
+                    },
+                    "autoScalerMin": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The minimum number of instances that should run at the specific location",
+                        "minimum": 0
+                    },
+                    "autoScalerMax": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The maximum number of instances that should run at the specific location"
+                    },
+                    "numInstances": {
+                        "type": "integer",
+                        "description": "The number of instances that should run at the specific location",
+                        "minimum": 1
+                    },
+                    "placement": {
+                        "description": "The placement settings that define the location and other constraints",
+                        "$ref": "#\/components\/schemas\/Placement"
+                    }
+                },
+                "required": [
+                    "name",
+                    "serverConfigId",
+                    "autoScalerEnabled",
+                    "numInstances"
+                ],
+                "title": "StoreAppLocationSettingRequest"
+            },
+            "StoreAppRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the app",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "StoreAppRequest"
+            },
+            "StoreBinaryRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the binary",
+                        "maxLength": 255
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "The version of the binary",
+                        "maxLength": 255
+                    },
+                    "type": {
+                        "description": "The type of the binary",
+                        "$ref": "#\/components\/schemas\/BinaryType"
+                    },
+                    "os": {
+                        "description": "The operating system of the binary",
+                        "$ref": "#\/components\/schemas\/OperatingSystem"
+                    },
+                    "dockerCompose": {
+                        "description": "The docker compose settings",
+                        "$ref": "#\/components\/schemas\/DockerCompose"
+                    },
+                    "zipFile": {
+                        "description": "The zip file settings",
+                        "$ref": "#\/components\/schemas\/ZipFile"
+                    },
+                    "steam": {
+                        "description": "The steam settings",
+                        "$ref": "#\/components\/schemas\/Steam"
+                    },
+                    "dockerImage": {
+                        "description": "The docker image settings",
+                        "$ref": "#\/components\/schemas\/DockerImage"
+                    }
+                },
+                "required": [
+                    "name",
+                    "version",
+                    "type",
+                    "os"
+                ],
+                "title": "StoreBinaryRequest"
+            },
+            "StoreDockerRegistryRequest": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "The type of the docker registry",
+                        "$ref": "#\/components\/schemas\/DockerRegistryType"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the docker registry",
+                        "maxLength": 255
+                    },
+                    "url": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uri",
+                        "description": "The URL of the docker registry",
+                        "maxLength": 255
+                    },
+                    "instanceUrl": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uri",
+                        "description": "The specific instance URL of the docker registry",
+                        "maxLength": 255
+                    },
+                    "username": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The username to use for authentication",
+                        "maxLength": 255
+                    },
+                    "accessToken": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The access token to use for authentication"
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The password to use for authentication"
+                    },
+                    "organization": {
+                        "type": "boolean",
+                        "description": "Whether or not the registry is user-owned or organization-owned"
+                    },
+                    "awsAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The AWS access key to use for authentication",
+                        "maxLength": 255
+                    },
+                    "awsSecretAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The AWS secret access key to use for authentication",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "type",
+                    "name"
+                ],
+                "title": "StoreDockerRegistryRequest"
+            },
+            "StoreServerConfigRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the server configuration",
+                        "maxLength": 255
+                    },
+                    "args": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
+                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap",
+                        "maxLength": 255
+                    },
+                    "command": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The command to run in the container (overrides ENTRYPOINT of the Dockerfile)",
+                        "maxLength": 255
+                    },
+                    "notes": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The notes of the server config - to keep track of things and to inform colleagues",
+                        "maxLength": 255
+                    },
+                    "binaryId": {
+                        "type": "integer",
+                        "description": "The binary id of the server configuration"
+                    },
+                    "configFiles": {
+                        "type": "array",
+                        "description": "The config files used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/ConfigFile"
+                        }
+                    },
+                    "secretFiles": {
+                        "type": "array",
+                        "description": "The secret files used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/SecretFile"
+                        }
+                    },
+                    "resources": {
+                        "description": "The resources used in this server configuration",
+                        "$ref": "#\/components\/schemas\/ResourceAllocations"
+                    },
+                    "restartPolicy": {
+                        "description": "The restart policy of the server configuration",
+                        "$ref": "#\/components\/schemas\/RestartPolicy"
+                    },
+                    "env": {
+                        "type": "array",
+                        "description": "The environment variables used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/EnvironmentVariableDefinition"
+                        }
+                    },
+                    "mounts": {
+                        "type": "array",
+                        "description": "The mounts used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Mount"
+                        }
+                    },
+                    "ports": {
+                        "type": "array",
+                        "description": "The port definitions",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/PortDefinition"
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "binaryId"
+                ],
+                "title": "StoreServerConfigRequest"
+            },
+            "TaggedImage": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the docker image including the tag."
+                    },
+                    "tag": {
+                        "type": "string",
+                        "description": "The tag of the docker image."
+                    },
+                    "repository": {
+                        "type": "string",
+                        "description": "The name of the repository."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "The location URI of the tagged docker image."
+                    }
+                },
+                "required": [
+                    "name",
+                    "tag",
+                    "repository",
+                    "location"
+                ],
+                "title": "TaggedImage"
+            },
+            "TaggedImageCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/TaggedImage"
+                },
+                "title": "TaggedImageCollection"
+            },
+            "TaggedImageMetaData": {
+                "type": "object",
+                "properties": {
+                    "cached": {
+                        "type": "boolean",
+                        "description": "Whether the data was retrieved from the cache."
+                    },
+                    "cached_at": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Timestamp of when the data was last cached."
+                    }
+                },
+                "required": [
+                    "cached",
+                    "cached_at"
+                ],
+                "title": "TaggedImageMetaData"
+            },
+            "UpdateAppLocationSettingRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the location setting",
+                        "maxLength": 255
+                    },
+                    "serverConfigId": {
+                        "type": "integer",
+                        "description": "The id of the server configuration that should be deployed"
+                    },
+                    "autoScalerEnabled": {
+                        "type": "boolean",
+                        "description": "Whether auto scaler is enabled"
+                    },
+                    "autoScalerMin": {
+                        "type": "integer",
+                        "description": "The minimum number of instances that should run at the specific location",
+                        "minimum": 0
+                    },
+                    "autoScalerMax": {
+                        "type": "integer",
+                        "description": "The maximum number of instances that should run at the specific location"
+                    },
+                    "numInstances": {
+                        "type": "integer",
+                        "description": "The number of instances that should run at the specific location",
+                        "minimum": 1
+                    },
+                    "placement": {
+                        "description": "The placement settings that define the location and other constraints",
+                        "$ref": "#\/components\/schemas\/Placement"
+                    }
+                },
+                "required": [
+                    "name",
+                    "serverConfigId",
+                    "autoScalerEnabled",
+                    "numInstances"
+                ],
+                "title": "UpdateAppLocationSettingRequest"
+            },
+            "UpdateBinaryRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the binary",
+                        "maxLength": 255
+                    },
+                    "version": {
+                        "type": "string",
+                        "description": "The version of the binary",
+                        "maxLength": 255
+                    },
+                    "type": {
+                        "description": "The type of the binary",
+                        "$ref": "#\/components\/schemas\/BinaryType"
+                    },
+                    "os": {
+                        "description": "The operating system of the binary",
+                        "$ref": "#\/components\/schemas\/OperatingSystem"
+                    },
+                    "dockerCompose": {
+                        "description": "The docker compose settings",
+                        "$ref": "#\/components\/schemas\/DockerCompose"
+                    },
+                    "zipFile": {
+                        "description": "The zip file settings",
+                        "$ref": "#\/components\/schemas\/ZipFile"
+                    },
+                    "steam": {
+                        "description": "The steam settings",
+                        "$ref": "#\/components\/schemas\/Steam"
+                    },
+                    "dockerImage": {
+                        "description": "The docker image settings",
+                        "$ref": "#\/components\/schemas\/DockerImage"
+                    }
+                },
+                "required": [
+                    "name",
+                    "version",
+                    "type",
+                    "os"
+                ],
+                "title": "UpdateBinaryRequest"
+            },
+            "UpdateDockerRegistryRequest": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "The type of the docker registry",
+                        "$ref": "#\/components\/schemas\/DockerRegistryType"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the docker registry",
+                        "maxLength": 255
+                    },
+                    "url": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uri",
+                        "description": "The URL of the docker registry",
+                        "maxLength": 255
+                    },
+                    "instanceUrl": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "uri",
+                        "description": "The URL of the gitlab instance",
+                        "maxLength": 255
+                    },
+                    "username": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The username to use for authentication",
+                        "maxLength": 255
+                    },
+                    "accessToken": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The access token to use for authentication"
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The password to use for authentication"
+                    },
+                    "organization": {
+                        "type": "boolean",
+                        "description": "Whether or not the registry is user-owned or organization-owned"
+                    },
+                    "awsAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The AWS access key to use for authentication",
+                        "maxLength": 255
+                    },
+                    "awsSecretAccessKey": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The AWS secret access key to use for authentication",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "type",
+                    "name"
+                ],
+                "title": "UpdateDockerRegistryRequest"
+            },
+            "UpdateServerConfigRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the server configuration",
+                        "maxLength": 255
+                    },
+                    "args": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
+                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap",
+                        "maxLength": 255
+                    },
+                    "command": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The command to run in the container (overrides ENTRYPOINT of the Dockerfile)",
+                        "maxLength": 255
+                    },
+                    "notes": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The notes of the server config - to keep track of things and to inform colleagues",
+                        "maxLength": 255
+                    },
+                    "binaryId": {
+                        "type": "integer",
+                        "description": "The binary id of the server configuration"
+                    },
+                    "configFiles": {
+                        "type": "array",
+                        "description": "The config files used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/ConfigFile"
+                        }
+                    },
+                    "secretFiles": {
+                        "type": "array",
+                        "description": "The secret files used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/SecretFile"
+                        }
+                    },
+                    "resources": {
+                        "description": "The resources used in this server configuration",
+                        "$ref": "#\/components\/schemas\/ResourceAllocations"
+                    },
+                    "restartPolicy": {
+                        "description": "The restart policy of the server configuration",
+                        "$ref": "#\/components\/schemas\/RestartPolicy"
+                    },
+                    "env": {
+                        "type": "array",
+                        "description": "The environment variables used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/EnvironmentVariableDefinition"
+                        }
+                    },
+                    "mounts": {
+                        "type": "array",
+                        "description": "The mounts used in this server configuration",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Mount"
+                        }
+                    },
+                    "ports": {
+                        "type": "array",
+                        "description": "The port definitions",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/PortDefinition"
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "binaryId"
+                ],
+                "title": "UpdateServerConfigRequest"
             },
             "ZipFile": {
                 "type": "object",

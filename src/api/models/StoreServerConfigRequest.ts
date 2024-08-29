@@ -19,7 +19,7 @@ import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class CreateServerConfigRequest {
+export class StoreServerConfigRequest {
     /**
     * The name of the server configuration
     */
@@ -146,7 +146,7 @@ export class CreateServerConfigRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateServerConfigRequest.attributeTypeMap;
+        return StoreServerConfigRequest.attributeTypeMap;
     }
 
     public constructor() {

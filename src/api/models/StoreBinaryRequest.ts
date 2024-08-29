@@ -18,7 +18,7 @@ import { Steam } from '../models/Steam.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class CreateBinaryRequest {
+export class StoreBinaryRequest {
     /**
     * The name of the binary
     */
@@ -105,7 +105,7 @@ export class CreateBinaryRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateBinaryRequest.attributeTypeMap;
+        return StoreBinaryRequest.attributeTypeMap;
     }
 
     public constructor() {

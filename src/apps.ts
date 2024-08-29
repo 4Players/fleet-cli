@@ -5,7 +5,7 @@ import { Table } from "$cliffy/table/table.ts";
 import { Input, Select, prompt } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
-import { App, CreateAppRequest } from "./api/index.ts";
+import { App, StoreAppRequest } from "./api/index.ts";
 import { logErrorAndExit } from "./utils.ts";
 
 const getAppId = async (options: CommandOptions): Promise<number> => {
@@ -110,7 +110,7 @@ const create = new Command()
 
     console.log("Creating app...");
     try {
-      const app = await apiClient.createApp(payload as CreateAppRequest);
+      const app = await apiClient.createApp(payload as StoreAppRequest);
       console.log("App created with id", app.id);
     } catch (error) {
       console.log("Failed to create app. Error: ", error.body.message, error.code);

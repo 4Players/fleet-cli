@@ -11,23 +11,29 @@ import {SecurityAuthentication} from '../auth/auth.ts';
 import { App } from '../models/App.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { Binary } from '../models/Binary.ts';
-import { CreateAppLocationSettingRequest } from '../models/CreateAppLocationSettingRequest.ts';
-import { CreateAppRequest } from '../models/CreateAppRequest.ts';
-import { CreateBackupRequest } from '../models/CreateBackupRequest.ts';
-import { CreateBinaryRequest } from '../models/CreateBinaryRequest.ts';
-import { CreateDockerRegistryRequest } from '../models/CreateDockerRegistryRequest.ts';
-import { CreateServerConfigRequest } from '../models/CreateServerConfigRequest.ts';
+import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
-import { GetAuthTokenRequest } from '../models/GetAuthTokenRequest.ts';
+import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
+import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SteamBranch } from '../models/SteamBranch.ts';
+import { SteamLauncher } from '../models/SteamLauncher.ts';
+import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
+import { StoreAppRequest } from '../models/StoreAppRequest.ts';
+import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
+import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
+import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
 
 /**
  * no description
@@ -36,9 +42,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Create an app
-     * @param createAppRequest 
+     * @param storeAppRequest 
      */
-    public async createApp(createAppRequest?: CreateAppRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createApp(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -56,7 +62,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createAppRequest, "CreateAppRequest", ""),
+            ObjectSerializer.serialize(storeAppRequest, "StoreAppRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -73,9 +79,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Create a new location setting
      * @param app The app ID
-     * @param createAppLocationSettingRequest 
+     * @param storeAppLocationSettingRequest 
      */
-    public async createAppLocationSetting(app: number, createAppLocationSettingRequest?: CreateAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createAppLocationSetting(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -100,7 +106,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createAppLocationSettingRequest, "CreateAppLocationSettingRequest", ""),
+            ObjectSerializer.serialize(storeAppLocationSettingRequest, "StoreAppLocationSettingRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -117,9 +123,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Creates a backup of the service
      * @param service The service ID
-     * @param createBackupRequest 
+     * @param createBackupDockerServiceRequest 
      */
-    public async createBackup(service: number, createBackupRequest?: CreateBackupRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createBackup(service: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'service' is not null or undefined
@@ -144,7 +150,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createBackupRequest, "CreateBackupRequest", ""),
+            ObjectSerializer.serialize(createBackupDockerServiceRequest, "CreateBackupDockerServiceRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -161,9 +167,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Create a binary and the related file
      * @param app The app ID
-     * @param createBinaryRequest 
+     * @param storeBinaryRequest 
      */
-    public async createBinary(app: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createBinary(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -188,7 +194,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createBinaryRequest, "CreateBinaryRequest", ""),
+            ObjectSerializer.serialize(storeBinaryRequest, "StoreBinaryRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -204,9 +210,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Create a new docker registry
-     * @param createDockerRegistryRequest 
+     * @param storeDockerRegistryRequest 
      */
-    public async createDockerRegistry(createDockerRegistryRequest?: CreateDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createDockerRegistry(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -224,7 +230,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createDockerRegistryRequest, "CreateDockerRegistryRequest", ""),
+            ObjectSerializer.serialize(storeDockerRegistryRequest, "StoreDockerRegistryRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -241,9 +247,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Create a new server config
      * @param app The app ID
-     * @param createServerConfigRequest 
+     * @param storeServerConfigRequest 
      */
-    public async createServerConfig(app: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createServerConfig(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -268,7 +274,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createServerConfigRequest, "CreateServerConfigRequest", ""),
+            ObjectSerializer.serialize(storeServerConfigRequest, "StoreServerConfigRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -381,7 +387,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
      * Delete a specified binary
      * @param binary The binary ID
      */
@@ -444,7 +449,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
      * Delete a specific server config
      * @param serverConfig The server config ID
      */
@@ -491,6 +495,37 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Path Params
         const localVarPath = '/v1/apps/{app}'
             .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Show a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public async getAppLocationSettingById(appLocationSetting: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "getAppLocationSettingById", "appLocationSetting");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
@@ -563,9 +598,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
      * Handles user authentication
-     * @param getAuthTokenRequest 
+     * @param authRequest 
      */
-    public async getAuthToken(getAuthTokenRequest?: GetAuthTokenRequest, _options?: Configuration): Promise<RequestContext> {
+    public async getAuthToken(authRequest?: AuthRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -583,7 +618,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(getAuthTokenRequest, "GetAuthTokenRequest", ""),
+            ObjectSerializer.serialize(authRequest, "AuthRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -629,7 +664,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param app The app ID
      */
@@ -1044,6 +1078,68 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * List all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public async getTaggedImages(dockerRegistry: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "getTaggedImages", "dockerRegistry");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/tagged-images'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Refresh the cache for all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public async refreshTaggedImages(dockerRegistry: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "refreshTaggedImages", "dockerRegistry");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/tagged-images/refresh'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
      * Restarts a specific Docker service
      * @param service The service ID
      * @param body 
@@ -1132,6 +1228,83 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Get branches for a specific steamworks app ID
+     * @param appId The steamworks app id
+     */
+    public async steamGetBranches(appId: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appId' is not null or undefined
+        if (appId === null || appId === undefined) {
+            throw new RequiredError("AppApi", "steamGetBranches", "appId");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/steam/branches';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (appId !== undefined) {
+            requestContext.setQueryParam("appId", ObjectSerializer.serialize(appId, "number", ""));
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Get launchers for a specific steamworks app ID, optionally filtered by OS
+     * @param appId The steamworks app id
+     * @param os The operating system of the binary
+     */
+    public async steamGetLauncher(appId: number, os?: OperatingSystem, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appId' is not null or undefined
+        if (appId === null || appId === undefined) {
+            throw new RequiredError("AppApi", "steamGetLauncher", "appId");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/steam/launchers';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (appId !== undefined) {
+            requestContext.setQueryParam("appId", ObjectSerializer.serialize(appId, "number", ""));
+        }
+
+        // Query Params
+        if (os !== undefined) {
+            requestContext.setQueryParam("os", ObjectSerializer.serialize(os, "OperatingSystem", ""));
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
      * Update a location setting
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
@@ -1178,9 +1351,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Update a binary and the related file
      * @param binary The binary ID
-     * @param createBinaryRequest 
+     * @param updateBinaryRequest 
      */
-    public async updateBinary(binary: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateBinary(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'binary' is not null or undefined
@@ -1205,7 +1378,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createBinaryRequest, "CreateBinaryRequest", ""),
+            ObjectSerializer.serialize(updateBinaryRequest, "UpdateBinaryRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -1266,9 +1439,9 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Update a server config
      * @param serverConfig The server config ID
-     * @param createServerConfigRequest 
+     * @param updateServerConfigRequest 
      */
-    public async updateServerConfig(serverConfig: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateServerConfig(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'serverConfig' is not null or undefined
@@ -1293,7 +1466,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         ]);
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(createServerConfigRequest, "CreateServerConfigRequest", ""),
+            ObjectSerializer.serialize(updateServerConfigRequest, "UpdateServerConfigRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -1976,6 +2149,56 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "App", ""
             ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getAppLocationSettingById
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async getAppLocationSettingByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<AppLocationSetting >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: AppLocationSetting = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "AppLocationSetting", ""
+            ) as AppLocationSetting;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: AppLocationSetting = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "AppLocationSetting", ""
+            ) as AppLocationSetting;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2730,6 +2953,92 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to getTaggedImages
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async getTaggedImagesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetTaggedImages200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetTaggedImages200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetTaggedImages200Response", ""
+            ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetTaggedImages200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetTaggedImages200Response", ""
+            ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to refreshTaggedImages
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async refreshTaggedImagesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetTaggedImages200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetTaggedImages200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetTaggedImages200Response", ""
+            ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetTaggedImages200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetTaggedImages200Response", ""
+            ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to restartServer
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -2820,6 +3129,106 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "any", ""
             ) as any;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to steamGetBranches
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async steamGetBranchesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<SteamBranch> >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Array<SteamBranch> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<SteamBranch>", ""
+            ) as Array<SteamBranch>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Array<SteamBranch> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<SteamBranch>", ""
+            ) as Array<SteamBranch>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to steamGetLauncher
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async steamGetLauncherWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<SteamLauncher> >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Array<SteamLauncher> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<SteamLauncher>", ""
+            ) as Array<SteamLauncher>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Array<SteamLauncher> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<SteamLauncher>", ""
+            ) as Array<SteamLauncher>;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

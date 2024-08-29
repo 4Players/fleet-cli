@@ -1,20 +1,18 @@
 export * from '../models/App.ts';
 export * from '../models/AppLocationSetting.ts';
+export * from '../models/AppLocationSettingStatus.ts';
 export * from '../models/Auth.ts';
+export * from '../models/AuthRequest.ts';
 export * from '../models/Backup.ts';
 export * from '../models/BackupDownload.ts';
 export * from '../models/BackupType.ts';
 export * from '../models/Binary.ts';
+export * from '../models/BinaryStatus.ts';
 export * from '../models/BinaryType.ts';
 export * from '../models/ConfigFile.ts';
 export * from '../models/ConfigTemplate.ts';
 export * from '../models/Constraints.ts';
-export * from '../models/CreateAppLocationSettingRequest.ts';
-export * from '../models/CreateAppRequest.ts';
-export * from '../models/CreateBackupRequest.ts';
-export * from '../models/CreateBinaryRequest.ts';
-export * from '../models/CreateDockerRegistryRequest.ts';
-export * from '../models/CreateServerConfigRequest.ts';
+export * from '../models/CreateBackupDockerServiceRequest.ts';
 export * from '../models/DockerCompose.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
@@ -23,7 +21,7 @@ export * from '../models/DockerTaskStatus.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
-export * from '../models/GetAuthTokenRequest.ts';
+export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/Location.ts';
 export * from '../models/Mount.ts';
 export * from '../models/OperatingSystem.ts';
@@ -39,38 +37,49 @@ export * from '../models/RestartPolicyCondition.ts';
 export * from '../models/SecretFile.ts';
 export * from '../models/Server.ts';
 export * from '../models/ServerConfig.ts';
+export * from '../models/ServerConfigStatus.ts';
 export * from '../models/ServiceLogs.ts';
 export * from '../models/Steam.ts';
+export * from '../models/SteamBranch.ts';
+export * from '../models/SteamLauncher.ts';
+export * from '../models/SteamRuntime.ts';
+export * from '../models/StoreAppLocationSettingRequest.ts';
+export * from '../models/StoreAppRequest.ts';
+export * from '../models/StoreBinaryRequest.ts';
+export * from '../models/StoreDockerRegistryRequest.ts';
+export * from '../models/StoreServerConfigRequest.ts';
+export * from '../models/TaggedImage.ts';
+export * from '../models/TaggedImageMetaData.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
+export * from '../models/UpdateBinaryRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
+export * from '../models/UpdateServerConfigRequest.ts';
 export * from '../models/ZipFile.ts';
 
 import { App } from '../models/App.ts';
-import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSetting              } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup       } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { BackupType } from '../models/BackupType.ts';
-import { Binary             } from '../models/Binary.ts';
+import { Binary               } from '../models/Binary.ts';
+import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
-import { CreateAppLocationSettingRequest } from '../models/CreateAppLocationSettingRequest.ts';
-import { CreateAppRequest } from '../models/CreateAppRequest.ts';
-import { CreateBackupRequest } from '../models/CreateBackupRequest.ts';
-import { CreateBinaryRequest         } from '../models/CreateBinaryRequest.ts';
-import { CreateDockerRegistryRequest        } from '../models/CreateDockerRegistryRequest.ts';
-import { CreateServerConfigRequest } from '../models/CreateServerConfigRequest.ts';
+import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
-import { DockerRegistry         } from '../models/DockerRegistry.ts';
+import { DockerRegistry            } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
 import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
-import { GetAuthTokenRequest } from '../models/GetAuthTokenRequest.ts';
+import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -85,11 +94,24 @@ import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
-import { ServerConfig } from '../models/ServerConfig.ts';
+import { ServerConfig                   } from '../models/ServerConfig.ts';
+import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
-import { Steam } from '../models/Steam.ts';
+import { Steam           } from '../models/Steam.ts';
+import { SteamBranch } from '../models/SteamBranch.ts';
+import { SteamLauncher } from '../models/SteamLauncher.ts';
+import { SteamRuntime } from '../models/SteamRuntime.ts';
+import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
+import { StoreAppRequest } from '../models/StoreAppRequest.ts';
+import { StoreBinaryRequest         } from '../models/StoreBinaryRequest.ts';
+import { StoreDockerRegistryRequest           } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
+import { TaggedImage } from '../models/TaggedImage.ts';
+import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
-import { UpdateDockerRegistryRequest        } from '../models/UpdateDockerRegistryRequest.ts';
+import { UpdateBinaryRequest         } from '../models/UpdateBinaryRequest.ts';
+import { UpdateDockerRegistryRequest           } from '../models/UpdateDockerRegistryRequest.ts';
+import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 
 /* tslint:disable:no-unused-variable */
@@ -105,7 +127,9 @@ let primitives = [
                  ];
 
 let enumsMap: Set<string> = new Set<string>([
+    "AppLocationSettingStatus",
     "BackupType",
+    "BinaryStatus",
     "BinaryType",
     "DockerRegistryType",
     "EnvironmentVariableType",
@@ -113,31 +137,29 @@ let enumsMap: Set<string> = new Set<string>([
     "Protocol",
     "PublishMode",
     "RestartPolicyCondition",
+    "ServerConfigStatus",
+    "SteamRuntime",
 ]);
 
 let typeMap: {[index: string]: any} = {
     "App": App,
     "AppLocationSetting": AppLocationSetting,
     "Auth": Auth,
+    "AuthRequest": AuthRequest,
     "Backup": Backup,
     "BackupDownload": BackupDownload,
     "Binary": Binary,
     "ConfigFile": ConfigFile,
     "ConfigTemplate": ConfigTemplate,
     "Constraints": Constraints,
-    "CreateAppLocationSettingRequest": CreateAppLocationSettingRequest,
-    "CreateAppRequest": CreateAppRequest,
-    "CreateBackupRequest": CreateBackupRequest,
-    "CreateBinaryRequest": CreateBinaryRequest,
-    "CreateDockerRegistryRequest": CreateDockerRegistryRequest,
-    "CreateServerConfigRequest": CreateServerConfigRequest,
+    "CreateBackupDockerServiceRequest": CreateBackupDockerServiceRequest,
     "DockerCompose": DockerCompose,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
     "DockerTaskStatus": DockerTaskStatus,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
-    "GetAuthTokenRequest": GetAuthTokenRequest,
+    "GetTaggedImages200Response": GetTaggedImages200Response,
     "Location": Location,
     "Mount": Mount,
     "Placement": Placement,
@@ -151,8 +173,19 @@ let typeMap: {[index: string]: any} = {
     "ServerConfig": ServerConfig,
     "ServiceLogs": ServiceLogs,
     "Steam": Steam,
+    "SteamBranch": SteamBranch,
+    "SteamLauncher": SteamLauncher,
+    "StoreAppLocationSettingRequest": StoreAppLocationSettingRequest,
+    "StoreAppRequest": StoreAppRequest,
+    "StoreBinaryRequest": StoreBinaryRequest,
+    "StoreDockerRegistryRequest": StoreDockerRegistryRequest,
+    "StoreServerConfigRequest": StoreServerConfigRequest,
+    "TaggedImage": TaggedImage,
+    "TaggedImageMetaData": TaggedImageMetaData,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
+    "UpdateBinaryRequest": UpdateBinaryRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
+    "UpdateServerConfigRequest": UpdateServerConfigRequest,
     "ZipFile": ZipFile,
 }
 

@@ -12,13 +12,13 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum DockerRegistryType {
-    Default = 'default',
-    Gitlab = 'gitlab',
-    Github = 'github',
-    Custom = 'custom',
-    Dockerhub = 'dockerhub',
-    Azure = 'azure',
-    Awsecr = 'awsecr',
-    Other = 'other'
+export enum AppLocationSettingStatus {
+    Pending = 'pending',
+    Creating = 'creating',
+    Updating = 'updating',
+    Deleting = 'deleting',
+    Upscaling = 'upscaling',
+    Downscaling = 'downscaling',
+    Error = 'error',
+    Ready = 'ready'
 }

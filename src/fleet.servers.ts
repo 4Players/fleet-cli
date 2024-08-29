@@ -5,7 +5,7 @@ import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import { Input, Select } from "$cliffy/prompt/mod.ts";
 import { logError, logSuccess } from "./utils.ts";
-import { CreateBackupRequest, Server } from "./api/index.ts";
+import { CreateBackupDockerServiceRequest, Server } from "./api/index.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 
 const serverList = new Command()
@@ -232,10 +232,10 @@ const createBackup = new Command()
       });
     }
 
-    let payload: CreateBackupRequest | null = null;
+    let payload: CreateBackupDockerServiceRequest | null = null;
     if (options.payload && options.payload.length > 0) {
       try {
-        payload = JSON.parse(options.payload) as CreateBackupRequest;
+        payload = JSON.parse(options.payload) as CreateBackupDockerServiceRequest;
       } catch (error) {
         console.error("Invalid payload. Please provide a valid JSON string.");
         return;

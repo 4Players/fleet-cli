@@ -13,7 +13,7 @@
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class CreateDockerRegistryRequest {
+export class StoreDockerRegistryRequest {
     /**
     * The type of the docker registry
     */
@@ -27,7 +27,7 @@ export class CreateDockerRegistryRequest {
     */
     'url'?: string | null;
     /**
-    * The URL of the gitlab instance
+    * The specific instance URL of the docker registry
     */
     'instanceUrl'?: string | null;
     /**
@@ -42,6 +42,18 @@ export class CreateDockerRegistryRequest {
     * The password to use for authentication
     */
     'password'?: string | null;
+    /**
+    * Whether or not the registry is user-owned or organization-owned
+    */
+    'organization'?: boolean;
+    /**
+    * The AWS access key to use for authentication
+    */
+    'awsAccessKey'?: string | null;
+    /**
+    * The AWS secret access key to use for authentication
+    */
+    'awsSecretAccessKey'?: string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -62,13 +74,13 @@ export class CreateDockerRegistryRequest {
             "name": "url",
             "baseName": "url",
             "type": "string",
-            "format": ""
+            "format": "uri"
         },
         {
             "name": "instanceUrl",
             "baseName": "instanceUrl",
             "type": "string",
-            "format": ""
+            "format": "uri"
         },
         {
             "name": "username",
@@ -87,10 +99,28 @@ export class CreateDockerRegistryRequest {
             "baseName": "password",
             "type": "string",
             "format": ""
+        },
+        {
+            "name": "organization",
+            "baseName": "organization",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "awsAccessKey",
+            "baseName": "awsAccessKey",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "awsSecretAccessKey",
+            "baseName": "awsSecretAccessKey",
+            "type": "string",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateDockerRegistryRequest.attributeTypeMap;
+        return StoreDockerRegistryRequest.attributeTypeMap;
     }
 
     public constructor() {

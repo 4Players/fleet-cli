@@ -10,9 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -20,17 +18,9 @@ import { Steam } from '../models/Steam.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Binary {
+export class UpdateBinaryRequest {
     /**
-    * The id of the binary
-    */
-    'id': number;
-    /**
-    * The app id of the binary
-    */
-    'appId': number;
-    /**
-    * The app id of the binary
+    * The name of the binary
     */
     'name': string;
     /**
@@ -46,53 +36,25 @@ export class Binary {
     */
     'os': OperatingSystem;
     /**
-    * Indicates whether the binary is ready for use
-    */
-    'ready': boolean;
-    /**
-    * The current status of the binary
-    */
-    'status': BinaryStatus;
-    /**
-    * An optional message returned by the build process
-    */
-    'statusMessage': string | null;
-    /**
-    * The config templates of the binary
-    */
-    'configTemplates'?: Array<ConfigTemplate>;
-    /**
-    * The docker image of the binary
-    */
-    'dockerImage'?: DockerImage;
-    /**
-    * The docker compose file of the binary
+    * The docker compose settings
     */
     'dockerCompose'?: DockerCompose;
     /**
-    * The ZIP file of the binary
+    * The zip file settings
     */
     'zipFile'?: ZipFile;
     /**
-    * The steam of the binary
+    * The steam settings
     */
     'steam'?: Steam;
+    /**
+    * The docker image settings
+    */
+    'dockerImage'?: DockerImage;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "appId",
-            "baseName": "appId",
-            "type": "number",
-            "format": ""
-        },
         {
             "name": "name",
             "baseName": "name",
@@ -118,36 +80,6 @@ export class Binary {
             "format": ""
         },
         {
-            "name": "ready",
-            "baseName": "ready",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "status",
-            "baseName": "status",
-            "type": "BinaryStatus",
-            "format": ""
-        },
-        {
-            "name": "statusMessage",
-            "baseName": "statusMessage",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "configTemplates",
-            "baseName": "configTemplates",
-            "type": "Array<ConfigTemplate>",
-            "format": ""
-        },
-        {
-            "name": "dockerImage",
-            "baseName": "dockerImage",
-            "type": "DockerImage",
-            "format": ""
-        },
-        {
             "name": "dockerCompose",
             "baseName": "dockerCompose",
             "type": "DockerCompose",
@@ -164,10 +96,16 @@ export class Binary {
             "baseName": "steam",
             "type": "Steam",
             "format": ""
+        },
+        {
+            "name": "dockerImage",
+            "baseName": "dockerImage",
+            "type": "DockerImage",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Binary.attributeTypeMap;
+        return UpdateBinaryRequest.attributeTypeMap;
     }
 
     public constructor() {

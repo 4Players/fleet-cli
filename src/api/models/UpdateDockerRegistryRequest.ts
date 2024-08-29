@@ -27,7 +27,7 @@ export class UpdateDockerRegistryRequest {
     */
     'url'?: string | null;
     /**
-    * The URL of the instance
+    * The URL of the gitlab instance
     */
     'instanceUrl'?: string | null;
     /**
@@ -42,6 +42,18 @@ export class UpdateDockerRegistryRequest {
     * The password to use for authentication
     */
     'password'?: string | null;
+    /**
+    * Whether or not the registry is user-owned or organization-owned
+    */
+    'organization'?: boolean;
+    /**
+    * The AWS access key to use for authentication
+    */
+    'awsAccessKey'?: string | null;
+    /**
+    * The AWS secret access key to use for authentication
+    */
+    'awsSecretAccessKey'?: string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -62,13 +74,13 @@ export class UpdateDockerRegistryRequest {
             "name": "url",
             "baseName": "url",
             "type": "string",
-            "format": ""
+            "format": "uri"
         },
         {
             "name": "instanceUrl",
             "baseName": "instanceUrl",
             "type": "string",
-            "format": ""
+            "format": "uri"
         },
         {
             "name": "username",
@@ -85,6 +97,24 @@ export class UpdateDockerRegistryRequest {
         {
             "name": "password",
             "baseName": "password",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "organization",
+            "baseName": "organization",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "awsAccessKey",
+            "baseName": "awsAccessKey",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "awsSecretAccessKey",
+            "baseName": "awsSecretAccessKey",
             "type": "string",
             "format": ""
         }    ];

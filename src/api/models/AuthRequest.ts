@@ -12,7 +12,7 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export class GetAuthTokenRequest {
+export class AuthRequest {
     /**
     * The email of the user
     */
@@ -49,7 +49,7 @@ export class GetAuthTokenRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return GetAuthTokenRequest.attributeTypeMap;
+        return AuthRequest.attributeTypeMap;
     }
 
     public constructor() {

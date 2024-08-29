@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /v1/docker-registries/{dockerRegistry} | Delete a specific docker registry
 [**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /v1/server-configs/{serverConfig} | Delete a specific server config
 [**getAppById**](AppApi.md#getAppById) | **GET** /v1/apps/{app} | Show a specific app
+[**getAppLocationSettingById**](AppApi.md#getAppLocationSettingById) | **GET** /v1/app-location-settings/{appLocationSetting} | Show a specific app location setting
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
 [**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
 [**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Handles user authentication
@@ -33,8 +34,12 @@ Method | HTTP request | Description
 [**getServerConfigs**](AppApi.md#getServerConfigs) | **GET** /v1/apps/{app}/configs | Show all server configs
 [**getServerLogs**](AppApi.md#getServerLogs) | **GET** /v1/services/{service}/logs | Get stdout and stderr logs from a service or task
 [**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services for a given app
+[**getTaggedImages**](AppApi.md#getTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images | List all available tagged images
+[**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
 [**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{service}/restart | Restarts a specific Docker service
 [**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{service}/restore | Restore a backup for a specified Docker service
+[**steamGetBranches**](AppApi.md#steamGetBranches) | **GET** /v1/binaries/steam/branches | Get branches for a specific steamworks app ID
+[**steamGetLauncher**](AppApi.md#steamGetLauncher) | **GET** /v1/binaries/steam/launchers | Get launchers for a specific steamworks app ID, optionally filtered by OS
 [**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
 [**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related file
 [**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /v1/docker-registries/{dockerRegistry} | Update a specific docker registry
@@ -56,8 +61,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiCreateAppRequest = {
-  // CreateAppRequest (optional)
-  createAppRequest: null,
+  // StoreAppRequest (optional)
+  storeAppRequest: null,
 };
 
 apiInstance.createApp(body).then((data:any) => {
@@ -70,7 +75,7 @@ apiInstance.createApp(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createAppRequest** | **CreateAppRequest**|  |
+ **storeAppRequest** | **StoreAppRequest**|  |
 
 
 ### Return type
@@ -114,8 +119,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateAppLocationSettingRequest = {
   // number | The app ID
   app: 1,
-  // CreateAppLocationSettingRequest (optional)
-  createAppLocationSettingRequest: null,
+  // StoreAppLocationSettingRequest (optional)
+  storeAppLocationSettingRequest: null,
 };
 
 apiInstance.createAppLocationSetting(body).then((data:any) => {
@@ -128,7 +133,7 @@ apiInstance.createAppLocationSetting(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createAppLocationSettingRequest** | **CreateAppLocationSettingRequest**|  |
+ **storeAppLocationSettingRequest** | **StoreAppLocationSettingRequest**|  |
  **app** | [**number**] | The app ID | defaults to undefined
 
 
@@ -174,8 +179,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateBackupRequest = {
   // number | The service ID
   service: 1,
-  // CreateBackupRequest (optional)
-  createBackupRequest: null,
+  // CreateBackupDockerServiceRequest (optional)
+  createBackupDockerServiceRequest: null,
 };
 
 apiInstance.createBackup(body).then((data:any) => {
@@ -188,7 +193,7 @@ apiInstance.createBackup(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createBackupRequest** | **CreateBackupRequest**|  |
+ **createBackupDockerServiceRequest** | **CreateBackupDockerServiceRequest**|  |
  **service** | [**number**] | The service ID | defaults to undefined
 
 
@@ -234,8 +239,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateBinaryRequest = {
   // number | The app ID
   app: 1,
-  // CreateBinaryRequest (optional)
-  createBinaryRequest: null,
+  // StoreBinaryRequest (optional)
+  storeBinaryRequest: null,
 };
 
 apiInstance.createBinary(body).then((data:any) => {
@@ -248,7 +253,7 @@ apiInstance.createBinary(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createBinaryRequest** | **CreateBinaryRequest**|  |
+ **storeBinaryRequest** | **StoreBinaryRequest**|  |
  **app** | [**number**] | The app ID | defaults to undefined
 
 
@@ -292,8 +297,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiCreateDockerRegistryRequest = {
-  // CreateDockerRegistryRequest (optional)
-  createDockerRegistryRequest: null,
+  // StoreDockerRegistryRequest (optional)
+  storeDockerRegistryRequest: null,
 };
 
 apiInstance.createDockerRegistry(body).then((data:any) => {
@@ -306,7 +311,7 @@ apiInstance.createDockerRegistry(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createDockerRegistryRequest** | **CreateDockerRegistryRequest**|  |
+ **storeDockerRegistryRequest** | **StoreDockerRegistryRequest**|  |
 
 
 ### Return type
@@ -350,8 +355,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateServerConfigRequest = {
   // number | The app ID
   app: 1,
-  // CreateServerConfigRequest (optional)
-  createServerConfigRequest: null,
+  // StoreServerConfigRequest (optional)
+  storeServerConfigRequest: null,
 };
 
 apiInstance.createServerConfig(body).then((data:any) => {
@@ -364,7 +369,7 @@ apiInstance.createServerConfig(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createServerConfigRequest** | **CreateServerConfigRequest**|  |
+ **storeServerConfigRequest** | **StoreServerConfigRequest**|  |
  **app** | [**number**] | The app ID | defaults to undefined
 
 
@@ -564,7 +569,6 @@ No authorization required
 # **deleteBinary**
 > any deleteBinary()
 
-It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
 
 ### Example
 
@@ -677,7 +681,6 @@ No authorization required
 # **deleteServerConfig**
 > any deleteServerConfig()
 
-This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
 
 ### Example
 
@@ -781,6 +784,62 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | &#x60;App&#x60; |  -  |
+**404** |  |  -  |
+**401** |  |  -  |
+**403** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **getAppLocationSettingById**
+> AppLocationSetting getAppLocationSettingById()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiGetAppLocationSettingByIdRequest = {
+  // number | The app location setting ID
+  appLocationSetting: 1,
+};
+
+apiInstance.getAppLocationSettingById(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**AppLocationSetting**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSetting&#x60; |  -  |
 **404** |  |  -  |
 **401** |  |  -  |
 **403** |  |  -  |
@@ -906,8 +965,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiGetAuthTokenRequest = {
-  // GetAuthTokenRequest (optional)
-  getAuthTokenRequest: null,
+  // AuthRequest (optional)
+  authRequest: null,
 };
 
 apiInstance.getAuthToken(body).then((data:any) => {
@@ -920,7 +979,7 @@ apiInstance.getAuthToken(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **getAuthTokenRequest** | **GetAuthTokenRequest**|  |
+ **authRequest** | **AuthRequest**|  |
 
 
 ### Return type
@@ -1005,7 +1064,6 @@ No authorization required
 # **getBinaries**
 > Array<Binary> getBinaries()
 
-Eager load file types and config templates to reduce the number of queries.
 
 ### Example
 
@@ -1684,6 +1742,116 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **getTaggedImages**
+> GetTaggedImages200Response getTaggedImages()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiGetTaggedImagesRequest = {
+  // number | The docker registry ID
+  dockerRegistry: 1,
+};
+
+apiInstance.getTaggedImages(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+
+
+### Return type
+
+**GetTaggedImages200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;TaggedImageCollection&#x60; |  -  |
+**404** |  |  -  |
+**401** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **refreshTaggedImages**
+> GetTaggedImages200Response refreshTaggedImages()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiRefreshTaggedImagesRequest = {
+  // number | The docker registry ID
+  dockerRegistry: 1,
+};
+
+apiInstance.refreshTaggedImages(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+
+
+### Return type
+
+**GetTaggedImages200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;TaggedImageCollection&#x60; |  -  |
+**404** |  |  -  |
+**401** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **restartServer**
 > any restartServer()
 
@@ -1802,6 +1970,121 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **steamGetBranches**
+> Array<SteamBranch> steamGetBranches()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiSteamGetBranchesRequest = {
+  // number | The steamworks app id
+  appId: 1,
+};
+
+apiInstance.steamGetBranches(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **appId** | [**number**] | The steamworks app id | defaults to undefined
+
+
+### Return type
+
+**Array<SteamBranch>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;SteamBranchCollection&#x60; |  -  |
+**401** |  |  -  |
+**422** |  |  -  |
+**403** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **steamGetLauncher**
+> Array<SteamLauncher> steamGetLauncher()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiSteamGetLauncherRequest = {
+  // number | The steamworks app id
+  appId: 1,
+  // OperatingSystem | The operating system of the binary (optional)
+  os: "windows",
+};
+
+apiInstance.steamGetLauncher(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **appId** | [**number**] | The steamworks app id | defaults to undefined
+ **os** | **OperatingSystem** | The operating system of the binary | (optional) defaults to undefined
+
+
+### Return type
+
+**Array<SteamLauncher>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;SteamLauncherCollection&#x60; |  -  |
+**401** |  |  -  |
+**422** |  |  -  |
+**403** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **updateAppLocationSetting**
 > AppLocationSetting updateAppLocationSetting()
 
@@ -1879,8 +2162,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateBinaryRequest = {
   // number | The binary ID
   binary: 1,
-  // CreateBinaryRequest (optional)
-  createBinaryRequest: null,
+  // UpdateBinaryRequest (optional)
+  updateBinaryRequest: null,
 };
 
 apiInstance.updateBinary(body).then((data:any) => {
@@ -1893,7 +2176,7 @@ apiInstance.updateBinary(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createBinaryRequest** | **CreateBinaryRequest**|  |
+ **updateBinaryRequest** | **UpdateBinaryRequest**|  |
  **binary** | [**number**] | The binary ID | defaults to undefined
 
 
@@ -1999,8 +2282,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateServerConfigRequest = {
   // number | The server config ID
   serverConfig: 1,
-  // CreateServerConfigRequest (optional)
-  createServerConfigRequest: null,
+  // UpdateServerConfigRequest (optional)
+  updateServerConfigRequest: null,
 };
 
 apiInstance.updateServerConfig(body).then((data:any) => {
@@ -2013,7 +2296,7 @@ apiInstance.updateServerConfig(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createServerConfigRequest** | **CreateServerConfigRequest**|  |
+ **updateServerConfigRequest** | **UpdateServerConfigRequest**|  |
  **serverConfig** | [**number**] | The server config ID | defaults to undefined
 
 

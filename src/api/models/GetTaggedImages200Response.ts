@@ -10,26 +10,32 @@
  * Do not edit the class manually.
  */
 
+import { TaggedImage } from '../models/TaggedImage.ts';
+import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class CreateAppRequest {
-    /**
-    * The name of the app
-    */
-    'name': string;
+export class GetTaggedImages200Response {
+    'data': Array<TaggedImage>;
+    'meta': TaggedImageMetaData;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
+            "name": "data",
+            "baseName": "data",
+            "type": "Array<TaggedImage>",
+            "format": ""
+        },
+        {
+            "name": "meta",
+            "baseName": "meta",
+            "type": "TaggedImageMetaData",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateAppRequest.attributeTypeMap;
+        return GetTaggedImages200Response.attributeTypeMap;
     }
 
     public constructor() {

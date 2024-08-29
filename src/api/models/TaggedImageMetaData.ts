@@ -12,24 +12,34 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export class CreateBackupRequest {
+export class TaggedImageMetaData {
     /**
-    * The name of the backup
+    * Whether the data was retrieved from the cache.
     */
-    'name': string;
+    'cached': boolean;
+    /**
+    * Timestamp of when the data was last cached.
+    */
+    'cachedAt': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "cached",
+            "baseName": "cached",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "cachedAt",
+            "baseName": "cached_at",
             "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateBackupRequest.attributeTypeMap;
+        return TaggedImageMetaData.attributeTypeMap;
     }
 
     public constructor() {

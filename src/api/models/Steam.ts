@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { SteamRuntime } from '../models/SteamRuntime.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class Steam {
@@ -25,6 +26,34 @@ export class Steam {
     * The password to use
     */
     'password': string | null;
+    /**
+    * The command to execute
+    */
+    'command': string;
+    /**
+    * The steam account username
+    */
+    'steamcmdUsername': string | null;
+    /**
+    * The steam account password
+    */
+    'steamcmdPassword': string | null;
+    /**
+    * Whether or not the binary needs a graphical interface
+    */
+    'headful': boolean;
+    /**
+    * Whether or not the the license agreement needs to be requested
+    */
+    'requestLicense': boolean;
+    /**
+    * The steam runtime the server depends on
+    */
+    'runtime': SteamRuntime;
+    /**
+    * Whether or not the steamworks app is unpublished or published
+    */
+    'unpublished': boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -46,6 +75,48 @@ export class Steam {
             "baseName": "password",
             "type": "string",
             "format": ""
+        },
+        {
+            "name": "command",
+            "baseName": "command",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "steamcmdUsername",
+            "baseName": "steamcmdUsername",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "steamcmdPassword",
+            "baseName": "steamcmdPassword",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "headful",
+            "baseName": "headful",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "requestLicense",
+            "baseName": "requestLicense",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "runtime",
+            "baseName": "runtime",
+            "type": "SteamRuntime",
+            "format": ""
+        },
+        {
+            "name": "unpublished",
+            "baseName": "unpublished",
+            "type": "boolean",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
@@ -55,4 +126,6 @@ export class Steam {
     public constructor() {
     }
 }
+
+
 

@@ -13,7 +13,7 @@
 import { Placement } from '../models/Placement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class CreateAppLocationSettingRequest {
+export class StoreAppLocationSettingRequest {
     /**
     * The name of the location setting
     */
@@ -90,7 +90,7 @@ export class CreateAppLocationSettingRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return CreateAppLocationSettingRequest.attributeTypeMap;
+        return StoreAppLocationSettingRequest.attributeTypeMap;
     }
 
     public constructor() {

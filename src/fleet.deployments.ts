@@ -3,7 +3,7 @@ import { CommandOptions } from "$cliffy/command/types.ts";
 import {getSelectedAppOrExit} from "./apps.ts";
 import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
-import {AppLocationSetting, CreateAppLocationSettingRequest, Placement, Location, ServerConfig} from "./api/index.ts";
+import {AppLocationSetting, StoreAppLocationSettingRequest, Placement, Location, ServerConfig} from "./api/index.ts";
 import { Input, Number, Select } from "$cliffy/prompt/mod.ts";
 import { confirm, logError, logSuccess } from "./utils.ts";
 
@@ -46,11 +46,11 @@ export const createDeployment = new Command()
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
-    let payload: CreateAppLocationSettingRequest | null = null;
+    let payload: StoreAppLocationSettingRequest | null = null;
 
     if (options.payload && options.payload.length > 0) {
       try {
-        payload = JSON.parse(options.payload) as CreateAppLocationSettingRequest;
+        payload = JSON.parse(options.payload) as StoreAppLocationSettingRequest;
       } catch (error) {
         logError("Invalid payload. Please provide a valid JSON string.", error);
         return;

@@ -3,21 +3,19 @@ import { Configuration} from '../configuration.ts'
 
 import { App } from '../models/App.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { BackupType } from '../models/BackupType.ts';
 import { Binary } from '../models/Binary.ts';
+import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
-import { CreateAppLocationSettingRequest } from '../models/CreateAppLocationSettingRequest.ts';
-import { CreateAppRequest } from '../models/CreateAppRequest.ts';
-import { CreateBackupRequest } from '../models/CreateBackupRequest.ts';
-import { CreateBinaryRequest } from '../models/CreateBinaryRequest.ts';
-import { CreateDockerRegistryRequest } from '../models/CreateDockerRegistryRequest.ts';
-import { CreateServerConfigRequest } from '../models/CreateServerConfigRequest.ts';
+import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
@@ -26,7 +24,7 @@ import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
-import { GetAuthTokenRequest } from '../models/GetAuthTokenRequest.ts';
+import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -42,10 +40,23 @@ import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
+import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
 import { Steam } from '../models/Steam.ts';
+import { SteamBranch } from '../models/SteamBranch.ts';
+import { SteamLauncher } from '../models/SteamLauncher.ts';
+import { SteamRuntime } from '../models/SteamRuntime.ts';
+import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
+import { StoreAppRequest } from '../models/StoreAppRequest.ts';
+import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
+import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
+import { TaggedImage } from '../models/TaggedImage.ts';
+import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
+import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 
 import { ObservableAppApi } from "./ObservableAPI.ts";
@@ -54,10 +65,10 @@ import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts"
 export interface AppApiCreateAppRequest {
     /**
      * 
-     * @type CreateAppRequest
+     * @type StoreAppRequest
      * @memberof AppApicreateApp
      */
-    createAppRequest?: CreateAppRequest
+    storeAppRequest?: StoreAppRequest
 }
 
 export interface AppApiCreateAppLocationSettingRequest {
@@ -69,10 +80,10 @@ export interface AppApiCreateAppLocationSettingRequest {
     app: number
     /**
      * 
-     * @type CreateAppLocationSettingRequest
+     * @type StoreAppLocationSettingRequest
      * @memberof AppApicreateAppLocationSetting
      */
-    createAppLocationSettingRequest?: CreateAppLocationSettingRequest
+    storeAppLocationSettingRequest?: StoreAppLocationSettingRequest
 }
 
 export interface AppApiCreateBackupRequest {
@@ -84,10 +95,10 @@ export interface AppApiCreateBackupRequest {
     service: number
     /**
      * 
-     * @type CreateBackupRequest
+     * @type CreateBackupDockerServiceRequest
      * @memberof AppApicreateBackup
      */
-    createBackupRequest?: CreateBackupRequest
+    createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest
 }
 
 export interface AppApiCreateBinaryRequest {
@@ -99,19 +110,19 @@ export interface AppApiCreateBinaryRequest {
     app: number
     /**
      * 
-     * @type CreateBinaryRequest
+     * @type StoreBinaryRequest
      * @memberof AppApicreateBinary
      */
-    createBinaryRequest?: CreateBinaryRequest
+    storeBinaryRequest?: StoreBinaryRequest
 }
 
 export interface AppApiCreateDockerRegistryRequest {
     /**
      * 
-     * @type CreateDockerRegistryRequest
+     * @type StoreDockerRegistryRequest
      * @memberof AppApicreateDockerRegistry
      */
-    createDockerRegistryRequest?: CreateDockerRegistryRequest
+    storeDockerRegistryRequest?: StoreDockerRegistryRequest
 }
 
 export interface AppApiCreateServerConfigRequest {
@@ -123,10 +134,10 @@ export interface AppApiCreateServerConfigRequest {
     app: number
     /**
      * 
-     * @type CreateServerConfigRequest
+     * @type StoreServerConfigRequest
      * @memberof AppApicreateServerConfig
      */
-    createServerConfigRequest?: CreateServerConfigRequest
+    storeServerConfigRequest?: StoreServerConfigRequest
 }
 
 export interface AppApiDeleteAppRequest {
@@ -192,6 +203,15 @@ export interface AppApiGetAppByIdRequest {
     app: number
 }
 
+export interface AppApiGetAppLocationSettingByIdRequest {
+    /**
+     * The app location setting ID
+     * @type number
+     * @memberof AppApigetAppLocationSettingById
+     */
+    appLocationSetting: number
+}
+
 export interface AppApiGetAppLocationSettingsRequest {
     /**
      * The app ID
@@ -207,10 +227,10 @@ export interface AppApiGetAppsRequest {
 export interface AppApiGetAuthTokenRequest {
     /**
      * 
-     * @type GetAuthTokenRequest
+     * @type AuthRequest
      * @memberof AppApigetAuthToken
      */
-    getAuthTokenRequest?: GetAuthTokenRequest
+    authRequest?: AuthRequest
 }
 
 export interface AppApiGetBackupsRequest {
@@ -366,6 +386,24 @@ export interface AppApiGetServersRequest {
     app: number
 }
 
+export interface AppApiGetTaggedImagesRequest {
+    /**
+     * The docker registry ID
+     * @type number
+     * @memberof AppApigetTaggedImages
+     */
+    dockerRegistry: number
+}
+
+export interface AppApiRefreshTaggedImagesRequest {
+    /**
+     * The docker registry ID
+     * @type number
+     * @memberof AppApirefreshTaggedImages
+     */
+    dockerRegistry: number
+}
+
 export interface AppApiRestartServerRequest {
     /**
      * The service ID
@@ -396,6 +434,30 @@ export interface AppApiRestoreBackupRequest {
     body?: any
 }
 
+export interface AppApiSteamGetBranchesRequest {
+    /**
+     * The steamworks app id
+     * @type number
+     * @memberof AppApisteamGetBranches
+     */
+    appId: number
+}
+
+export interface AppApiSteamGetLauncherRequest {
+    /**
+     * The steamworks app id
+     * @type number
+     * @memberof AppApisteamGetLauncher
+     */
+    appId: number
+    /**
+     * The operating system of the binary
+     * @type OperatingSystem
+     * @memberof AppApisteamGetLauncher
+     */
+    os?: OperatingSystem
+}
+
 export interface AppApiUpdateAppLocationSettingRequest {
     /**
      * The app location setting ID
@@ -420,10 +482,10 @@ export interface AppApiUpdateBinaryRequest {
     binary: number
     /**
      * 
-     * @type CreateBinaryRequest
+     * @type UpdateBinaryRequest
      * @memberof AppApiupdateBinary
      */
-    createBinaryRequest?: CreateBinaryRequest
+    updateBinaryRequest?: UpdateBinaryRequest
 }
 
 export interface AppApiUpdateDockerRegistryRequest {
@@ -450,10 +512,10 @@ export interface AppApiUpdateServerConfigRequest {
     serverConfig: number
     /**
      * 
-     * @type CreateServerConfigRequest
+     * @type UpdateServerConfigRequest
      * @memberof AppApiupdateServerConfig
      */
-    createServerConfigRequest?: CreateServerConfigRequest
+    updateServerConfigRequest?: UpdateServerConfigRequest
 }
 
 export class ObjectAppApi {
@@ -468,7 +530,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createAppWithHttpInfo(param: AppApiCreateAppRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
-        return this.api.createAppWithHttpInfo(param.createAppRequest,  options).toPromise();
+        return this.api.createAppWithHttpInfo(param.storeAppRequest,  options).toPromise();
     }
 
     /**
@@ -476,7 +538,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createApp(param: AppApiCreateAppRequest = {}, options?: Configuration): Promise<App> {
-        return this.api.createApp(param.createAppRequest,  options).toPromise();
+        return this.api.createApp(param.storeAppRequest,  options).toPromise();
     }
 
     /**
@@ -484,7 +546,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createAppLocationSettingWithHttpInfo(param: AppApiCreateAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
-        return this.api.createAppLocationSettingWithHttpInfo(param.app, param.createAppLocationSettingRequest,  options).toPromise();
+        return this.api.createAppLocationSettingWithHttpInfo(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
     /**
@@ -492,7 +554,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createAppLocationSetting(param: AppApiCreateAppLocationSettingRequest, options?: Configuration): Promise<AppLocationSetting> {
-        return this.api.createAppLocationSetting(param.app, param.createAppLocationSettingRequest,  options).toPromise();
+        return this.api.createAppLocationSetting(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
     /**
@@ -500,7 +562,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
-        return this.api.createBackupWithHttpInfo(param.service, param.createBackupRequest,  options).toPromise();
+        return this.api.createBackupWithHttpInfo(param.service, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
     /**
@@ -508,7 +570,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createBackup(param: AppApiCreateBackupRequest, options?: Configuration): Promise<any> {
-        return this.api.createBackup(param.service, param.createBackupRequest,  options).toPromise();
+        return this.api.createBackup(param.service, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
     /**
@@ -516,7 +578,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createBinaryWithHttpInfo(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
-        return this.api.createBinaryWithHttpInfo(param.app, param.createBinaryRequest,  options).toPromise();
+        return this.api.createBinaryWithHttpInfo(param.app, param.storeBinaryRequest,  options).toPromise();
     }
 
     /**
@@ -524,7 +586,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createBinary(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<Binary> {
-        return this.api.createBinary(param.app, param.createBinaryRequest,  options).toPromise();
+        return this.api.createBinary(param.app, param.storeBinaryRequest,  options).toPromise();
     }
 
     /**
@@ -532,7 +594,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createDockerRegistryWithHttpInfo(param: AppApiCreateDockerRegistryRequest = {}, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
-        return this.api.createDockerRegistryWithHttpInfo(param.createDockerRegistryRequest,  options).toPromise();
+        return this.api.createDockerRegistryWithHttpInfo(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
     /**
@@ -540,7 +602,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createDockerRegistry(param: AppApiCreateDockerRegistryRequest = {}, options?: Configuration): Promise<DockerRegistry> {
-        return this.api.createDockerRegistry(param.createDockerRegistryRequest,  options).toPromise();
+        return this.api.createDockerRegistry(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
     /**
@@ -548,7 +610,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createServerConfigWithHttpInfo(param: AppApiCreateServerConfigRequest, options?: Configuration): Promise<HttpInfo<ServerConfig>> {
-        return this.api.createServerConfigWithHttpInfo(param.app, param.createServerConfigRequest,  options).toPromise();
+        return this.api.createServerConfigWithHttpInfo(param.app, param.storeServerConfigRequest,  options).toPromise();
     }
 
     /**
@@ -556,7 +618,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public createServerConfig(param: AppApiCreateServerConfigRequest, options?: Configuration): Promise<ServerConfig> {
-        return this.api.createServerConfig(param.app, param.createServerConfigRequest,  options).toPromise();
+        return this.api.createServerConfig(param.app, param.storeServerConfigRequest,  options).toPromise();
     }
 
     /**
@@ -610,7 +672,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
      * Delete a specified binary
      * @param param the request object
      */
@@ -619,7 +680,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
      * Delete a specified binary
      * @param param the request object
      */
@@ -644,7 +704,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
      * Delete a specific server config
      * @param param the request object
      */
@@ -653,7 +712,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
      * Delete a specific server config
      * @param param the request object
      */
@@ -675,6 +733,22 @@ export class ObjectAppApi {
      */
     public getAppById(param: AppApiGetAppByIdRequest, options?: Configuration): Promise<App> {
         return this.api.getAppById(param.app,  options).toPromise();
+    }
+
+    /**
+     * Show a specific app location setting
+     * @param param the request object
+     */
+    public getAppLocationSettingByIdWithHttpInfo(param: AppApiGetAppLocationSettingByIdRequest, options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+        return this.api.getAppLocationSettingByIdWithHttpInfo(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Show a specific app location setting
+     * @param param the request object
+     */
+    public getAppLocationSettingById(param: AppApiGetAppLocationSettingByIdRequest, options?: Configuration): Promise<AppLocationSetting> {
+        return this.api.getAppLocationSettingById(param.appLocationSetting,  options).toPromise();
     }
 
     /**
@@ -715,7 +789,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest = {}, options?: Configuration): Promise<HttpInfo<Auth>> {
-        return this.api.getAuthTokenWithHttpInfo(param.getAuthTokenRequest,  options).toPromise();
+        return this.api.getAuthTokenWithHttpInfo(param.authRequest,  options).toPromise();
     }
 
     /**
@@ -724,7 +798,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getAuthToken(param: AppApiGetAuthTokenRequest = {}, options?: Configuration): Promise<Auth> {
-        return this.api.getAuthToken(param.getAuthTokenRequest,  options).toPromise();
+        return this.api.getAuthToken(param.authRequest,  options).toPromise();
     }
 
     /**
@@ -744,7 +818,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param param the request object
      */
@@ -753,7 +826,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param param the request object
      */
@@ -940,6 +1012,38 @@ export class ObjectAppApi {
     }
 
     /**
+     * List all available tagged images
+     * @param param the request object
+     */
+    public getTaggedImagesWithHttpInfo(param: AppApiGetTaggedImagesRequest, options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+        return this.api.getTaggedImagesWithHttpInfo(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
+     * List all available tagged images
+     * @param param the request object
+     */
+    public getTaggedImages(param: AppApiGetTaggedImagesRequest, options?: Configuration): Promise<GetTaggedImages200Response> {
+        return this.api.getTaggedImages(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
+     * Refresh the cache for all available tagged images
+     * @param param the request object
+     */
+    public refreshTaggedImagesWithHttpInfo(param: AppApiRefreshTaggedImagesRequest, options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+        return this.api.refreshTaggedImagesWithHttpInfo(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
+     * Refresh the cache for all available tagged images
+     * @param param the request object
+     */
+    public refreshTaggedImages(param: AppApiRefreshTaggedImagesRequest, options?: Configuration): Promise<GetTaggedImages200Response> {
+        return this.api.refreshTaggedImages(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
      * Restarts a specific Docker service
      * @param param the request object
      */
@@ -972,6 +1076,38 @@ export class ObjectAppApi {
     }
 
     /**
+     * Get branches for a specific steamworks app ID
+     * @param param the request object
+     */
+    public steamGetBranchesWithHttpInfo(param: AppApiSteamGetBranchesRequest, options?: Configuration): Promise<HttpInfo<Array<SteamBranch>>> {
+        return this.api.steamGetBranchesWithHttpInfo(param.appId,  options).toPromise();
+    }
+
+    /**
+     * Get branches for a specific steamworks app ID
+     * @param param the request object
+     */
+    public steamGetBranches(param: AppApiSteamGetBranchesRequest, options?: Configuration): Promise<Array<SteamBranch>> {
+        return this.api.steamGetBranches(param.appId,  options).toPromise();
+    }
+
+    /**
+     * Get launchers for a specific steamworks app ID, optionally filtered by OS
+     * @param param the request object
+     */
+    public steamGetLauncherWithHttpInfo(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<HttpInfo<Array<SteamLauncher>>> {
+        return this.api.steamGetLauncherWithHttpInfo(param.appId, param.os,  options).toPromise();
+    }
+
+    /**
+     * Get launchers for a specific steamworks app ID, optionally filtered by OS
+     * @param param the request object
+     */
+    public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<Array<SteamLauncher>> {
+        return this.api.steamGetLauncher(param.appId, param.os,  options).toPromise();
+    }
+
+    /**
      * Update a location setting
      * @param param the request object
      */
@@ -992,7 +1128,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public updateBinaryWithHttpInfo(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
-        return this.api.updateBinaryWithHttpInfo(param.binary, param.createBinaryRequest,  options).toPromise();
+        return this.api.updateBinaryWithHttpInfo(param.binary, param.updateBinaryRequest,  options).toPromise();
     }
 
     /**
@@ -1000,7 +1136,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public updateBinary(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<Binary> {
-        return this.api.updateBinary(param.binary, param.createBinaryRequest,  options).toPromise();
+        return this.api.updateBinary(param.binary, param.updateBinaryRequest,  options).toPromise();
     }
 
     /**
@@ -1024,7 +1160,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public updateServerConfigWithHttpInfo(param: AppApiUpdateServerConfigRequest, options?: Configuration): Promise<HttpInfo<ServerConfig>> {
-        return this.api.updateServerConfigWithHttpInfo(param.serverConfig, param.createServerConfigRequest,  options).toPromise();
+        return this.api.updateServerConfigWithHttpInfo(param.serverConfig, param.updateServerConfigRequest,  options).toPromise();
     }
 
     /**
@@ -1032,7 +1168,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public updateServerConfig(param: AppApiUpdateServerConfigRequest, options?: Configuration): Promise<ServerConfig> {
-        return this.api.updateServerConfig(param.serverConfig, param.createServerConfigRequest,  options).toPromise();
+        return this.api.updateServerConfig(param.serverConfig, param.updateServerConfigRequest,  options).toPromise();
     }
 
 }

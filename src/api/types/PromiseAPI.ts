@@ -3,21 +3,19 @@ import { Configuration} from '../configuration.ts'
 
 import { App } from '../models/App.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { BackupType } from '../models/BackupType.ts';
 import { Binary } from '../models/Binary.ts';
+import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
-import { CreateAppLocationSettingRequest } from '../models/CreateAppLocationSettingRequest.ts';
-import { CreateAppRequest } from '../models/CreateAppRequest.ts';
-import { CreateBackupRequest } from '../models/CreateBackupRequest.ts';
-import { CreateBinaryRequest } from '../models/CreateBinaryRequest.ts';
-import { CreateDockerRegistryRequest } from '../models/CreateDockerRegistryRequest.ts';
-import { CreateServerConfigRequest } from '../models/CreateServerConfigRequest.ts';
+import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
@@ -26,7 +24,7 @@ import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
-import { GetAuthTokenRequest } from '../models/GetAuthTokenRequest.ts';
+import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -42,10 +40,23 @@ import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
+import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
 import { Steam } from '../models/Steam.ts';
+import { SteamBranch } from '../models/SteamBranch.ts';
+import { SteamLauncher } from '../models/SteamLauncher.ts';
+import { SteamRuntime } from '../models/SteamRuntime.ts';
+import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
+import { StoreAppRequest } from '../models/StoreAppRequest.ts';
+import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
+import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
+import { TaggedImage } from '../models/TaggedImage.ts';
+import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
+import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { ObservableAppApi } from './ObservableAPI.ts';
 
@@ -63,117 +74,117 @@ export class PromiseAppApi {
 
     /**
      * Create an app
-     * @param createAppRequest 
+     * @param storeAppRequest 
      */
-    public createAppWithHttpInfo(createAppRequest?: CreateAppRequest, _options?: Configuration): Promise<HttpInfo<App>> {
-        const result = this.api.createAppWithHttpInfo(createAppRequest, _options);
+    public createAppWithHttpInfo(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<HttpInfo<App>> {
+        const result = this.api.createAppWithHttpInfo(storeAppRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create an app
-     * @param createAppRequest 
+     * @param storeAppRequest 
      */
-    public createApp(createAppRequest?: CreateAppRequest, _options?: Configuration): Promise<App> {
-        const result = this.api.createApp(createAppRequest, _options);
+    public createApp(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<App> {
+        const result = this.api.createApp(storeAppRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new location setting
      * @param app The app ID
-     * @param createAppLocationSettingRequest 
+     * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSettingWithHttpInfo(app: number, createAppLocationSettingRequest?: CreateAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
-        const result = this.api.createAppLocationSettingWithHttpInfo(app, createAppLocationSettingRequest, _options);
+    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+        const result = this.api.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new location setting
      * @param app The app ID
-     * @param createAppLocationSettingRequest 
+     * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSetting(app: number, createAppLocationSettingRequest?: CreateAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
-        const result = this.api.createAppLocationSetting(app, createAppLocationSettingRequest, _options);
+    public createAppLocationSetting(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
+        const result = this.api.createAppLocationSetting(app, storeAppLocationSettingRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Creates a backup of the service
      * @param service The service ID
-     * @param createBackupRequest 
+     * @param createBackupDockerServiceRequest 
      */
-    public createBackupWithHttpInfo(service: number, createBackupRequest?: CreateBackupRequest, _options?: Configuration): Promise<HttpInfo<any>> {
-        const result = this.api.createBackupWithHttpInfo(service, createBackupRequest, _options);
+    public createBackupWithHttpInfo(service: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<HttpInfo<any>> {
+        const result = this.api.createBackupWithHttpInfo(service, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Creates a backup of the service
      * @param service The service ID
-     * @param createBackupRequest 
+     * @param createBackupDockerServiceRequest 
      */
-    public createBackup(service: number, createBackupRequest?: CreateBackupRequest, _options?: Configuration): Promise<any> {
-        const result = this.api.createBackup(service, createBackupRequest, _options);
+    public createBackup(service: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<any> {
+        const result = this.api.createBackup(service, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a binary and the related file
      * @param app The app ID
-     * @param createBinaryRequest 
+     * @param storeBinaryRequest 
      */
-    public createBinaryWithHttpInfo(app: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
-        const result = this.api.createBinaryWithHttpInfo(app, createBinaryRequest, _options);
+    public createBinaryWithHttpInfo(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
+        const result = this.api.createBinaryWithHttpInfo(app, storeBinaryRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a binary and the related file
      * @param app The app ID
-     * @param createBinaryRequest 
+     * @param storeBinaryRequest 
      */
-    public createBinary(app: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<Binary> {
-        const result = this.api.createBinary(app, createBinaryRequest, _options);
+    public createBinary(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<Binary> {
+        const result = this.api.createBinary(app, storeBinaryRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new docker registry
-     * @param createDockerRegistryRequest 
+     * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistryWithHttpInfo(createDockerRegistryRequest?: CreateDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
-        const result = this.api.createDockerRegistryWithHttpInfo(createDockerRegistryRequest, _options);
+    public createDockerRegistryWithHttpInfo(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+        const result = this.api.createDockerRegistryWithHttpInfo(storeDockerRegistryRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new docker registry
-     * @param createDockerRegistryRequest 
+     * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistry(createDockerRegistryRequest?: CreateDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
-        const result = this.api.createDockerRegistry(createDockerRegistryRequest, _options);
+    public createDockerRegistry(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
+        const result = this.api.createDockerRegistry(storeDockerRegistryRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new server config
      * @param app The app ID
-     * @param createServerConfigRequest 
+     * @param storeServerConfigRequest 
      */
-    public createServerConfigWithHttpInfo(app: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
-        const result = this.api.createServerConfigWithHttpInfo(app, createServerConfigRequest, _options);
+    public createServerConfigWithHttpInfo(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+        const result = this.api.createServerConfigWithHttpInfo(app, storeServerConfigRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Create a new server config
      * @param app The app ID
-     * @param createServerConfigRequest 
+     * @param storeServerConfigRequest 
      */
-    public createServerConfig(app: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
-        const result = this.api.createServerConfig(app, createServerConfigRequest, _options);
+    public createServerConfig(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
+        const result = this.api.createServerConfig(app, storeServerConfigRequest, _options);
         return result.toPromise();
     }
 
@@ -234,7 +245,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
      * Delete a specified binary
      * @param binary The binary ID
      */
@@ -244,7 +254,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * It first finds the Binary instance by its ID. If the instance is found, it is deleted. The method then returns an HTTP 204 No Content response to indicate successful deletion.
      * Delete a specified binary
      * @param binary The binary ID
      */
@@ -272,7 +281,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
      * Delete a specific server config
      * @param serverConfig The server config ID
      */
@@ -282,7 +290,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * This method handles the deletion of a ServerConfig record from the database. It first finds the ServerConfig instance by its ID, and if found, deletes it. Returns an HTTP 204 No Content response upon successful deletion.
      * Delete a specific server config
      * @param serverConfig The server config ID
      */
@@ -306,6 +313,24 @@ export class PromiseAppApi {
      */
     public getAppById(app: number, _options?: Configuration): Promise<App> {
         const result = this.api.getAppById(app, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Show a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public getAppLocationSettingByIdWithHttpInfo(appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+        const result = this.api.getAppLocationSettingByIdWithHttpInfo(appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Show a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public getAppLocationSettingById(appLocationSetting: number, _options?: Configuration): Promise<AppLocationSetting> {
+        const result = this.api.getAppLocationSettingById(appLocationSetting, _options);
         return result.toPromise();
     }
 
@@ -346,20 +371,20 @@ export class PromiseAppApi {
     /**
      * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
      * Handles user authentication
-     * @param getAuthTokenRequest 
+     * @param authRequest 
      */
-    public getAuthTokenWithHttpInfo(getAuthTokenRequest?: GetAuthTokenRequest, _options?: Configuration): Promise<HttpInfo<Auth>> {
-        const result = this.api.getAuthTokenWithHttpInfo(getAuthTokenRequest, _options);
+    public getAuthTokenWithHttpInfo(authRequest?: AuthRequest, _options?: Configuration): Promise<HttpInfo<Auth>> {
+        const result = this.api.getAuthTokenWithHttpInfo(authRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
      * Handles user authentication
-     * @param getAuthTokenRequest 
+     * @param authRequest 
      */
-    public getAuthToken(getAuthTokenRequest?: GetAuthTokenRequest, _options?: Configuration): Promise<Auth> {
-        const result = this.api.getAuthToken(getAuthTokenRequest, _options);
+    public getAuthToken(authRequest?: AuthRequest, _options?: Configuration): Promise<Auth> {
+        const result = this.api.getAuthToken(authRequest, _options);
         return result.toPromise();
     }
 
@@ -382,7 +407,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param app The app ID
      */
@@ -392,7 +416,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * Eager load file types and config templates to reduce the number of queries.
      * Show all binaries
      * @param app The app ID
      */
@@ -614,6 +637,42 @@ export class PromiseAppApi {
     }
 
     /**
+     * List all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public getTaggedImagesWithHttpInfo(dockerRegistry: number, _options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+        const result = this.api.getTaggedImagesWithHttpInfo(dockerRegistry, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * List all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public getTaggedImages(dockerRegistry: number, _options?: Configuration): Promise<GetTaggedImages200Response> {
+        const result = this.api.getTaggedImages(dockerRegistry, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Refresh the cache for all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public refreshTaggedImagesWithHttpInfo(dockerRegistry: number, _options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+        const result = this.api.refreshTaggedImagesWithHttpInfo(dockerRegistry, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Refresh the cache for all available tagged images
+     * @param dockerRegistry The docker registry ID
+     */
+    public refreshTaggedImages(dockerRegistry: number, _options?: Configuration): Promise<GetTaggedImages200Response> {
+        const result = this.api.refreshTaggedImages(dockerRegistry, _options);
+        return result.toPromise();
+    }
+
+    /**
      * Restarts a specific Docker service
      * @param service The service ID
      * @param body 
@@ -654,6 +713,44 @@ export class PromiseAppApi {
     }
 
     /**
+     * Get branches for a specific steamworks app ID
+     * @param appId The steamworks app id
+     */
+    public steamGetBranchesWithHttpInfo(appId: number, _options?: Configuration): Promise<HttpInfo<Array<SteamBranch>>> {
+        const result = this.api.steamGetBranchesWithHttpInfo(appId, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Get branches for a specific steamworks app ID
+     * @param appId The steamworks app id
+     */
+    public steamGetBranches(appId: number, _options?: Configuration): Promise<Array<SteamBranch>> {
+        const result = this.api.steamGetBranches(appId, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Get launchers for a specific steamworks app ID, optionally filtered by OS
+     * @param appId The steamworks app id
+     * @param os The operating system of the binary
+     */
+    public steamGetLauncherWithHttpInfo(appId: number, os?: OperatingSystem, _options?: Configuration): Promise<HttpInfo<Array<SteamLauncher>>> {
+        const result = this.api.steamGetLauncherWithHttpInfo(appId, os, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Get launchers for a specific steamworks app ID, optionally filtered by OS
+     * @param appId The steamworks app id
+     * @param os The operating system of the binary
+     */
+    public steamGetLauncher(appId: number, os?: OperatingSystem, _options?: Configuration): Promise<Array<SteamLauncher>> {
+        const result = this.api.steamGetLauncher(appId, os, _options);
+        return result.toPromise();
+    }
+
+    /**
      * Update a location setting
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
@@ -676,20 +773,20 @@ export class PromiseAppApi {
     /**
      * Update a binary and the related file
      * @param binary The binary ID
-     * @param createBinaryRequest 
+     * @param updateBinaryRequest 
      */
-    public updateBinaryWithHttpInfo(binary: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
-        const result = this.api.updateBinaryWithHttpInfo(binary, createBinaryRequest, _options);
+    public updateBinaryWithHttpInfo(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
+        const result = this.api.updateBinaryWithHttpInfo(binary, updateBinaryRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Update a binary and the related file
      * @param binary The binary ID
-     * @param createBinaryRequest 
+     * @param updateBinaryRequest 
      */
-    public updateBinary(binary: number, createBinaryRequest?: CreateBinaryRequest, _options?: Configuration): Promise<Binary> {
-        const result = this.api.updateBinary(binary, createBinaryRequest, _options);
+    public updateBinary(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<Binary> {
+        const result = this.api.updateBinary(binary, updateBinaryRequest, _options);
         return result.toPromise();
     }
 
@@ -716,20 +813,20 @@ export class PromiseAppApi {
     /**
      * Update a server config
      * @param serverConfig The server config ID
-     * @param createServerConfigRequest 
+     * @param updateServerConfigRequest 
      */
-    public updateServerConfigWithHttpInfo(serverConfig: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
-        const result = this.api.updateServerConfigWithHttpInfo(serverConfig, createServerConfigRequest, _options);
+    public updateServerConfigWithHttpInfo(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+        const result = this.api.updateServerConfigWithHttpInfo(serverConfig, updateServerConfigRequest, _options);
         return result.toPromise();
     }
 
     /**
      * Update a server config
      * @param serverConfig The server config ID
-     * @param createServerConfigRequest 
+     * @param updateServerConfigRequest 
      */
-    public updateServerConfig(serverConfig: number, createServerConfigRequest?: CreateServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
-        const result = this.api.updateServerConfig(serverConfig, createServerConfigRequest, _options);
+    public updateServerConfig(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
+        const result = this.api.updateServerConfig(serverConfig, updateServerConfigRequest, _options);
         return result.toPromise();
     }
 

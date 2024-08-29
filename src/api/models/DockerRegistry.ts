@@ -46,6 +46,18 @@ export class DockerRegistry {
     * The URL of the instance
     */
     'instanceUrl': string | null;
+    /**
+    * Whether or not the registry is user-owned or organization-owned
+    */
+    'organization': boolean;
+    /**
+    * AWS access key ID
+    */
+    'awsAccessKey': string | null;
+    /**
+    * AWS secret access key
+    */
+    'awsSecretAccessKey': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -97,6 +109,24 @@ export class DockerRegistry {
             "baseName": "instanceUrl",
             "type": "string",
             "format": "uri"
+        },
+        {
+            "name": "organization",
+            "baseName": "organization",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "awsAccessKey",
+            "baseName": "awsAccessKey",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "awsSecretAccessKey",
+            "baseName": "awsSecretAccessKey",
+            "type": "string",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {

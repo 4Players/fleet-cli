@@ -18,6 +18,7 @@ import { PortDefinition } from '../models/PortDefinition.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { SecretFile } from '../models/SecretFile.ts';
+import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class ServerConfig {
@@ -49,6 +50,18 @@ export class ServerConfig {
     * The notes of the server config - to keep track of things and to inform colleagues
     */
     'notes': string | null;
+    /**
+    * The current status
+    */
+    'status': ServerConfigStatus;
+    /**
+    * An optional message
+    */
+    'statusMessage': string | null;
+    /**
+    * Indicates if the server config is under maintenance
+    */
+    'maintenance': boolean;
     /**
     * The policy used to restart this server
     */
@@ -128,6 +141,24 @@ export class ServerConfig {
             "format": ""
         },
         {
+            "name": "status",
+            "baseName": "status",
+            "type": "ServerConfigStatus",
+            "format": ""
+        },
+        {
+            "name": "statusMessage",
+            "baseName": "statusMessage",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "maintenance",
+            "baseName": "maintenance",
+            "type": "boolean",
+            "format": ""
+        },
+        {
             "name": "restartPolicy",
             "baseName": "restartPolicy",
             "type": "RestartPolicy",
@@ -183,4 +214,6 @@ export class ServerConfig {
     public constructor() {
     }
 }
+
+
 

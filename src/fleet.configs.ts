@@ -6,7 +6,7 @@ import {Table} from "$cliffy/table/table.ts";
 import {Confirm, Input, Number, prompt, Select} from "$cliffy/prompt/mod.ts";
 import {
   Binary, ConfigFile,
-  CreateServerConfigRequest, EnvironmentVariableType,
+  StoreServerConfigRequest, EnvironmentVariableType,
   Mount,
   PortDefinition,
   Protocol,
@@ -54,11 +54,11 @@ const createConfig = new Command()
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
-    let payload: CreateServerConfigRequest | null = null;
+    let payload: StoreServerConfigRequest | null = null;
 
     if (options.payload && options.payload.length > 0) {
       try {
-        payload = JSON.parse(options.payload) as CreateServerConfigRequest;
+        payload = JSON.parse(options.payload) as StoreServerConfigRequest;
       } catch (error) {
         logError("Invalid payload. Please provide a valid JSON string.", error);
         return;
