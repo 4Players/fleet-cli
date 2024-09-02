@@ -14,11 +14,20 @@ import { confirm, inform, logError, stdout } from "./utils.ts";
 export const imageList = new Command()
   .name("list")
   .description("List all images.")
+  .option("--unused", "List only unused images (i.e. not in a configuration).")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let binaries: Binary[] = [];
     try {
       binaries = await apiClient.getBinaries(app.id);
+
+      if (options.unused) {
+        // Load all deployments and filter out the used configs
+        const configs = await apiClient.getServerConfigs(app.id);
+        const usedImages = configs.map((config) => config.binaryId);
+        binaries = binaries.filter((binary) => !usedImages.includes(binary.id));
+      }
+
       if (binaries.length === 0) {
         console.log("No images have been created for the selected app.");
         return;
