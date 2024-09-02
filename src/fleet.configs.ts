@@ -22,12 +22,21 @@ import {Tier} from "./types/tier.ts";
 const configsList = new Command()
   .name("list")
   .description("List all server configurations for the selected app.")
+  .option("--unused", "List only unused server configurations.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
     let configs: ServerConfig[] = [];
     try {
       configs = await apiClient.getServerConfigs(app.id);
+
+      if (options.unused) {
+        // Load all deployments and filter out the used configs
+        const deployments = await apiClient.getAppLocationSettings(app.id);
+        const usedConfigs = deployments.map((deployment) => deployment.serverConfig?.id);
+        configs = configs.filter((config) => !usedConfigs.includes(config.id));
+      }
+
       if (configs.length === 0) {
         inform(options, "No server configurations found.");
         if (options.format === "default") {
@@ -353,6 +362,7 @@ const updateConfig = new Command()
   .option("--restart-policy <restartPolicy:string>", "Restart policy.")
   .option("--memory <memory:number>", "Memory limit.")
   .option("--cpu <cpu:number>", "CPU limit.")
+  .group("Other Options")
   .option("--dry-run", "Dry run mode, does not update the config, but prints the payload.")
   .action(async (options: CommandOptions) => {
     validateAtLeastOneOptionAvailable(options, ["payload", "name", "command", "args", "binaryId", "restartPolicy", "memory", "cpu"]);
