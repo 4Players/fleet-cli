@@ -201,8 +201,8 @@ const createBackup = new Command()
       try {
         payload = JSON.parse(options.payload) as CreateBackupDockerServiceRequest;
       } catch (error) {
-        console.error("Invalid payload. Please provide a valid JSON string.");
-        return;
+        logError("Invalid payload. Please provide a valid JSON string.");
+        Deno.exit(1);
       }
     } else {
       const name = await Input.prompt({
@@ -303,7 +303,7 @@ export const restoreBackup = new Command()
       try {
         servers = await apiClient.getServers(app.id);
         if (servers.length === 0) {
-          console.log("No servers found. Create a deployment with `fleet deployments create` to start a server.");
+          inform(options,"No servers found. Create a deployment with `fleet deployments create` to start a server.");
           return;
         }
       } catch(error) {
@@ -324,15 +324,15 @@ export const restoreBackup = new Command()
     const server = await apiClient.getServerById(app.id, serverId);
     if (!server) {
       logError("Server not found.");
-      return;
+      Deno.exit(1);
     }
 
     if (!server.backup) {
       logError("No backup found for this server. Use the `server backup` command to create a backup.");
-      return;
+      Deno.exit(1);
     }
 
-    console.log("The server will be stopped for a few seconds to restore the backup and will then be restarted.");
+    inform(options, "The server will be stopped for a few seconds to restore the backup and will then be restarted.");
     const confirmation = await confirm("Are you sure you want to restore the backup to this server?");
     if (!confirmation) {
       return;
@@ -340,9 +340,10 @@ export const restoreBackup = new Command()
 
     try {
       await apiClient.restoreBackup(serverId);
-      logSuccess("Backup is being restored");
+      inform(options, "Backup is being restored");
     } catch (error) {
       logError("Failed to get download URL. Error: ", error);
+      Deno.exit(1);
     }
   });
 
@@ -359,7 +360,7 @@ const restartServer = new Command()
       try {
         servers = await apiClient.getServers(app.id);
         if (servers.length === 0) {
-          console.log("No servers found. Create a deployment with `fleet deployments create` to start a server.");
+          inform(options, "No servers found. Create a deployment with `fleet deployments create` to start a server.");
           return;
         }
       } catch(error) {
@@ -377,7 +378,7 @@ const restartServer = new Command()
       });
     }
 
-    console.log("The server will be stopped for a few seconds and then started again.");
+    inform(options, "The server will be stopped for a few seconds and then started again.");
     const confirmation = await confirm("Are you sure you want to restart this server?");
     if (!confirmation) {
       return;
@@ -385,9 +386,10 @@ const restartServer = new Command()
 
     try {
       await apiClient.restartServer(serverId);
-      logSuccess("Server is restarting");
+      inform(options, "Server is restarting");
     } catch (error) {
       logError("Failed to restart server. Error: ", error);
+      Deno.exit(1);
     }
   });
 
