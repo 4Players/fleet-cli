@@ -28,7 +28,7 @@ export const imageList = new Command()
       Deno.exit(1);
     }
 
-    stdout(binaries, options, "table(id,name,version,type,os,ready,status,statusMessage)");
+    await stdout(binaries, options, "table(id,name,version,type,os,ready,status,statusMessage)");
   });
 
 export const getImageDetails = new Command()
@@ -64,7 +64,7 @@ export const getImageDetails = new Command()
       Deno.exit(1);
     }
 
-    stdout(image, options, "table(id,name,version,type,os,ready,status,statusMessage)");
+    await stdout(image, options, "table(id,name,version,type,os,ready,status,statusMessage)");
   });
 
 export const createImage = new Command()
@@ -227,14 +227,14 @@ export const createImage = new Command()
 
     if (options.dryRun) {
       inform(options,"Dry run mode, payload:");
-      stdout(payload, options, "json");
+      await stdout(payload, options, "json");
     } else {
       const confirmed = await confirm(options, "Do you want to create the image?");
 
       if (confirmed) {
         try {
           const binary = await apiClient.createBinary(app.id, payload!);
-          stdout(binary, options, "table(id,name,version,type,os,ready,status,statusMessage)");
+          await stdout(binary, options, "table(id,name,version,type,os,ready,status,statusMessage)");
         } catch (error) {
           logError("Failed to create image. Error: ", error.body.message, error.code, JSON.stringify(payload));
           Deno.exit(1);
@@ -242,7 +242,7 @@ export const createImage = new Command()
       } else {
         inform(options, "Image creation aborted.");
         inform(options, "This payload would have been used, you can use the --payload flag to provide it: ");
-        stdout(payload, options, "json");
+        await stdout(payload, options, "json");
       }
     }
   });

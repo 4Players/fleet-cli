@@ -1,7 +1,6 @@
 import { Command } from "$cliffy/command/command.ts";
 import { Config, getConfig, saveConfig } from "./login.ts";
 import { apiClient } from "./main.ts";
-import { Table } from "$cliffy/table/table.ts";
 import { Input, Select, prompt } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
@@ -84,7 +83,7 @@ const getAppDetails = new Command()
   .description("Get App Details.")
   .action(async (options: CommandOptions) => {
     const app = await getApp(options);
-    stdout(app, options.format ?? "table", ["id","name"]);
+    await stdout(app, options, "table(id,name)");
   });
 
 const appList = new Command()
@@ -114,9 +113,9 @@ const appList = new Command()
         });
       });
 
-      stdout(data, "table", ["id","name"]);
+      await stdout(data, options, "table(id,name)");
     } else {
-      stdout(apps, options.format, ["id","name"]);
+      await stdout(apps, options, "table(id,name)");
     }
   });
 
@@ -136,7 +135,7 @@ const selectApp = new Command()
     );
 
     if (options.format && options.format !== "default") {
-      stdout(app, options.format, ["id","name"]);
+      await stdout(app, options, "table(id,name)");
     }
   });
 
@@ -154,7 +153,7 @@ const create = new Command()
 
     try {
       const app = await apiClient.createApp(payload as StoreAppRequest);
-      stdout(app, options.format ?? "table", ["id","name"]);
+      await stdout(app, options, "table(id,name)");
     } catch (error) {
       logError("Failed to create app. Error: ", error.body.message, error.code);
       Deno.exit(1);
