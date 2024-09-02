@@ -16,7 +16,7 @@ import {
   RestartPolicyCondition,
   ServerConfig, UpdateServerConfigRequest,
 } from "./api/index.ts";
-import {confirm, deepMerge, inform, logError, logSuccess, stdout} from "./utils.ts";
+import {confirm, deepMerge, inform, logError, logSuccess, stdout, validateAtLeastOneOptionAvailable} from "./utils.ts";
 import {Tier} from "./types/tier.ts";
 
 const configsList = new Command()
@@ -344,9 +344,18 @@ const updateConfig = new Command()
   .name("update")
   .description("Update a server configuration.")
   .option("--config-id <configId:number>", "Config ID.")
-  .option("--payload <payload:string>", "Payload as JSON string.", {required: true})
+  .group("Update Options")
+  .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("--name <name:string>", "Name of the config.")
+  .option("--command <command:string>", "Command to run in the container.")
+  .option("--args <args:string>", "Arguments to pass to the command.")
+  .option("--binary-id <binaryId:number>", "Binary ID.")
+  .option("--restart-policy <restartPolicy:string>", "Restart policy.")
+  .option("--memory <memory:number>", "Memory limit.")
+  .option("--cpu <cpu:number>", "CPU limit.")
   .option("--dry-run", "Dry run mode, does not update the config, but prints the payload.")
   .action(async (options: CommandOptions) => {
+    validateAtLeastOneOptionAvailable(options, ["payload", "name", "command", "args", "binaryId", "restartPolicy", "memory", "cpu"]);
     const app = await getSelectedAppOrExit(options);
     let configId = options.configId;
     if (!configId) {
@@ -375,15 +384,39 @@ const updateConfig = new Command()
     }
 
     let payload: UpdateServerConfigRequest | null = null;
-    try {
-      payload = JSON.parse(options.payload) as UpdateServerConfigRequest;
-    } catch (error) {
-      logError("Invalid payload. Please provide a valid JSON string.", error);
-      return;
+    if (options.payload && options.payload.length > 0) {
+      try {
+        payload = JSON.parse(options.payload) as UpdateServerConfigRequest;
+      } catch (error) {
+        logError("Invalid payload. Please provide a valid JSON string.", error);
+        return;
+      }
+    } else {
+      payload = {
+        name: options.name || config.name,
+        command: options.command || config.command,
+        args: options.args || config.args,
+        binaryId: options.binaryId || config.binaryId,
+        restartPolicy: {
+          condition: options.restartPolicy || config.restartPolicy.condition,
+        },
+        resources: {
+          limits: {
+            memory: options.memory || config.resources.limits.memory,
+            cpu: options.cpu || config.resources.limits.cpu,
+          },
+          reservations: {
+            memory: config.resources.reservations.memory,
+            cpu: config.resources.reservations.cpu,
+          },
+        },
+        configFiles: config.configFiles,
+        secretFiles: config.secretFiles,
+        env: config.env,
+        mounts: config.mounts,
+        ports: config.ports,
+      };
     }
-
-    // Merge the payload with the existing config
-    payload = deepMerge(config, payload);
 
     if (options.dryRun) {
       inform(options, "Dry run mode, payload:");

@@ -2,6 +2,7 @@ import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { Confirm } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { Table } from "$cliffy/table/table.ts";
+import jsonata from "jsonata";
 
 export const logErrorAndExit = (message: string, ...optionalParams: unknown[]) => {
   logError(message, ...optionalParams);
@@ -25,9 +26,9 @@ export const inform = (options: CommandOptions, message: string, ...optionalPara
   }
 }
 
-export const printAsTable = (data: any, format: string) => {
+export const printAsTable = async (data: any, format: string) => {
   // Format is in the format "table(<property-paths>)"
-  const match = format.match(/table\(([^)]+)\)/);
+  const match = format.match(/table\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/);
   if (!match) {
     console.error("Invalid table format.");
     return;
@@ -35,33 +36,9 @@ export const printAsTable = (data: any, format: string) => {
 
   const properties = match[1].split(",").map(path => path.trim()); // Trim each path
 
-  const getValue = (obj: any, path: string) => {
-    const parts = path.split('.');
-    let current = obj;
-
-    for (let i = 0; i < parts.length; i++) {
-      if (Array.isArray(current)) {
-        // If current is an array, map over it and apply getValue recursively for nested structures
-        return current.map(item => getValue(item, parts.slice(i).join('.'))).filter(Boolean);
-      } else if (current && typeof current === 'object' && parts[i] in current) {
-        current = current[parts[i]];
-      } else {
-        return null; // Return null if the path does not exist
-      }
-    }
-
-    // If the current value is an array of objects, extract and format it
-    if (Array.isArray(current)) {
-      return JSON.stringify(current);
-    }
-
-    // If the current value is an object and we want to filter it
-    if (current && typeof current === 'object' && !Array.isArray(current)) {
-      return JSON.stringify(current);
-    }
-
-    return current;
-  };
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
 
   const formatHeader = (path: string) => {
     return path.split('.').pop()!.toUpperCase();
@@ -70,32 +47,79 @@ export const printAsTable = (data: any, format: string) => {
   const table = new Table();
   table.header(properties.map(formatHeader));
 
-  if (Array.isArray(data) && data.length > 0) {
-    data.forEach((row) => {
-      table.push(properties.map((p) => {
-        const value = getValue(row, p);
-        return (value && typeof value === 'object') ? JSON.stringify(value) : value;
-      }));
-    });
-  } else {
-    table.push(properties.map((p) => {
-      const value = getValue(data, p);
-      return (value && typeof value === 'object') ? JSON.stringify(value) : value;
-    }));
+  for (const item of data) {
+    const values: string[] = [];
+    for (let path of properties) {
+      // Replace all ['xxx'] with `xxx`
+      path = path.replace(/\['([^']+)'\]/g, '.`$1`');
+
+      try {
+        const expression = jsonata(path);
+        const value = await expression.evaluate(item);
+        if (typeof value === 'object') {
+          values.push(JSON.stringify(value));
+        } else {
+          values.push(value);
+        }
+      } catch (error) {
+        logError(`Error evaluating path '${path}'`, error);
+        Deno.exit(1);
+      }
+    }
+
+    table.push(values);
   }
 
   console.log(table.toString());
 };
 
 export const printAsText = (data: any) => {
-  console.log(data);
+  if (typeof data === 'object') {
+    printAsJson(data);
+  } else {
+    console.log(data);
+  }
 }
 
 export const printAsJson = (data: any) => {
   console.log(JSON.stringify(data, null, 2));
 }
 
-export const printAsValue = (data: any, type: string) => {
+export const printAsValue = async (data: any, type: string) => {
+  // Type is in the format "value[separator='<separator>'](<property-paths>)"
+  const match = type.match(/value(?:\[separator='([^']*)'\])?\(([^)]+)\)/);
+  if (!match) {
+    console.error("Invalid value type.");
+    return;
+  }
+
+  const separator = match[1] || "\t";
+  const propertyPaths = match[2].split(",").map(path => path.trim()); // Trim each path
+
+  if (!Array.isArray(data)) {
+    data = [data];
+  }
+
+  for (const item of data) {
+    const values: string[] = [];
+    for (let path of propertyPaths) {
+      // Replace all ['xxx'] with `xxx`
+      path = path.replace(/\['([^']+)'\]/g, '.`$1`');
+
+      const expression = jsonata(path);
+      const value = await expression.evaluate(item);
+      if (typeof value === 'object') {
+        values.push(JSON.stringify(value));
+      } else {
+        values.push(value);
+      }
+    }
+
+    console.log(values.join(separator));
+  }
+}
+
+export const printAsValue2 = (data: any, type: string) => {
   // Type is in the format "value[separator='<separator>'](<property-paths>)"
   const match = type.match(/value(?:\[separator='([^']*)'\])?\(([^)]+)\)/);
   if (!match) {
@@ -253,20 +277,20 @@ export const printAsFlattened = (data: any, format: string) => {
   console.log(output.join("\n"));
 };
 
-export const stdout = (data: any, options: CommandOptions, defaultType: string) => {
+export const stdout = async (data: any, options: CommandOptions, defaultType: string) => {
   let type = options.format;
   if (!type || type === "default") {
     type = defaultType;
   }
 
   if (type.startsWith("table")) {
-    printAsTable(data, type);
+    await printAsTable(data, type);
   } else if (type === "json") {
     printAsJson(data);
   } else if (type === "text") {
     printAsText(data);
   } else if (type.startsWith("value")) {
-    printAsValue(data, type);
+    await printAsValue(data, type);
   } else if (type.startsWith("flattened")) {
     printAsFlattened(data, type);
   }
@@ -304,4 +328,20 @@ export const deepMerge = (target: any, source: any) => {
   });
 
   return target;
+}
+
+export const camelToSnake = (str: string) => {
+  return str.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+}
+
+export const validateAtLeastOneOptionAvailable = (options: CommandOptions, requiredOption: string[]) => {
+  for (const option of requiredOption) {
+    if (options[option]) {
+      return;
+    }
+  }
+
+  const optionNames = requiredOption.map(option => `--${camelToSnake(option)}`).join(", ");
+
+  logErrorAndExit(`At least one of the following options is required: ${optionNames}`);
 }

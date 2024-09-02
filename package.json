@@ -6,11 +6,19 @@
   "scripts": {
     "generate-api-from-backend": "rimraf ./src/api/* && curl https://api.4np.4players.de/b2b/v1/docs/api.json > ./backend/document.json && openapi-generator-cli generate -i ./backend/document.json -g typescript -o ./src/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App"
   },
-  "keywords": ["4players", "odin", "fleet", "cli"],
+  "keywords": [
+    "4players",
+    "odin",
+    "fleet",
+    "cli"
+  ],
   "author": "Phillip Schuster",
   "license": "MIT",
   "devDependencies": {
-    "rimraf": "^5.0.7",
-    "@openapitools/openapi-generator-cli": "^2.13.4"
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "rimraf": "^5.0.7"
+  },
+  "dependencies": {
+    "jsonata": "^2.0.5"
   }
 }

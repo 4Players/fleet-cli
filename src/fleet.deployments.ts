@@ -12,7 +12,7 @@ import {
   UpdateAppLocationSettingRequest,
 } from "./api/index.ts";
 import { Input, Number, Select } from "$cliffy/prompt/mod.ts";
-import {confirm, deepMerge, inform, logError, logSuccess, stdout} from "./utils.ts";
+import {confirm, deepMerge, inform, logError, logSuccess, stdout, validateAtLeastOneOptionAvailable} from "./utils.ts";
 
 const deploymentsList = new Command()
   .name("list")
@@ -184,9 +184,15 @@ const updateDeployment = new Command()
   .name("update")
   .description("Update a deployment.")
   .option("--deployment-id <deploymentId:number>", "Deployment ID.")
-  .option("--payload <payload:string>", "Payload as JSON string.", {required: true})
+  .group("Update options:")
+  .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("--name <name:string>", "New name for the deployment.")
+  .option("--num-instances <numInstances:number>", "Number of instances to deploy.")
+  .option("--config-id <configId:number>", "Server config ID.")
+  .group("Other options:")
   .option("--dry-run", "Dry run mode, does not update the config, but prints the payload.")
   .action(async (options: CommandOptions) => {
+    validateAtLeastOneOptionAvailable(options, ["name", "numInstances", "configId", "payload"]);
     const selectedApp = await getSelectedAppOrExit(options);
     let deploymentId = options.deploymentId;
     let deployments: AppLocationSetting[] = [];
@@ -215,15 +221,22 @@ const updateDeployment = new Command()
     }
 
     let payload: UpdateAppLocationSettingRequest | null = null;
-    try {
-      payload = JSON.parse(options.payload) as UpdateAppLocationSettingRequest;
-    } catch (error) {
-      logError("Invalid payload. Please provide a valid JSON string.", error);
-      return;
+    if (options.payload && options.payload.length > 0) {
+      try {
+        payload = JSON.parse(options.payload) as UpdateAppLocationSettingRequest;
+      } catch (error) {
+        logError("Invalid payload. Please provide a valid JSON string.", error);
+        Deno.exit(1);
+      }
+    } else {
+      payload = {
+        name: options.name ?? deployment.name,
+        numInstances: options.numInstances ?? deployment.numInstances,
+        serverConfigId: options.configId ?? deployment.serverConfigId,
+        autoScalerEnabled: deployment.autoScalerEnabled,
+        placement: deployment.placement,
+      }
     }
-
-    // Merge the payload with the existing config
-    payload = deepMerge(deployment, payload);
 
     if (options.dryRun) {
       inform(options, "Dry run mode, payload:");

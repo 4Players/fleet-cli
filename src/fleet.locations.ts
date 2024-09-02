@@ -2,12 +2,12 @@ import { Command } from "$cliffy/command/command.ts";
 import { Table } from "$cliffy/table/table.ts";
 import {Location} from "./api/index.ts";
 import {apiClient} from "./main.ts";
-import {logError} from "./utils.ts";
+import {logError, stdout} from "./utils.ts";
 
 const locationsList = new Command()
   .name("list")
   .description("List all locations available in ODIN Fleet.")
-  .action(async () => {
+  .action(async (options) => {
     // Select Location
     let locations: Location[] = [];
     try {
@@ -21,16 +21,7 @@ const locationsList = new Command()
       Deno.exit(1);
     }
 
-    const table: Table = new Table();
-    table.header(["Continent", "Region", "City"]);
-    locations.forEach((location) => {
-      table.push([
-        location.continent,
-        location.country,
-        location.city
-      ]);
-    });
-    table.render();
+    await stdout(locations, options, "table(continent,country,city)");
   });
 
 export const locations = new Command()
