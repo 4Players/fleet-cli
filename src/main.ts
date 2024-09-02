@@ -11,7 +11,7 @@ export let apiClient: AppApi;
 await new Command()
   // Main command.
   .name("odin")
-  .version("0.1.0")
+  .version("0.2.0")
   .description("Command line tools for ODIN by 4Players.")
   .globalOption("-d, --debug", "Enable debug output.")
   .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
