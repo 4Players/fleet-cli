@@ -9,7 +9,7 @@ import { Input } from "$cliffy/prompt/input.ts";
 import { Select } from "$cliffy/prompt/select.ts";
 import { Number } from "$cliffy/prompt/number.ts";
 import {Confirm} from "$cliffy/prompt/confirm.ts";
-import { confirm, inform, logError, stdout } from "./utils.ts";
+import {confirm, inform, logError, stdout, validateRequiredOptions} from "./utils.ts";
 
 export const imageList = new Command()
   .name("list")
@@ -80,6 +80,25 @@ export const createImage = new Command()
   .name("create")
   .description("Create a new image.")
   .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("-i, --interactive", "Interactive mode.")
+  .group("Update Values")
+  .option("--name <name:string>", "Name of the image.")
+  .option("--version <version:string>", "Version of the image.")
+  .option("--os <os:string>", "Operating system of the image.")
+  .option("--type <type:string>", "Type of the image")
+  .option("--docker-image <dockerImage:string>", "Docker image name.")
+  .option("--registry-id <registryId:number>", "Docker registry ID.")
+  .option("--steam-app-id <steamAppId:number>", "Steam App ID.")
+  .option("--branch <branch:string>", "Steam branch.")
+  .option("--password <password:string>", "Steam password.")
+  .option("--command <command:string>", "Steam command.")
+  .option("--steamcmd-username <steamcmdUsername:string>", "Steam CMD username.")
+  .option("--steamcmd-password <steamcmdPassword:string>", "Steam CMD password.")
+  .option("--runtime <runtime:string>", "Steam runtime.")
+  .option("--headful", "Steam headful.")
+  .option("--request-license", "Steam request license.")
+  .option("--unpublished", "Steam unpublished.")
+  .group("Other Options")
   .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -93,7 +112,7 @@ export const createImage = new Command()
         logError("Invalid payload. Please provide a valid JSON string.", error);
         Deno.exit(1);
       }
-    } else {
+    } else if (options.interactive) {
       const result = await prompt([
         {
           name: "name",
@@ -225,6 +244,50 @@ export const createImage = new Command()
           headful: headful,
           requestLicense: requestLicense,
           unpublished: unpublished,
+        };
+      }
+    } else {
+      validateRequiredOptions(options, ["name", "version", "os", "type"]);
+      if (options.type === "dockerImage") {
+        validateRequiredOptions(options, ["dockerImage", "registryId"]);
+      } else if (options.type === "steam") {
+        validateRequiredOptions(options, ["steamAppId", "branch", "password", "command"]);
+      }
+
+      if (options.type !== "dockerImage" && options.type !== "steam") {
+        logError("Invalid image type. Please select either dockerImage or steam.");
+        Deno.exit(1);
+      }
+
+      if (options.os !== "linux" && options.os !== "windows") {
+        logError("Invalid operating system. Please select either linux or windows.");
+        Deno.exit(1);
+      }
+
+      payload = {
+        name: options.name,
+        version: options.version,
+        type: options.type as BinaryType,
+        os: options.os as OperatingSystem,
+      };
+
+      if (options.type === "dockerImage") {
+        payload.dockerImage = {
+          imageName: options.dockerImage,
+          registryId: options.registryId,
+        };
+      } else if (options.type === "steam") {
+        payload.steam = {
+          steamAppId: options.steamAppId,
+          branch: options.branch,
+          password: options.password,
+          command: options.command,
+          steamcmdUsername: options.steamcmdUsername,
+          steamcmdPassword: options.steamcmdPassword,
+          runtime: options.runtime as SteamRuntime,
+          headful: options.headful,
+          requestLicense: options.requestLicense,
+          unpublished: options.unpublished,
         };
       }
     }
