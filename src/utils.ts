@@ -35,6 +35,10 @@ export const printAsTable = async (data: any, format: string) => {
   }
 
   const properties = match[1].split(",").map(path => path.trim()); // Trim each path
+  if (properties.length < 2) {
+    logError("At least two properties are required for a table format.");
+    Deno.exit(1);
+  }
 
   if (!Array.isArray(data)) {
     data = [data];

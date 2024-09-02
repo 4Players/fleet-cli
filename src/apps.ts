@@ -104,7 +104,7 @@ const appList = new Command()
       return;
     }
 
-    if (!options.format || options.format === "default" || options.format === "table") {
+    if (!options.format || options.format === "default") {
       const data:App[] = [];
       apps.forEach((app) => {
         data.push({
