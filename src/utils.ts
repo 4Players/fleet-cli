@@ -349,3 +349,11 @@ export const validateAtLeastOneOptionAvailable = (options: CommandOptions, requi
 
   logErrorAndExit(`At least one of the following options is required: ${optionNames}`);
 }
+
+export const validateRequiredOptions = (options: CommandOptions, requiredOption: string[]) => {
+  for (const option of requiredOption) {
+    if (!options[option]) {
+      logErrorAndExit(`Option --${camelToSnake(option)} is required.`);
+    }
+  }
+}
