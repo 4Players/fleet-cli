@@ -17,6 +17,7 @@ await new Command()
   .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
   .globalOption("--api-key <apiKey:string>", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
   .globalOption("--format <format:string>", "Output format (json, table, default, value).", { default: "default" })
+  .globalOption("--app-id <appId:number>", "The ID of the app (overwrites selected app)")
   .globalAction(async (options, ...args) => {
     const accessToken = await ensureLoginSession(options.apiKey);
     apiClient = createApiClient(accessToken);

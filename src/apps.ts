@@ -164,7 +164,6 @@ const create = new Command()
 export const apps = new Command()
   .name("apps")
   .description("Manage ODIN apps.")
-  .globalOption("--app-id <appId:number>", "The ID of the app.")
   .action(() => {
     apps.showHelp();
   })
