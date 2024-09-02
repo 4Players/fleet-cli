@@ -285,9 +285,9 @@ export const createImage = new Command()
           steamcmdUsername: options.steamcmdUsername,
           steamcmdPassword: options.steamcmdPassword,
           runtime: options.runtime as SteamRuntime,
-          headful: options.headful,
-          requestLicense: options.requestLicense,
-          unpublished: options.unpublished,
+          headful: options.headful ?? false,
+          requestLicense: options.requestLicense ?? false,
+          unpublished: options.unpublished ?? false,
         };
       }
     }
