@@ -4,7 +4,7 @@ import {getSelectedAppOrExit} from "./apps.ts";
 import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import { Input, Select } from "$cliffy/prompt/mod.ts";
-import { logError, logSuccess } from "./utils.ts";
+import {logError, logSuccess, stdout} from "./utils.ts";
 import { CreateBackupDockerServiceRequest, Server } from "./api/index.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 
@@ -25,31 +25,7 @@ const serverList = new Command()
       Deno.exit(1);
     }
 
-    const table: Table = new Table();
-    table.header(["ID", "Region", "City", "Server Config", "Address", "Ports", "Created", "Status"]);
-    servers.forEach((server) => {
-      // List ports
-      const ports = Object.entries(server.ports!)
-        .map(([portName, port]) => {
-          return `${portName}: ${port.publishedPort!}`;
-        })
-        .join(", ");
-      table.push([
-        server.id,
-        server.location!.continent,
-        server.location!.city,
-        server.serverConfig!.name,
-        server.addr!,
-        ports,
-        server.createdAt!.toLocaleDateString(),
-        server.status!.state,
-      ]);
-    });
-    table.render();
-
-    console.log(
-      colors.cyan("Please note: Servers in intermediate states (e.g. starting, stopping) are not shown here."),
-    );
+    stdout(servers, options, "table(id, location.continent, location.city, serverConfig.name, addr, ports, createdAt, status.state)");
   });
 
 const serverAddress = new Command()

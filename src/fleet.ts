@@ -11,7 +11,7 @@ export const fleet = new Command()
   .action(() => {
     fleet.showHelp();
   })
-  .globalOption("--appId=<appId>", "App ID (overwrites selected app).")
+  .globalOption("--app-id=<appId>", "App ID (overwrites selected app).")
   .command("images", images)
   .command("configs", configs)
   .command("deployments", deployments)

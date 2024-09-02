@@ -9,7 +9,7 @@ import { Input } from "$cliffy/prompt/input.ts";
 import { Select } from "$cliffy/prompt/select.ts";
 import { Number } from "$cliffy/prompt/number.ts";
 import {Confirm} from "$cliffy/prompt/confirm.ts";
-import { confirm, logError, logSuccess } from "./utils.ts";
+import { confirm, inform, logError, stdout } from "./utils.ts";
 
 export const imageList = new Command()
   .name("list")
@@ -28,20 +28,16 @@ export const imageList = new Command()
       Deno.exit(1);
     }
 
-    const table: Table = new Table();
-    table.header(["ID", "Name", "Version", "Type", "OS", "Ready", "Status", "Comment/Error"]);
-    binaries.forEach((binary) => {
-      table.push([binary.id, binary.name, binary.version, binary.type, binary.os, binary.ready ? "yes" : "no", binary.status, binary.statusMessage ?? '']);
-    });
-    table.render();
+    stdout(binaries, options, "table(id,name,version,type,os,ready,status,statusMessage)");
   });
 
 export const getImageDetails = new Command()
   .name("get")
   .description("Get the status of an image.")
-  .option("--imageId <imageId:number>", "Image ID.")
+  .option("--image-id <imageId:number>", "Image ID.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
+
     let imageId = options.imageId;
     if (!imageId) {
       let images: Binary[] = [];
@@ -53,7 +49,7 @@ export const getImageDetails = new Command()
       }
 
       imageId = await Select.prompt({
-        message: "Select the image to get the status for or provide the --imageId=<imageId> flag",
+        message: "Select the image to get the status for or provide the --image-id=<imageId> flag",
         options: images.map((image) => {
           return { name: image.name, value: image.id };
         }),
@@ -68,7 +64,7 @@ export const getImageDetails = new Command()
       Deno.exit(1);
     }
 
-    console.log(JSON.stringify(image, null, 2));
+    stdout(image, options, "table(id,name,version,type,os,ready,status,statusMessage)");
   });
 
 export const createImage = new Command()
@@ -86,7 +82,7 @@ export const createImage = new Command()
         payload = JSON.parse(options.payload) as StoreBinaryRequest;
       } catch (error) {
         logError("Invalid payload. Please provide a valid JSON string.", error);
-        return;
+        Deno.exit(1);
       }
     } else {
       const result = await prompt([
@@ -226,27 +222,27 @@ export const createImage = new Command()
 
     if (!payload) {
       logError("Something went wrong, invalid payload.");
-      return;
+      Deno.exit(1);
     }
 
     if (options.dryRun) {
-      console.log("Dry run mode, payload:");
-      console.log(JSON.stringify(payload));
+      inform(options,"Dry run mode, payload:");
+      stdout(payload, options, "json");
     } else {
       const confirmed = await confirm(options, "Do you want to create the image?");
 
       if (confirmed) {
         try {
           const binary = await apiClient.createBinary(app.id, payload!);
-          logSuccess("Image created successfully, ID: ", binary.id, binary);
+          stdout(binary, options, "table(id,name,version,type,os,ready,status,statusMessage)");
         } catch (error) {
           logError("Failed to create image. Error: ", error.body.message, error.code, JSON.stringify(payload));
           Deno.exit(1);
         }
       } else {
-        logError("Image creation aborted.");
-        console.log("This payload would have been used, you can use the --payload flag to provide it: ");
-        console.log(JSON.stringify(payload));
+        inform(options, "Image creation aborted.");
+        inform(options, "This payload would have been used, you can use the --payload flag to provide it: ");
+        stdout(payload, options, "json");
       }
     }
   });
@@ -254,7 +250,7 @@ export const createImage = new Command()
 export const deleteImage = new Command()
   .name("delete")
   .description("Delete an image.")
-  .option("--imageId <imageId:number>", "Image ID.")
+  .option("--image-id <imageId:number>", "Image ID.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let imageId = options.imageId;
@@ -268,7 +264,7 @@ export const deleteImage = new Command()
       }
 
       imageId = await Select.prompt({
-        message: "Select the image that should be deleted or provide the --imageId=<imageId> flag",
+        message: "Select the image that should be deleted or provide the --image-id=<imageId> flag",
         options: images.map((image) => {
           return { name: image.name, value: image.id };
         }),
@@ -289,9 +285,10 @@ export const deleteImage = new Command()
     if (confirmed) {
       try {
         await apiClient.deleteBinary(imageId);
-        logSuccess("Image deleted successfully.");
+        inform(options, "Image deleted successfully.");
       } catch (error) {
         logError("Failed to delete image. Error: " + error.body.message, error.code);
+        Deno.exit(1);
       }
     }
   });
