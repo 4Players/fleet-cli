@@ -22,7 +22,9 @@ export const logInfo = (message: string, ...optionalParams: unknown[]) => {
 
 export const inform = (options: CommandOptions, message: string, ...optionalParams: unknown[]) => {
   if (!options.format || options.format === "default") {
-    console.log(message, ...optionalParams);
+    if (!options.quiet) {
+      console.log(message, ...optionalParams);
+    }
   }
 }
 
