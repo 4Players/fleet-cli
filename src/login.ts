@@ -1,6 +1,7 @@
 import { Input } from "$cliffy/prompt/mod.ts";
 import { Command } from "$cliffy/command/command.ts";
 import { ensureDir } from "$std/fs/mod.ts";
+import {CommandOptions} from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/types.ts";
 
 // Get the home directory based on the OS
 const homeDir = Deno.env.get("HOME") || Deno.env.get("USERPROFILE");
@@ -70,9 +71,9 @@ export async function getAccessToken(): Promise<string | null> {
 export const login = new Command()
   .name("login")
   .description("Log into ODIN with your credentials or access token.")
-  .action(async () => {
+  .action(async (options: CommandOptions) => {
     console.log("You can find your ODIN API key in the dashboard of ODIN in the apps settings section (see https://console.4players.io/settings/api-keys)");
-    const apiKey: string = await Input.prompt("Your API key: ");
+    const apiKey: string = options.apiKey || await Input.prompt("Your API key: ");
     if (!apiKey || apiKey.length === 0) {
       console.error("You need to provide an API key.");
       return;

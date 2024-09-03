@@ -202,7 +202,6 @@ export const printAsFlattened = (data: any, format: string) => {
 
   // Process options
   options.forEach(option => {
-    console.log(option);
     if (option === 'noPad') {
       noPad = true;
     } else if (option.startsWith('separator=')) {

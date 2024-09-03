@@ -142,14 +142,20 @@ const selectApp = new Command()
 const create = new Command()
   .name("create")
   .description("Create a new App.")
+  .option("--name <name:string>", "The name of the app.")
   .action(async (options: CommandOptions) => {
-    const payload = await prompt([
-      {
-        name: "name",
-        message: "Enter the name of the app",
-        type: Input,
-      },
-    ]);
+    let payload = null;
+    if (options.name) {
+      payload = { name: options.name };
+    } else {
+      payload = await prompt([
+        {
+          name: "name",
+          message: "Enter the name of the app",
+          type: Input,
+        },
+      ]);
+    }
 
     try {
       const app = await apiClient.createApp(payload as StoreAppRequest);
