@@ -1,11 +1,27 @@
 import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
-import {getSelectedAppOrExit} from "./apps.ts";
+import { getSelectedAppOrExit } from "./apps.ts";
 import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
-import {AppLocationSetting, StoreAppLocationSettingRequest, Placement, Location, ServerConfig} from "./api/index.ts";
+import {
+  AppLocationSetting,
+  Location,
+  Placement,
+  ServerConfig,
+  StoreAppLocationSettingRequest,
+  UpdateAppLocationSettingRequest,
+} from "./api/index.ts";
 import { Input, Number, Select } from "$cliffy/prompt/mod.ts";
-import { confirm, logError, logSuccess } from "./utils.ts";
+import {
+  confirm,
+  deepMerge,
+  inform,
+  logError,
+  logSuccess,
+  stdout,
+  validateAtLeastOneOptionAvailable,
+  validateRequiredOptions,
+} from "./utils.ts";
 
 const deploymentsList = new Command()
   .name("list")
@@ -16,33 +32,88 @@ const deploymentsList = new Command()
     try {
       deployments = await apiClient.getAppLocationSettings(app.id);
     } catch (error) {
-      logError("Failed to load deployments. Error: " + error.body.message, error.code);
+      logError(
+        "Failed to load deployments. Error: " + error.body.message,
+        error.code,
+      );
       Deno.exit(1);
     }
 
     if (deployments.length === 0) {
-      console.log("No server deployments found.");
+      inform(options, "No server deployments found.");
       return;
     }
-    const table: Table = new Table();
-    table.header(["ID", "Name", "Server-Config", "Location", "Num Instances"]);
-    deployments.forEach((config) => {
-      table.push([
-        config.id,
-        config.name,
-        config.serverConfig?.name,
-        `${config.placement.constraints.city} (${config.placement.constraints.country})`,
-        config.numInstances,
-      ]);
-    });
-    table.render();
+
+    stdout(
+      deployments,
+      options,
+      "table(id,name,serverConfig.name,placement.constraints.city,placement.constraints.country,numInstances)",
+    );
+  });
+
+export const getDeploymentDetails = new Command()
+  .name("get")
+  .description("Get data for a specified deployment.")
+  .option("--deployment-id <deploymentId:number>", "Deployment ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+    let deploymentId = options.deploymentId;
+    if (!deploymentId) {
+      let deployments: AppLocationSetting[] = [];
+      try {
+        deployments = await apiClient.getAppLocationSettings(app.id);
+      } catch (error) {
+        console.log(
+          "Failed to load deployments. Error: ",
+          error.body.message,
+          error.code,
+        );
+        Deno.exit(1);
+      }
+
+      deploymentId = await Select.prompt({
+        message:
+          "Select the deployment that should be shown or provide the --deployment-id=<deploymentId> flag",
+        options: deployments.map((deployment) => {
+          return { name: deployment.name, value: deployment.id };
+        }),
+      });
+    }
+
+    let deployment: AppLocationSetting;
+    try {
+      deployment = await apiClient.getAppLocationSettingById(deploymentId);
+    } catch (error) {
+      logError(
+        `Deployment ${deploymentId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+      );
+      Deno.exit(1);
+    }
+
+    stdout(
+      deployment,
+      options,
+      "table(id,name,serverConfig.name,placement.constraints.city,placement.constraints.country,numInstances)",
+    );
   });
 
 export const createDeployment = new Command()
   .name("create")
   .description("Create a new deployment.")
   .option("--payload <payload:string>", "Payload as JSON string.")
-  .option("--dry-run", "Dry run mode, does not create the deployment, but prints the payload.")
+  .option(
+    "--dry-run",
+    "Dry run mode, does not create the deployment, but prints the payload.",
+  )
+  .group("Update Values")
+  .option("--name <name:string>", "Name of the image.")
+  .option("--config-id <configId:number>", "The server config ID.")
+  .option(
+    "--num-instances <numInstances:number>",
+    "Number of instances to deploy.",
+  )
+  .option("--country <country:string>", "The country to deploy to.")
+  .option("--city <city:string>", "The location to deploy to.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
@@ -55,7 +126,7 @@ export const createDeployment = new Command()
         logError("Invalid payload. Please provide a valid JSON string.", error);
         return;
       }
-    } else {
+    } else if (!options.name) {
       // Prompt for name
       const name = await Input.prompt({
         message: "What's the name of your deployment?",
@@ -66,7 +137,10 @@ export const createDeployment = new Command()
       try {
         locations = await apiClient.getLocations();
       } catch (error) {
-        logError("Failed to load locations. Error: " + error.body.message, error.code);
+        logError(
+          "Failed to load locations. Error: " + error.body.message,
+          error.code,
+        );
         Deno.exit(1);
       }
 
@@ -89,7 +163,10 @@ export const createDeployment = new Command()
       try {
         configs = await apiClient.getServerConfigs(app.id);
       } catch (error) {
-        logError("Failed to load server configs. Error: " + error.body.message, error.code);
+        logError(
+          "Failed to load server configs. Error: " + error.body.message,
+          error.code,
+        );
         Deno.exit(1);
       }
       const serverConfigId = await Select.prompt<number>({
@@ -119,6 +196,32 @@ export const createDeployment = new Command()
         autoScalerEnabled: false,
         numInstances: numInstances,
       };
+    } else {
+      validateRequiredOptions(options, [
+        "name",
+        "configId",
+        "numInstances",
+      ]);
+
+      if (!options.country || !options.city) {
+        logError(
+          "You need to provide the country and city for the placement. Use the `odin fleet locations` command to get a list of available locations.",
+        );
+        Deno.exit(1);
+      }
+
+      payload = {
+        name: options.name,
+        serverConfigId: options.configId,
+        placement: {
+          constraints: {
+            country: options.country,
+            city: options.city,
+          },
+        },
+        autoScalerEnabled: false,
+        numInstances: options.numInstances,
+      };
     }
 
     if (!payload) {
@@ -127,23 +230,142 @@ export const createDeployment = new Command()
     }
 
     if (options.dryRun) {
-      console.log("Dry run mode, payload:");
-      console.log(JSON.stringify(payload));
+      inform(options, "Dry run mode, payload:");
+      stdout(payload, options, "json");
     } else {
-      const confirmed = await confirm(options, "Do you want to create this deployment?");
+      const confirmed = await confirm(
+        options,
+        "Do you want to create this deployment?",
+      );
 
       if (confirmed) {
         try {
-          const deployment = await apiClient.createAppLocationSetting(app.id, payload);
-          logSuccess("Deployment created successfully, ID: " + deployment.id);
-        } catch(error) {
-          logError("Failed to create deployment. Error: ", error.body.message, error.code, JSON.stringify(payload));
+          const deployment = await apiClient.createAppLocationSetting(
+            app.id,
+            payload,
+          );
+          stdout(
+            deployment,
+            options,
+            "table(id,name,binary.name,binary.version)",
+          );
+        } catch (error) {
+          logError(
+            "Failed to create deployment. Error: ",
+            error.body.message,
+            error.code,
+            JSON.stringify(payload),
+          );
           Deno.exit(1);
         }
       } else {
-        logError("Deployment creation aborted.");
-        console.log("This payload would have been used, you can use the --payload flag to provide it: ");
-        console.log(JSON.stringify(payload));
+        inform(options, "Deployment creation aborted.");
+        inform(
+          options,
+          "This payload would have been used, you can use the --payload flag to provide it: ",
+        );
+        stdout(payload, options, "json");
+      }
+    }
+  });
+
+const updateDeployment = new Command()
+  .name("update")
+  .description("Update a deployment.")
+  .option("--deployment-id <deploymentId:number>", "Deployment ID.")
+  .group("Update options:")
+  .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("--name <name:string>", "New name for the deployment.")
+  .option(
+    "--num-instances <numInstances:number>",
+    "Number of instances to deploy.",
+  )
+  .option("--config-id <configId:number>", "Server config ID.")
+  .group("Other options:")
+  .option(
+    "--dry-run",
+    "Dry run mode, does not update the config, but prints the payload.",
+  )
+  .action(async (options: CommandOptions) => {
+    validateAtLeastOneOptionAvailable(options, [
+      "name",
+      "numInstances",
+      "configId",
+      "payload",
+    ]);
+    const selectedApp = await getSelectedAppOrExit(options);
+    let deploymentId = options.deploymentId;
+    let deployments: AppLocationSetting[] = [];
+    try {
+      deployments = await apiClient.getAppLocationSettings(selectedApp.id);
+    } catch (error) {
+      logError(
+        "Failed to load deployments. Error: " + error.body.message,
+        error.code,
+      );
+      Deno.exit(1);
+    }
+
+    if (!deploymentId) {
+      deploymentId = await Select.prompt<number>({
+        message:
+          "Select the deployment that should be deleted or provide the --deployment-id=<deploymentId> flag",
+        options: deployments.map((deployment) => {
+          return { name: deployment.name, value: deployment.id };
+        }),
+      });
+    }
+
+    let deployment: AppLocationSetting;
+    try {
+      deployment = deployments.find((d) => d.id === deploymentId)!;
+    } catch (error) {
+      logError(
+        `Image ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`,
+      );
+      Deno.exit(1);
+    }
+
+    let payload: UpdateAppLocationSettingRequest | null = null;
+    if (options.payload && options.payload.length > 0) {
+      try {
+        payload = JSON.parse(
+          options.payload,
+        ) as UpdateAppLocationSettingRequest;
+      } catch (error) {
+        logError("Invalid payload. Please provide a valid JSON string.", error);
+        Deno.exit(1);
+      }
+    } else {
+      payload = {
+        name: options.name ?? deployment.name,
+        numInstances: options.numInstances ?? deployment.numInstances,
+        serverConfigId: options.configId ?? deployment.serverConfigId,
+        autoScalerEnabled: deployment.autoScalerEnabled,
+        placement: deployment.placement,
+      };
+    }
+
+    if (options.dryRun) {
+      inform(options, "Dry run mode, payload:");
+      stdout(payload, options, "json");
+    } else {
+      const confirmed = await confirm(
+        options,
+        `Do you really want to update the deployment?`,
+      );
+
+      if (confirmed) {
+        try {
+          await apiClient.updateAppLocationSetting(deploymentId, payload!);
+          inform(options, "Deployment updated successfully.");
+        } catch (error) {
+          logError(
+            "Failed to update config. Error: " + error.body.message,
+            error.code,
+          );
+          Deno.exit(1);
+        }
       }
     }
   });
@@ -159,13 +381,17 @@ const deleteDeployment = new Command()
     try {
       deployments = await apiClient.getAppLocationSettings(selectedApp.id);
     } catch (error) {
-      logError("Failed to load deployments. Error: " + error.body.message, error.code);
+      logError(
+        "Failed to load deployments. Error: " + error.body.message,
+        error.code,
+      );
       Deno.exit(1);
     }
 
     if (!deploymentId) {
       deploymentId = await Select.prompt<number>({
-        message: "Select the deployment that should be deleted or provide the --deploymentId=<deploymentId> flag",
+        message:
+          "Select the deployment that should be deleted or provide the --deployment-id=<deploymentId> flag",
         options: deployments.map((deployment) => {
           return { name: deployment.name, value: deployment.id };
         }),
@@ -176,18 +402,27 @@ const deleteDeployment = new Command()
     try {
       deployment = deployments.find((d) => d.id === deploymentId)!;
     } catch (error) {
-      logError(`Image ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`);
+      logError(
+        `Image ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`,
+      );
       Deno.exit(1);
     }
 
-    const confirmed = await confirm(options, `Do you want to delete the deployment ${deployment!.name}?`);
+    const confirmed = await confirm(
+      options,
+      `Do you want to delete the deployment ${deployment!.name}?`,
+    );
 
     if (confirmed) {
       try {
         await apiClient.deleteAppLocationSetting(deploymentId);
-        logSuccess("Deployment deleted successfully, all servers will be stopped immediately.");
+        inform(
+          options,
+          "Deployment deleted successfully, all servers will be stopped immediately.",
+        );
       } catch (error) {
         logError("Failed to delete deployment. Error: " + error);
+        Deno.exit(1);
       }
     }
   });
@@ -199,5 +434,7 @@ export const deployments = new Command()
     deployments.showHelp();
   })
   .command("list", deploymentsList)
+  .command("get", getDeploymentDetails)
+  .command("update", updateDeployment)
   .command("create", createDeployment)
   .command("delete", deleteDeployment);

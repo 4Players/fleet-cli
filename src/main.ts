@@ -11,11 +11,14 @@ export let apiClient: AppApi;
 await new Command()
   // Main command.
   .name("odin")
-  .version("0.1.0")
+  .version("0.2.0")
   .description("Command line tools for ODIN by 4Players.")
   .globalOption("-d, --debug", "Enable debug output.")
   .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
-  .globalOption("--api-key=<apiKey:string>", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
+  .globalOption("-q, --quiet", "Disable additional (informative) messages (will be set automatically if --format is set).")
+  .globalOption("--api-key <apiKey:string>", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
+  .globalOption("--format <format:string>", "Output format (json, table, default, value).", { default: "default" })
+  .globalOption("--app-id <appId:number>", "The ID of the app (overwrites selected app)")
   .globalAction(async (options, ...args) => {
     const accessToken = await ensureLoginSession(options.apiKey);
     apiClient = createApiClient(accessToken);

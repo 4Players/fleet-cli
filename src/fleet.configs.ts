@@ -14,35 +14,76 @@ import {
   ResourceAllocations,
   RestartPolicy,
   RestartPolicyCondition,
-  ServerConfig,
+  ServerConfig, UpdateServerConfigRequest,
 } from "./api/index.ts";
-import {confirm, logError, logSuccess} from "./utils.ts";
+import {confirm, deepMerge, inform, logError, logSuccess, stdout, validateAtLeastOneOptionAvailable} from "./utils.ts";
 import {Tier} from "./types/tier.ts";
 
 const configsList = new Command()
   .name("list")
   .description("List all server configurations for the selected app.")
+  .option("--unused", "List only unused server configurations.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
 
     let configs: ServerConfig[] = [];
     try {
       configs = await apiClient.getServerConfigs(app.id);
+
+      if (options.unused) {
+        // Load all deployments and filter out the used configs
+        const deployments = await apiClient.getAppLocationSettings(app.id);
+        const usedConfigs = deployments.map((deployment) => deployment.serverConfig?.id);
+        configs = configs.filter((config) => !usedConfigs.includes(config.id));
+      }
+
       if (configs.length === 0) {
-        console.log("No server configurations found.");
-        return;
+        inform(options, "No server configurations found.");
+        if (options.format === "default") {
+          return;
+        }
       }
     } catch (error) {
-      console.log("Failed to list configs. Error: ", error.body.message, error.code);
+      logError("Failed to list configs. Error: ", error.body.message, error.code);
       Deno.exit(1);
     }
 
-    const table: Table = new Table();
-    table.header(["ID", "Name", "Image"]);
-    configs.forEach((config) => {
-      table.push([config.id, config.name, config.binary!.name]);
-    });
-    table.render();
+    stdout(configs, options, "table(id,name,binary.name,binary.version)");
+  });
+
+export const getConfigDetails = new Command()
+  .name("get")
+  .description("Get the status of an image.")
+  .option("--config-id <configId:number>", "Config ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+    let configId = options.configId;
+    if (!configId) {
+      let configs: ServerConfig[] = [];
+      try {
+        configs = await apiClient.getServerConfigs(app.id);
+      } catch (error) {
+        console.log("Failed to load configs. Error: ", error.body.message, error.code);
+        Deno.exit(1);
+      }
+
+      configId = await Select.prompt({
+        message: "Select the config that should be shown or provide the --config-id=<configId> flag",
+        options: configs.map((config) => {
+          return {name: config.name, value: config.id};
+        }),
+      });
+    }
+
+    let config: ServerConfig;
+    try {
+      config = await apiClient.getServerConfigById(configId);
+    } catch (error) {
+      logError(`Image ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
+      Deno.exit(1);
+    }
+
+    stdout(config, options, "table(id,name,binary.name,binary.version,restartPolicy.condition,resources.limits.memory,resources.limits.cpu)");
   });
 
 // Create a new server config
@@ -68,13 +109,13 @@ const createConfig = new Command()
       try {
         binaries = await apiClient.getBinaries(app.id);
         if (binaries.length === 0) {
-          logError(
+          logError(options,
             `No images have been created for the selected app (${app.name}) yet. Use 'fleet images create' to create an image`,
           );
-          return;
+          Deno.exit(1);
         }
       } catch (error) {
-        console.log("Failed to load images. Error: ", error.body.message, error.code);
+        logError("Failed to load images. Error: ", error.body.message, error.code);
         Deno.exit(1);
       }
 
@@ -287,24 +328,120 @@ const createConfig = new Command()
     }
 
     if (options.dryRun) {
-      console.log("Dry run mode, payload:");
-      console.log(JSON.stringify(payload));
+      inform(options, "Dry run mode, payload:");
+      stdout(payload, options, "json");
     } else {
       const confirmed = await confirm(options, "Do you want to create the server config?");
 
       if (confirmed) {
         try {
           const createdConfig = await apiClient.createServerConfig(app.id, payload);
-          logSuccess("Server Configuration Created with ID:" + createdConfig.id);
+          stdout(createdConfig, options, "table(id,name,binary.name,binary.version)");
         } catch (error) {
-          console.log("Failed to create server config. Error: ", error.body.message, error.code, JSON.stringify(payload));
+          logError("Failed to create server config. Error: ", error.body.message, error.code, JSON.stringify(payload));
           Deno.exit(1);
         }
-
       } else {
-        logError("Server configuration creation aborted.");
-        console.log("This payload would have been used, you can use the --payload flag to provide it: ");
-        console.log(JSON.stringify(payload));
+        inform(options, "Server configuration creation aborted.");
+        inform(options, "This payload would have been used, you can use the --payload flag to provide it: ");
+        stdout(payload, options, "json");
+      }
+    }
+  });
+
+const updateConfig = new Command()
+  .name("update")
+  .description("Update a server configuration.")
+  .option("--config-id <configId:number>", "Config ID.")
+  .group("Update Options")
+  .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("--name <name:string>", "Name of the config.")
+  .option("--command <command:string>", "Command to run in the container.")
+  .option("--args <args:string>", "Arguments to pass to the command.")
+  .option("--binary-id <binaryId:number>", "Binary ID.")
+  .option("--restart-policy <restartPolicy:string>", "Restart policy.")
+  .option("--memory <memory:number>", "Memory limit.")
+  .option("--cpu <cpu:number>", "CPU limit.")
+  .group("Other Options")
+  .option("--dry-run", "Dry run mode, does not update the config, but prints the payload.")
+  .action(async (options: CommandOptions) => {
+    validateAtLeastOneOptionAvailable(options, ["payload", "name", "command", "args", "binaryId", "restartPolicy", "memory", "cpu"]);
+    const app = await getSelectedAppOrExit(options);
+    let configId = options.configId;
+    if (!configId) {
+      let configs: ServerConfig[] = [];
+      try {
+        configs = await apiClient.getServerConfigs(app.id);
+      } catch (error) {
+        console.log("Failed to load configs. Error: ", error.body.message, error.code);
+        Deno.exit(1);
+      }
+
+      configId = await Select.prompt({
+        message: "Select the config that should be updated or provide the --config-id=<configId> flag",
+        options: configs.map((config) => {
+          return {name: config.name, value: config.id};
+        }),
+      });
+    }
+
+    let config: ServerConfig;
+    try {
+      config = await apiClient.getServerConfigById(configId);
+    } catch (error) {
+      logError(`Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
+      Deno.exit(1);
+    }
+
+    let payload: UpdateServerConfigRequest | null = null;
+    if (options.payload && options.payload.length > 0) {
+      try {
+        payload = JSON.parse(options.payload) as UpdateServerConfigRequest;
+      } catch (error) {
+        logError("Invalid payload. Please provide a valid JSON string.", error);
+        return;
+      }
+    } else {
+      payload = {
+        name: options.name || config.name,
+        command: options.command || config.command,
+        args: options.args || config.args,
+        binaryId: options.binaryId || config.binaryId,
+        restartPolicy: {
+          condition: options.restartPolicy || config.restartPolicy.condition,
+        },
+        resources: {
+          limits: {
+            memory: options.memory || config.resources.limits.memory,
+            cpu: options.cpu || config.resources.limits.cpu,
+          },
+          reservations: {
+            memory: config.resources.reservations.memory,
+            cpu: config.resources.reservations.cpu,
+          },
+        },
+        configFiles: config.configFiles,
+        secretFiles: config.secretFiles,
+        env: config.env,
+        mounts: config.mounts,
+        ports: config.ports,
+      };
+    }
+
+    if (options.dryRun) {
+      inform(options, "Dry run mode, payload:");
+      stdout(payload, options, "json");
+    } else {
+      const confirmed = await confirm(options, `Do you really want to update the config?`);
+
+      if (confirmed) {
+        try {
+          await apiClient.updateServerConfig(configId, payload!);
+          inform(options,"Config updated successfully.");
+        } catch (error) {
+          logError("Failed to update config. Error: " + error.body.message, error.code);
+          Deno.exit(1);
+        }
       }
     }
   });
@@ -312,7 +449,7 @@ const createConfig = new Command()
 const deleteConfig = new Command()
   .name("delete")
   .description("Delete a config.")
-  .option("--configId <configId:number>", "Config ID.")
+  .option("--config-id <configId:number>", "Config ID.")
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let configId = options.configId;
@@ -326,7 +463,7 @@ const deleteConfig = new Command()
       }
 
       configId = await Select.prompt({
-        message: "Select the config that should be deleted or provide the --configId=<configId> flag",
+        message: "Select the config that should be deleted or provide the --config-id=<configId> flag",
         options: configs.map((config) => {
           return {name: config.name, value: config.id};
         }),
@@ -337,7 +474,7 @@ const deleteConfig = new Command()
     try {
       config = await apiClient.getServerConfigById(configId);
     } catch (error) {
-      logError(`Image ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
+      logError(`Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`);
       Deno.exit(1);
     }
 
@@ -346,9 +483,10 @@ const deleteConfig = new Command()
     if (confirmed) {
       try {
         await apiClient.deleteBinary(configId);
-        logSuccess("Config deleted successfully.");
+        inform(options,"Config deleted successfully.");
       } catch (error) {
-        logError("Failed to delete image. Error: " + error);
+        logError("Failed to delete config. Error: " + error.body.message, error.code);
+        Deno.exit(1);
       }
     }
   });
@@ -360,9 +498,7 @@ export const configs = new Command()
     configs.showHelp();
   })
   .command("list", configsList)
+  .command("update", updateConfig)
+  .command("get", getConfigDetails)
   .command("create", createConfig)
   .command("delete", deleteConfig);
-
-function logAndExit(NO_APP_SELECTED: string) {
-  throw new Error("Function not implemented.");
-}
