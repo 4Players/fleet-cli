@@ -11,12 +11,12 @@ const TokenType = {
 };
 
 // Class for creating and managing tokens
-class Token {
+export class Token {
   constructor(public type: string, public value: string) {}
 }
 
 // Tokenizer class that reads the filter expression character by character
-class Tokenizer {
+export class Tokenizer {
   private current = 0;
   private input: string;
 
@@ -153,16 +153,5 @@ class Tokenizer {
       value += this.advance();
     }
     return new Token(TokenType.IDENTIFIER, value);
-  }
-}
-
-// Main function to test the tokenizer and handle errors
-export function testTokenizer(input: string) {
-  try {
-    const tokenizer = new Tokenizer(input);
-    const tokens = tokenizer.tokenize();
-    console.log("Tokens:", tokens);
-  } catch (error) {
-    console.error("Error:", error.message);
   }
 }

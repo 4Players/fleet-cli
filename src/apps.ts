@@ -1,7 +1,7 @@
 import { Command } from "$cliffy/command/command.ts";
 import { Config, getConfig, saveConfig } from "./login.ts";
 import { apiClient } from "./main.ts";
-import { Input, Select, prompt } from "$cliffy/prompt/mod.ts";
+import { Input, prompt, Select } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { App, StoreAppRequest } from "./api/index.ts";
@@ -20,7 +20,9 @@ const getAppId = async (options: CommandOptions): Promise<number> => {
   return 0;
 };
 
-export const getSelectedApp = async (options: CommandOptions): Promise<App|null> => {
+export const getSelectedApp = async (
+  options: CommandOptions,
+): Promise<App | null> => {
   const appId = await getAppId(options);
   if (appId <= 0) {
     return null;
@@ -30,22 +32,31 @@ export const getSelectedApp = async (options: CommandOptions): Promise<App|null>
       return app;
     } catch (response) {
       if (response.code === 403) {
-        logErrorAndExit("You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct.");
+        logErrorAndExit(
+          "You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct.",
+        );
       } else {
-        logErrorAndExit("Failed to load the selected app. Error: " + response.body.message, response.code);
+        logErrorAndExit(
+          "Failed to load the selected app. Error: " + response.body.message,
+          response.code,
+        );
       }
       return null;
     }
   }
 };
 
-export const getSelectedAppOrExit = async (options: CommandOptions): Promise<App> => {
+export const getSelectedAppOrExit = async (
+  options: CommandOptions,
+): Promise<App> => {
   const app = await getSelectedApp(options);
   if (!app) {
-    logErrorAndExit("No app selected. Please select an app first. Use `odin apps select` or provide the `--appId` parameter.");
+    logErrorAndExit(
+      "No app selected. Please select an app first. Use `odin apps select` or provide the `--appId` parameter.",
+    );
   }
   return app!;
-}
+};
 
 export const getApp = async (options: CommandOptions): Promise<App> => {
   let appId = options.appId;
@@ -53,8 +64,7 @@ export const getApp = async (options: CommandOptions): Promise<App> => {
     let apps: App[] = [];
     try {
       apps = await apiClient.getApps();
-    }
-    catch(error) {
+    } catch (error) {
       logError("Failed to load apps. Error: " + error.body.message, error.code);
       Deno.exit(1);
     }
@@ -71,12 +81,11 @@ export const getApp = async (options: CommandOptions): Promise<App> => {
   try {
     app = await apiClient.getAppById(appId);
     return app;
-  }
-  catch(error) {
+  } catch (error) {
     logError("Failed to load app. Error: " + error.body.message, error.code);
     Deno.exit(1);
   }
-}
+};
 
 const getAppDetails = new Command()
   .name("get")
@@ -93,9 +102,12 @@ const appList = new Command()
     let apps: App[] = [];
     try {
       apps = await apiClient.getApps();
-    }
-    catch(error) {
-      console.log("Failed to load apps. Error: ", error.body.message, error.code);
+    } catch (error) {
+      console.log(
+        "Failed to load apps. Error: ",
+        error.body.message,
+        error.code,
+      );
       Deno.exit(1);
     }
     const selectedApp = await getSelectedApp(options);
@@ -105,11 +117,15 @@ const appList = new Command()
     }
 
     if (!options.format || options.format === "default") {
-      const data:App[] = [];
+      const data: App[] = [];
       apps.forEach((app) => {
         data.push({
           id: app.id,
-          name: app.name + colors.rgb24(app.id === selectedApp?.id ? " (selected)" : "", 0x1bebda),
+          name: app.name +
+            colors.rgb24(
+              app.id === selectedApp?.id ? " (selected)" : "",
+              0x1bebda,
+            ),
         });
       });
 
@@ -129,9 +145,15 @@ const selectApp = new Command()
     config.selectedAppId = app.id;
     await saveConfig(config);
 
-    inform(options, `Selected app: ${colors.rgb24(app.name, 0x1bebda)} (${colors.rgb24(app.id.toString(), 0x1bebda)})`);
-    inform(options,
-      "This app will be used for subsequent commands, use the 'odin apps select' command to change the selected app or provide the --appId=<appId> flag to any command."
+    inform(
+      options,
+      `Selected app: ${colors.rgb24(app.name, 0x1bebda)} (${
+        colors.rgb24(app.id.toString(), 0x1bebda)
+      })`,
+    );
+    inform(
+      options,
+      "This app will be used for subsequent commands, use the 'odin apps select' command to change the selected app or provide the --appId=<appId> flag to any command.",
     );
 
     if (options.format && options.format !== "default") {

@@ -22,10 +22,15 @@ import {
   validateAtLeastOneOptionAvailable,
   validateRequiredOptions,
 } from "./utils.ts";
+import { filterArray } from "./filter.ts";
 
 const deploymentsList = new Command()
   .name("list")
   .description("List all server deployments for the selected app.")
+  .option(
+    "--filter <filter:string>",
+    "Filter result based on a filter expression",
+  )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let deployments: AppLocationSetting[] = [];
@@ -42,6 +47,16 @@ const deploymentsList = new Command()
     if (deployments.length === 0) {
       inform(options, "No server deployments found.");
       return;
+    }
+
+    // Filter array if filter option is provided
+    if (options.filter) {
+      try {
+        deployments = await filterArray(deployments, options.filter);
+      } catch (error) {
+        logError("Failed to filter servers. Error: " + error.message);
+        Deno.exit(1);
+      }
     }
 
     stdout(

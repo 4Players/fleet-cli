@@ -7,10 +7,15 @@ import { Input, Select } from "$cliffy/prompt/mod.ts";
 import { inform, logError, logSuccess, stdout } from "./utils.ts";
 import { CreateBackupDockerServiceRequest, Server } from "./api/index.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
+import { filterArray } from "./filter.ts";
 
 const serverList = new Command()
   .name("list")
   .description("List all servers started for your app.")
+  .option(
+    "--filter <filter:string>",
+    "Filter result based on a filter expression",
+  )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let servers: Server[] = [];
@@ -29,6 +34,16 @@ const serverList = new Command()
         error.code,
       );
       Deno.exit(1);
+    }
+
+    // Filter array if filter option is provided
+    if (options.filter) {
+      try {
+        servers = await filterArray(servers, options.filter);
+      } catch (error) {
+        logError("Failed to filter servers. Error: " + error.message);
+        Deno.exit(1);
+      }
     }
 
     stdout(

@@ -31,7 +31,7 @@ export const imageList = new Command()
   .option("--unused", "List only unused images (i.e. not in a configuration).")
   .option(
     "--filter <filter:string>",
-    "Filter images based on a filter expression",
+    "Filter result based on a filter expression",
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
