@@ -6,6 +6,7 @@ import { CommandOptions } from "$cliffy/command/types.ts";
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { App, StoreAppRequest } from "./api/index.ts";
 import { inform, logError, logErrorAndExit, stdout } from "./utils.ts";
+import { filterArray } from "./filter.ts";
 
 const getAppId = async (options: CommandOptions): Promise<number> => {
   if (options.appId) {
@@ -98,6 +99,10 @@ const getAppDetails = new Command()
 const appList = new Command()
   .name("list")
   .description("List all apps.")
+  .option(
+    "--filter <filter:string>",
+    "Filter result based on a filter expression",
+  )
   .action(async (options: CommandOptions) => {
     let apps: App[] = [];
     try {
@@ -114,6 +119,16 @@ const appList = new Command()
     if (apps.length === 0) {
       console.log("No apps found. Use the create command to create a new app.");
       return;
+    }
+
+    // Filter array if filter option is provided
+    if (options.filter) {
+      try {
+        apps = await filterArray(apps, options.filter);
+      } catch (error) {
+        logError("Failed to filter apps. Error: " + error.message);
+        Deno.exit(1);
+      }
     }
 
     if (!options.format || options.format === "default") {
