@@ -23,11 +23,16 @@ import {
   stdout,
   validateRequiredOptions,
 } from "./utils.ts";
+import { filterArray } from "./filter.ts";
 
 export const imageList = new Command()
   .name("list")
   .description("List all images.")
   .option("--unused", "List only unused images (i.e. not in a configuration).")
+  .option(
+    "--filter <filter:string>",
+    "Filter images based on a filter expression",
+  )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
     let binaries: Binary[] = [];
@@ -39,6 +44,15 @@ export const imageList = new Command()
         const configs = await apiClient.getServerConfigs(app.id);
         const usedImages = configs.map((config) => config.binaryId);
         binaries = binaries.filter((binary) => !usedImages.includes(binary.id));
+      }
+
+      if (options.filter) {
+        try {
+          binaries = await filterArray(binaries, options.filter);
+        } catch (error) {
+          logError("Failed to filter images. Error: " + error.message);
+          Deno.exit(1);
+        }
       }
 
       if (binaries.length === 0) {
