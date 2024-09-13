@@ -147,6 +147,8 @@ function parseExpression(tokens: any[]): string {
 
         return `$v.${field} ${operator} ${value}`;
       }
+    } else {
+      throw new Error(`Unexpected token: ${token.value}`);
     }
   }
 
