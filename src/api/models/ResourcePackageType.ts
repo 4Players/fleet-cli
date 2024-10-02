@@ -12,8 +12,7 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum EnvironmentVariableType {
-    Static = 'static',
-    System = 'system',
-    Port = 'port'
+export enum ResourcePackageType {
+    Shared = 'shared',
+    Dedicated = 'dedicated'
 }
