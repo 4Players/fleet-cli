@@ -2,9 +2,9 @@ import { Command } from "$cliffy/command/mod.ts";
 import { apps } from "./apps.ts";
 import { fleet } from "./fleet.ts";
 import { voice } from "./voice.ts";
-import {ensureLoginSession, login} from "./login.ts";
+import { ensureLoginSession, login } from "./login.ts";
 import { createApiClient } from "./client.ts";
-import {AppApi} from "./api/index.ts";
+import { AppApi } from "./api/index.ts";
 
 export let apiClient: AppApi;
 
@@ -14,17 +14,35 @@ await new Command()
   .version("0.2.0")
   .description("Command line tools for ODIN by 4Players.")
   .globalOption("-d, --debug", "Enable debug output.")
-  .globalOption("-f, --force", "Disable confirmation prompts (use with caution).")
-  .globalOption("-q, --quiet", "Disable additional (informative) messages (will be set automatically if --format is set).")
-  .globalOption("--api-key <apiKey:string>", "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.")
-  .globalOption("--format <format:string>", "Output format (json, table, default, value).", { default: "default" })
-  .globalOption("--app-id <appId:number>", "The ID of the app (overwrites selected app)")
+  .globalOption(
+    "-f, --force",
+    "Disable confirmation prompts (use with caution).",
+  )
+  .globalOption(
+    "-q, --quiet",
+    "Disable additional (informative) messages (will be set automatically if --format is set).",
+  )
+  .globalOption(
+    "--api-key <apiKey:string>",
+    "Your API-Key for the ODIN backend. You can also use `odin login` to authenticate.",
+  )
+  .globalOption(
+    "--format <format:string>",
+    "Output format (json, table, default, value).",
+    { default: "default" },
+  )
+  .globalOption(
+    "--app-id <appId:number>",
+    "The ID of the app (overwrites selected app)",
+  )
   .globalAction(async (options, ...args) => {
     const accessToken = await ensureLoginSession(options.apiKey);
     apiClient = createApiClient(accessToken);
   })
   .action((options, ...args) => {
-    console.log("Please provide a subcommand. Use `odin --help` for more information.");
+    console.log(
+      "Please provide a subcommand. Use `odin --help` for more information.",
+    );
   })
   .command("login", login)
   .command("apps", apps)

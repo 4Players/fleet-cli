@@ -7,7 +7,9 @@ import { locations } from "./fleet.locations.ts";
 
 export const fleet = new Command()
   .name("fleet")
-  .description("Manage ODIN Fleet resources and deploy docker images with ease.")
+  .description(
+    "Manage ODIN Fleet resources and deploy docker images with ease.",
+  )
   .action(() => {
     fleet.showHelp();
   })
