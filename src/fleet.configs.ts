@@ -13,6 +13,7 @@ import {
   Protocol,
   PublishMode,
   ResourceAllocations,
+  ResourcePackage,
   RestartPolicy,
   RestartPolicyCondition,
   ServerConfig,
@@ -44,8 +45,8 @@ const configsList = new Command()
       if (options.unused) {
         // Load all deployments and filter out the used configs
         const deployments = await apiClient.getAppLocationSettings(app.id);
-        const usedConfigs = deployments.map((deployment) =>
-          deployment.serverConfig?.id
+        const usedConfigs = deployments.map(
+          (deployment) => deployment.serverConfig?.id,
         );
         configs = configs.filter((config) => !usedConfigs.includes(config.id));
       }
@@ -193,19 +194,14 @@ const createConfig = new Command()
         ],
       });
 
-      //Download tiers
-      const tiersUrl =
-        "https://b2b-dashboard-fw5pmdbggq-lm.a.run.app/assets/data/tiers.json";
-      const tiers = await fetch(tiersUrl).then((res) =>
-        res.json() as unknown as Tier[]
-      );
-      const tier = await Select.prompt<ResourceAllocations>({
-        message: "Select Tier:",
-        options: tiers.map((tier) => ({
-          name: `${tier.name!} (${tier.resources!.limits.memory}GB RAM, ${
-            tier.resources!.limits.cpu
-          } CPU cores)`,
-          value: tier.resources!,
+      // Resource packages
+      const resourcePackages = await apiClient.getResourcePackages();
+      const resourcePackageSlug = await Select.prompt<string>({
+        message: "Select Resource Package:",
+        options: resourcePackages.map((resourcePackage) => ({
+          name: `${resourcePackage
+            .name!} (${resourcePackage.cpuLimit} MB RAM, ${resourcePackage.memoryLimitMb} CPU cores)`,
+          value: resourcePackage.slug,
         })),
       });
 
@@ -357,7 +353,7 @@ const createConfig = new Command()
         const localFile = await Input.prompt(
           "Local file path to config-file (i.e. /Users/xyz/config/file.ini):",
         );
-        var content = "";
+        let content = "";
         try {
           content = await Deno.readTextFile(localFile);
         } catch (e) {
@@ -383,7 +379,7 @@ const createConfig = new Command()
         restartPolicy: {
           condition: restartPolicyCondition as RestartPolicyCondition,
         } as RestartPolicy,
-        resources: tier,
+        resourcePackageSlug,
         env,
         mounts,
         ports,
@@ -511,16 +507,7 @@ const updateConfig = new Command()
         restartPolicy: {
           condition: options.restartPolicy || config.restartPolicy.condition,
         },
-        resources: {
-          limits: {
-            memory: options.memory || config.resources.limits.memory,
-            cpu: options.cpu || config.resources.limits.cpu,
-          },
-          reservations: {
-            memory: config.resources.reservations.memory,
-            cpu: config.resources.reservations.cpu,
-          },
-        },
+        resourcePackageSlug: config.resourcePackageSlug || "medium-shared", // TODO: maybe pick another default
         configFiles: config.configFiles,
         secretFiles: config.secretFiles,
         env: config.env,
