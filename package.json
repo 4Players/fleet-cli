@@ -15,7 +15,7 @@
   "author": "Phillip Schuster",
   "license": "MIT",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.13.0",
+    "@openapitools/openapi-generator-cli": "2.14.1",
     "rimraf": "^6.0.0"
   },
   "dependencies": {

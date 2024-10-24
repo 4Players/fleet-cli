@@ -82,7 +82,7 @@ export class ObservableAppApi {
      * Create an app
      * @param storeAppRequest 
      */
-    public createAppWithHttpInfo(storeAppRequest?: StoreAppRequest, _options?: Configuration): Observable<HttpInfo<App>> {
+    public createAppWithHttpInfo(storeAppRequest: StoreAppRequest, _options?: Configuration): Observable<HttpInfo<App>> {
         const requestContextPromise = this.requestFactory.createApp(storeAppRequest, _options);
 
         // build promise chain
@@ -105,7 +105,7 @@ export class ObservableAppApi {
      * Create an app
      * @param storeAppRequest 
      */
-    public createApp(storeAppRequest?: StoreAppRequest, _options?: Configuration): Observable<App> {
+    public createApp(storeAppRequest: StoreAppRequest, _options?: Configuration): Observable<App> {
         return this.createAppWithHttpInfo(storeAppRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
     }
 
@@ -114,7 +114,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Observable<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: Configuration): Observable<HttpInfo<AppLocationSetting>> {
         const requestContextPromise = this.requestFactory.createAppLocationSetting(app, storeAppLocationSettingRequest, _options);
 
         // build promise chain
@@ -138,7 +138,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSetting(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Observable<AppLocationSetting> {
+    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: Configuration): Observable<AppLocationSetting> {
         return this.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<AppLocationSetting>) => apiResponse.data));
     }
 
@@ -147,7 +147,7 @@ export class ObservableAppApi {
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
-    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Observable<HttpInfo<any>> {
+    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Observable<HttpInfo<any>> {
         const requestContextPromise = this.requestFactory.createBackup(dockerService, createBackupDockerServiceRequest, _options);
 
         // build promise chain
@@ -171,7 +171,7 @@ export class ObservableAppApi {
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
-    public createBackup(dockerService: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Observable<any> {
+    public createBackup(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Observable<any> {
         return this.createBackupWithHttpInfo(dockerService, createBackupDockerServiceRequest, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
     }
 
@@ -180,7 +180,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeBinaryRequest 
      */
-    public createBinaryWithHttpInfo(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Observable<HttpInfo<Binary>> {
+    public createBinaryWithHttpInfo(app: number, storeBinaryRequest: StoreBinaryRequest, _options?: Configuration): Observable<HttpInfo<Binary>> {
         const requestContextPromise = this.requestFactory.createBinary(app, storeBinaryRequest, _options);
 
         // build promise chain
@@ -204,7 +204,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeBinaryRequest 
      */
-    public createBinary(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Observable<Binary> {
+    public createBinary(app: number, storeBinaryRequest: StoreBinaryRequest, _options?: Configuration): Observable<Binary> {
         return this.createBinaryWithHttpInfo(app, storeBinaryRequest, _options).pipe(map((apiResponse: HttpInfo<Binary>) => apiResponse.data));
     }
 
@@ -212,7 +212,7 @@ export class ObservableAppApi {
      * Create a new docker registry
      * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistryWithHttpInfo(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Observable<HttpInfo<DockerRegistry>> {
+    public createDockerRegistryWithHttpInfo(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: Configuration): Observable<HttpInfo<DockerRegistry>> {
         const requestContextPromise = this.requestFactory.createDockerRegistry(storeDockerRegistryRequest, _options);
 
         // build promise chain
@@ -235,7 +235,7 @@ export class ObservableAppApi {
      * Create a new docker registry
      * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistry(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Observable<DockerRegistry> {
+    public createDockerRegistry(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: Configuration): Observable<DockerRegistry> {
         return this.createDockerRegistryWithHttpInfo(storeDockerRegistryRequest, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
     }
 
@@ -244,7 +244,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeServerConfigRequest 
      */
-    public createServerConfigWithHttpInfo(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Observable<HttpInfo<ServerConfig>> {
+    public createServerConfigWithHttpInfo(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Observable<HttpInfo<ServerConfig>> {
         const requestContextPromise = this.requestFactory.createServerConfig(app, storeServerConfigRequest, _options);
 
         // build promise chain
@@ -268,7 +268,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeServerConfigRequest 
      */
-    public createServerConfig(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Observable<ServerConfig> {
+    public createServerConfig(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Observable<ServerConfig> {
         return this.createServerConfigWithHttpInfo(app, storeServerConfigRequest, _options).pipe(map((apiResponse: HttpInfo<ServerConfig>) => apiResponse.data));
     }
 
@@ -587,7 +587,7 @@ export class ObservableAppApi {
      * Handles user authentication
      * @param authRequest 
      */
-    public getAuthTokenWithHttpInfo(authRequest?: AuthRequest, _options?: Configuration): Observable<HttpInfo<Auth>> {
+    public getAuthTokenWithHttpInfo(authRequest: AuthRequest, _options?: Configuration): Observable<HttpInfo<Auth>> {
         const requestContextPromise = this.requestFactory.getAuthToken(authRequest, _options);
 
         // build promise chain
@@ -611,7 +611,7 @@ export class ObservableAppApi {
      * Handles user authentication
      * @param authRequest 
      */
-    public getAuthToken(authRequest?: AuthRequest, _options?: Configuration): Observable<Auth> {
+    public getAuthToken(authRequest: AuthRequest, _options?: Configuration): Observable<Auth> {
         return this.getAuthTokenWithHttpInfo(authRequest, _options).pipe(map((apiResponse: HttpInfo<Auth>) => apiResponse.data));
     }
 
@@ -1019,16 +1019,15 @@ export class ObservableAppApi {
     /**
      * Get stdout and stderr logs from a service or task
      * @param dockerService The docker service ID
-     * @param details details Flag
-     * @param follow follow Flag
-     * @param stdout stdout Flag
-     * @param stderr stderr Flag
-     * @param since since Flag
-     * @param timestamps timestamps Flag
-     * @param tail tail options
+     * @param details Show extra details provided to logs. Default: false
+     * @param stdout Return logs from stdout. Default: true
+     * @param stderr Return logs from stderr. Default: true
+     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
+     * @param timestamps Add timestamps to every log line. Default: false
+     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      */
-    public getServerLogsWithHttpInfo(dockerService: number, details?: boolean, follow?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<HttpInfo<ServiceLogs>> {
-        const requestContextPromise = this.requestFactory.getServerLogs(dockerService, details, follow, stdout, stderr, since, timestamps, tail, _options);
+    public getServerLogsWithHttpInfo(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<HttpInfo<ServiceLogs>> {
+        const requestContextPromise = this.requestFactory.getServerLogs(dockerService, details, stdout, stderr, since, timestamps, tail, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1049,16 +1048,15 @@ export class ObservableAppApi {
     /**
      * Get stdout and stderr logs from a service or task
      * @param dockerService The docker service ID
-     * @param details details Flag
-     * @param follow follow Flag
-     * @param stdout stdout Flag
-     * @param stderr stderr Flag
-     * @param since since Flag
-     * @param timestamps timestamps Flag
-     * @param tail tail options
+     * @param details Show extra details provided to logs. Default: false
+     * @param stdout Return logs from stdout. Default: true
+     * @param stderr Return logs from stderr. Default: true
+     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
+     * @param timestamps Add timestamps to every log line. Default: false
+     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      */
-    public getServerLogs(dockerService: number, details?: boolean, follow?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<ServiceLogs> {
-        return this.getServerLogsWithHttpInfo(dockerService, details, follow, stdout, stderr, since, timestamps, tail, _options).pipe(map((apiResponse: HttpInfo<ServiceLogs>) => apiResponse.data));
+    public getServerLogs(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<ServiceLogs> {
+        return this.getServerLogsWithHttpInfo(dockerService, details, stdout, stderr, since, timestamps, tail, _options).pipe(map((apiResponse: HttpInfo<ServiceLogs>) => apiResponse.data));
     }
 
     /**
@@ -1126,10 +1124,9 @@ export class ObservableAppApi {
     /**
      * Refresh a binary and the related file
      * @param binary The binary ID
-     * @param body 
      */
-    public refreshBinaryWithHttpInfo(binary: number, body?: any, _options?: Configuration): Observable<HttpInfo<Binary>> {
-        const requestContextPromise = this.requestFactory.refreshBinary(binary, body, _options);
+    public refreshBinaryWithHttpInfo(binary: number, _options?: Configuration): Observable<HttpInfo<Binary>> {
+        const requestContextPromise = this.requestFactory.refreshBinary(binary, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1150,10 +1147,9 @@ export class ObservableAppApi {
     /**
      * Refresh a binary and the related file
      * @param binary The binary ID
-     * @param body 
      */
-    public refreshBinary(binary: number, body?: any, _options?: Configuration): Observable<Binary> {
-        return this.refreshBinaryWithHttpInfo(binary, body, _options).pipe(map((apiResponse: HttpInfo<Binary>) => apiResponse.data));
+    public refreshBinary(binary: number, _options?: Configuration): Observable<Binary> {
+        return this.refreshBinaryWithHttpInfo(binary, _options).pipe(map((apiResponse: HttpInfo<Binary>) => apiResponse.data));
     }
 
     /**
@@ -1190,10 +1186,9 @@ export class ObservableAppApi {
     /**
      * Restarts a specific Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restartServerWithHttpInfo(dockerService: number, body?: any, _options?: Configuration): Observable<HttpInfo<any>> {
-        const requestContextPromise = this.requestFactory.restartServer(dockerService, body, _options);
+    public restartServerWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<any>> {
+        const requestContextPromise = this.requestFactory.restartServer(dockerService, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1214,19 +1209,17 @@ export class ObservableAppApi {
     /**
      * Restarts a specific Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restartServer(dockerService: number, body?: any, _options?: Configuration): Observable<any> {
-        return this.restartServerWithHttpInfo(dockerService, body, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
+    public restartServer(dockerService: number, _options?: Configuration): Observable<any> {
+        return this.restartServerWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
     }
 
     /**
      * Restore a backup for a specified Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restoreBackupWithHttpInfo(dockerService: number, body?: any, _options?: Configuration): Observable<HttpInfo<any>> {
-        const requestContextPromise = this.requestFactory.restoreBackup(dockerService, body, _options);
+    public restoreBackupWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<any>> {
+        const requestContextPromise = this.requestFactory.restoreBackup(dockerService, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1247,10 +1240,9 @@ export class ObservableAppApi {
     /**
      * Restore a backup for a specified Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restoreBackup(dockerService: number, body?: any, _options?: Configuration): Observable<any> {
-        return this.restoreBackupWithHttpInfo(dockerService, body, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
+    public restoreBackup(dockerService: number, _options?: Configuration): Observable<any> {
+        return this.restoreBackupWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
     }
 
     /**
@@ -1322,7 +1314,7 @@ export class ObservableAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
      */
-    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest, _options?: Configuration): Observable<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: Configuration): Observable<HttpInfo<AppLocationSetting>> {
         const requestContextPromise = this.requestFactory.updateAppLocationSetting(appLocationSetting, updateAppLocationSettingRequest, _options);
 
         // build promise chain
@@ -1346,7 +1338,7 @@ export class ObservableAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
      */
-    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest, _options?: Configuration): Observable<AppLocationSetting> {
+    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: Configuration): Observable<AppLocationSetting> {
         return this.updateAppLocationSettingWithHttpInfo(appLocationSetting, updateAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<AppLocationSetting>) => apiResponse.data));
     }
 
@@ -1355,7 +1347,7 @@ export class ObservableAppApi {
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
-    public updateBinaryWithHttpInfo(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Observable<HttpInfo<Binary>> {
+    public updateBinaryWithHttpInfo(binary: number, updateBinaryRequest: UpdateBinaryRequest, _options?: Configuration): Observable<HttpInfo<Binary>> {
         const requestContextPromise = this.requestFactory.updateBinary(binary, updateBinaryRequest, _options);
 
         // build promise chain
@@ -1379,7 +1371,7 @@ export class ObservableAppApi {
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
-    public updateBinary(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Observable<Binary> {
+    public updateBinary(binary: number, updateBinaryRequest: UpdateBinaryRequest, _options?: Configuration): Observable<Binary> {
         return this.updateBinaryWithHttpInfo(binary, updateBinaryRequest, _options).pipe(map((apiResponse: HttpInfo<Binary>) => apiResponse.data));
     }
 
@@ -1388,7 +1380,7 @@ export class ObservableAppApi {
      * @param dockerRegistry The docker registry ID
      * @param updateDockerRegistryRequest 
      */
-    public updateDockerRegistryWithHttpInfo(dockerRegistry: number, updateDockerRegistryRequest?: UpdateDockerRegistryRequest, _options?: Configuration): Observable<HttpInfo<DockerRegistry>> {
+    public updateDockerRegistryWithHttpInfo(dockerRegistry: number, updateDockerRegistryRequest: UpdateDockerRegistryRequest, _options?: Configuration): Observable<HttpInfo<DockerRegistry>> {
         const requestContextPromise = this.requestFactory.updateDockerRegistry(dockerRegistry, updateDockerRegistryRequest, _options);
 
         // build promise chain
@@ -1412,7 +1404,7 @@ export class ObservableAppApi {
      * @param dockerRegistry The docker registry ID
      * @param updateDockerRegistryRequest 
      */
-    public updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest?: UpdateDockerRegistryRequest, _options?: Configuration): Observable<DockerRegistry> {
+    public updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest: UpdateDockerRegistryRequest, _options?: Configuration): Observable<DockerRegistry> {
         return this.updateDockerRegistryWithHttpInfo(dockerRegistry, updateDockerRegistryRequest, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
     }
 
@@ -1421,7 +1413,7 @@ export class ObservableAppApi {
      * @param serverConfig The server config ID
      * @param updateServerConfigRequest 
      */
-    public updateServerConfigWithHttpInfo(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Observable<HttpInfo<ServerConfig>> {
+    public updateServerConfigWithHttpInfo(serverConfig: number, updateServerConfigRequest: UpdateServerConfigRequest, _options?: Configuration): Observable<HttpInfo<ServerConfig>> {
         const requestContextPromise = this.requestFactory.updateServerConfig(serverConfig, updateServerConfigRequest, _options);
 
         // build promise chain
@@ -1445,7 +1437,7 @@ export class ObservableAppApi {
      * @param serverConfig The server config ID
      * @param updateServerConfigRequest 
      */
-    public updateServerConfig(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Observable<ServerConfig> {
+    public updateServerConfig(serverConfig: number, updateServerConfigRequest: UpdateServerConfigRequest, _options?: Configuration): Observable<ServerConfig> {
         return this.updateServerConfigWithHttpInfo(serverConfig, updateServerConfigRequest, _options).pipe(map((apiResponse: HttpInfo<ServerConfig>) => apiResponse.data));
     }
 

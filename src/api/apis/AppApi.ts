@@ -45,8 +45,13 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * Create an app
      * @param storeAppRequest 
      */
-    public async createApp(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createApp(storeAppRequest: StoreAppRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+        // verify required parameter 'storeAppRequest' is not null or undefined
+        if (storeAppRequest === null || storeAppRequest === undefined) {
+            throw new RequiredError("AppApi", "createApp", "storeAppRequest");
+        }
 
 
         // Path Params
@@ -82,7 +87,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param app The app ID
      * @param storeAppLocationSettingRequest 
      */
-    public async createAppLocationSetting(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -90,6 +95,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "createAppLocationSetting", "app");
         }
 
+
+        // verify required parameter 'storeAppLocationSettingRequest' is not null or undefined
+        if (storeAppLocationSettingRequest === null || storeAppLocationSettingRequest === undefined) {
+            throw new RequiredError("AppApi", "createAppLocationSetting", "storeAppLocationSettingRequest");
+        }
 
 
         // Path Params
@@ -126,7 +136,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
-    public async createBackup(dockerService: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createBackup(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
@@ -134,6 +144,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "createBackup", "dockerService");
         }
 
+
+        // verify required parameter 'createBackupDockerServiceRequest' is not null or undefined
+        if (createBackupDockerServiceRequest === null || createBackupDockerServiceRequest === undefined) {
+            throw new RequiredError("AppApi", "createBackup", "createBackupDockerServiceRequest");
+        }
 
 
         // Path Params
@@ -170,7 +185,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param app The app ID
      * @param storeBinaryRequest 
      */
-    public async createBinary(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createBinary(app: number, storeBinaryRequest: StoreBinaryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -178,6 +193,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "createBinary", "app");
         }
 
+
+        // verify required parameter 'storeBinaryRequest' is not null or undefined
+        if (storeBinaryRequest === null || storeBinaryRequest === undefined) {
+            throw new RequiredError("AppApi", "createBinary", "storeBinaryRequest");
+        }
 
 
         // Path Params
@@ -213,8 +233,13 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * Create a new docker registry
      * @param storeDockerRegistryRequest 
      */
-    public async createDockerRegistry(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createDockerRegistry(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+        // verify required parameter 'storeDockerRegistryRequest' is not null or undefined
+        if (storeDockerRegistryRequest === null || storeDockerRegistryRequest === undefined) {
+            throw new RequiredError("AppApi", "createDockerRegistry", "storeDockerRegistryRequest");
+        }
 
 
         // Path Params
@@ -250,7 +275,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param app The app ID
      * @param storeServerConfigRequest 
      */
-    public async createServerConfig(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
+    public async createServerConfig(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -258,6 +283,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "createServerConfig", "app");
         }
 
+
+        // verify required parameter 'storeServerConfigRequest' is not null or undefined
+        if (storeServerConfigRequest === null || storeServerConfigRequest === undefined) {
+            throw new RequiredError("AppApi", "createServerConfig", "storeServerConfigRequest");
+        }
 
 
         // Path Params
@@ -601,8 +631,13 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * Handles user authentication
      * @param authRequest 
      */
-    public async getAuthToken(authRequest?: AuthRequest, _options?: Configuration): Promise<RequestContext> {
+    public async getAuthToken(authRequest: AuthRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+        // verify required parameter 'authRequest' is not null or undefined
+        if (authRequest === null || authRequest === undefined) {
+            throw new RequiredError("AppApi", "getAuthToken", "authRequest");
+        }
 
 
         // Path Params
@@ -1024,22 +1059,20 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Get stdout and stderr logs from a service or task
      * @param dockerService The docker service ID
-     * @param details details Flag
-     * @param follow follow Flag
-     * @param stdout stdout Flag
-     * @param stderr stderr Flag
-     * @param since since Flag
-     * @param timestamps timestamps Flag
-     * @param tail tail options
+     * @param details Show extra details provided to logs. Default: false
+     * @param stdout Return logs from stdout. Default: true
+     * @param stderr Return logs from stderr. Default: true
+     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
+     * @param timestamps Add timestamps to every log line. Default: false
+     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      */
-    public async getServerLogs(dockerService: number, details?: boolean, follow?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServerLogs(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "getServerLogs", "dockerService");
         }
-
 
 
 
@@ -1059,11 +1092,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (details !== undefined) {
             requestContext.setQueryParam("details", ObjectSerializer.serialize(details, "boolean", ""));
-        }
-
-        // Query Params
-        if (follow !== undefined) {
-            requestContext.setQueryParam("follow", ObjectSerializer.serialize(follow, "boolean", ""));
         }
 
         // Query Params
@@ -1166,16 +1194,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Refresh a binary and the related file
      * @param binary The binary ID
-     * @param body 
      */
-    public async refreshBinary(binary: number, body?: any, _options?: Configuration): Promise<RequestContext> {
+    public async refreshBinary(binary: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'binary' is not null or undefined
         if (binary === null || binary === undefined) {
             throw new RequiredError("AppApi", "refreshBinary", "binary");
         }
-
 
 
         // Path Params
@@ -1186,17 +1212,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-
-        // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
-        const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "any", ""),
-            contentType
-        );
-        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -1241,16 +1256,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Restarts a specific Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public async restartServer(dockerService: number, body?: any, _options?: Configuration): Promise<RequestContext> {
+    public async restartServer(dockerService: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "restartServer", "dockerService");
         }
-
 
 
         // Path Params
@@ -1261,17 +1274,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-
-        // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
-        const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "any", ""),
-            contentType
-        );
-        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -1285,16 +1287,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Restore a backup for a specified Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public async restoreBackup(dockerService: number, body?: any, _options?: Configuration): Promise<RequestContext> {
+    public async restoreBackup(dockerService: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "restoreBackup", "dockerService");
         }
-
 
 
         // Path Params
@@ -1305,17 +1305,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
-
-        // Body Params
-        const contentType = ObjectSerializer.getPreferredMediaType([
-            "application/json"
-        ]);
-        requestContext.setHeaderParam("Content-Type", contentType);
-        const serializedBody = ObjectSerializer.stringify(
-            ObjectSerializer.serialize(body, "any", ""),
-            contentType
-        );
-        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -1408,7 +1397,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
      */
-    public async updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'appLocationSetting' is not null or undefined
@@ -1416,6 +1405,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "updateAppLocationSetting", "appLocationSetting");
         }
 
+
+        // verify required parameter 'updateAppLocationSettingRequest' is not null or undefined
+        if (updateAppLocationSettingRequest === null || updateAppLocationSettingRequest === undefined) {
+            throw new RequiredError("AppApi", "updateAppLocationSetting", "updateAppLocationSettingRequest");
+        }
 
 
         // Path Params
@@ -1452,7 +1446,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
-    public async updateBinary(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateBinary(binary: number, updateBinaryRequest: UpdateBinaryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'binary' is not null or undefined
@@ -1460,6 +1454,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "updateBinary", "binary");
         }
 
+
+        // verify required parameter 'updateBinaryRequest' is not null or undefined
+        if (updateBinaryRequest === null || updateBinaryRequest === undefined) {
+            throw new RequiredError("AppApi", "updateBinary", "updateBinaryRequest");
+        }
 
 
         // Path Params
@@ -1496,7 +1495,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param dockerRegistry The docker registry ID
      * @param updateDockerRegistryRequest 
      */
-    public async updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest?: UpdateDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest: UpdateDockerRegistryRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerRegistry' is not null or undefined
@@ -1504,6 +1503,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "updateDockerRegistry", "dockerRegistry");
         }
 
+
+        // verify required parameter 'updateDockerRegistryRequest' is not null or undefined
+        if (updateDockerRegistryRequest === null || updateDockerRegistryRequest === undefined) {
+            throw new RequiredError("AppApi", "updateDockerRegistry", "updateDockerRegistryRequest");
+        }
 
 
         // Path Params
@@ -1540,7 +1544,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param serverConfig The server config ID
      * @param updateServerConfigRequest 
      */
-    public async updateServerConfig(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
+    public async updateServerConfig(serverConfig: number, updateServerConfigRequest: UpdateServerConfigRequest, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'serverConfig' is not null or undefined
@@ -1548,6 +1552,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             throw new RequiredError("AppApi", "updateServerConfig", "serverConfig");
         }
 
+
+        // verify required parameter 'updateServerConfigRequest' is not null or undefined
+        if (updateServerConfigRequest === null || updateServerConfigRequest === undefined) {
+            throw new RequiredError("AppApi", "updateServerConfig", "updateServerConfigRequest");
+        }
 
 
         // Path Params

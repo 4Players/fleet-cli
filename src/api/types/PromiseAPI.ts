@@ -78,7 +78,7 @@ export class PromiseAppApi {
      * Create an app
      * @param storeAppRequest 
      */
-    public createAppWithHttpInfo(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<HttpInfo<App>> {
+    public createAppWithHttpInfo(storeAppRequest: StoreAppRequest, _options?: Configuration): Promise<HttpInfo<App>> {
         const result = this.api.createAppWithHttpInfo(storeAppRequest, _options);
         return result.toPromise();
     }
@@ -87,7 +87,7 @@ export class PromiseAppApi {
      * Create an app
      * @param storeAppRequest 
      */
-    public createApp(storeAppRequest?: StoreAppRequest, _options?: Configuration): Promise<App> {
+    public createApp(storeAppRequest: StoreAppRequest, _options?: Configuration): Promise<App> {
         const result = this.api.createApp(storeAppRequest, _options);
         return result.toPromise();
     }
@@ -97,7 +97,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
         const result = this.api.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, _options);
         return result.toPromise();
     }
@@ -107,7 +107,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest 
      */
-    public createAppLocationSetting(app: number, storeAppLocationSettingRequest?: StoreAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
+    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
         const result = this.api.createAppLocationSetting(app, storeAppLocationSettingRequest, _options);
         return result.toPromise();
     }
@@ -117,7 +117,7 @@ export class PromiseAppApi {
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
-    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<HttpInfo<any>> {
+    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<HttpInfo<any>> {
         const result = this.api.createBackupWithHttpInfo(dockerService, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
@@ -127,7 +127,7 @@ export class PromiseAppApi {
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
-    public createBackup(dockerService: number, createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<any> {
+    public createBackup(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<any> {
         const result = this.api.createBackup(dockerService, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
@@ -137,7 +137,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeBinaryRequest 
      */
-    public createBinaryWithHttpInfo(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
+    public createBinaryWithHttpInfo(app: number, storeBinaryRequest: StoreBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
         const result = this.api.createBinaryWithHttpInfo(app, storeBinaryRequest, _options);
         return result.toPromise();
     }
@@ -147,7 +147,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeBinaryRequest 
      */
-    public createBinary(app: number, storeBinaryRequest?: StoreBinaryRequest, _options?: Configuration): Promise<Binary> {
+    public createBinary(app: number, storeBinaryRequest: StoreBinaryRequest, _options?: Configuration): Promise<Binary> {
         const result = this.api.createBinary(app, storeBinaryRequest, _options);
         return result.toPromise();
     }
@@ -156,7 +156,7 @@ export class PromiseAppApi {
      * Create a new docker registry
      * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistryWithHttpInfo(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public createDockerRegistryWithHttpInfo(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
         const result = this.api.createDockerRegistryWithHttpInfo(storeDockerRegistryRequest, _options);
         return result.toPromise();
     }
@@ -165,7 +165,7 @@ export class PromiseAppApi {
      * Create a new docker registry
      * @param storeDockerRegistryRequest 
      */
-    public createDockerRegistry(storeDockerRegistryRequest?: StoreDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
+    public createDockerRegistry(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
         const result = this.api.createDockerRegistry(storeDockerRegistryRequest, _options);
         return result.toPromise();
     }
@@ -175,7 +175,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeServerConfigRequest 
      */
-    public createServerConfigWithHttpInfo(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+    public createServerConfigWithHttpInfo(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
         const result = this.api.createServerConfigWithHttpInfo(app, storeServerConfigRequest, _options);
         return result.toPromise();
     }
@@ -185,7 +185,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeServerConfigRequest 
      */
-    public createServerConfig(app: number, storeServerConfigRequest?: StoreServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
+    public createServerConfig(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
         const result = this.api.createServerConfig(app, storeServerConfigRequest, _options);
         return result.toPromise();
     }
@@ -375,7 +375,7 @@ export class PromiseAppApi {
      * Handles user authentication
      * @param authRequest 
      */
-    public getAuthTokenWithHttpInfo(authRequest?: AuthRequest, _options?: Configuration): Promise<HttpInfo<Auth>> {
+    public getAuthTokenWithHttpInfo(authRequest: AuthRequest, _options?: Configuration): Promise<HttpInfo<Auth>> {
         const result = this.api.getAuthTokenWithHttpInfo(authRequest, _options);
         return result.toPromise();
     }
@@ -385,7 +385,7 @@ export class PromiseAppApi {
      * Handles user authentication
      * @param authRequest 
      */
-    public getAuthToken(authRequest?: AuthRequest, _options?: Configuration): Promise<Auth> {
+    public getAuthToken(authRequest: AuthRequest, _options?: Configuration): Promise<Auth> {
         const result = this.api.getAuthToken(authRequest, _options);
         return result.toPromise();
     }
@@ -625,32 +625,30 @@ export class PromiseAppApi {
     /**
      * Get stdout and stderr logs from a service or task
      * @param dockerService The docker service ID
-     * @param details details Flag
-     * @param follow follow Flag
-     * @param stdout stdout Flag
-     * @param stderr stderr Flag
-     * @param since since Flag
-     * @param timestamps timestamps Flag
-     * @param tail tail options
+     * @param details Show extra details provided to logs. Default: false
+     * @param stdout Return logs from stdout. Default: true
+     * @param stderr Return logs from stderr. Default: true
+     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
+     * @param timestamps Add timestamps to every log line. Default: false
+     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      */
-    public getServerLogsWithHttpInfo(dockerService: number, details?: boolean, follow?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
-        const result = this.api.getServerLogsWithHttpInfo(dockerService, details, follow, stdout, stderr, since, timestamps, tail, _options);
+    public getServerLogsWithHttpInfo(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+        const result = this.api.getServerLogsWithHttpInfo(dockerService, details, stdout, stderr, since, timestamps, tail, _options);
         return result.toPromise();
     }
 
     /**
      * Get stdout and stderr logs from a service or task
      * @param dockerService The docker service ID
-     * @param details details Flag
-     * @param follow follow Flag
-     * @param stdout stdout Flag
-     * @param stderr stderr Flag
-     * @param since since Flag
-     * @param timestamps timestamps Flag
-     * @param tail tail options
+     * @param details Show extra details provided to logs. Default: false
+     * @param stdout Return logs from stdout. Default: true
+     * @param stderr Return logs from stderr. Default: true
+     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
+     * @param timestamps Add timestamps to every log line. Default: false
+     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      */
-    public getServerLogs(dockerService: number, details?: boolean, follow?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<ServiceLogs> {
-        const result = this.api.getServerLogs(dockerService, details, follow, stdout, stderr, since, timestamps, tail, _options);
+    public getServerLogs(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<ServiceLogs> {
+        const result = this.api.getServerLogs(dockerService, details, stdout, stderr, since, timestamps, tail, _options);
         return result.toPromise();
     }
 
@@ -693,20 +691,18 @@ export class PromiseAppApi {
     /**
      * Refresh a binary and the related file
      * @param binary The binary ID
-     * @param body 
      */
-    public refreshBinaryWithHttpInfo(binary: number, body?: any, _options?: Configuration): Promise<HttpInfo<Binary>> {
-        const result = this.api.refreshBinaryWithHttpInfo(binary, body, _options);
+    public refreshBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<Binary>> {
+        const result = this.api.refreshBinaryWithHttpInfo(binary, _options);
         return result.toPromise();
     }
 
     /**
      * Refresh a binary and the related file
      * @param binary The binary ID
-     * @param body 
      */
-    public refreshBinary(binary: number, body?: any, _options?: Configuration): Promise<Binary> {
-        const result = this.api.refreshBinary(binary, body, _options);
+    public refreshBinary(binary: number, _options?: Configuration): Promise<Binary> {
+        const result = this.api.refreshBinary(binary, _options);
         return result.toPromise();
     }
 
@@ -731,40 +727,36 @@ export class PromiseAppApi {
     /**
      * Restarts a specific Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restartServerWithHttpInfo(dockerService: number, body?: any, _options?: Configuration): Promise<HttpInfo<any>> {
-        const result = this.api.restartServerWithHttpInfo(dockerService, body, _options);
+    public restartServerWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<any>> {
+        const result = this.api.restartServerWithHttpInfo(dockerService, _options);
         return result.toPromise();
     }
 
     /**
      * Restarts a specific Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restartServer(dockerService: number, body?: any, _options?: Configuration): Promise<any> {
-        const result = this.api.restartServer(dockerService, body, _options);
+    public restartServer(dockerService: number, _options?: Configuration): Promise<any> {
+        const result = this.api.restartServer(dockerService, _options);
         return result.toPromise();
     }
 
     /**
      * Restore a backup for a specified Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restoreBackupWithHttpInfo(dockerService: number, body?: any, _options?: Configuration): Promise<HttpInfo<any>> {
-        const result = this.api.restoreBackupWithHttpInfo(dockerService, body, _options);
+    public restoreBackupWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<any>> {
+        const result = this.api.restoreBackupWithHttpInfo(dockerService, _options);
         return result.toPromise();
     }
 
     /**
      * Restore a backup for a specified Docker service
      * @param dockerService The docker service ID
-     * @param body 
      */
-    public restoreBackup(dockerService: number, body?: any, _options?: Configuration): Promise<any> {
-        const result = this.api.restoreBackup(dockerService, body, _options);
+    public restoreBackup(dockerService: number, _options?: Configuration): Promise<any> {
+        const result = this.api.restoreBackup(dockerService, _options);
         return result.toPromise();
     }
 
@@ -811,7 +803,7 @@ export class PromiseAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
      */
-    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
         const result = this.api.updateAppLocationSettingWithHttpInfo(appLocationSetting, updateAppLocationSettingRequest, _options);
         return result.toPromise();
     }
@@ -821,7 +813,7 @@ export class PromiseAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
      */
-    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
+    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: Configuration): Promise<AppLocationSetting> {
         const result = this.api.updateAppLocationSetting(appLocationSetting, updateAppLocationSettingRequest, _options);
         return result.toPromise();
     }
@@ -831,7 +823,7 @@ export class PromiseAppApi {
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
-    public updateBinaryWithHttpInfo(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
+    public updateBinaryWithHttpInfo(binary: number, updateBinaryRequest: UpdateBinaryRequest, _options?: Configuration): Promise<HttpInfo<Binary>> {
         const result = this.api.updateBinaryWithHttpInfo(binary, updateBinaryRequest, _options);
         return result.toPromise();
     }
@@ -841,7 +833,7 @@ export class PromiseAppApi {
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
-    public updateBinary(binary: number, updateBinaryRequest?: UpdateBinaryRequest, _options?: Configuration): Promise<Binary> {
+    public updateBinary(binary: number, updateBinaryRequest: UpdateBinaryRequest, _options?: Configuration): Promise<Binary> {
         const result = this.api.updateBinary(binary, updateBinaryRequest, _options);
         return result.toPromise();
     }
@@ -851,7 +843,7 @@ export class PromiseAppApi {
      * @param dockerRegistry The docker registry ID
      * @param updateDockerRegistryRequest 
      */
-    public updateDockerRegistryWithHttpInfo(dockerRegistry: number, updateDockerRegistryRequest?: UpdateDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public updateDockerRegistryWithHttpInfo(dockerRegistry: number, updateDockerRegistryRequest: UpdateDockerRegistryRequest, _options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
         const result = this.api.updateDockerRegistryWithHttpInfo(dockerRegistry, updateDockerRegistryRequest, _options);
         return result.toPromise();
     }
@@ -861,7 +853,7 @@ export class PromiseAppApi {
      * @param dockerRegistry The docker registry ID
      * @param updateDockerRegistryRequest 
      */
-    public updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest?: UpdateDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
+    public updateDockerRegistry(dockerRegistry: number, updateDockerRegistryRequest: UpdateDockerRegistryRequest, _options?: Configuration): Promise<DockerRegistry> {
         const result = this.api.updateDockerRegistry(dockerRegistry, updateDockerRegistryRequest, _options);
         return result.toPromise();
     }
@@ -871,7 +863,7 @@ export class PromiseAppApi {
      * @param serverConfig The server config ID
      * @param updateServerConfigRequest 
      */
-    public updateServerConfigWithHttpInfo(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+    public updateServerConfigWithHttpInfo(serverConfig: number, updateServerConfigRequest: UpdateServerConfigRequest, _options?: Configuration): Promise<HttpInfo<ServerConfig>> {
         const result = this.api.updateServerConfigWithHttpInfo(serverConfig, updateServerConfigRequest, _options);
         return result.toPromise();
     }
@@ -881,7 +873,7 @@ export class PromiseAppApi {
      * @param serverConfig The server config ID
      * @param updateServerConfigRequest 
      */
-    public updateServerConfig(serverConfig: number, updateServerConfigRequest?: UpdateServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
+    public updateServerConfig(serverConfig: number, updateServerConfigRequest: UpdateServerConfigRequest, _options?: Configuration): Promise<ServerConfig> {
         const result = this.api.updateServerConfig(serverConfig, updateServerConfigRequest, _options);
         return result.toPromise();
     }

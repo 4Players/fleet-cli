@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 AppApi.md
 apis/AppApi.ts
 apis/baseapi.ts

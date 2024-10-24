@@ -70,7 +70,7 @@ export interface AppApiCreateAppRequest {
      * @type StoreAppRequest
      * @memberof AppApicreateApp
      */
-    storeAppRequest?: StoreAppRequest
+    storeAppRequest: StoreAppRequest
 }
 
 export interface AppApiCreateAppLocationSettingRequest {
@@ -85,7 +85,7 @@ export interface AppApiCreateAppLocationSettingRequest {
      * @type StoreAppLocationSettingRequest
      * @memberof AppApicreateAppLocationSetting
      */
-    storeAppLocationSettingRequest?: StoreAppLocationSettingRequest
+    storeAppLocationSettingRequest: StoreAppLocationSettingRequest
 }
 
 export interface AppApiCreateBackupRequest {
@@ -100,7 +100,7 @@ export interface AppApiCreateBackupRequest {
      * @type CreateBackupDockerServiceRequest
      * @memberof AppApicreateBackup
      */
-    createBackupDockerServiceRequest?: CreateBackupDockerServiceRequest
+    createBackupDockerServiceRequest: CreateBackupDockerServiceRequest
 }
 
 export interface AppApiCreateBinaryRequest {
@@ -115,7 +115,7 @@ export interface AppApiCreateBinaryRequest {
      * @type StoreBinaryRequest
      * @memberof AppApicreateBinary
      */
-    storeBinaryRequest?: StoreBinaryRequest
+    storeBinaryRequest: StoreBinaryRequest
 }
 
 export interface AppApiCreateDockerRegistryRequest {
@@ -124,7 +124,7 @@ export interface AppApiCreateDockerRegistryRequest {
      * @type StoreDockerRegistryRequest
      * @memberof AppApicreateDockerRegistry
      */
-    storeDockerRegistryRequest?: StoreDockerRegistryRequest
+    storeDockerRegistryRequest: StoreDockerRegistryRequest
 }
 
 export interface AppApiCreateServerConfigRequest {
@@ -139,7 +139,7 @@ export interface AppApiCreateServerConfigRequest {
      * @type StoreServerConfigRequest
      * @memberof AppApicreateServerConfig
      */
-    storeServerConfigRequest?: StoreServerConfigRequest
+    storeServerConfigRequest: StoreServerConfigRequest
 }
 
 export interface AppApiDeleteAppRequest {
@@ -232,7 +232,7 @@ export interface AppApiGetAuthTokenRequest {
      * @type AuthRequest
      * @memberof AppApigetAuthToken
      */
-    authRequest?: AuthRequest
+    authRequest: AuthRequest
 }
 
 export interface AppApiGetBackupsRequest {
@@ -348,43 +348,37 @@ export interface AppApiGetServerLogsRequest {
      */
     dockerService: number
     /**
-     * details Flag
+     * Show extra details provided to logs. Default: false
      * @type boolean
      * @memberof AppApigetServerLogs
      */
     details?: boolean
     /**
-     * follow Flag
-     * @type boolean
-     * @memberof AppApigetServerLogs
-     */
-    follow?: boolean
-    /**
-     * stdout Flag
+     * Return logs from stdout. Default: true
      * @type boolean
      * @memberof AppApigetServerLogs
      */
     stdout?: boolean
     /**
-     * stderr Flag
+     * Return logs from stderr. Default: true
      * @type boolean
      * @memberof AppApigetServerLogs
      */
     stderr?: boolean
     /**
-     * since Flag
+     * Only return logs since this time, as a UNIX timestamp. Default: 0
      * @type number
      * @memberof AppApigetServerLogs
      */
     since?: number
     /**
-     * timestamps Flag
+     * Add timestamps to every log line. Default: false
      * @type boolean
      * @memberof AppApigetServerLogs
      */
     timestamps?: boolean
     /**
-     * tail options
+     * Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
      * @type string
      * @memberof AppApigetServerLogs
      */
@@ -416,12 +410,6 @@ export interface AppApiRefreshBinaryRequest {
      * @memberof AppApirefreshBinary
      */
     binary: number
-    /**
-     * 
-     * @type any
-     * @memberof AppApirefreshBinary
-     */
-    body?: any
 }
 
 export interface AppApiRefreshTaggedImagesRequest {
@@ -440,12 +428,6 @@ export interface AppApiRestartServerRequest {
      * @memberof AppApirestartServer
      */
     dockerService: number
-    /**
-     * 
-     * @type any
-     * @memberof AppApirestartServer
-     */
-    body?: any
 }
 
 export interface AppApiRestoreBackupRequest {
@@ -455,12 +437,6 @@ export interface AppApiRestoreBackupRequest {
      * @memberof AppApirestoreBackup
      */
     dockerService: number
-    /**
-     * 
-     * @type any
-     * @memberof AppApirestoreBackup
-     */
-    body?: any
 }
 
 export interface AppApiSteamGetBranchesRequest {
@@ -499,7 +475,7 @@ export interface AppApiUpdateAppLocationSettingRequest {
      * @type UpdateAppLocationSettingRequest
      * @memberof AppApiupdateAppLocationSetting
      */
-    updateAppLocationSettingRequest?: UpdateAppLocationSettingRequest
+    updateAppLocationSettingRequest: UpdateAppLocationSettingRequest
 }
 
 export interface AppApiUpdateBinaryRequest {
@@ -514,7 +490,7 @@ export interface AppApiUpdateBinaryRequest {
      * @type UpdateBinaryRequest
      * @memberof AppApiupdateBinary
      */
-    updateBinaryRequest?: UpdateBinaryRequest
+    updateBinaryRequest: UpdateBinaryRequest
 }
 
 export interface AppApiUpdateDockerRegistryRequest {
@@ -529,7 +505,7 @@ export interface AppApiUpdateDockerRegistryRequest {
      * @type UpdateDockerRegistryRequest
      * @memberof AppApiupdateDockerRegistry
      */
-    updateDockerRegistryRequest?: UpdateDockerRegistryRequest
+    updateDockerRegistryRequest: UpdateDockerRegistryRequest
 }
 
 export interface AppApiUpdateServerConfigRequest {
@@ -544,7 +520,7 @@ export interface AppApiUpdateServerConfigRequest {
      * @type UpdateServerConfigRequest
      * @memberof AppApiupdateServerConfig
      */
-    updateServerConfigRequest?: UpdateServerConfigRequest
+    updateServerConfigRequest: UpdateServerConfigRequest
 }
 
 export class ObjectAppApi {
@@ -558,7 +534,7 @@ export class ObjectAppApi {
      * Create an app
      * @param param the request object
      */
-    public createAppWithHttpInfo(param: AppApiCreateAppRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
+    public createAppWithHttpInfo(param: AppApiCreateAppRequest, options?: Configuration): Promise<HttpInfo<App>> {
         return this.api.createAppWithHttpInfo(param.storeAppRequest,  options).toPromise();
     }
 
@@ -566,7 +542,7 @@ export class ObjectAppApi {
      * Create an app
      * @param param the request object
      */
-    public createApp(param: AppApiCreateAppRequest = {}, options?: Configuration): Promise<App> {
+    public createApp(param: AppApiCreateAppRequest, options?: Configuration): Promise<App> {
         return this.api.createApp(param.storeAppRequest,  options).toPromise();
     }
 
@@ -622,7 +598,7 @@ export class ObjectAppApi {
      * Create a new docker registry
      * @param param the request object
      */
-    public createDockerRegistryWithHttpInfo(param: AppApiCreateDockerRegistryRequest = {}, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public createDockerRegistryWithHttpInfo(param: AppApiCreateDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
         return this.api.createDockerRegistryWithHttpInfo(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
@@ -630,7 +606,7 @@ export class ObjectAppApi {
      * Create a new docker registry
      * @param param the request object
      */
-    public createDockerRegistry(param: AppApiCreateDockerRegistryRequest = {}, options?: Configuration): Promise<DockerRegistry> {
+    public createDockerRegistry(param: AppApiCreateDockerRegistryRequest, options?: Configuration): Promise<DockerRegistry> {
         return this.api.createDockerRegistry(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
@@ -817,7 +793,7 @@ export class ObjectAppApi {
      * Handles user authentication
      * @param param the request object
      */
-    public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest = {}, options?: Configuration): Promise<HttpInfo<Auth>> {
+    public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<HttpInfo<Auth>> {
         return this.api.getAuthTokenWithHttpInfo(param.authRequest,  options).toPromise();
     }
 
@@ -826,7 +802,7 @@ export class ObjectAppApi {
      * Handles user authentication
      * @param param the request object
      */
-    public getAuthToken(param: AppApiGetAuthTokenRequest = {}, options?: Configuration): Promise<Auth> {
+    public getAuthToken(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<Auth> {
         return this.api.getAuthToken(param.authRequest,  options).toPromise();
     }
 
@@ -1045,7 +1021,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerLogsWithHttpInfo(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
-        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.details, param.follow, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
+        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.details, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
     }
 
     /**
@@ -1053,7 +1029,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerLogs(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
-        return this.api.getServerLogs(param.dockerService, param.details, param.follow, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
+        return this.api.getServerLogs(param.dockerService, param.details, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
     }
 
     /**
@@ -1093,7 +1069,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public refreshBinaryWithHttpInfo(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
-        return this.api.refreshBinaryWithHttpInfo(param.binary, param.body,  options).toPromise();
+        return this.api.refreshBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
     /**
@@ -1101,7 +1077,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public refreshBinary(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<Binary> {
-        return this.api.refreshBinary(param.binary, param.body,  options).toPromise();
+        return this.api.refreshBinary(param.binary,  options).toPromise();
     }
 
     /**
@@ -1125,7 +1101,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: Configuration): Promise<HttpInfo<any>> {
-        return this.api.restartServerWithHttpInfo(param.dockerService, param.body,  options).toPromise();
+        return this.api.restartServerWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
     /**
@@ -1133,7 +1109,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public restartServer(param: AppApiRestartServerRequest, options?: Configuration): Promise<any> {
-        return this.api.restartServer(param.dockerService, param.body,  options).toPromise();
+        return this.api.restartServer(param.dockerService,  options).toPromise();
     }
 
     /**
@@ -1141,7 +1117,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
-        return this.api.restoreBackupWithHttpInfo(param.dockerService, param.body,  options).toPromise();
+        return this.api.restoreBackupWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
     /**
@@ -1149,7 +1125,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public restoreBackup(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<any> {
-        return this.api.restoreBackup(param.dockerService, param.body,  options).toPromise();
+        return this.api.restoreBackup(param.dockerService,  options).toPromise();
     }
 
     /**

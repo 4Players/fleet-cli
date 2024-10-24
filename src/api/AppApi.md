@@ -50,7 +50,7 @@ Method | HTTP request | Description
 
 
 # **createApp**
-> App createApp()
+> App createApp(storeAppRequest)
 
 
 ### Example
@@ -64,10 +64,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiCreateAppRequest = {
-  // StoreAppRequest (optional)
-  storeAppRequest: {
-    name: "name_example",
-  },
+  // StoreAppRequest
+  storeAppRequest: null,
 };
 
 apiInstance.createApp(body).then((data:any) => {
@@ -108,7 +106,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createAppLocationSetting**
-> AppLocationSetting createAppLocationSetting()
+> AppLocationSetting createAppLocationSetting(storeAppLocationSettingRequest)
 
 
 ### Example
@@ -124,21 +122,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateAppLocationSettingRequest = {
   // number | The app ID
   app: 1,
-  // StoreAppLocationSettingRequest (optional)
-  storeAppLocationSettingRequest: {
-    name: "name_example",
-    serverConfigId: 1,
-    autoScalerEnabled: true,
-    autoScalerMin: 0,
-    autoScalerMax: 1,
-    numInstances: 1,
-    placement: {
-      constraints: {
-        country: "country_example",
-        city: "city_example",
-      },
-    },
-  },
+  // StoreAppLocationSettingRequest
+  storeAppLocationSettingRequest: null,
 };
 
 apiInstance.createAppLocationSetting(body).then((data:any) => {
@@ -181,7 +166,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createBackup**
-> any createBackup()
+> any createBackup(createBackupDockerServiceRequest)
 
 
 ### Example
@@ -197,10 +182,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateBackupRequest = {
   // number | The docker service ID
   dockerService: 1,
-  // CreateBackupDockerServiceRequest (optional)
-  createBackupDockerServiceRequest: {
-    name: "name_example",
-  },
+  // CreateBackupDockerServiceRequest
+  createBackupDockerServiceRequest: null,
 };
 
 apiInstance.createBackup(body).then((data:any) => {
@@ -243,7 +226,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createBinary**
-> Binary createBinary()
+> Binary createBinary(storeBinaryRequest)
 
 
 ### Example
@@ -259,36 +242,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateBinaryRequest = {
   // number | The app ID
   app: 1,
-  // StoreBinaryRequest (optional)
-  storeBinaryRequest: {
-    name: "name_example",
-    version: "version_example",
-    type: "zipFile",
-    os: "windows",
-    dockerCompose: {
-      composeFile: "composeFile_example",
-    },
-    zipFile: {
-      zipFileUrl: "zipFileUrl_example",
-      commandLine: "commandLine_example",
-    },
-    steam: {
-      steamAppId: 1,
-      branch: "branch_example",
-      password: "password_example",
-      command: "command_example",
-      steamcmdUsername: "steamcmdUsername_example",
-      steamcmdPassword: "steamcmdPassword_example",
-      headful: true,
-      requestLicense: true,
-      runtime: "scout",
-      unpublished: true,
-    },
-    dockerImage: {
-      imageName: "imageName_example",
-      registryId: 1,
-    },
-  },
+  // StoreBinaryRequest
+  storeBinaryRequest: null,
 };
 
 apiInstance.createBinary(body).then((data:any) => {
@@ -331,7 +286,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createDockerRegistry**
-> DockerRegistry createDockerRegistry()
+> DockerRegistry createDockerRegistry(storeDockerRegistryRequest)
 
 
 ### Example
@@ -345,19 +300,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiCreateDockerRegistryRequest = {
-  // StoreDockerRegistryRequest (optional)
-  storeDockerRegistryRequest: {
-    type: "default",
-    name: "name_example",
-    url: "url_example",
-    instanceUrl: "instanceUrl_example",
-    username: "username_example",
-    accessToken: "accessToken_example",
-    password: "password_example",
-    organization: true,
-    awsAccessKey: "awsAccessKey_example",
-    awsSecretAccessKey: "awsSecretAccessKey_example",
-  },
+  // StoreDockerRegistryRequest
+  storeDockerRegistryRequest: null,
 };
 
 apiInstance.createDockerRegistry(body).then((data:any) => {
@@ -398,7 +342,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createServerConfig**
-> ServerConfig createServerConfig()
+> ServerConfig createServerConfig(storeServerConfigRequest)
 
 
 ### Example
@@ -414,64 +358,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiCreateServerConfigRequest = {
   // number | The app ID
   app: 1,
-  // StoreServerConfigRequest (optional)
-  storeServerConfigRequest: {
-    name: "name_example",
-    args: "/usr/local/etc/enshrouded/bootstrap",
-    command: "command_example",
-    notes: "notes_example",
-    binaryId: 1,
-    resourcePackageSlug: "resourcePackageSlug_example",
-    configFiles: [
-      {
-        target: "target_example",
-        content: "content_example",
-      },
-    ],
-    secretFiles: [
-      {
-        target: "target_example",
-        content: "content_example",
-      },
-    ],
-    resources: {
-      limits: {
-        cpu: 1,
-        memory: 1,
-      },
-      reservations: {
-        cpu: 1,
-        memory: 1,
-      },
-    },
-    restartPolicy: {
-      condition: "none",
-    },
-    env: [
-      {
-        type: "static",
-        key: "key_example",
-        value: "value_example",
-        variable: "variable_example",
-      },
-    ],
-    mounts: [
-      {
-        target: "target_example",
-        readOnly: true,
-      },
-    ],
-    ports: [
-      {
-        name: "name_example",
-        protocols: [
-          "tcp",
-        ],
-        targetPort: 1,
-        publishMode: "host",
-      },
-    ],
-  },
+  // StoreServerConfigRequest
+  storeServerConfigRequest: null,
 };
 
 apiInstance.createServerConfig(body).then((data:any) => {
@@ -1065,7 +953,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getAuthToken**
-> Auth getAuthToken()
+> Auth getAuthToken(authRequest)
 
 Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
 
@@ -1080,12 +968,8 @@ const configuration = .createConfiguration();
 const apiInstance = new .AppApi(configuration);
 
 let body:.AppApiGetAuthTokenRequest = {
-  // AuthRequest (optional)
-  authRequest: {
-    email: "email_example",
-    password: "password_example",
-    sid: "1234567890ABCDEFG",
-  },
+  // AuthRequest
+  authRequest: null,
 };
 
 apiInstance.getAuthToken(body).then((data:any) => {
@@ -1850,19 +1734,17 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiGetServerLogsRequest = {
   // number | The docker service ID
   dockerService: 1,
-  // boolean | details Flag (optional)
+  // boolean | Show extra details provided to logs. Default: false (optional)
   details: true,
-  // boolean | follow Flag (optional)
-  follow: true,
-  // boolean | stdout Flag (optional)
+  // boolean | Return logs from stdout. Default: true (optional)
   stdout: true,
-  // boolean | stderr Flag (optional)
+  // boolean | Return logs from stderr. Default: true (optional)
   stderr: true,
-  // number | since Flag (optional)
+  // number | Only return logs since this time, as a UNIX timestamp. Default: 0 (optional)
   since: 0,
-  // boolean | timestamps Flag (optional)
+  // boolean | Add timestamps to every log line. Default: false (optional)
   timestamps: true,
-  // string | tail options (optional)
+  // string | Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \"all\" (optional)
   tail: "tail_example",
 };
 
@@ -1877,13 +1759,12 @@ apiInstance.getServerLogs(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
- **details** | [**boolean**] | details Flag | (optional) defaults to undefined
- **follow** | [**boolean**] | follow Flag | (optional) defaults to undefined
- **stdout** | [**boolean**] | stdout Flag | (optional) defaults to undefined
- **stderr** | [**boolean**] | stderr Flag | (optional) defaults to undefined
- **since** | [**number**] | since Flag | (optional) defaults to undefined
- **timestamps** | [**boolean**] | timestamps Flag | (optional) defaults to undefined
- **tail** | [**string**] | tail options | (optional) defaults to undefined
+ **details** | [**boolean**] | Show extra details provided to logs. Default: false | (optional) defaults to undefined
+ **stdout** | [**boolean**] | Return logs from stdout. Default: true | (optional) defaults to undefined
+ **stderr** | [**boolean**] | Return logs from stderr. Default: true | (optional) defaults to undefined
+ **since** | [**number**] | Only return logs since this time, as a UNIX timestamp. Default: 0 | (optional) defaults to undefined
+ **timestamps** | [**boolean**] | Add timestamps to every log line. Default: false | (optional) defaults to undefined
+ **tail** | [**string**] | Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2038,8 +1919,6 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiRefreshBinaryRequest = {
   // number | The binary ID
   binary: 1,
-  // any (optional)
-  body: {},
 };
 
 apiInstance.refreshBinary(body).then((data:any) => {
@@ -2052,7 +1931,6 @@ apiInstance.refreshBinary(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **any**|  |
  **binary** | [**number**] | The binary ID | defaults to undefined
 
 
@@ -2066,7 +1944,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 
@@ -2152,8 +2030,6 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiRestartServerRequest = {
   // number | The docker service ID
   dockerService: 1,
-  // any (optional)
-  body: {},
 };
 
 apiInstance.restartServer(body).then((data:any) => {
@@ -2166,7 +2042,6 @@ apiInstance.restartServer(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **any**|  |
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
 
 
@@ -2180,7 +2055,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 
@@ -2211,8 +2086,6 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiRestoreBackupRequest = {
   // number | The docker service ID
   dockerService: 1,
-  // any (optional)
-  body: {},
 };
 
 apiInstance.restoreBackup(body).then((data:any) => {
@@ -2225,7 +2098,6 @@ apiInstance.restoreBackup(body).then((data:any) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **any**|  |
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
 
 
@@ -2239,7 +2111,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 
@@ -2369,7 +2241,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **updateAppLocationSetting**
-> AppLocationSetting updateAppLocationSetting()
+> AppLocationSetting updateAppLocationSetting(updateAppLocationSettingRequest)
 
 
 ### Example
@@ -2385,21 +2257,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateAppLocationSettingRequest = {
   // number | The app location setting ID
   appLocationSetting: 1,
-  // UpdateAppLocationSettingRequest (optional)
-  updateAppLocationSettingRequest: {
-    name: "name_example",
-    serverConfigId: 1,
-    autoScalerEnabled: true,
-    autoScalerMin: 0,
-    autoScalerMax: 1,
-    numInstances: 1,
-    placement: {
-      constraints: {
-        country: "country_example",
-        city: "city_example",
-      },
-    },
-  },
+  // UpdateAppLocationSettingRequest
+  updateAppLocationSettingRequest: null,
 };
 
 apiInstance.updateAppLocationSetting(body).then((data:any) => {
@@ -2442,7 +2301,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **updateBinary**
-> Binary updateBinary()
+> Binary updateBinary(updateBinaryRequest)
 
 
 ### Example
@@ -2458,36 +2317,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateBinaryRequest = {
   // number | The binary ID
   binary: 1,
-  // UpdateBinaryRequest (optional)
-  updateBinaryRequest: {
-    name: "name_example",
-    version: "version_example",
-    type: "zipFile",
-    os: "windows",
-    dockerCompose: {
-      composeFile: "composeFile_example",
-    },
-    zipFile: {
-      zipFileUrl: "zipFileUrl_example",
-      commandLine: "commandLine_example",
-    },
-    steam: {
-      steamAppId: 1,
-      branch: "branch_example",
-      password: "password_example",
-      command: "command_example",
-      steamcmdUsername: "steamcmdUsername_example",
-      steamcmdPassword: "steamcmdPassword_example",
-      headful: true,
-      requestLicense: true,
-      runtime: "scout",
-      unpublished: true,
-    },
-    dockerImage: {
-      imageName: "imageName_example",
-      registryId: 1,
-    },
-  },
+  // UpdateBinaryRequest
+  updateBinaryRequest: null,
 };
 
 apiInstance.updateBinary(body).then((data:any) => {
@@ -2530,7 +2361,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **updateDockerRegistry**
-> DockerRegistry updateDockerRegistry()
+> DockerRegistry updateDockerRegistry(updateDockerRegistryRequest)
 
 
 ### Example
@@ -2546,19 +2377,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateDockerRegistryRequest = {
   // number | The docker registry ID
   dockerRegistry: 1,
-  // UpdateDockerRegistryRequest (optional)
-  updateDockerRegistryRequest: {
-    type: "default",
-    name: "name_example",
-    url: "url_example",
-    instanceUrl: "instanceUrl_example",
-    username: "username_example",
-    accessToken: "accessToken_example",
-    password: "password_example",
-    organization: true,
-    awsAccessKey: "awsAccessKey_example",
-    awsSecretAccessKey: "awsSecretAccessKey_example",
-  },
+  // UpdateDockerRegistryRequest
+  updateDockerRegistryRequest: null,
 };
 
 apiInstance.updateDockerRegistry(body).then((data:any) => {
@@ -2601,7 +2421,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **updateServerConfig**
-> ServerConfig updateServerConfig()
+> ServerConfig updateServerConfig(updateServerConfigRequest)
 
 
 ### Example
@@ -2617,64 +2437,8 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiUpdateServerConfigRequest = {
   // number | The server config ID
   serverConfig: 1,
-  // UpdateServerConfigRequest (optional)
-  updateServerConfigRequest: {
-    name: "name_example",
-    args: "/usr/local/etc/enshrouded/bootstrap",
-    command: "command_example",
-    notes: "notes_example",
-    binaryId: 1,
-    resourcePackageSlug: "resourcePackageSlug_example",
-    configFiles: [
-      {
-        target: "target_example",
-        content: "content_example",
-      },
-    ],
-    secretFiles: [
-      {
-        target: "target_example",
-        content: "content_example",
-      },
-    ],
-    resources: {
-      limits: {
-        cpu: 1,
-        memory: 1,
-      },
-      reservations: {
-        cpu: 1,
-        memory: 1,
-      },
-    },
-    restartPolicy: {
-      condition: "none",
-    },
-    env: [
-      {
-        type: "static",
-        key: "key_example",
-        value: "value_example",
-        variable: "variable_example",
-      },
-    ],
-    mounts: [
-      {
-        target: "target_example",
-        readOnly: true,
-      },
-    ],
-    ports: [
-      {
-        name: "name_example",
-        protocols: [
-          "tcp",
-        ],
-        targetPort: 1,
-        publishMode: "host",
-      },
-    ],
-  },
+  // UpdateServerConfigRequest
+  updateServerConfigRequest: null,
 };
 
 apiInstance.updateServerConfig(body).then((data:any) => {
