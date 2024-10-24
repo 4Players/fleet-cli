@@ -70,6 +70,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
+          path: .
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -81,4 +82,4 @@ jobs:
             ./odin-windows.exe
           draft: false
           prerelease: false
-          name: Release ${{ github.ref }}
+          name: Release ${{ github.ref_name }}
