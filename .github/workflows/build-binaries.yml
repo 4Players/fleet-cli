@@ -33,12 +33,16 @@ jobs:
         with:
           deno-version-file: .dvmrc
 
-      - name: Compile binary
+      - name: Compile Binary
         run: |
           deno task build
           mv odin${{ matrix.os == 'windows-latest' && '.exe' || '' }} ${{ matrix.binary }}
         env:
           DENO_BUILD_TARGET: ${{ matrix.triplet }}
+
+      - name: Set Exacutable Flag
+        if: matrix.os != 'windows-latest'
+        run: chmod +x ${{ matrix.binary }}
 
       - name: Upload Binary
         uses: actions/upload-artifact@v4
