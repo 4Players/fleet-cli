@@ -68,6 +68,8 @@ jobs:
     steps:
       - name: Download Binaries
         uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
 
       - name: Release
         uses: softprops/action-gh-release@v2
