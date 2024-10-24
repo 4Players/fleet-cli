@@ -13,12 +13,16 @@ jobs:
         include:
           - os: ubuntu-latest
             triplet: x86_64-unknown-linux-gnu
+            binary: odin-linux
           - os: macos-latest
             triplet: x86_64-apple-darwin
+            binary: odin-macos-x86
           - os: macos-latest
             triplet: aarch64-apple-darwin
+            binary: odin-macos-arm
           - os: windows-latest
             triplet: x86_64-pc-windows-msvc
+            binary: odin-windows.exe
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
@@ -30,37 +34,17 @@ jobs:
           deno-version-file: .dvmrc
 
       - name: Compile binary
-        run: deno task build
+        run: |
+          deno task build
+          mv odin${{ matrix.os == 'windows-latest' && '.exe' || '' }} ${{ matrix.binary }}
         env:
           DENO_BUILD_TARGET: ${{ matrix.triplet }}
 
-      - name: Upload Linux Binary
+      - name: Upload Binary
         uses: actions/upload-artifact@v4
-        if: matrix.triplet == 'x86_64-unknown-linux-gnu'
         with:
-          name: odin-linux
-          path: odin
-
-      - name: Upload macOS (x86) Binary
-        uses: actions/upload-artifact@v4
-        if: matrix.triplet == 'x86_64-apple-darwin'
-        with:
-          name: odin-macos-x86
-          path: odin
-
-      - name: Upload macOS (arm) Binary
-        uses: actions/upload-artifact@v4
-        if: matrix.triplet == 'aarch64-apple-darwin'
-        with:
-          name: odin-macos-arm
-          path: odin
-
-      - name: Upload Windows Binary
-        uses: actions/upload-artifact@v4
-        if: matrix.triplet == 'x86_64-pc-windows-msvc'
-        with:
-          name: odin-windows.exe
-          path: odin.exe
+          name: ${{ matrix.binary }}
+          path: ${{ matrix.binary }}
 
   release:
     runs-on: ubuntu-latest
@@ -70,7 +54,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           merge-multiple: true
-          path: .
 
       - name: Release
         uses: softprops/action-gh-release@v2
