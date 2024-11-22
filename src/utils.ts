@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { Confirm } from "$cliffy/prompt/mod.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
@@ -39,7 +40,7 @@ export const inform = (
 export const printAsTable = async (data: any, format: string) => {
   // Format is in the format "table(<property-paths>)"
   const match = format.match(
-    /table\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/,
+    /table\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/
   );
   if (!match) {
     console.error("Invalid table format.");
@@ -101,6 +102,7 @@ export const printAsJson = (data: any) => {
   console.log(JSON.stringify(data, null, 2));
 };
 
+// deno-lint-ignore no-unused-vars
 function parseValueExpression(input: string): any {
   const regex = /value(?:\[separator='([^']*)'\])?\((.+)\)/;
   const match = input.match(regex);
@@ -161,22 +163,16 @@ class ValueTokenizer extends Tokenizer {
 
   parseAttributes() {
     if (!this.match("[")) {
-      throw (
-        "Invalid value format, attributes should start with [, i.e. value[separator=':'](...)."
-      );
+      throw "Invalid value format, attributes should start with [, i.e. value[separator=':'](...).";
     }
     this.skipWhitespace();
     if (!this.match("separator=")) {
-      throw (
-        "Invalid value format, separator is expected after attributes start with [, i.e. value[separator=':'](...)."
-      );
+      throw "Invalid value format, separator is expected after attributes start with [, i.e. value[separator=':'](...).";
     }
     this.separator = this.parseString();
     this.skipWhitespace();
     if (!this.match("]")) {
-      throw (
-        "Invalid value format, separator is expected after attributes start with [, i.e. value[separator=':'](...)."
-      );
+      throw "Invalid value format, separator is expected after attributes start with [, i.e. value[separator=':'](...).";
     }
   }
 
@@ -185,13 +181,13 @@ class ValueTokenizer extends Tokenizer {
       this.match("count");
       this.skipWhitespace();
       if (!this.match("(")) {
-        throw ("Invalid value format. ( is expected after count.");
+        throw "Invalid value format. ( is expected after count.";
       }
       this.skipWhitespace();
       const key = this.parseIdentifier();
       this.skipWhitespace();
       if (!this.match(")")) {
-        throw ("Invalid value format. ) is expected after count.");
+        throw "Invalid value format. ) is expected after count.";
       }
       this.functions.push(`$count(${key})`);
     } else {
@@ -214,7 +210,7 @@ class ValueTokenizer extends Tokenizer {
     while (!this.isAtEnd()) {
       this.skipWhitespace();
       if (!this.match("value")) {
-        throw ("Invalid value format. Expected 'value'. i.e. value(...)");
+        throw "Invalid value format. Expected 'value'. i.e. value(...)";
       }
       this.skipWhitespace();
       if (this.peek() === "[") {
@@ -222,13 +218,13 @@ class ValueTokenizer extends Tokenizer {
       }
       this.skipWhitespace();
       if (!this.match("(")) {
-        throw ("Invalid value format. Expected ( after value");
+        throw "Invalid value format. Expected ( after value";
       }
       this.skipWhitespace();
       this.parseKeys();
       this.skipWhitespace();
       if (!this.match(")")) {
-        throw ("Invalid value format. Expected ) after keys");
+        throw "Invalid value format. Expected ) after keys";
       }
     }
 
@@ -393,7 +389,7 @@ export const printAsFlattened = (data: any, format: string) => {
 export const stdout = async (
   data: any,
   options: CommandOptions,
-  defaultType: string,
+  defaultType: string
 ) => {
   let type = options.format;
   if (!type || type === "default") {
@@ -453,7 +449,7 @@ export const camelToSnake = (str: string) => {
 
 export const validateAtLeastOneOptionAvailable = (
   options: CommandOptions,
-  requiredOption: string[],
+  requiredOption: string[]
 ) => {
   for (const option of requiredOption) {
     if (options[option]) {
@@ -461,18 +457,18 @@ export const validateAtLeastOneOptionAvailable = (
     }
   }
 
-  const optionNames = requiredOption.map((option) =>
-    `--${camelToSnake(option)}`
-  ).join(", ");
+  const optionNames = requiredOption
+    .map((option) => `--${camelToSnake(option)}`)
+    .join(", ");
 
   logErrorAndExit(
-    `At least one of the following options is required: ${optionNames}`,
+    `At least one of the following options is required: ${optionNames}`
   );
 };
 
 export const validateRequiredOptions = (
   options: CommandOptions,
-  requiredOption: string[],
+  requiredOption: string[]
 ) => {
   for (const option of requiredOption) {
     if (!options[option]) {

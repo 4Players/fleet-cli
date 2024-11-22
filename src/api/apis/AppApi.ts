@@ -32,6 +32,7 @@ import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
@@ -181,7 +182,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param app The app ID
      * @param storeBinaryRequest 
      */
@@ -320,7 +321,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param app The app ID
      */
@@ -371,41 +371,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-
-        
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth?.applySecurityAuthentication) {
-            await defaultAuth?.applySecurityAuthentication(requestContext);
-        }
-
-        return requestContext;
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param sid The session id of the user
-     */
-    public async deleteAuthToken(sid: string, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
-
-        // verify required parameter 'sid' is not null or undefined
-        if (sid === null || sid === undefined) {
-            throw new RequiredError("AppApi", "deleteAuthToken", "sid");
-        }
-
-
-        // Path Params
-        const localVarPath = '/v1/auth/token';
-
-        // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-        // Query Params
-        if (sid !== undefined) {
-            requestContext.setQueryParam("sid", ObjectSerializer.serialize(sid, "string", ""));
-        }
 
 
         
@@ -627,8 +592,8 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param authRequest 
      */
     public async getAuthToken(authRequest: AuthRequest, _options?: Configuration): Promise<RequestContext> {
@@ -847,7 +812,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      */
     public async getLocations(_options?: Configuration): Promise<RequestContext> {
@@ -1192,7 +1156,46 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Show all services for a specific app location setting within a given app
+     * @param app The app ID
+     * @param appLocationSetting The app location setting ID
+     */
+    public async listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "listServicesForAppLocationSetting", "app");
+        }
+
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "listServicesForAppLocationSetting", "appLocationSetting");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/location-settings/{appLocationSetting}/services'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)))
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Refresh a binary and the related entity
      * @param binary The binary ID
      */
     public async refreshBinary(binary: number, _options?: Configuration): Promise<RequestContext> {
@@ -1393,6 +1396,55 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Update a specific app
+     * @param app The app ID
+     * @param updateAppRequest 
+     */
+    public async updateAppById(app: number, updateAppRequest: UpdateAppRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "updateAppById", "app");
+        }
+
+
+        // verify required parameter 'updateAppRequest' is not null or undefined
+        if (updateAppRequest === null || updateAppRequest === undefined) {
+            throw new RequiredError("AppApi", "updateAppById", "updateAppRequest");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(updateAppRequest, "UpdateAppRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
      * Update a location setting
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
@@ -1442,7 +1494,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
@@ -1994,49 +2046,6 @@ export class AppApiResponseProcessor {
             throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
-        }
-
-        // Work around for missing responses in specification, e.g. for petstore.yaml
-        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
-        }
-
-        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
-    }
-
-    /**
-     * Unwraps the actual response sent by the server from the response context and deserializes the response content
-     * to the expected objects
-     *
-     * @params response Response returned by the server for a request to deleteAuthToken
-     * @throws ApiException if the response code was not in [200, 299]
-     */
-     public async deleteAuthTokenWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
-        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
-        if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
-        }
-        if (isCodeInRange("422", response.httpStatusCode)) {
             const body: any = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "any", ""
@@ -3137,6 +3146,13 @@ export class AppApiResponseProcessor {
             ) as any;
             throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
         }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -3187,6 +3203,56 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "GetTaggedImages200Response", ""
             ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to listServicesForAppLocationSetting
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async listServicesForAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Server> >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Array<Server> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Server>", ""
+            ) as Array<Server>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Array<Server> = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Array<Server>", ""
+            ) as Array<Server>;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3480,6 +3546,63 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<SteamLauncher>", ""
             ) as Array<SteamLauncher>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to updateAppById
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async updateAppByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

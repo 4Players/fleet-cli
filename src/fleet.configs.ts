@@ -2,7 +2,6 @@ import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { getSelectedAppOrExit } from "./apps.ts";
 import { apiClient } from "./main.ts";
-import { Table } from "$cliffy/table/table.ts";
 import { Confirm, Input, Number, prompt, Select } from "$cliffy/prompt/mod.ts";
 import {
   Binary,
@@ -12,8 +11,6 @@ import {
   PortDefinition,
   Protocol,
   PublishMode,
-  ResourceAllocations,
-  ResourcePackage,
   RestartPolicy,
   RestartPolicyCondition,
   ServerConfig,
@@ -22,14 +19,11 @@ import {
 } from "./api/index.ts";
 import {
   confirm,
-  deepMerge,
   inform,
   logError,
-  logSuccess,
   stdout,
   validateAtLeastOneOptionAvailable,
 } from "./utils.ts";
-import { Tier } from "./types/tier.ts";
 
 const configsList = new Command()
   .name("list")
@@ -46,7 +40,7 @@ const configsList = new Command()
         // Load all deployments and filter out the used configs
         const deployments = await apiClient.getAppLocationSettings(app.id);
         const usedConfigs = deployments.map(
-          (deployment) => deployment.serverConfig?.id,
+          (deployment) => deployment.serverConfig?.id
         );
         configs = configs.filter((config) => !usedConfigs.includes(config.id));
       }
@@ -61,7 +55,7 @@ const configsList = new Command()
       logError(
         "Failed to list configs. Error: ",
         error.body.message,
-        error.code,
+        error.code
       );
       Deno.exit(1);
     }
@@ -84,7 +78,7 @@ export const getConfigDetails = new Command()
         console.log(
           "Failed to load configs. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -101,9 +95,9 @@ export const getConfigDetails = new Command()
     let config: ServerConfig;
     try {
       config = await apiClient.getServerConfigById(configId);
-    } catch (error) {
+    } catch (_error) {
       logError(
-        `Image ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+        `Image ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`
       );
       Deno.exit(1);
     }
@@ -111,7 +105,7 @@ export const getConfigDetails = new Command()
     stdout(
       config,
       options,
-      "table(id,name,binary.name,binary.version,restartPolicy.condition,resources.limits.memory,resources.limits.cpu)",
+      "table(id,name,binary.name,binary.version,restartPolicy.condition,resources.limits.memory,resources.limits.cpu)"
     );
   });
 
@@ -122,7 +116,7 @@ const createConfig = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option(
     "--dry-run",
-    "Dry run mode, does not create the deployment, but prints the payload.",
+    "Dry run mode, does not create the deployment, but prints the payload."
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -143,7 +137,7 @@ const createConfig = new Command()
         if (binaries.length === 0) {
           logError(
             options,
-            `No images have been created for the selected app (${app.name}) yet. Use 'fleet images create' to create an image`,
+            `No images have been created for the selected app (${app.name}) yet. Use 'fleet images create' to create an image`
           );
           Deno.exit(1);
         }
@@ -151,7 +145,7 @@ const createConfig = new Command()
         logError(
           "Failed to load images. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -168,11 +162,11 @@ const createConfig = new Command()
       }); // Need to hack the type system as there seems to be a bug in the Select prompt definition
 
       const command = await Input.prompt(
-        "Command (overwrite ENTRYPOINT): (optional)",
+        "Command (overwrite ENTRYPOINT): (optional)"
       );
       const args = await Input.prompt("Arguments (overwrite CMD): (optional)");
       const notes = await Input.prompt(
-        "Add notes (something to remember later): (optional)",
+        "Add notes (something to remember later): (optional)"
       );
 
       // Restart policy
@@ -199,15 +193,16 @@ const createConfig = new Command()
       const resourcePackageSlug = await Select.prompt<string>({
         message: "Select Resource Package:",
         options: resourcePackages.map((resourcePackage) => ({
-          name: `${resourcePackage
-            .name!} (${resourcePackage.cpuLimit} MB RAM, ${resourcePackage.memoryLimitMb} CPU cores)`,
+          name: `${resourcePackage.name!} (${
+            resourcePackage.cpuLimit
+          } MB RAM, ${resourcePackage.memoryLimitMb} CPU cores)`,
           value: resourcePackage.slug,
         })),
       });
 
       // Ports
       console.log(
-        "You need to define the ports that your server will use (i.e. 7777 for a game server). These ports will be made available to the public internet during the deployment. You can define multiple ports.",
+        "You need to define the ports that your server will use (i.e. 7777 for a game server). These ports will be made available to the public internet during the deployment. You can define multiple ports."
       );
       const ports: Array<PortDefinition> = [];
       while (await Confirm.prompt("Add a port?")) {
@@ -257,18 +252,18 @@ const createConfig = new Command()
 
       // Environment variables
       console.log(
-        "We support different types of environment variables. A `static` value is a fixed value that doesn't change and you enter the value directly. A `port` is a port number that is dynamically assigned and linked to the container ports that you defined earlier. A `system` variable is a variable that is set by the system at runtime.",
+        "We support different types of environment variables. A `static` value is a fixed value that doesn't change and you enter the value directly. A `port` is a port number that is dynamically assigned and linked to the container ports that you defined earlier. A `system` variable is a variable that is set by the system at runtime."
       );
       const env = [];
       while (
         await Confirm.prompt(
           env.length === 0
             ? "Add an environment variable?"
-            : "Add another environment variable?",
+            : "Add another environment variable?"
         )
       ) {
         const key = await Input.prompt(
-          "The name (key) of the Variable (i.e. SERVER_NAME):",
+          "The name (key) of the Variable (i.e. SERVER_NAME):"
         );
         const type = (await Select.prompt<EnvironmentVariableType>({
           message: "The type of the environment variable:",
@@ -320,11 +315,11 @@ const createConfig = new Command()
         await Confirm.prompt(
           mounts.length === 0
             ? "Add a persistent folder that will be made persistent (i.e. where your server stores files)?"
-            : "Add another persistent folder?",
+            : "Add another persistent folder?"
         )
       ) {
         const target = await Input.prompt(
-          "Path inside container (i.e. /path/in/container):",
+          "Path inside container (i.e. /path/in/container):"
         );
         const mount: Mount = {
           target,
@@ -334,24 +329,24 @@ const createConfig = new Command()
       }
 
       console.log(
-        "Config files are snippets of configuration that you can provide to the container and adjust without updating the docker image. They will be made available at the path you specify inside the container.",
+        "Config files are snippets of configuration that you can provide to the container and adjust without updating the docker image. They will be made available at the path you specify inside the container."
       );
       console.log(
-        "You need to have the content of the config file on your local disk to provide it. You can always provide the config file later by updating the server config.",
+        "You need to have the content of the config file on your local disk to provide it. You can always provide the config file later by updating the server config."
       );
       const configFiles: Array<ConfigFile> = [];
       while (
         await Confirm.prompt(
           configFiles.length === 0
             ? "Add a config file that will be made available to the container?"
-            : "Add another config file?",
+            : "Add another config file?"
         )
       ) {
         const target = await Input.prompt(
-          "File Path inside container (i.e. /path/to/config/file.ini):",
+          "File Path inside container (i.e. /path/to/config/file.ini):"
         );
         const localFile = await Input.prompt(
-          "Local file path to config-file (i.e. /Users/xyz/config/file.ini):",
+          "Local file path to config-file (i.e. /Users/xyz/config/file.ini):"
         );
         let content = "";
         try {
@@ -359,7 +354,7 @@ const createConfig = new Command()
         } catch (e) {
           logError("Failed to read file. Error: ", e);
           console.log(
-            "Please provide the content of the file manually (via Dashboard or CLI) at a later time. We'll use an empty file in the meantime.",
+            "Please provide the content of the file manually (via Dashboard or CLI) at a later time. We'll use an empty file in the meantime."
           );
         }
 
@@ -393,26 +388,26 @@ const createConfig = new Command()
     } else {
       const confirmed = await confirm(
         options,
-        "Do you want to create the server config?",
+        "Do you want to create the server config?"
       );
 
       if (confirmed) {
         try {
           const createdConfig = await apiClient.createServerConfig(
             app.id,
-            payload,
+            payload
           );
           stdout(
             createdConfig,
             options,
-            "table(id,name,binary.name,binary.version)",
+            "table(id,name,binary.name,binary.version)"
           );
         } catch (error) {
           logError(
             "Failed to create server config. Error: ",
             error.body.message,
             error.code,
-            JSON.stringify(payload),
+            JSON.stringify(payload)
           );
           Deno.exit(1);
         }
@@ -420,7 +415,7 @@ const createConfig = new Command()
         inform(options, "Server configuration creation aborted.");
         inform(
           options,
-          "This payload would have been used, you can use the --payload flag to provide it: ",
+          "This payload would have been used, you can use the --payload flag to provide it: "
         );
         stdout(payload, options, "json");
       }
@@ -443,7 +438,7 @@ const updateConfig = new Command()
   .group("Other Options")
   .option(
     "--dry-run",
-    "Dry run mode, does not update the config, but prints the payload.",
+    "Dry run mode, does not update the config, but prints the payload."
   )
   .action(async (options: CommandOptions) => {
     validateAtLeastOneOptionAvailable(options, [
@@ -466,7 +461,7 @@ const updateConfig = new Command()
         console.log(
           "Failed to load configs. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -483,9 +478,9 @@ const updateConfig = new Command()
     let config: ServerConfig;
     try {
       config = await apiClient.getServerConfigById(configId);
-    } catch (error) {
+    } catch (_error) {
       logError(
-        `Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+        `Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`
       );
       Deno.exit(1);
     }
@@ -522,7 +517,7 @@ const updateConfig = new Command()
     } else {
       const confirmed = await confirm(
         options,
-        `Do you really want to update the config?`,
+        `Do you really want to update the config?`
       );
 
       if (confirmed) {
@@ -532,7 +527,7 @@ const updateConfig = new Command()
         } catch (error) {
           logError(
             "Failed to update config. Error: " + error.body.message,
-            error.code,
+            error.code
           );
           Deno.exit(1);
         }
@@ -555,7 +550,7 @@ const deleteConfig = new Command()
         console.log(
           "Failed to load configs. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -572,16 +567,16 @@ const deleteConfig = new Command()
     let config: ServerConfig;
     try {
       config = await apiClient.getServerConfigById(configId);
-    } catch (error) {
+    } catch (_error) {
       logError(
-        `Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+        `Config ${configId} does not exist (or not in the app ${app.name}, id: ${app.id})`
       );
       Deno.exit(1);
     }
 
     const confirmed = await confirm(
       options,
-      `Do you want to delete the config ${config!.name}?`,
+      `Do you want to delete the config ${config!.name}?`
     );
 
     if (confirmed) {
@@ -591,7 +586,7 @@ const deleteConfig = new Command()
       } catch (error) {
         logError(
           "Failed to delete config. Error: " + error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }

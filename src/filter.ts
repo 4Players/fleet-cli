@@ -90,30 +90,31 @@ export class FilterTokenizer extends Tokenizer {
 
     // If no valid token is found, throw an error
     throw new Error(
-      `Unexpected character '${char}' at position ${this.current}`,
+      `Unexpected character '${char}' at position ${this.current}`
     );
   }
 
   // Read a quoted string (single or double)
   readString() {
-    let value = this.parseString();
+    const value = this.parseString();
     return new Token(TokenType.VALUE_STRING, value);
   }
 
   // Read a number (integers only for now)
   readNumber() {
-    let value = this.parseNumber();
+    const value = this.parseNumber();
     return new Token(TokenType.VALUE_NUMBER, value);
   }
 
   // Read an identifier (field name, allowing dots for nested fields)
   readIdentifier() {
-    let value = this.parseIdentifier();
+    const value = this.parseIdentifier();
     return new Token(TokenType.IDENTIFIER, value);
   }
 }
 
 // Parser that converts tokens into a JSONata-compatible function-based string
+// deno-lint-ignore no-explicit-any
 function parseExpression(tokens: any[]): string {
   let index = 0;
 
@@ -141,9 +142,10 @@ function parseExpression(tokens: any[]): string {
       if (operator === "~") {
         return `$contains($v.${field}, /${valueToken.value}/)`;
       } else {
-        const value = valueToken.type === TokenType.VALUE_STRING
-          ? `'${valueToken.value}'`
-          : valueToken.value;
+        const value =
+          valueToken.type === TokenType.VALUE_STRING
+            ? `'${valueToken.value}'`
+            : valueToken.value;
 
         return `$v.${field} ${operator} ${value}`;
       }
@@ -182,8 +184,7 @@ export async function filterArray(data: any[], filterExpression: string) {
   const jsonataExpressionStr = parseExpression(tokens);
 
   // Construct the JSONata expression using $filter
-  const jsonataFilterStr =
-    `$filter($, function($v, $i, $a) { ${jsonataExpressionStr} })`;
+  const jsonataFilterStr = `$filter($, function($v, $i, $a) { ${jsonataExpressionStr} })`;
 
   // Prepare and evaluate the JSONata expression
   const expression = jsonata(jsonataFilterStr);

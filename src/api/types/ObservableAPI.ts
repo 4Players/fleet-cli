@@ -14,9 +14,12 @@ import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateConstraints } from '../models/CreateUpdateConstraints.ts';
+import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
+import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
@@ -57,6 +60,7 @@ import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts'
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
@@ -176,7 +180,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param app The app ID
      * @param storeBinaryRequest 
      */
@@ -200,7 +204,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param app The app ID
      * @param storeBinaryRequest 
      */
@@ -273,7 +277,6 @@ export class ObservableAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param app The app ID
      */
@@ -297,7 +300,6 @@ export class ObservableAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param app The app ID
      */
@@ -334,37 +336,6 @@ export class ObservableAppApi {
      */
     public deleteAppLocationSetting(appLocationSetting: number, _options?: Configuration): Observable<any> {
         return this.deleteAppLocationSettingWithHttpInfo(appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param sid The session id of the user
-     */
-    public deleteAuthTokenWithHttpInfo(sid: string, _options?: Configuration): Observable<HttpInfo<any>> {
-        const requestContextPromise = this.requestFactory.deleteAuthToken(sid, _options);
-
-        // build promise chain
-        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (let middleware of this.configuration.middleware) {
-            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
-        }
-
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
-            pipe(mergeMap((response: ResponseContext) => {
-                let middlewarePostObservable = of(response);
-                for (let middleware of this.configuration.middleware) {
-                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
-                }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.deleteAuthTokenWithHttpInfo(rsp)));
-            }));
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param sid The session id of the user
-     */
-    public deleteAuthToken(sid: string, _options?: Configuration): Observable<any> {
-        return this.deleteAuthTokenWithHttpInfo(sid, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
     }
 
     /**
@@ -583,8 +554,8 @@ export class ObservableAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param authRequest 
      */
     public getAuthTokenWithHttpInfo(authRequest: AuthRequest, _options?: Configuration): Observable<HttpInfo<Auth>> {
@@ -607,8 +578,8 @@ export class ObservableAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param authRequest 
      */
     public getAuthToken(authRequest: AuthRequest, _options?: Configuration): Observable<Auth> {
@@ -800,7 +771,6 @@ export class ObservableAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      */
     public getLocationsWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<Location>>> {
@@ -823,7 +793,6 @@ export class ObservableAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      */
     public getLocations(_options?: Configuration): Observable<Array<Location>> {
@@ -1122,7 +1091,40 @@ export class ObservableAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Show all services for a specific app location setting within a given app
+     * @param app The app ID
+     * @param appLocationSetting The app location setting ID
+     */
+    public listServicesForAppLocationSettingWithHttpInfo(app: number, appLocationSetting: number, _options?: Configuration): Observable<HttpInfo<Array<Server>>> {
+        const requestContextPromise = this.requestFactory.listServicesForAppLocationSetting(app, appLocationSetting, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.listServicesForAppLocationSettingWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Show all services for a specific app location setting within a given app
+     * @param app The app ID
+     * @param appLocationSetting The app location setting ID
+     */
+    public listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: Configuration): Observable<Array<Server>> {
+        return this.listServicesForAppLocationSettingWithHttpInfo(app, appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<Array<Server>>) => apiResponse.data));
+    }
+
+    /**
+     * Refresh a binary and the related entity
      * @param binary The binary ID
      */
     public refreshBinaryWithHttpInfo(binary: number, _options?: Configuration): Observable<HttpInfo<Binary>> {
@@ -1145,7 +1147,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Refresh a binary and the related entity
      * @param binary The binary ID
      */
     public refreshBinary(binary: number, _options?: Configuration): Observable<Binary> {
@@ -1310,6 +1312,39 @@ export class ObservableAppApi {
     }
 
     /**
+     * Update a specific app
+     * @param app The app ID
+     * @param updateAppRequest 
+     */
+    public updateAppByIdWithHttpInfo(app: number, updateAppRequest: UpdateAppRequest, _options?: Configuration): Observable<HttpInfo<App>> {
+        const requestContextPromise = this.requestFactory.updateAppById(app, updateAppRequest, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (let middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (let middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.updateAppByIdWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Update a specific app
+     * @param app The app ID
+     * @param updateAppRequest 
+     */
+    public updateAppById(app: number, updateAppRequest: UpdateAppRequest, _options?: Configuration): Observable<App> {
+        return this.updateAppByIdWithHttpInfo(app, updateAppRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
      * Update a location setting
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
@@ -1343,7 +1378,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
@@ -1367,7 +1402,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */

@@ -1,6 +1,6 @@
 /**
  * ODIN Fleet API
- * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
+ * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.  To authenticate, users must send their email, password, and session ID to the **[`/api/auth`](/operations/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.      Alternatively, you can copy your API key directly from our **[`console`](https://console.4players.io)** by opening any app, and then going to **Settings -> API Keys**.
  *
  * OpenAPI spec version: 0.8.1
  * 
@@ -12,7 +12,6 @@
 
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -58,9 +57,17 @@ export class Binary {
     */
     'statusMessage': string | null;
     /**
-    * The config templates of the binary
+    * The current progress percentage of the image build (0-100).
     */
-    'configTemplates'?: Array<ConfigTemplate>;
+    'progress'?: number | null;
+    /**
+    * A message describing the current build step.
+    */
+    'progressMessage'?: string | null;
+    /**
+    * Indicates whether the binary is currently in use
+    */
+    'inUse': boolean;
     /**
     * The docker image of the binary
     */
@@ -136,9 +143,21 @@ export class Binary {
             "format": ""
         },
         {
-            "name": "configTemplates",
-            "baseName": "configTemplates",
-            "type": "Array<ConfigTemplate>",
+            "name": "progress",
+            "baseName": "progress",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "progressMessage",
+            "baseName": "progressMessage",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "inUse",
+            "baseName": "inUse",
+            "type": "boolean",
             "format": ""
         },
         {

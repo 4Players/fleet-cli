@@ -10,9 +10,12 @@ export * from '../models/Binary.ts';
 export * from '../models/BinaryStatus.ts';
 export * from '../models/BinaryType.ts';
 export * from '../models/ConfigFile.ts';
-export * from '../models/ConfigTemplate.ts';
 export * from '../models/Constraints.ts';
 export * from '../models/CreateBackupDockerServiceRequest.ts';
+export * from '../models/CreateUpdateConstraints.ts';
+export * from '../models/CreateUpdateDockerImage.ts';
+export * from '../models/CreateUpdatePlacement.ts';
+export * from '../models/CreateUpdateSteam.ts';
 export * from '../models/DockerCompose.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
@@ -53,26 +56,30 @@ export * from '../models/StoreServerConfigRequest.ts';
 export * from '../models/TaggedImage.ts';
 export * from '../models/TaggedImageMetaData.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
+export * from '../models/UpdateAppRequest.ts';
 export * from '../models/UpdateBinaryRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/UpdateServerConfigRequest.ts';
 export * from '../models/ZipFile.ts';
 
 import { App } from '../models/App.ts';
-import { AppLocationSetting              } from '../models/AppLocationSetting.ts';
+import { AppLocationSetting               } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Auth } from '../models/Auth.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup       } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
 import { BackupType } from '../models/BackupType.ts';
-import { Binary               } from '../models/Binary.ts';
+import { Binary                 } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateConstraints } from '../models/CreateUpdateConstraints.ts';
+import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
+import { CreateUpdateSteam            } from '../models/CreateUpdateSteam.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry            } from '../models/DockerRegistry.ts';
@@ -98,10 +105,10 @@ import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
-import { ServerConfig                   } from '../models/ServerConfig.ts';
+import { ServerConfig                    } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
-import { Steam           } from '../models/Steam.ts';
+import { Steam             } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
 import { SteamRuntime } from '../models/SteamRuntime.ts';
@@ -113,6 +120,7 @@ import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts'
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest         } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest           } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
@@ -155,9 +163,12 @@ let typeMap: {[index: string]: any} = {
     "BackupDownload": BackupDownload,
     "Binary": Binary,
     "ConfigFile": ConfigFile,
-    "ConfigTemplate": ConfigTemplate,
     "Constraints": Constraints,
     "CreateBackupDockerServiceRequest": CreateBackupDockerServiceRequest,
+    "CreateUpdateConstraints": CreateUpdateConstraints,
+    "CreateUpdateDockerImage": CreateUpdateDockerImage,
+    "CreateUpdatePlacement": CreateUpdatePlacement,
+    "CreateUpdateSteam": CreateUpdateSteam,
     "DockerCompose": DockerCompose,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
@@ -189,6 +200,7 @@ let typeMap: {[index: string]: any} = {
     "TaggedImage": TaggedImage,
     "TaggedImageMetaData": TaggedImageMetaData,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
+    "UpdateAppRequest": UpdateAppRequest,
     "UpdateBinaryRequest": UpdateBinaryRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
     "UpdateServerConfigRequest": UpdateServerConfigRequest,

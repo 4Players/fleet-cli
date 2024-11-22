@@ -13,9 +13,12 @@ import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateConstraints } from '../models/CreateUpdateConstraints.ts';
+import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
+import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
@@ -56,6 +59,7 @@ import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts'
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
@@ -158,15 +162,6 @@ export interface AppApiDeleteAppLocationSettingRequest {
      * @memberof AppApideleteAppLocationSetting
      */
     appLocationSetting: number
-}
-
-export interface AppApiDeleteAuthTokenRequest {
-    /**
-     * The session id of the user
-     * @type string
-     * @memberof AppApideleteAuthToken
-     */
-    sid: string
 }
 
 export interface AppApiDeleteBinaryRequest {
@@ -403,6 +398,21 @@ export interface AppApiGetTaggedImagesRequest {
     dockerRegistry: number
 }
 
+export interface AppApiListServicesForAppLocationSettingRequest {
+    /**
+     * The app ID
+     * @type number
+     * @memberof AppApilistServicesForAppLocationSetting
+     */
+    app: number
+    /**
+     * The app location setting ID
+     * @type number
+     * @memberof AppApilistServicesForAppLocationSetting
+     */
+    appLocationSetting: number
+}
+
 export interface AppApiRefreshBinaryRequest {
     /**
      * The binary ID
@@ -461,6 +471,21 @@ export interface AppApiSteamGetLauncherRequest {
      * @memberof AppApisteamGetLauncher
      */
     os?: OperatingSystem
+}
+
+export interface AppApiUpdateAppByIdRequest {
+    /**
+     * The app ID
+     * @type number
+     * @memberof AppApiupdateAppById
+     */
+    app: number
+    /**
+     * 
+     * @type UpdateAppRequest
+     * @memberof AppApiupdateAppById
+     */
+    updateAppRequest: UpdateAppRequest
 }
 
 export interface AppApiUpdateAppLocationSettingRequest {
@@ -579,7 +604,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param param the request object
      */
     public createBinaryWithHttpInfo(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
@@ -587,7 +612,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param param the request object
      */
     public createBinary(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<Binary> {
@@ -627,7 +652,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param param the request object
      */
@@ -636,7 +660,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param param the request object
      */
@@ -658,22 +681,6 @@ export class ObjectAppApi {
      */
     public deleteAppLocationSetting(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<any> {
         return this.api.deleteAppLocationSetting(param.appLocationSetting,  options).toPromise();
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param param the request object
-     */
-    public deleteAuthTokenWithHttpInfo(param: AppApiDeleteAuthTokenRequest, options?: Configuration): Promise<HttpInfo<any>> {
-        return this.api.deleteAuthTokenWithHttpInfo(param.sid,  options).toPromise();
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param param the request object
-     */
-    public deleteAuthToken(param: AppApiDeleteAuthTokenRequest, options?: Configuration): Promise<any> {
-        return this.api.deleteAuthToken(param.sid,  options).toPromise();
     }
 
     /**
@@ -789,8 +796,8 @@ export class ObjectAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param param the request object
      */
     public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<HttpInfo<Auth>> {
@@ -798,8 +805,8 @@ export class ObjectAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param param the request object
      */
     public getAuthToken(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<Auth> {
@@ -903,7 +910,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
@@ -912,7 +918,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
@@ -1065,7 +1070,23 @@ export class ObjectAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Show all services for a specific app location setting within a given app
+     * @param param the request object
+     */
+    public listServicesForAppLocationSettingWithHttpInfo(param: AppApiListServicesForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<Array<Server>>> {
+        return this.api.listServicesForAppLocationSettingWithHttpInfo(param.app, param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Show all services for a specific app location setting within a given app
+     * @param param the request object
+     */
+    public listServicesForAppLocationSetting(param: AppApiListServicesForAppLocationSettingRequest, options?: Configuration): Promise<Array<Server>> {
+        return this.api.listServicesForAppLocationSetting(param.app, param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Refresh a binary and the related entity
      * @param param the request object
      */
     public refreshBinaryWithHttpInfo(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
@@ -1073,7 +1094,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Refresh a binary and the related entity
      * @param param the request object
      */
     public refreshBinary(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<Binary> {
@@ -1161,6 +1182,22 @@ export class ObjectAppApi {
     }
 
     /**
+     * Update a specific app
+     * @param param the request object
+     */
+    public updateAppByIdWithHttpInfo(param: AppApiUpdateAppByIdRequest, options?: Configuration): Promise<HttpInfo<App>> {
+        return this.api.updateAppByIdWithHttpInfo(param.app, param.updateAppRequest,  options).toPromise();
+    }
+
+    /**
+     * Update a specific app
+     * @param param the request object
+     */
+    public updateAppById(param: AppApiUpdateAppByIdRequest, options?: Configuration): Promise<App> {
+        return this.api.updateAppById(param.app, param.updateAppRequest,  options).toPromise();
+    }
+
+    /**
      * Update a location setting
      * @param param the request object
      */
@@ -1177,7 +1214,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param param the request object
      */
     public updateBinaryWithHttpInfo(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
@@ -1185,7 +1222,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param param the request object
      */
     public updateBinary(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<Binary> {

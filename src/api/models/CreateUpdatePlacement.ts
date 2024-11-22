@@ -10,14 +10,14 @@
  * Do not edit the class manually.
  */
 
-import { Constraints } from '../models/Constraints.ts';
+import { CreateUpdateConstraints } from '../models/CreateUpdateConstraints.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class CreateUpdatePlacement {
     /**
     * The constraints to use
     */
-    'constraints': Constraints;
+    'constraints': CreateUpdateConstraints;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -25,12 +25,12 @@ export class Placement {
         {
             "name": "constraints",
             "baseName": "constraints",
-            "type": "Constraints",
+            "type": "CreateUpdateConstraints",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return CreateUpdatePlacement.attributeTypeMap;
     }
 
     public constructor() {

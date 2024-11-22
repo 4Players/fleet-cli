@@ -1,6 +1,6 @@
 /**
  * ODIN Fleet API
- * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
+ * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.  To authenticate, users must send their email, password, and session ID to the **[`/api/auth`](/operations/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.      Alternatively, you can copy your API key directly from our **[`console`](https://console.4players.io)** by opening any app, and then going to **Settings -> API Keys**.
  *
  * OpenAPI spec version: 0.8.1
  * 
@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { Placement } from '../models/Placement.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class StoreAppLocationSettingRequest {
@@ -41,7 +41,7 @@ export class StoreAppLocationSettingRequest {
     /**
     * The placement settings that define the location and other constraints
     */
-    'placement'?: Placement;
+    'placement'?: CreateUpdatePlacement;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -85,7 +85,7 @@ export class StoreAppLocationSettingRequest {
         {
             "name": "placement",
             "baseName": "placement",
-            "type": "Placement",
+            "type": "CreateUpdatePlacement",
             "format": ""
         }    ];
 

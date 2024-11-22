@@ -13,7 +13,7 @@
 import { SteamRuntime } from '../models/SteamRuntime.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Steam {
+export class CreateUpdateSteam {
     /**
     * The Steam App ID
     */
@@ -58,10 +58,6 @@ export class Steam {
     * Whether or not the steamworks app is unpublished or published
     */
     'unpublished': boolean;
-    /**
-    * Indicates whether the steam binary is currently in use
-    */
-    'inUse': boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -131,16 +127,10 @@ export class Steam {
             "baseName": "unpublished",
             "type": "boolean",
             "format": ""
-        },
-        {
-            "name": "inUse",
-            "baseName": "inUse",
-            "type": "boolean",
-            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Steam.attributeTypeMap;
+        return CreateUpdateSteam.attributeTypeMap;
     }
 
     public constructor() {

@@ -10,27 +10,36 @@
  * Do not edit the class manually.
  */
 
-import { Constraints } from '../models/Constraints.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class CreateUpdateDockerImage {
     /**
-    * The constraints to use
+    * The name of the docker image
     */
-    'constraints': Constraints;
+    'imageName': string;
+    /**
+    * The id of the registry to load the image
+    */
+    'registryId': number;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Constraints",
+            "name": "imageName",
+            "baseName": "imageName",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "registryId",
+            "baseName": "registryId",
+            "type": "number",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return CreateUpdateDockerImage.attributeTypeMap;
     }
 
     public constructor() {

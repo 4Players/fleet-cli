@@ -1,5 +1,4 @@
 import { Command } from "$cliffy/command/command.ts";
-import { Table } from "$cliffy/table/table.ts";
 import { Location } from "./api/index.ts";
 import { apiClient } from "./main.ts";
 import { logError, stdout } from "./utils.ts";
@@ -10,7 +9,7 @@ const locationsList = new Command()
   .description("List all locations available in ODIN Fleet.")
   .option(
     "--filter <filter:string>",
-    "Filter result based on a filter expression",
+    "Filter result based on a filter expression"
   )
   .action(async (options) => {
     // Select Location
@@ -24,7 +23,7 @@ const locationsList = new Command()
     } catch (error) {
       logError(
         "Failed to load locations. Error: " + error.body.message,
-        error.code,
+        error.code
       );
       Deno.exit(1);
     }
@@ -45,7 +44,7 @@ const locationsList = new Command()
 export const locations = new Command()
   .name("servers")
   .description(
-    "Manage ODIN Fleet servers have been deployment for the selected app.",
+    "Manage ODIN Fleet servers have been deployment for the selected app."
   )
   .action(() => {
     locations.showHelp();

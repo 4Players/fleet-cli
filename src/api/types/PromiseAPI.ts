@@ -13,9 +13,12 @@ import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
-import { ConfigTemplate } from '../models/ConfigTemplate.ts';
 import { Constraints } from '../models/Constraints.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateConstraints } from '../models/CreateUpdateConstraints.ts';
+import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
+import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
@@ -56,6 +59,7 @@ import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts'
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
+import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
@@ -133,7 +137,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param app The app ID
      * @param storeBinaryRequest 
      */
@@ -143,7 +147,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Create a binary and the related file
+     * Create a binary and the related entity
      * @param app The app ID
      * @param storeBinaryRequest 
      */
@@ -191,7 +195,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param app The app ID
      */
@@ -201,7 +204,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
      * Delete a specific app
      * @param app The app ID
      */
@@ -225,24 +227,6 @@ export class PromiseAppApi {
      */
     public deleteAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<any> {
         const result = this.api.deleteAppLocationSetting(appLocationSetting, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param sid The session id of the user
-     */
-    public deleteAuthTokenWithHttpInfo(sid: string, _options?: Configuration): Promise<HttpInfo<any>> {
-        const result = this.api.deleteAuthTokenWithHttpInfo(sid, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Handles the deletion of a user\'s authentication tokens
-     * @param sid The session id of the user
-     */
-    public deleteAuthToken(sid: string, _options?: Configuration): Promise<any> {
-        const result = this.api.deleteAuthToken(sid, _options);
         return result.toPromise();
     }
 
@@ -371,8 +355,8 @@ export class PromiseAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param authRequest 
      */
     public getAuthTokenWithHttpInfo(authRequest: AuthRequest, _options?: Configuration): Promise<HttpInfo<Auth>> {
@@ -381,8 +365,8 @@ export class PromiseAppApi {
     }
 
     /**
-     * Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
-     * Handles user authentication
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token
      * @param authRequest 
      */
     public getAuthToken(authRequest: AuthRequest, _options?: Configuration): Promise<Auth> {
@@ -497,7 +481,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      */
     public getLocationsWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Array<Location>>> {
@@ -506,7 +489,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
      * Show a unique listing of locations based on active and ready worker nodes
      */
     public getLocations(_options?: Configuration): Promise<Array<Location>> {
@@ -689,7 +671,27 @@ export class PromiseAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Show all services for a specific app location setting within a given app
+     * @param app The app ID
+     * @param appLocationSetting The app location setting ID
+     */
+    public listServicesForAppLocationSettingWithHttpInfo(app: number, appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<Array<Server>>> {
+        const result = this.api.listServicesForAppLocationSettingWithHttpInfo(app, appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Show all services for a specific app location setting within a given app
+     * @param app The app ID
+     * @param appLocationSetting The app location setting ID
+     */
+    public listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: Configuration): Promise<Array<Server>> {
+        const result = this.api.listServicesForAppLocationSetting(app, appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Refresh a binary and the related entity
      * @param binary The binary ID
      */
     public refreshBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<Binary>> {
@@ -698,7 +700,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Refresh a binary and the related file
+     * Refresh a binary and the related entity
      * @param binary The binary ID
      */
     public refreshBinary(binary: number, _options?: Configuration): Promise<Binary> {
@@ -799,6 +801,26 @@ export class PromiseAppApi {
     }
 
     /**
+     * Update a specific app
+     * @param app The app ID
+     * @param updateAppRequest 
+     */
+    public updateAppByIdWithHttpInfo(app: number, updateAppRequest: UpdateAppRequest, _options?: Configuration): Promise<HttpInfo<App>> {
+        const result = this.api.updateAppByIdWithHttpInfo(app, updateAppRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Update a specific app
+     * @param app The app ID
+     * @param updateAppRequest 
+     */
+    public updateAppById(app: number, updateAppRequest: UpdateAppRequest, _options?: Configuration): Promise<App> {
+        const result = this.api.updateAppById(app, updateAppRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
      * Update a location setting
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest 
@@ -819,7 +841,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */
@@ -829,7 +851,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Update a binary and the related file
+     * Update a binary and the related entity
      * @param binary The binary ID
      * @param updateBinaryRequest 
      */

@@ -4,9 +4,8 @@ import { getSelectedAppOrExit } from "./apps.ts";
 import { apiClient } from "./main.ts";
 import { Table } from "$cliffy/table/table.ts";
 import { Input, Select } from "$cliffy/prompt/mod.ts";
-import { inform, logError, logSuccess, stdout } from "./utils.ts";
+import { inform, logError, stdout } from "./utils.ts";
 import { CreateBackupDockerServiceRequest, Server } from "./api/index.ts";
-import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
 import { filterArray } from "./filter.ts";
 
 const serverList = new Command()
@@ -14,7 +13,7 @@ const serverList = new Command()
   .description("List all servers started for your app.")
   .option(
     "--filter <filter:string>",
-    "Filter result based on a filter expression",
+    "Filter result based on a filter expression"
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -23,7 +22,7 @@ const serverList = new Command()
       servers = await apiClient.getServers(app.id);
       if (servers.length === 0) {
         console.log(
-          "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          "No servers found. Create a deployment with `fleet deployments create` to start a server."
         );
         return;
       }
@@ -31,7 +30,7 @@ const serverList = new Command()
       logError(
         "Failed to load servers. Error: ",
         error.body.message,
-        error.code,
+        error.code
       );
       Deno.exit(1);
     }
@@ -49,7 +48,7 @@ const serverList = new Command()
     stdout(
       servers,
       options,
-      "table(id, location.continent, location.city, serverConfig.name, addr, ports, createdAt, status.state)",
+      "table(id, location.continent, location.city, serverConfig.name, addr, ports, createdAt, status.state)"
     );
   });
 
@@ -64,7 +63,7 @@ const serverAddress = new Command()
       const servers = await apiClient.getServers(app.id);
       if (servers.length === 0) {
         console.log(
-          "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          "No servers found. Create a deployment with `fleet deployments create` to start a server."
         );
         return;
       }
@@ -109,7 +108,7 @@ const showServerInfo = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -117,7 +116,7 @@ const showServerInfo = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -140,7 +139,7 @@ const showServerInfo = new Command()
       await stdout(
         server,
         options,
-        "table(id, location.continent, location.city, serverConfig.name, addr, ports.*.name, ports.*.publishedPort,createdAt,status.state)",
+        "table(id, location.continent, location.city, serverConfig.name, addr, ports.*.name, ports.*.publishedPort,createdAt,status.state)"
       );
       if (!server) {
         logError("Server not found.");
@@ -150,7 +149,7 @@ const showServerInfo = new Command()
       logError(
         "Failed to load server. Error: ",
         error.body.message,
-        error.code,
+        error.code
       );
       Deno.exit(1);
     }
@@ -171,7 +170,7 @@ const showServerLogs = new Command()
     "Only return logs newer than a relative duration like 60",
     {
       default: undefined,
-    },
+    }
   )
   .option("--timestamps", "Show timestamps.", { default: false })
   .option(
@@ -179,7 +178,7 @@ const showServerLogs = new Command()
     "Number of lines to show from the end of the logs. Use `all` to show all logs.",
     {
       default: 100,
-    },
+    }
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -191,7 +190,7 @@ const showServerLogs = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -199,7 +198,7 @@ const showServerLogs = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -225,7 +224,7 @@ const showServerLogs = new Command()
         options.stderr,
         options.since,
         options.timestamps,
-        options.tail,
+        options.tail
       );
       console.log(data.logs);
     } catch (error) {
@@ -241,7 +240,7 @@ const createBackup = new Command()
   .option("--payload <payload:string>", "Payload as JSON string.")
   .option(
     "--dry-run",
-    "Dry run mode, does not create the deployment, but prints the payload.",
+    "Dry run mode, does not create the deployment, but prints the payload."
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -253,7 +252,7 @@ const createBackup = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -261,7 +260,7 @@ const createBackup = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -282,9 +281,9 @@ const createBackup = new Command()
     if (options.payload && options.payload.length > 0) {
       try {
         payload = JSON.parse(
-          options.payload,
+          options.payload
         ) as CreateBackupDockerServiceRequest;
-      } catch (error) {
+      } catch (_error) {
         logError("Invalid payload. Please provide a valid JSON string.");
         Deno.exit(1);
       }
@@ -305,10 +304,10 @@ const createBackup = new Command()
     } else {
       inform(
         options,
-        "The server will be stopped for a few seconds to create a backup and will then be restarted.",
+        "The server will be stopped for a few seconds to create a backup and will then be restarted."
       );
       const confirmation = await confirm(
-        "Are you sure you want to create a backup of this server?",
+        "Are you sure you want to create a backup of this server?"
       );
       if (!confirmation) {
         return;
@@ -318,7 +317,7 @@ const createBackup = new Command()
         await apiClient.createBackup(serverId, payload!);
         inform(
           options,
-          `Backup created successfully. Server will start again soon.`,
+          `Backup created successfully. Server will start again soon.`
         );
       } catch (error) {
         logError("Failed to create backup. Error: ", error);
@@ -342,7 +341,7 @@ const getBackupDownloadUrl = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -350,7 +349,7 @@ const getBackupDownloadUrl = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -376,7 +375,7 @@ const getBackupDownloadUrl = new Command()
 
     if (!server.backup) {
       logError(
-        "No backup found for this server. Use the `server backup` command to create a backup.",
+        "No backup found for this server. Use the `server backup` command to create a backup."
       );
       Deno.exit(1);
       return;
@@ -397,7 +396,7 @@ export const restoreBackup = new Command()
   .option("--server-id=<serverId:string>", "Server ID.")
   .option(
     "--dry-run",
-    "Dry run mode, does not create the deployment, but prints the payload.",
+    "Dry run mode, does not create the deployment, but prints the payload."
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -410,7 +409,7 @@ export const restoreBackup = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -418,7 +417,7 @@ export const restoreBackup = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -443,17 +442,17 @@ export const restoreBackup = new Command()
 
     if (!server.backup) {
       logError(
-        "No backup found for this server. Use the `server backup` command to create a backup.",
+        "No backup found for this server. Use the `server backup` command to create a backup."
       );
       Deno.exit(1);
     }
 
     inform(
       options,
-      "The server will be stopped for a few seconds to restore the backup and will then be restarted.",
+      "The server will be stopped for a few seconds to restore the backup and will then be restarted."
     );
     const confirmation = await confirm(
-      "Are you sure you want to restore the backup to this server?",
+      "Are you sure you want to restore the backup to this server?"
     );
     if (!confirmation) {
       return;
@@ -483,7 +482,7 @@ const restartServer = new Command()
         if (servers.length === 0) {
           inform(
             options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+            "No servers found. Create a deployment with `fleet deployments create` to start a server."
           );
           return;
         }
@@ -491,7 +490,7 @@ const restartServer = new Command()
         logError(
           "Failed to load servers. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -510,10 +509,10 @@ const restartServer = new Command()
 
     inform(
       options,
-      "The server will be stopped for a few seconds and then started again.",
+      "The server will be stopped for a few seconds and then started again."
     );
     const confirmation = await confirm(
-      "Are you sure you want to restart this server?",
+      "Are you sure you want to restart this server?"
     );
     if (!confirmation) {
       return;
@@ -541,7 +540,7 @@ const backup = new Command()
 export const servers = new Command()
   .name("servers")
   .description(
-    "Manage ODIN Fleet servers have been deployment for the selected app.",
+    "Manage ODIN Fleet servers have been deployment for the selected app."
   )
   .action(() => {
     servers.showHelp();

@@ -10,27 +10,26 @@
  * Do not edit the class manually.
  */
 
-import { Constraints } from '../models/Constraints.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class UpdateAppRequest {
     /**
-    * The constraints to use
+    * The name of the app
     */
-    'constraints': Constraints;
+    'name': string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Constraints",
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return UpdateAppRequest.attributeTypeMap;
     }
 
     public constructor() {

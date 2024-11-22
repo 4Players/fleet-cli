@@ -3,7 +3,7 @@
     "info": {
         "title": "ODIN Fleet API",
         "version": "0.8.1",
-        "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code."
+        "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
     },
     "servers": [
         {
@@ -234,6 +234,56 @@
                 }
             }
         },
+        "\/v1\/apps\/{app}\/location-settings\/{appLocationSetting}\/services": {
+            "get": {
+                "operationId": "listServicesForAppLocationSetting",
+                "summary": "Show all services for a specific app location setting within a given app",
+                "tags": [
+                    "AppLocationSettings"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ServerCollection`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ServerCollection"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/apps": {
             "get": {
                 "operationId": "getApps",
@@ -338,7 +388,6 @@
             },
             "delete": {
                 "operationId": "deleteApp",
-                "description": "This method is responsible for deleting an App record from the database.\nIt locates the App instance using the provided ID, and if found, proceeds to delete it.\nUpon successful deletion, an HTTP 204 No Content response is returned, indicating\nthat the action was successful.",
                 "summary": "Delete a specific app",
                 "tags": [
                     "Apps"
@@ -375,13 +424,65 @@
                         "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
+            },
+            "put": {
+                "operationId": "updateAppById",
+                "summary": "Update a specific app",
+                "tags": [
+                    "Apps"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/UpdateAppRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
             }
         },
         "\/v1\/auth\/token": {
             "post": {
                 "operationId": "getAuthToken",
-                "description": "Validates the incoming request and attempts to authenticate the user based on the provided session ID.\nIf the user is authenticated successfully, it returns an AuthResource containing the user's bearer token.",
-                "summary": "Handles user authentication",
+                "description": "Authenticates the user based on the user's email, password, and session ID.\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.",
+                "summary": "Get token",
                 "tags": [
                     "Auth"
                 ],
@@ -402,44 +503,6 @@
                             "application\/json": {
                                 "schema": {
                                     "$ref": "#\/components\/schemas\/Auth"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "deleteAuthToken",
-                "summary": "Handles the deletion of a user's authentication tokens",
-                "tags": [
-                    "Auth"
-                ],
-                "parameters": [
-                    {
-                        "name": "sid",
-                        "in": "query",
-                        "required": true,
-                        "description": "The session id of the user",
-                        "schema": {
-                            "type": "string",
-                            "maxLength": 191
-                        },
-                        "example": "1234567890ABCDEFG"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
                                 }
                             }
                         }
@@ -495,7 +558,7 @@
             },
             "post": {
                 "operationId": "createBinary",
-                "summary": "Create a binary and the related file",
+                "summary": "Create a binary and the related entity",
                 "tags": [
                     "Binaries"
                 ],
@@ -627,7 +690,7 @@
             },
             "put": {
                 "operationId": "updateBinary",
-                "summary": "Update a binary and the related file",
+                "summary": "Update a binary and the related entity",
                 "tags": [
                     "Binaries"
                 ],
@@ -681,7 +744,7 @@
         "\/v1\/binaries\/{binary}\/refresh": {
             "put": {
                 "operationId": "refreshBinary",
-                "summary": "Refresh a binary and the related file",
+                "summary": "Refresh a binary and the related entity",
                 "tags": [
                     "Binaries"
                 ],
@@ -754,6 +817,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -1470,7 +1536,6 @@
         "\/v1\/nodes\/locations": {
             "get": {
                 "operationId": "getLocations",
-                "description": "Synchronizes the local database with the state of Docker nodes,\nthen filters for active, ready worker nodes to create a unique listing of their\nlocation labels. These nodes are suitable for deployment.",
                 "summary": "Show a unique listing of locations based on active and ready worker nodes",
                 "tags": [
                     "Nodes"
@@ -1888,11 +1953,16 @@
                     "name": {
                         "type": "string",
                         "description": "The name of the app"
+                    },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the app is currently in use"
                     }
                 },
                 "required": [
                     "id",
-                    "name"
+                    "name",
+                    "inUse"
                 ],
                 "title": "App"
             },
@@ -1953,6 +2023,10 @@
                         "type": "boolean",
                         "description": "Indicates if the app location setting is under maintenance"
                     },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the app location setting is currently in use"
+                    },
                     "placement": {
                         "description": "The placement to use",
                         "$ref": "#\/components\/schemas\/Placement"
@@ -1972,6 +2046,7 @@
                     "status",
                     "statusMessage",
                     "maintenance",
+                    "inUse",
                     "placement"
                 ],
                 "title": "AppLocationSetting"
@@ -2002,7 +2077,7 @@
                 "properties": {
                     "token": {
                         "type": "string",
-                        "description": "The authentication token"
+                        "description": "The authentication token, which must be used as a Bearer token in subsequent requests."
                     }
                 },
                 "required": [
@@ -2149,12 +2224,23 @@
                         ],
                         "description": "An optional message returned by the build process"
                     },
-                    "configTemplates": {
-                        "type": "array",
-                        "description": "The config templates of the binary",
-                        "items": {
-                            "$ref": "#\/components\/schemas\/ConfigTemplate"
-                        }
+                    "progress": {
+                        "type": [
+                            "number",
+                            "null"
+                        ],
+                        "description": "The current progress percentage of the image build (0-100)."
+                    },
+                    "progressMessage": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "A message describing the current build step."
+                    },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the binary is currently in use"
                     },
                     "dockerImage": {
                         "description": "The docker image of the binary",
@@ -2182,7 +2268,8 @@
                     "os",
                     "maintenance",
                     "status",
-                    "statusMessage"
+                    "statusMessage",
+                    "inUse"
                 ],
                 "title": "Binary"
             },
@@ -2234,34 +2321,6 @@
                 ],
                 "title": "ConfigFile"
             },
-            "ConfigTemplate": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "description": "The id of the config template"
-                    },
-                    "binaryId": {
-                        "type": "string",
-                        "description": "The binary id of the config template"
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "The name of the config template"
-                    },
-                    "content": {
-                        "type": "string",
-                        "description": "The path in the container"
-                    }
-                },
-                "required": [
-                    "id",
-                    "binaryId",
-                    "name",
-                    "content"
-                ],
-                "title": "ConfigTemplate"
-            },
             "Constraints": {
                 "type": "object",
                 "properties": {
@@ -2272,11 +2331,16 @@
                     "city": {
                         "type": "string",
                         "description": "The city where the server should be placed"
+                    },
+                    "cityDisplay": {
+                        "type": "string",
+                        "description": "The city's display name where the server should be placed"
                     }
                 },
                 "required": [
                     "country",
-                    "city"
+                    "city",
+                    "cityDisplay"
                 ],
                 "title": "Constraints"
             },
@@ -2293,6 +2357,130 @@
                     "name"
                 ],
                 "title": "CreateBackupDockerServiceRequest"
+            },
+            "CreateUpdateConstraints": {
+                "type": "object",
+                "properties": {
+                    "country": {
+                        "type": "string",
+                        "description": "The country where the server should be placed - it defines a region as a fallback if no free resources are available in the city"
+                    },
+                    "city": {
+                        "type": "string",
+                        "description": "The city where the server should be placed"
+                    }
+                },
+                "required": [
+                    "country",
+                    "city"
+                ],
+                "title": "CreateUpdateConstraints"
+            },
+            "CreateUpdateDockerImage": {
+                "type": "object",
+                "properties": {
+                    "imageName": {
+                        "type": "string",
+                        "description": "The name of the docker image"
+                    },
+                    "registryId": {
+                        "type": "integer",
+                        "description": "The id of the registry to load the image"
+                    }
+                },
+                "required": [
+                    "imageName",
+                    "registryId"
+                ],
+                "title": "CreateUpdateDockerImage"
+            },
+            "CreateUpdatePlacement": {
+                "type": "object",
+                "properties": {
+                    "constraints": {
+                        "description": "The constraints to use",
+                        "$ref": "#\/components\/schemas\/CreateUpdateConstraints"
+                    }
+                },
+                "required": [
+                    "constraints"
+                ],
+                "title": "CreateUpdatePlacement"
+            },
+            "CreateUpdateSteam": {
+                "type": "object",
+                "properties": {
+                    "steamAppId": {
+                        "type": "integer",
+                        "description": "The Steam App ID"
+                    },
+                    "branch": {
+                        "type": "string",
+                        "description": "The branch to use"
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The password to use"
+                    },
+                    "command": {
+                        "type": "string",
+                        "description": "The command to execute"
+                    },
+                    "steamcmdUsername": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The steam account username"
+                    },
+                    "steamcmdPassword": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The steam account password"
+                    },
+                    "headful": {
+                        "type": "boolean",
+                        "description": "Whether or not the binary needs a graphical interface"
+                    },
+                    "requestLicense": {
+                        "type": "boolean",
+                        "description": "Whether or not the the license agreement needs to be requested"
+                    },
+                    "runtime": {
+                        "description": "The steam runtime the server depends on",
+                        "$ref": "#\/components\/schemas\/SteamRuntime"
+                    },
+                    "additionalPackages": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "A space-separated list of additional packages to install"
+                    },
+                    "unpublished": {
+                        "type": "boolean",
+                        "description": "Whether or not the steamworks app is unpublished or published"
+                    }
+                },
+                "required": [
+                    "steamAppId",
+                    "branch",
+                    "password",
+                    "command",
+                    "steamcmdUsername",
+                    "steamcmdPassword",
+                    "headful",
+                    "requestLicense",
+                    "runtime",
+                    "additionalPackages",
+                    "unpublished"
+                ],
+                "title": "CreateUpdateSteam"
             },
             "DockerBackupCollection": {
                 "type": "array",
@@ -2324,11 +2512,16 @@
                     "registryId": {
                         "type": "integer",
                         "description": "The id of the registry to load the image"
+                    },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the docker image is currently in use"
                     }
                 },
                 "required": [
                     "imageName",
-                    "registryId"
+                    "registryId",
+                    "inUse"
                 ],
                 "title": "DockerImage"
             },
@@ -2530,6 +2723,10 @@
                         "type": "string",
                         "description": "City"
                     },
+                    "cityDisplay": {
+                        "type": "string",
+                        "description": "Displayable city"
+                    },
                     "continent": {
                         "type": "string",
                         "description": "Continent"
@@ -2541,6 +2738,7 @@
                 },
                 "required": [
                     "city",
+                    "cityDisplay",
                     "continent",
                     "country"
                 ],
@@ -2973,6 +3171,10 @@
                         ],
                         "description": "The slug of the resource package used in this server config"
                     },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the server config is currently in use"
+                    },
                     "restartPolicy": {
                         "description": "The policy used to restart this server",
                         "$ref": "#\/components\/schemas\/RestartPolicy"
@@ -3029,6 +3231,7 @@
                     "statusMessage",
                     "maintenance",
                     "resourcePackageSlug",
+                    "inUse",
                     "restartPolicy",
                     "env",
                     "mounts",
@@ -3119,9 +3322,20 @@
                         "description": "The steam runtime the server depends on",
                         "$ref": "#\/components\/schemas\/SteamRuntime"
                     },
+                    "additionalPackages": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "A space-separated list of additional packages to install"
+                    },
                     "unpublished": {
                         "type": "boolean",
                         "description": "Whether or not the steamworks app is unpublished or published"
+                    },
+                    "inUse": {
+                        "type": "boolean",
+                        "description": "Indicates whether the steam binary is currently in use"
                     }
                 },
                 "required": [
@@ -3134,7 +3348,9 @@
                     "headful",
                     "requestLicense",
                     "runtime",
-                    "unpublished"
+                    "additionalPackages",
+                    "unpublished",
+                    "inUse"
                 ],
                 "title": "Steam"
             },
@@ -3305,7 +3521,7 @@
                     },
                     "placement": {
                         "description": "The placement settings that define the location and other constraints",
-                        "$ref": "#\/components\/schemas\/Placement"
+                        "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     }
                 },
                 "required": [
@@ -3361,11 +3577,11 @@
                     },
                     "steam": {
                         "description": "The steam settings",
-                        "$ref": "#\/components\/schemas\/Steam"
+                        "$ref": "#\/components\/schemas\/CreateUpdateSteam"
                     },
                     "dockerImage": {
                         "description": "The docker image settings",
-                        "$ref": "#\/components\/schemas\/DockerImage"
+                        "$ref": "#\/components\/schemas\/CreateUpdateDockerImage"
                     }
                 },
                 "required": [
@@ -3636,7 +3852,7 @@
                     },
                     "placement": {
                         "description": "The placement settings that define the location and other constraints",
-                        "$ref": "#\/components\/schemas\/Placement"
+                        "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     }
                 },
                 "required": [
@@ -3646,6 +3862,20 @@
                     "numInstances"
                 ],
                 "title": "UpdateAppLocationSettingRequest"
+            },
+            "UpdateAppRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the app",
+                        "maxLength": 255
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "title": "UpdateAppRequest"
             },
             "UpdateBinaryRequest": {
                 "type": "object",
@@ -3678,11 +3908,11 @@
                     },
                     "steam": {
                         "description": "The steam settings",
-                        "$ref": "#\/components\/schemas\/Steam"
+                        "$ref": "#\/components\/schemas\/CreateUpdateSteam"
                     },
                     "dockerImage": {
                         "description": "The docker image settings",
-                        "$ref": "#\/components\/schemas\/DockerImage"
+                        "$ref": "#\/components\/schemas\/CreateUpdateDockerImage"
                     }
                 },
                 "required": [

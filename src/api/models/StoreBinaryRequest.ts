@@ -1,6 +1,6 @@
 /**
  * ODIN Fleet API
- * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.
+ * API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.  To authenticate, users must send their email, password, and session ID to the **[`/api/auth`](/operations/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.      Alternatively, you can copy your API key directly from our **[`console`](https://console.4players.io)** by opening any app, and then going to **Settings -> API Keys**.
  *
  * OpenAPI spec version: 0.8.1
  * 
@@ -11,10 +11,10 @@
  */
 
 import { BinaryType } from '../models/BinaryType.ts';
+import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
+import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
 import { DockerCompose } from '../models/DockerCompose.ts';
-import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
-import { Steam } from '../models/Steam.ts';
 import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
@@ -46,11 +46,11 @@ export class StoreBinaryRequest {
     /**
     * The steam settings
     */
-    'steam'?: Steam;
+    'steam'?: CreateUpdateSteam;
     /**
     * The docker image settings
     */
-    'dockerImage'?: DockerImage;
+    'dockerImage'?: CreateUpdateDockerImage;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -94,13 +94,13 @@ export class StoreBinaryRequest {
         {
             "name": "steam",
             "baseName": "steam",
-            "type": "Steam",
+            "type": "CreateUpdateSteam",
             "format": ""
         },
         {
             "name": "dockerImage",
             "baseName": "dockerImage",
-            "type": "DockerImage",
+            "type": "CreateUpdateDockerImage",
             "format": ""
         }    ];
 

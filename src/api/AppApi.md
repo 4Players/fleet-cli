@@ -7,12 +7,11 @@ Method | HTTP request | Description
 [**createApp**](AppApi.md#createApp) | **POST** /v1/apps | Create an app
 [**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /v1/apps/{app}/location-settings | Create a new location setting
 [**createBackup**](AppApi.md#createBackup) | **POST** /v1/services/{dockerService}/backup | Creates a backup of the service
-[**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related file
+[**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related entity
 [**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /v1/docker-registries | Create a new docker registry
 [**createServerConfig**](AppApi.md#createServerConfig) | **POST** /v1/apps/{app}/configs | Create a new server config
 [**deleteApp**](AppApi.md#deleteApp) | **DELETE** /v1/apps/{app} | Delete a specific app
 [**deleteAppLocationSetting**](AppApi.md#deleteAppLocationSetting) | **DELETE** /v1/app-location-settings/{appLocationSetting} | Delete a location setting
-[**deleteAuthToken**](AppApi.md#deleteAuthToken) | **DELETE** /v1/auth/token | Handles the deletion of a user\&#39;s authentication tokens
 [**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /v1/binaries/{binary} | Delete a specified binary
 [**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /v1/docker-registries/{dockerRegistry} | Delete a specific docker registry
 [**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /v1/server-configs/{serverConfig} | Delete a specific server config
@@ -20,7 +19,7 @@ Method | HTTP request | Description
 [**getAppLocationSettingById**](AppApi.md#getAppLocationSettingById) | **GET** /v1/app-location-settings/{appLocationSetting} | Show a specific app location setting
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
 [**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
-[**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Handles user authentication
+[**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Get token
 [**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{dockerService}/backups | List all backups for the specified Docker service
 [**getBinaries**](AppApi.md#getBinaries) | **GET** /v1/apps/{app}/binaries | Show all binaries
 [**getBinaryById**](AppApi.md#getBinaryById) | **GET** /v1/binaries/{binary} | Show a specific binary
@@ -37,14 +36,16 @@ Method | HTTP request | Description
 [**getServerLogs**](AppApi.md#getServerLogs) | **GET** /v1/services/{dockerService}/logs | Get stdout and stderr logs from a service or task
 [**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services for a given app
 [**getTaggedImages**](AppApi.md#getTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images | List all available tagged images
-[**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related file
+[**listServicesForAppLocationSetting**](AppApi.md#listServicesForAppLocationSetting) | **GET** /v1/apps/{app}/location-settings/{appLocationSetting}/services | Show all services for a specific app location setting within a given app
+[**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related entity
 [**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
 [**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{dockerService}/restart | Restarts a specific Docker service
 [**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore a backup for a specified Docker service
 [**steamGetBranches**](AppApi.md#steamGetBranches) | **GET** /v1/binaries/steam/branches | Get branches for a specific steamworks app ID
 [**steamGetLauncher**](AppApi.md#steamGetLauncher) | **GET** /v1/binaries/steam/launchers | Get launchers for a specific steamworks app ID, optionally filtered by OS
+[**updateAppById**](AppApi.md#updateAppById) | **PUT** /v1/apps/{app} | Update a specific app
 [**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
-[**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related file
+[**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related entity
 [**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /v1/docker-registries/{dockerRegistry} | Update a specific docker registry
 [**updateServerConfig**](AppApi.md#updateServerConfig) | **PUT** /v1/server-configs/{serverConfig} | Update a server config
 
@@ -404,7 +405,6 @@ No authorization required
 # **deleteApp**
 > any deleteApp()
 
-This method is responsible for deleting an App record from the database. It locates the App instance using the provided ID, and if found, proceeds to delete it. Upon successful deletion, an HTTP 204 No Content response is returned, indicating that the action was successful.
 
 ### Example
 
@@ -510,61 +510,6 @@ No authorization required
 **204** | No content |  -  |
 **404** |  |  -  |
 **401** |  |  -  |
-**403** |  |  -  |
-
-[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
-
-# **deleteAuthToken**
-> any deleteAuthToken()
-
-
-### Example
-
-
-```typescript
-import {  } from '';
-import * as fs from 'fs';
-
-const configuration = .createConfiguration();
-const apiInstance = new .AppApi(configuration);
-
-let body:.AppApiDeleteAuthTokenRequest = {
-  // string | The session id of the user
-  sid: "1234567890ABCDEFG",
-};
-
-apiInstance.deleteAuthToken(body).then((data:any) => {
-  console.log('API called successfully. Returned data: ' + data);
-}).catch((error:any) => console.error(error));
-```
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **sid** | [**string**] | The session id of the user | defaults to undefined
-
-
-### Return type
-
-**any**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**204** | No content |  -  |
-**422** |  |  -  |
 **403** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -955,7 +900,7 @@ No authorization required
 # **getAuthToken**
 > Auth getAuthToken(authRequest)
 
-Validates the incoming request and attempts to authenticate the user based on the provided session ID. If the user is authenticated successfully, it returns an AuthResource containing the user\'s bearer token.
+Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
 
 ### Example
 
@@ -1339,7 +1284,6 @@ No authorization required
 # **getLocations**
 > Array<Location> getLocations()
 
-Synchronizes the local database with the state of Docker nodes, then filters for active, ready worker nodes to create a unique listing of their location labels. These nodes are suitable for deployment.
 
 ### Example
 
@@ -1844,6 +1788,7 @@ No authorization required
 **200** | &#x60;ServerCollection&#x60; |  -  |
 **404** |  |  -  |
 **401** |  |  -  |
+**403** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1899,6 +1844,65 @@ No authorization required
 **200** | &#x60;TaggedImageCollection&#x60; |  -  |
 **404** |  |  -  |
 **401** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **listServicesForAppLocationSetting**
+> Array<Server> listServicesForAppLocationSetting()
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiListServicesForAppLocationSettingRequest = {
+  // number | The app ID
+  app: 1,
+  // number | The app location setting ID
+  appLocationSetting: 1,
+};
+
+apiInstance.listServicesForAppLocationSetting(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**Array<Server>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;ServerCollection&#x60; |  -  |
+**404** |  |  -  |
+**401** |  |  -  |
+**403** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2234,6 +2238,66 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | &#x60;SteamLauncherCollection&#x60; |  -  |
+**401** |  |  -  |
+**422** |  |  -  |
+**403** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **updateAppById**
+> App updateAppById(updateAppRequest)
+
+
+### Example
+
+
+```typescript
+import {  } from '';
+import * as fs from 'fs';
+
+const configuration = .createConfiguration();
+const apiInstance = new .AppApi(configuration);
+
+let body:.AppApiUpdateAppByIdRequest = {
+  // number | The app ID
+  app: 1,
+  // UpdateAppRequest
+  updateAppRequest: null,
+};
+
+apiInstance.updateAppById(body).then((data:any) => {
+  console.log('API called successfully. Returned data: ' + data);
+}).catch((error:any) => console.error(error));
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateAppRequest** | **UpdateAppRequest**|  |
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**404** |  |  -  |
 **401** |  |  -  |
 **422** |  |  -  |
 **403** |  |  -  |

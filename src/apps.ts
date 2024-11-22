@@ -22,7 +22,7 @@ const getAppId = async (options: CommandOptions): Promise<number> => {
 };
 
 export const getSelectedApp = async (
-  options: CommandOptions,
+  options: CommandOptions
 ): Promise<App | null> => {
   const appId = await getAppId(options);
   if (appId <= 0) {
@@ -34,12 +34,12 @@ export const getSelectedApp = async (
     } catch (response) {
       if (response.code === 403) {
         logErrorAndExit(
-          "You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct.",
+          "You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct."
         );
       } else {
         logErrorAndExit(
           "Failed to load the selected app. Error: " + response.body.message,
-          response.code,
+          response.code
         );
       }
       return null;
@@ -48,12 +48,12 @@ export const getSelectedApp = async (
 };
 
 export const getSelectedAppOrExit = async (
-  options: CommandOptions,
+  options: CommandOptions
 ): Promise<App> => {
   const app = await getSelectedApp(options);
   if (!app) {
     logErrorAndExit(
-      "No app selected. Please select an app first. Use `odin apps select` or provide the `--appId` parameter.",
+      "No app selected. Please select an app first. Use `odin apps select` or provide the `--appId` parameter."
     );
   }
   return app!;
@@ -101,7 +101,7 @@ const appList = new Command()
   .description("List all apps.")
   .option(
     "--filter <filter:string>",
-    "Filter result based on a filter expression",
+    "Filter result based on a filter expression"
   )
   .action(async (options: CommandOptions) => {
     let apps: App[] = [];
@@ -111,7 +111,7 @@ const appList = new Command()
       console.log(
         "Failed to load apps. Error: ",
         error.body.message,
-        error.code,
+        error.code
       );
       Deno.exit(1);
     }
@@ -136,17 +136,19 @@ const appList = new Command()
       apps.forEach((app) => {
         data.push({
           id: app.id,
-          name: app.name +
+          name:
+            app.name +
             colors.rgb24(
               app.id === selectedApp?.id ? " (selected)" : "",
-              0x1bebda,
+              0x1bebda
             ),
+          inUse: app.inUse,
         });
       });
 
-      await stdout(data, options, "table(id,name)");
+      await stdout(data, options, "table(id,name,inUse)");
     } else {
-      await stdout(apps, options, "table(id,name)");
+      await stdout(apps, options, "table(id,name,inUse)");
     }
   });
 
@@ -162,13 +164,14 @@ const selectApp = new Command()
 
     inform(
       options,
-      `Selected app: ${colors.rgb24(app.name, 0x1bebda)} (${
-        colors.rgb24(app.id.toString(), 0x1bebda)
-      })`,
+      `Selected app: ${colors.rgb24(app.name, 0x1bebda)} (${colors.rgb24(
+        app.id.toString(),
+        0x1bebda
+      )})`
     );
     inform(
       options,
-      "This app will be used for subsequent commands, use the 'odin apps select' command to change the selected app or provide the --appId=<appId> flag to any command.",
+      "This app will be used for subsequent commands, use the 'odin apps select' command to change the selected app or provide the --appId=<appId> flag to any command."
     );
 
     if (options.format && options.format !== "default") {

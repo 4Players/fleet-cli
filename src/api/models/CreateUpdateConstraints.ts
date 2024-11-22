@@ -10,27 +10,36 @@
  * Do not edit the class manually.
  */
 
-import { Constraints } from '../models/Constraints.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class CreateUpdateConstraints {
     /**
-    * The constraints to use
+    * The country where the server should be placed - it defines a region as a fallback if no free resources are available in the city
     */
-    'constraints': Constraints;
+    'country': string;
+    /**
+    * The city where the server should be placed
+    */
+    'city': string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Constraints",
+            "name": "country",
+            "baseName": "country",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "city",
+            "baseName": "city",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return CreateUpdateConstraints.attributeTypeMap;
     }
 
     public constructor() {

@@ -22,9 +22,12 @@ models/Binary.ts
 models/BinaryStatus.ts
 models/BinaryType.ts
 models/ConfigFile.ts
-models/ConfigTemplate.ts
 models/Constraints.ts
 models/CreateBackupDockerServiceRequest.ts
+models/CreateUpdateConstraints.ts
+models/CreateUpdateDockerImage.ts
+models/CreateUpdatePlacement.ts
+models/CreateUpdateSteam.ts
 models/DockerCompose.ts
 models/DockerImage.ts
 models/DockerRegistry.ts
@@ -66,6 +69,7 @@ models/StoreServerConfigRequest.ts
 models/TaggedImage.ts
 models/TaggedImageMetaData.ts
 models/UpdateAppLocationSettingRequest.ts
+models/UpdateAppRequest.ts
 models/UpdateBinaryRequest.ts
 models/UpdateDockerRegistryRequest.ts
 models/UpdateServerConfigRequest.ts

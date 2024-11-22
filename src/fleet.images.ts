@@ -2,7 +2,6 @@ import { Command } from "$cliffy/command/command.ts";
 import { CommandOptions } from "$cliffy/command/types.ts";
 import { getSelectedAppOrExit } from "./apps.ts";
 import { apiClient } from "./main.ts";
-import { Table } from "$cliffy/table/table.ts";
 import {
   Binary,
   BinaryType,
@@ -31,7 +30,7 @@ export const imageList = new Command()
   .option("--unused", "List only unused images (i.e. not in a configuration).")
   .option(
     "--filter <filter:string>",
-    "Filter result based on a filter expression",
+    "Filter result based on a filter expression"
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -67,7 +66,7 @@ export const imageList = new Command()
     await stdout(
       binaries,
       options,
-      "table(id,name,version,type,os,ready,status,statusMessage)",
+      "table(id,name,version,type,os,ready,status,statusMessage)"
     );
   });
 
@@ -87,7 +86,7 @@ export const getImageDetails = new Command()
         logError(
           "Failed to load images. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -104,9 +103,9 @@ export const getImageDetails = new Command()
     let image: Binary;
     try {
       image = await apiClient.getBinaryById(imageId);
-    } catch (error) {
+    } catch (_error) {
       logError(
-        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`
       );
       Deno.exit(1);
     }
@@ -114,7 +113,7 @@ export const getImageDetails = new Command()
     await stdout(
       image,
       options,
-      "table(id,name,version,type,os,ready,status,statusMessage)",
+      "table(id,name,version,type,os,ready,status,statusMessage)"
     );
   });
 
@@ -135,20 +134,24 @@ export const createImage = new Command()
   .option("--command <command:string>", "Steam command.")
   .option(
     "--steamcmd-username <steamcmdUsername:string>",
-    "Steam CMD username.",
+    "Steam CMD username."
   )
   .option(
     "--steamcmd-password <steamcmdPassword:string>",
-    "Steam CMD password.",
+    "Steam CMD password."
   )
   .option("--runtime <runtime:string>", "Steam runtime.")
   .option("--headful", "Steam headful.")
   .option("--request-license", "Steam request license.")
   .option("--unpublished", "Steam unpublished.")
+  .option(
+    "--additional-packages <additionalPackages:string>",
+    "Additional packages to be installed in the Docker image."
+  )
   .group("Other Options")
   .option(
     "--dry-run",
-    "Dry run mode, does not create the deployment, but prints the payload.",
+    "Dry run mode, does not create the deployment, but prints the payload."
   )
   .action(async (options: CommandOptions) => {
     const app = await getSelectedAppOrExit(options);
@@ -257,6 +260,12 @@ export const createImage = new Command()
             message: "Enter the command to start the server",
             type: Input,
           },
+          {
+            name: "additionalPackages",
+            message:
+              "Does your server require additional packages to the Steam Runtime?",
+            type: Input,
+          },
         ]);
 
         let steamUsername = null;
@@ -264,11 +273,11 @@ export const createImage = new Command()
 
         if (
           await Confirm.prompt(
-            "Does your gameserver need to access to Steam CMD?",
+            "Does your gameserver need to access to Steam CMD?"
           )
         ) {
           console.log(
-            "Please enter your Steam CMD credentials. We don't support 2FA yet, so either create a new account or disable 2FA for your account.",
+            "Please enter your Steam CMD credentials. We don't support 2FA yet, so either create a new account or disable 2FA for your account."
           );
           steamUsername = await Input.prompt("Enter your Steam username:");
           steamPassword = await Input.prompt("Enter your Steam password:");
@@ -284,15 +293,15 @@ export const createImage = new Command()
         });
 
         const headful = await Confirm.prompt(
-          "Does your gameserver need a graphical interface?",
+          "Does your gameserver need a graphical interface?"
         );
 
         const requestLicense = await Confirm.prompt(
-          "Does your gameserver need to request a license agreement?",
+          "Does your gameserver need to request a license agreement?"
         );
 
         const unpublished = await Confirm.prompt(
-          "Is your Steamworks app unpublished?",
+          "Is your Steamworks app unpublished?"
         );
 
         payload.steam = {
@@ -306,6 +315,7 @@ export const createImage = new Command()
           headful: headful,
           requestLicense: requestLicense,
           unpublished: unpublished,
+          additionalPackages: steam.additionalPackages ?? null,
         };
       }
     } else {
@@ -323,14 +333,14 @@ export const createImage = new Command()
 
       if (options.type !== "dockerImage" && options.type !== "steam") {
         logError(
-          "Invalid image type. Please select either dockerImage or steam.",
+          "Invalid image type. Please select either dockerImage or steam."
         );
         Deno.exit(1);
       }
 
       if (options.os !== "linux" && options.os !== "windows") {
         logError(
-          "Invalid operating system. Please select either linux or windows.",
+          "Invalid operating system. Please select either linux or windows."
         );
         Deno.exit(1);
       }
@@ -359,6 +369,7 @@ export const createImage = new Command()
           headful: options.headful ?? false,
           requestLicense: options.requestLicense ?? false,
           unpublished: options.unpublished ?? false,
+          additionalPackages: options.additionalPackages ?? null,
         };
       }
     }
@@ -374,7 +385,7 @@ export const createImage = new Command()
     } else {
       const confirmed = await confirm(
         options,
-        "Do you want to create the image?",
+        "Do you want to create the image?"
       );
 
       if (confirmed) {
@@ -383,14 +394,14 @@ export const createImage = new Command()
           await stdout(
             binary,
             options,
-            "table(id,name,version,type,os,ready,status,statusMessage)",
+            "table(id,name,version,type,os,ready,status,statusMessage)"
           );
         } catch (error) {
           logError(
             "Failed to create image. Error: ",
             error.body.message,
             error.code,
-            JSON.stringify(payload),
+            JSON.stringify(payload)
           );
           Deno.exit(1);
         }
@@ -398,7 +409,7 @@ export const createImage = new Command()
         inform(options, "Image creation aborted.");
         inform(
           options,
-          "This payload would have been used, you can use the --payload flag to provide it: ",
+          "This payload would have been used, you can use the --payload flag to provide it: "
         );
         await stdout(payload, options, "json");
       }
@@ -420,7 +431,7 @@ export const deleteImage = new Command()
         logError(
           "Failed to load images. Error: ",
           error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -437,17 +448,17 @@ export const deleteImage = new Command()
     let image: Binary;
     try {
       image = await apiClient.getBinaryById(imageId);
-    } catch (error) {
+    } catch (_error) {
       const app = await getSelectedAppOrExit(options);
       logError(
-        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`
       );
       Deno.exit(1);
     }
 
     const confirmed = await confirm(
       options,
-      `Do you want to delete the image ${image!.name}?`,
+      `Do you want to delete the image ${image!.name}?`
     );
 
     if (confirmed) {
@@ -457,7 +468,7 @@ export const deleteImage = new Command()
       } catch (error) {
         logError(
           "Failed to delete image. Error: " + error.body.message,
-          error.code,
+          error.code
         );
         Deno.exit(1);
       }
@@ -467,7 +478,7 @@ export const deleteImage = new Command()
 export const images = new Command()
   .name("images")
   .description(
-    "Manage ODIN Fleet images that are the base of your deployments.",
+    "Manage ODIN Fleet images that are the base of your deployments."
   )
   .action(() => {
     images.showHelp();
