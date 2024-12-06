@@ -10,57 +10,44 @@
  * Do not edit the class manually.
  */
 
-import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class StoreAppLocationSettingRequest {
-    /**
-    * The name of the location setting
-    */
-    'name': string;
-    /**
-    * The id of the server configuration that should be deployed
-    */
-    'serverConfigId': number;
-    /**
-    * The number of instances that should run at the specific location
-    */
-    'numInstances': number;
-    /**
-    * The placement settings that define the location and other constraints
-    */
-    'placement'?: CreateUpdatePlacement;
+export class GetServers200ResponseLinks {
+    'first': string | null;
+    'last': string | null;
+    'prev': string | null;
+    'next': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "first",
+            "baseName": "first",
             "type": "string",
             "format": ""
         },
         {
-            "name": "serverConfigId",
-            "baseName": "serverConfigId",
-            "type": "number",
+            "name": "last",
+            "baseName": "last",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "numInstances",
-            "baseName": "numInstances",
-            "type": "number",
+            "name": "prev",
+            "baseName": "prev",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "placement",
-            "baseName": "placement",
-            "type": "CreateUpdatePlacement",
+            "name": "next",
+            "baseName": "next",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return StoreAppLocationSettingRequest.attributeTypeMap;
+        return GetServers200ResponseLinks.attributeTypeMap;
     }
 
     public constructor() {

@@ -28,6 +28,10 @@ import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetServers200Response } from '../models/GetServers200Response.ts';
+import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
+import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
+import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
@@ -147,7 +151,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Creates a backup of the service
+     * Creates a backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
@@ -171,7 +175,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Creates a backup of the service
+     * Creates a backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
@@ -587,7 +591,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * List all backups for the specified Docker service
+     * List all backups
      * @param dockerService The docker service ID
      */
     public getBackupsWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<Array<Backup>>> {
@@ -610,7 +614,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * List all backups for the specified Docker service
+     * List all backups
      * @param dockerService The docker service ID
      */
     public getBackups(dockerService: number, _options?: Configuration): Observable<Array<Backup>> {
@@ -740,7 +744,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Display the latest backup for the specified Docker service
+     * Display the latest backup
      * @param dockerService The docker service ID
      */
     public getLatestBackupWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<Backup>> {
@@ -763,7 +767,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Display the latest backup for the specified Docker service
+     * Display the latest backup
      * @param dockerService The docker service ID
      */
     public getLatestBackup(dockerService: number, _options?: Configuration): Observable<Backup> {
@@ -860,7 +864,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \'archive\'
+     * Generate a presigned URL for downloading the latest backup from AWS S3
      * @param dockerService The docker service ID
      */
     public getServerBackupDownloadUrlWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<BackupDownload>> {
@@ -883,7 +887,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \'archive\'
+     * Generate a presigned URL for downloading the latest backup from AWS S3
      * @param dockerService The docker service ID
      */
     public getServerBackupDownloadUrl(dockerService: number, _options?: Configuration): Observable<BackupDownload> {
@@ -891,7 +895,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Display a specific DockerService associated with the given App
+     * Display a specific service
      * @param app The app ID
      * @param dockerService The docker service ID
      */
@@ -915,7 +919,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Display a specific DockerService associated with the given App
+     * Display a specific service
      * @param app The app ID
      * @param dockerService The docker service ID
      */
@@ -986,17 +990,15 @@ export class ObservableAppApi {
     }
 
     /**
-     * Get stdout and stderr logs from a service or task
+     * Get stdout and stderr logs from the latest gameserver task
      * @param dockerService The docker service ID
-     * @param details Show extra details provided to logs. Default: false
-     * @param stdout Return logs from stdout. Default: true
-     * @param stderr Return logs from stderr. Default: true
-     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
-     * @param timestamps Add timestamps to every log line. Default: false
-     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
+     * @param since A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
+     * @param limit The max number of entries to return. Default: 100
+     * @param direction Determines the sort order of logs. Supported values are forward or backward. Default: forward
+     * @param streamSource Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public getServerLogsWithHttpInfo(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<HttpInfo<ServiceLogs>> {
-        const requestContextPromise = this.requestFactory.getServerLogs(dockerService, details, stdout, stderr, since, timestamps, tail, _options);
+    public getServerLogsWithHttpInfo(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Observable<HttpInfo<ServiceLogs>> {
+        const requestContextPromise = this.requestFactory.getServerLogs(dockerService, since, limit, direction, streamSource, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1015,25 +1017,25 @@ export class ObservableAppApi {
     }
 
     /**
-     * Get stdout and stderr logs from a service or task
+     * Get stdout and stderr logs from the latest gameserver task
      * @param dockerService The docker service ID
-     * @param details Show extra details provided to logs. Default: false
-     * @param stdout Return logs from stdout. Default: true
-     * @param stderr Return logs from stderr. Default: true
-     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
-     * @param timestamps Add timestamps to every log line. Default: false
-     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
+     * @param since A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
+     * @param limit The max number of entries to return. Default: 100
+     * @param direction Determines the sort order of logs. Supported values are forward or backward. Default: forward
+     * @param streamSource Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public getServerLogs(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Observable<ServiceLogs> {
-        return this.getServerLogsWithHttpInfo(dockerService, details, stdout, stderr, since, timestamps, tail, _options).pipe(map((apiResponse: HttpInfo<ServiceLogs>) => apiResponse.data));
+    public getServerLogs(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Observable<ServiceLogs> {
+        return this.getServerLogsWithHttpInfo(dockerService, since, limit, direction, streamSource, _options).pipe(map((apiResponse: HttpInfo<ServiceLogs>) => apiResponse.data));
     }
 
     /**
-     * Show all services for a given app
+     * Show all services
      * @param app The app ID
+     * @param perPage The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param page Specifies the page number to retrieve in the paginated results.
      */
-    public getServersWithHttpInfo(app: number, _options?: Configuration): Observable<HttpInfo<Array<Server>>> {
-        const requestContextPromise = this.requestFactory.getServers(app, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, _options?: Configuration): Observable<HttpInfo<GetServers200Response>> {
+        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1052,11 +1054,13 @@ export class ObservableAppApi {
     }
 
     /**
-     * Show all services for a given app
+     * Show all services
      * @param app The app ID
+     * @param perPage The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param page Specifies the page number to retrieve in the paginated results.
      */
-    public getServers(app: number, _options?: Configuration): Observable<Array<Server>> {
-        return this.getServersWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<Array<Server>>) => apiResponse.data));
+    public getServers(app: number, perPage?: number, page?: number, _options?: Configuration): Observable<GetServers200Response> {
+        return this.getServersWithHttpInfo(app, perPage, page, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
     }
 
     /**
@@ -1186,7 +1190,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Restarts a specific Docker service
+     * Restart the service
      * @param dockerService The docker service ID
      */
     public restartServerWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<any>> {
@@ -1209,7 +1213,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Restarts a specific Docker service
+     * Restart the service
      * @param dockerService The docker service ID
      */
     public restartServer(dockerService: number, _options?: Configuration): Observable<any> {
@@ -1217,7 +1221,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Restore a backup for a specified Docker service
+     * Restore the latest backup
      * @param dockerService The docker service ID
      */
     public restoreBackupWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<any>> {
@@ -1240,7 +1244,7 @@ export class ObservableAppApi {
     }
 
     /**
-     * Restore a backup for a specified Docker service
+     * Restore the latest backup
      * @param dockerService The docker service ID
      */
     public restoreBackup(dockerService: number, _options?: Configuration): Observable<any> {

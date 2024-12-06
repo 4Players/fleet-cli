@@ -785,7 +785,7 @@
         "\/v1\/apps\/{app}\/services": {
             "get": {
                 "operationId": "getServers",
-                "summary": "Show all services for a given app",
+                "summary": "Show all services",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -799,15 +799,154 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.\nUse `-1` to display all results on a single page.\nDefault: `10`",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`ServerCollection`",
+                        "description": "Paginated set of `CustomDockerServiceResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/ServerCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Server"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -818,6 +957,9 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
                     }
@@ -827,7 +969,7 @@
         "\/v1\/apps\/{app}\/services\/{dockerService}": {
             "get": {
                 "operationId": "getServerById",
-                "summary": "Display a specific DockerService associated with the given App",
+                "summary": "Display a specific service",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1179,7 +1321,7 @@
         "\/v1\/services\/{dockerService}\/logs": {
             "get": {
                 "operationId": "getServerLogs",
-                "summary": "Get stdout and stderr logs from a service or task",
+                "summary": "Get stdout and stderr logs from the latest gameserver task",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1195,50 +1337,33 @@
                         }
                     },
                     {
-                        "name": "details",
-                        "in": "query",
-                        "description": "Show extra details provided to logs. Default: false",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "stdout",
-                        "in": "query",
-                        "description": "Return logs from stdout. Default: true",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "stderr",
-                        "in": "query",
-                        "description": "Return logs from stderr. Default: true",
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
                         "name": "since",
                         "in": "query",
-                        "description": "Only return logs since this time, as a UNIX timestamp. Default: 0",
+                        "description": "A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d",
                         "schema": {
-                            "type": "integer",
-                            "minimum": 0
+                            "type": "string"
                         }
                     },
                     {
-                        "name": "timestamps",
+                        "name": "limit",
                         "in": "query",
-                        "description": "Add timestamps to every log line. Default: false",
+                        "description": "The max number of entries to return. Default: 100",
                         "schema": {
-                            "type": "boolean"
+                            "type": "integer"
                         }
                     },
                     {
-                        "name": "tail",
+                        "name": "direction",
                         "in": "query",
-                        "description": "Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \"all\"",
+                        "description": "Determines the sort order of logs. Supported values are forward or backward. Default: forward",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "streamSource",
+                        "in": "query",
+                        "description": "Only return logs filtered by stream source like stdout or stderr. Default: null",
                         "schema": {
                             "type": "string"
                         }
@@ -1273,7 +1398,7 @@
         "\/v1\/services\/{dockerService}\/backup": {
             "post": {
                 "operationId": "createBackup",
-                "summary": "Creates a backup of the service",
+                "summary": "Creates a backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1326,7 +1451,7 @@
             },
             "get": {
                 "operationId": "getLatestBackup",
-                "summary": "Display the latest backup for the specified Docker service",
+                "summary": "Display the latest backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1368,7 +1493,7 @@
         "\/v1\/services\/{dockerService}\/restore": {
             "post": {
                 "operationId": "restoreBackup",
-                "summary": "Restore a backup for a specified Docker service",
+                "summary": "Restore the latest backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1410,7 +1535,7 @@
         "\/v1\/services\/{dockerService}\/backups": {
             "get": {
                 "operationId": "getBackups",
-                "summary": "List all backups for the specified Docker service",
+                "summary": "List all backups",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1452,7 +1577,7 @@
         "\/v1\/services\/{dockerService}\/backup\/download": {
             "get": {
                 "operationId": "getServerBackupDownloadUrl",
-                "summary": "Generates a presigned URL for downloading a backup from AWS S3 if the backup method is 'archive'",
+                "summary": "Generate a presigned URL for downloading the latest backup from AWS S3",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1494,7 +1619,7 @@
         "\/v1\/services\/{dockerService}\/restart": {
             "post": {
                 "operationId": "restartServer",
-                "summary": "Restarts a specific Docker service",
+                "summary": "Restart the service",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -3049,6 +3174,18 @@
                         "description": "The location of the node",
                         "$ref": "#\/components\/schemas\/Location"
                     },
+                    "isBackupable": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service can be backed up"
+                    },
+                    "isRestorable": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service can be restored"
+                    },
+                    "isPending": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service is pending (not running) due to insufficient resources on the node."
+                    },
                     "env": {
                         "type": "object",
                         "description": "The environment variables of the service",
@@ -3093,6 +3230,9 @@
                     "createdAt",
                     "updatedAt",
                     "location",
+                    "isBackupable",
+                    "isRestorable",
+                    "isPending",
                     "env",
                     "ports",
                     "restartPolicy",
@@ -3265,8 +3405,11 @@
                 "type": "object",
                 "properties": {
                     "logs": {
-                        "type": "string",
-                        "description": "The logs as a string with newlines"
+                        "type": "array",
+                        "description": "The logs as an array of strings",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "required": [
@@ -3495,25 +3638,6 @@
                         "type": "integer",
                         "description": "The id of the server configuration that should be deployed"
                     },
-                    "autoScalerEnabled": {
-                        "type": "boolean",
-                        "description": "Whether auto scaler is enabled"
-                    },
-                    "autoScalerMin": {
-                        "type": [
-                            "integer",
-                            "null"
-                        ],
-                        "description": "The minimum number of instances that should run at the specific location",
-                        "minimum": 0
-                    },
-                    "autoScalerMax": {
-                        "type": [
-                            "integer",
-                            "null"
-                        ],
-                        "description": "The maximum number of instances that should run at the specific location"
-                    },
                     "numInstances": {
                         "type": "integer",
                         "description": "The number of instances that should run at the specific location",
@@ -3527,7 +3651,6 @@
                 "required": [
                     "name",
                     "serverConfigId",
-                    "autoScalerEnabled",
                     "numInstances"
                 ],
                 "title": "StoreAppLocationSettingRequest"
@@ -3828,37 +3951,14 @@
                         "description": "The name of the location setting",
                         "maxLength": 255
                     },
-                    "serverConfigId": {
-                        "type": "integer",
-                        "description": "The id of the server configuration that should be deployed"
-                    },
-                    "autoScalerEnabled": {
-                        "type": "boolean",
-                        "description": "Whether auto scaler is enabled"
-                    },
-                    "autoScalerMin": {
-                        "type": "integer",
-                        "description": "The minimum number of instances that should run at the specific location",
-                        "minimum": 0
-                    },
-                    "autoScalerMax": {
-                        "type": "integer",
-                        "description": "The maximum number of instances that should run at the specific location"
-                    },
                     "numInstances": {
                         "type": "integer",
                         "description": "The number of instances that should run at the specific location",
                         "minimum": 1
-                    },
-                    "placement": {
-                        "description": "The placement settings that define the location and other constraints",
-                        "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     }
                 },
                 "required": [
                     "name",
-                    "serverConfigId",
-                    "autoScalerEnabled",
                     "numInstances"
                 ],
                 "title": "UpdateAppLocationSettingRequest"

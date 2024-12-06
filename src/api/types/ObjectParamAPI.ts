@@ -27,6 +27,10 @@ import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetServers200Response } from '../models/GetServers200Response.ts';
+import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
+import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
+import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
@@ -343,41 +347,29 @@ export interface AppApiGetServerLogsRequest {
      */
     dockerService: number
     /**
-     * Show extra details provided to logs. Default: false
-     * @type boolean
-     * @memberof AppApigetServerLogs
-     */
-    details?: boolean
-    /**
-     * Return logs from stdout. Default: true
-     * @type boolean
-     * @memberof AppApigetServerLogs
-     */
-    stdout?: boolean
-    /**
-     * Return logs from stderr. Default: true
-     * @type boolean
-     * @memberof AppApigetServerLogs
-     */
-    stderr?: boolean
-    /**
-     * Only return logs since this time, as a UNIX timestamp. Default: 0
-     * @type number
-     * @memberof AppApigetServerLogs
-     */
-    since?: number
-    /**
-     * Add timestamps to every log line. Default: false
-     * @type boolean
-     * @memberof AppApigetServerLogs
-     */
-    timestamps?: boolean
-    /**
-     * Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
+     * A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
      * @type string
      * @memberof AppApigetServerLogs
      */
-    tail?: string
+    since?: string
+    /**
+     * The max number of entries to return. Default: 100
+     * @type number
+     * @memberof AppApigetServerLogs
+     */
+    limit?: number
+    /**
+     * Determines the sort order of logs. Supported values are forward or backward. Default: forward
+     * @type string
+     * @memberof AppApigetServerLogs
+     */
+    direction?: string
+    /**
+     * Only return logs filtered by stream source like stdout or stderr. Default: null
+     * @type string
+     * @memberof AppApigetServerLogs
+     */
+    streamSource?: string
 }
 
 export interface AppApiGetServersRequest {
@@ -387,6 +379,18 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     app: number
+    /**
+     * The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @type number
+     * @memberof AppApigetServers
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * @type number
+     * @memberof AppApigetServers
+     */
+    page?: number
 }
 
 export interface AppApiGetTaggedImagesRequest {
@@ -588,7 +592,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Creates a backup of the service
+     * Creates a backup
      * @param param the request object
      */
     public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
@@ -596,7 +600,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Creates a backup of the service
+     * Creates a backup
      * @param param the request object
      */
     public createBackup(param: AppApiCreateBackupRequest, options?: Configuration): Promise<any> {
@@ -814,7 +818,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * List all backups for the specified Docker service
+     * List all backups
      * @param param the request object
      */
     public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: Configuration): Promise<HttpInfo<Array<Backup>>> {
@@ -822,7 +826,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * List all backups for the specified Docker service
+     * List all backups
      * @param param the request object
      */
     public getBackups(param: AppApiGetBackupsRequest, options?: Configuration): Promise<Array<Backup>> {
@@ -894,7 +898,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display the latest backup for the specified Docker service
+     * Display the latest backup
      * @param param the request object
      */
     public getLatestBackupWithHttpInfo(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<HttpInfo<Backup>> {
@@ -902,7 +906,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display the latest backup for the specified Docker service
+     * Display the latest backup
      * @param param the request object
      */
     public getLatestBackup(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<Backup> {
@@ -958,7 +962,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \'archive\'
+     * Generate a presigned URL for downloading the latest backup from AWS S3
      * @param param the request object
      */
     public getServerBackupDownloadUrlWithHttpInfo(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<HttpInfo<BackupDownload>> {
@@ -966,7 +970,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \'archive\'
+     * Generate a presigned URL for downloading the latest backup from AWS S3
      * @param param the request object
      */
     public getServerBackupDownloadUrl(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<BackupDownload> {
@@ -974,7 +978,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display a specific DockerService associated with the given App
+     * Display a specific service
      * @param param the request object
      */
     public getServerByIdWithHttpInfo(param: AppApiGetServerByIdRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -982,7 +986,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display a specific DockerService associated with the given App
+     * Display a specific service
      * @param param the request object
      */
     public getServerById(param: AppApiGetServerByIdRequest, options?: Configuration): Promise<Server> {
@@ -1022,35 +1026,35 @@ export class ObjectAppApi {
     }
 
     /**
-     * Get stdout and stderr logs from a service or task
+     * Get stdout and stderr logs from the latest gameserver task
      * @param param the request object
      */
     public getServerLogsWithHttpInfo(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
-        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.details, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
+        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.since, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
     /**
-     * Get stdout and stderr logs from a service or task
+     * Get stdout and stderr logs from the latest gameserver task
      * @param param the request object
      */
     public getServerLogs(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
-        return this.api.getServerLogs(param.dockerService, param.details, param.stdout, param.stderr, param.since, param.timestamps, param.tail,  options).toPromise();
+        return this.api.getServerLogs(param.dockerService, param.since, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
     /**
-     * Show all services for a given app
+     * Show all services
      * @param param the request object
      */
-    public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<Array<Server>>> {
-        return this.api.getServersWithHttpInfo(param.app,  options).toPromise();
+    public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page,  options).toPromise();
     }
 
     /**
-     * Show all services for a given app
+     * Show all services
      * @param param the request object
      */
-    public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<Array<Server>> {
-        return this.api.getServers(param.app,  options).toPromise();
+    public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
+        return this.api.getServers(param.app, param.perPage, param.page,  options).toPromise();
     }
 
     /**
@@ -1118,7 +1122,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Restarts a specific Docker service
+     * Restart the service
      * @param param the request object
      */
     public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: Configuration): Promise<HttpInfo<any>> {
@@ -1126,7 +1130,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Restarts a specific Docker service
+     * Restart the service
      * @param param the request object
      */
     public restartServer(param: AppApiRestartServerRequest, options?: Configuration): Promise<any> {
@@ -1134,7 +1138,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Restore a backup for a specified Docker service
+     * Restore the latest backup
      * @param param the request object
      */
     public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
@@ -1142,7 +1146,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Restore a backup for a specified Docker service
+     * Restore the latest backup
      * @param param the request object
      */
     public restoreBackup(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<any> {

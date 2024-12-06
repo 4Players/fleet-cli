@@ -19,7 +19,7 @@ const serverList = new Command()
     const app = await getSelectedAppOrExit(options);
     let servers: Server[] = [];
     try {
-      servers = await apiClient.getServers(app.id);
+      servers = (await apiClient.getServers(app.id, -1, 1)).data;
       if (servers.length === 0) {
         console.log(
           "No servers found. Create a deployment with `fleet deployments create` to start a server."
@@ -60,7 +60,7 @@ const serverAddress = new Command()
     const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
-      const servers = await apiClient.getServers(app.id);
+      const servers = (await apiClient.getServers(app.id, -1, 1)).data;
       if (servers.length === 0) {
         console.log(
           "No servers found. Create a deployment with `fleet deployments create` to start a server."
@@ -104,7 +104,7 @@ const showServerInfo = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
         if (servers.length === 0) {
           inform(
             options,
@@ -159,23 +159,19 @@ const showServerLogs = new Command()
   .name("logs")
   .description("Show logs for a server.")
   .option("--server-id=<serverId:string>", "Server ID.")
-  .option("--details <details:boolean>", "Show detailed logs.", {
-    default: false,
-  })
-  .option("--follow <follow:boolean>", "Follow logs.", { default: false })
   .option("--stdout <stdout:boolean>", "Show stdout logs.", { default: true })
   .option("--stderr <stderr:boolean>", "Show stderr logs.", { default: true })
   .option(
     "--since=<since:number>",
-    "Only return logs newer than a relative duration like 60",
+    "Only return logs newer (now - since) where since is a duration either as a number in seconds or with a time unit postfix (s, m, or h). e.g. 7d",
     {
-      default: undefined,
+      default: "7d",
     }
   )
   .option("--timestamps", "Show timestamps.", { default: false })
   .option(
     "--tail=<tail:string>",
-    "Number of lines to show from the end of the logs. Use `all` to show all logs.",
+    "Number of lines to show from the end of the logs.",
     {
       default: 100,
     }
@@ -186,7 +182,7 @@ const showServerLogs = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
         if (servers.length === 0) {
           inform(
             options,
@@ -218,13 +214,14 @@ const showServerLogs = new Command()
     try {
       const data = await apiClient.getServerLogs(
         serverId,
-        options.details,
-        options.follow,
-        options.stdout,
-        options.stderr,
         options.since,
-        options.timestamps,
-        options.tail
+        options.tail,
+        "backward",
+        options.stderr && !options.stdout
+          ? "stderr"
+          : options.stdout && !options.stderr
+          ? "stdout"
+          : undefined
       );
       console.log(data.logs);
     } catch (error) {
@@ -248,7 +245,7 @@ const createBackup = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id)).data;
         if (servers.length === 0) {
           inform(
             options,
@@ -337,7 +334,7 @@ const getBackupDownloadUrl = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
         if (servers.length === 0) {
           inform(
             options,
@@ -405,7 +402,7 @@ export const restoreBackup = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
         if (servers.length === 0) {
           inform(
             options,
@@ -478,7 +475,7 @@ const restartServer = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = await apiClient.getServers(app.id);
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
         if (servers.length === 0) {
           inform(
             options,

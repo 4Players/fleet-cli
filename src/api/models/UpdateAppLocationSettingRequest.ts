@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class UpdateAppLocationSettingRequest {
@@ -19,29 +18,9 @@ export class UpdateAppLocationSettingRequest {
     */
     'name': string;
     /**
-    * The id of the server configuration that should be deployed
-    */
-    'serverConfigId': number;
-    /**
-    * Whether auto scaler is enabled
-    */
-    'autoScalerEnabled': boolean;
-    /**
-    * The minimum number of instances that should run at the specific location
-    */
-    'autoScalerMin'?: number;
-    /**
-    * The maximum number of instances that should run at the specific location
-    */
-    'autoScalerMax'?: number;
-    /**
     * The number of instances that should run at the specific location
     */
     'numInstances': number;
-    /**
-    * The placement settings that define the location and other constraints
-    */
-    'placement'?: CreateUpdatePlacement;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -53,39 +32,9 @@ export class UpdateAppLocationSettingRequest {
             "format": ""
         },
         {
-            "name": "serverConfigId",
-            "baseName": "serverConfigId",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "autoScalerEnabled",
-            "baseName": "autoScalerEnabled",
-            "type": "boolean",
-            "format": ""
-        },
-        {
-            "name": "autoScalerMin",
-            "baseName": "autoScalerMin",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "autoScalerMax",
-            "baseName": "autoScalerMax",
-            "type": "number",
-            "format": ""
-        },
-        {
             "name": "numInstances",
             "baseName": "numInstances",
             "type": "number",
-            "format": ""
-        },
-        {
-            "name": "placement",
-            "baseName": "placement",
-            "type": "CreateUpdatePlacement",
             "format": ""
         }    ];
 

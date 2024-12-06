@@ -10,57 +10,37 @@
  * Do not edit the class manually.
  */
 
-import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class StoreAppLocationSettingRequest {
-    /**
-    * The name of the location setting
-    */
-    'name': string;
-    /**
-    * The id of the server configuration that should be deployed
-    */
-    'serverConfigId': number;
-    /**
-    * The number of instances that should run at the specific location
-    */
-    'numInstances': number;
-    /**
-    * The placement settings that define the location and other constraints
-    */
-    'placement'?: CreateUpdatePlacement;
+export class GetServers200ResponseMetaLinksInner {
+    'url': string | null;
+    'label': string;
+    'active': boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "url",
+            "baseName": "url",
             "type": "string",
             "format": ""
         },
         {
-            "name": "serverConfigId",
-            "baseName": "serverConfigId",
-            "type": "number",
+            "name": "label",
+            "baseName": "label",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "numInstances",
-            "baseName": "numInstances",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "placement",
-            "baseName": "placement",
-            "type": "CreateUpdatePlacement",
+            "name": "active",
+            "baseName": "active",
+            "type": "boolean",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return StoreAppLocationSettingRequest.attributeTypeMap;
+        return GetServers200ResponseMetaLinksInner.attributeTypeMap;
     }
 
     public constructor() {

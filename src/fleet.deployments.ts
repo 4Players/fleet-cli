@@ -206,7 +206,6 @@ export const createDeployment = new Command()
         name: name,
         serverConfigId: serverConfigId,
         placement: placement,
-        autoScalerEnabled: false,
         numInstances: numInstances,
       };
     } else {
@@ -228,7 +227,6 @@ export const createDeployment = new Command()
             city: options.city,
           },
         },
-        autoScalerEnabled: false,
         numInstances: options.numInstances,
       };
     }
@@ -354,9 +352,6 @@ const updateDeployment = new Command()
       payload = {
         name: options.name ?? deployment.name,
         numInstances: options.numInstances ?? deployment.numInstances,
-        serverConfigId: options.configId ?? deployment.serverConfigId,
-        autoScalerEnabled: deployment.autoScalerEnabled,
-        placement: placement,
       };
     }
 

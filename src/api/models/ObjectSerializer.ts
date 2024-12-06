@@ -24,6 +24,10 @@ export * from '../models/DockerTaskStatus.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
+export * from '../models/GetServers200Response.ts';
+export * from '../models/GetServers200ResponseLinks.ts';
+export * from '../models/GetServers200ResponseMeta.ts';
+export * from '../models/GetServers200ResponseMetaLinksInner.ts';
 export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/Location.ts';
 export * from '../models/Mount.ts';
@@ -88,6 +92,10 @@ import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetServers200Response } from '../models/GetServers200Response.ts';
+import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
+import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
+import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
@@ -175,6 +183,10 @@ let typeMap: {[index: string]: any} = {
     "DockerTaskStatus": DockerTaskStatus,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
+    "GetServers200Response": GetServers200Response,
+    "GetServers200ResponseLinks": GetServers200ResponseLinks,
+    "GetServers200ResponseMeta": GetServers200ResponseMeta,
+    "GetServers200ResponseMetaLinksInner": GetServers200ResponseMetaLinksInner,
     "GetTaggedImages200Response": GetTaggedImages200Response,
     "Location": Location,
     "Mount": Mount,

@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**createApp**](AppApi.md#createApp) | **POST** /v1/apps | Create an app
 [**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /v1/apps/{app}/location-settings | Create a new location setting
-[**createBackup**](AppApi.md#createBackup) | **POST** /v1/services/{dockerService}/backup | Creates a backup of the service
+[**createBackup**](AppApi.md#createBackup) | **POST** /v1/services/{dockerService}/backup | Creates a backup
 [**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related entity
 [**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /v1/docker-registries | Create a new docker registry
 [**createServerConfig**](AppApi.md#createServerConfig) | **POST** /v1/apps/{app}/configs | Create a new server config
@@ -20,27 +20,27 @@ Method | HTTP request | Description
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
 [**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
 [**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Get token
-[**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{dockerService}/backups | List all backups for the specified Docker service
+[**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{dockerService}/backups | List all backups
 [**getBinaries**](AppApi.md#getBinaries) | **GET** /v1/apps/{app}/binaries | Show all binaries
 [**getBinaryById**](AppApi.md#getBinaryById) | **GET** /v1/binaries/{binary} | Show a specific binary
 [**getDockerRegistries**](AppApi.md#getDockerRegistries) | **GET** /v1/docker-registries | Show all docker registries
 [**getDockerRegistryById**](AppApi.md#getDockerRegistryById) | **GET** /v1/docker-registries/{dockerRegistry} | Display a specific docker registry
-[**getLatestBackup**](AppApi.md#getLatestBackup) | **GET** /v1/services/{dockerService}/backup | Display the latest backup for the specified Docker service
+[**getLatestBackup**](AppApi.md#getLatestBackup) | **GET** /v1/services/{dockerService}/backup | Display the latest backup
 [**getLocations**](AppApi.md#getLocations) | **GET** /v1/nodes/locations | Show a unique listing of locations based on active and ready worker nodes
 [**getResourcePackageById**](AppApi.md#getResourcePackageById) | **GET** /v1/resource-packages/{resourcePackage} | Show a specified resource package
 [**getResourcePackages**](AppApi.md#getResourcePackages) | **GET** /v1/resource-packages | Show all available resource packages
-[**getServerBackupDownloadUrl**](AppApi.md#getServerBackupDownloadUrl) | **GET** /v1/services/{dockerService}/backup/download | Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \&#39;archive\&#39;
-[**getServerById**](AppApi.md#getServerById) | **GET** /v1/apps/{app}/services/{dockerService} | Display a specific DockerService associated with the given App
+[**getServerBackupDownloadUrl**](AppApi.md#getServerBackupDownloadUrl) | **GET** /v1/services/{dockerService}/backup/download | Generate a presigned URL for downloading the latest backup from AWS S3
+[**getServerById**](AppApi.md#getServerById) | **GET** /v1/apps/{app}/services/{dockerService} | Display a specific service
 [**getServerConfigById**](AppApi.md#getServerConfigById) | **GET** /v1/server-configs/{serverConfig} | Show a specific server config
 [**getServerConfigs**](AppApi.md#getServerConfigs) | **GET** /v1/apps/{app}/configs | Show all server configs
-[**getServerLogs**](AppApi.md#getServerLogs) | **GET** /v1/services/{dockerService}/logs | Get stdout and stderr logs from a service or task
-[**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services for a given app
+[**getServerLogs**](AppApi.md#getServerLogs) | **GET** /v1/services/{dockerService}/logs | Get stdout and stderr logs from the latest gameserver task
+[**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services
 [**getTaggedImages**](AppApi.md#getTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images | List all available tagged images
 [**listServicesForAppLocationSetting**](AppApi.md#listServicesForAppLocationSetting) | **GET** /v1/apps/{app}/location-settings/{appLocationSetting}/services | Show all services for a specific app location setting within a given app
 [**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related entity
 [**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
-[**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{dockerService}/restart | Restarts a specific Docker service
-[**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore a backup for a specified Docker service
+[**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{dockerService}/restart | Restart the service
+[**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore the latest backup
 [**steamGetBranches**](AppApi.md#steamGetBranches) | **GET** /v1/binaries/steam/branches | Get branches for a specific steamworks app ID
 [**steamGetLauncher**](AppApi.md#steamGetLauncher) | **GET** /v1/binaries/steam/launchers | Get launchers for a specific steamworks app ID, optionally filtered by OS
 [**updateAppById**](AppApi.md#updateAppById) | **PUT** /v1/apps/{app} | Update a specific app
@@ -1678,18 +1678,14 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiGetServerLogsRequest = {
   // number | The docker service ID
   dockerService: 1,
-  // boolean | Show extra details provided to logs. Default: false (optional)
-  details: true,
-  // boolean | Return logs from stdout. Default: true (optional)
-  stdout: true,
-  // boolean | Return logs from stderr. Default: true (optional)
-  stderr: true,
-  // number | Only return logs since this time, as a UNIX timestamp. Default: 0 (optional)
-  since: 0,
-  // boolean | Add timestamps to every log line. Default: false (optional)
-  timestamps: true,
-  // string | Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \"all\" (optional)
-  tail: "tail_example",
+  // string | A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d (optional)
+  since: "since_example",
+  // number | The max number of entries to return. Default: 100 (optional)
+  limit: 1,
+  // string | Determines the sort order of logs. Supported values are forward or backward. Default: forward (optional)
+  direction: "direction_example",
+  // string | Only return logs filtered by stream source like stdout or stderr. Default: null (optional)
+  streamSource: "streamSource_example",
 };
 
 apiInstance.getServerLogs(body).then((data:any) => {
@@ -1703,12 +1699,10 @@ apiInstance.getServerLogs(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
- **details** | [**boolean**] | Show extra details provided to logs. Default: false | (optional) defaults to undefined
- **stdout** | [**boolean**] | Return logs from stdout. Default: true | (optional) defaults to undefined
- **stderr** | [**boolean**] | Return logs from stderr. Default: true | (optional) defaults to undefined
- **since** | [**number**] | Only return logs since this time, as a UNIX timestamp. Default: 0 | (optional) defaults to undefined
- **timestamps** | [**boolean**] | Add timestamps to every log line. Default: false | (optional) defaults to undefined
- **tail** | [**string**] | Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot; | (optional) defaults to undefined
+ **since** | [**string**] | A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d | (optional) defaults to undefined
+ **limit** | [**number**] | The max number of entries to return. Default: 100 | (optional) defaults to undefined
+ **direction** | [**string**] | Determines the sort order of logs. Supported values are forward or backward. Default: forward | (optional) defaults to undefined
+ **streamSource** | [**string**] | Only return logs filtered by stream source like stdout or stderr. Default: null | (optional) defaults to undefined
 
 
 ### Return type
@@ -1737,7 +1731,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getServers**
-> Array<Server> getServers()
+> GetServers200Response getServers()
 
 
 ### Example
@@ -1753,6 +1747,10 @@ const apiInstance = new .AppApi(configuration);
 let body:.AppApiGetServersRequest = {
   // number | The app ID
   app: 1,
+  // number | The number of items to be shown per page. Use `-1` to display all results on a single page. Default: `10` (optional)
+  perPage: 1,
+  // number | Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
 };
 
 apiInstance.getServers(body).then((data:any) => {
@@ -1766,11 +1764,13 @@ apiInstance.getServers(body).then((data:any) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **app** | [**number**] | The app ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60; | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<Server>**
+**GetServers200Response**
 
 ### Authorization
 
@@ -1785,9 +1785,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;ServerCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;CustomDockerServiceResource&#x60; |  -  |
 **404** |  |  -  |
 **401** |  |  -  |
+**422** |  |  -  |
 **403** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)

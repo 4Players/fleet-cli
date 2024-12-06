@@ -36,6 +36,10 @@ models/DockerTaskStatus.ts
 models/EnvironmentVariable.ts
 models/EnvironmentVariableDefinition.ts
 models/EnvironmentVariableType.ts
+models/GetServers200Response.ts
+models/GetServers200ResponseLinks.ts
+models/GetServers200ResponseMeta.ts
+models/GetServers200ResponseMetaLinksInner.ts
 models/GetTaggedImages200Response.ts
 models/Location.ts
 models/Mount.ts

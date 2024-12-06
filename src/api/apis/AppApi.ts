@@ -17,6 +17,7 @@ import { BackupDownload } from '../models/BackupDownload.ts';
 import { Binary } from '../models/Binary.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
+import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { Location } from '../models/Location.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -133,7 +134,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Creates a backup of the service
+     * Creates a backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
@@ -634,7 +635,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * List all backups for the specified Docker service
+     * List all backups
      * @param dockerService The docker service ID
      */
     public async getBackups(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -781,7 +782,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Display the latest backup for the specified Docker service
+     * Display the latest backup
      * @param dockerService The docker service ID
      */
     public async getLatestBackup(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -889,7 +890,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Generates a presigned URL for downloading a backup from AWS S3 if the backup method is \'archive\'
+     * Generate a presigned URL for downloading the latest backup from AWS S3
      * @param dockerService The docker service ID
      */
     public async getServerBackupDownloadUrl(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -920,7 +921,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Display a specific DockerService associated with the given App
+     * Display a specific service
      * @param app The app ID
      * @param dockerService The docker service ID
      */
@@ -1021,24 +1022,20 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Get stdout and stderr logs from a service or task
+     * Get stdout and stderr logs from the latest gameserver task
      * @param dockerService The docker service ID
-     * @param details Show extra details provided to logs. Default: false
-     * @param stdout Return logs from stdout. Default: true
-     * @param stderr Return logs from stderr. Default: true
-     * @param since Only return logs since this time, as a UNIX timestamp. Default: 0
-     * @param timestamps Add timestamps to every log line. Default: false
-     * @param tail Only return this number of log lines from the end of the logs. Specify as an integer or all to output all log lines. Default: \&quot;all\&quot;
+     * @param since A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
+     * @param limit The max number of entries to return. Default: 100
+     * @param direction Determines the sort order of logs. Supported values are forward or backward. Default: forward
+     * @param streamSource Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public async getServerLogs(dockerService: number, details?: boolean, stdout?: boolean, stderr?: boolean, since?: number, timestamps?: boolean, tail?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServerLogs(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "getServerLogs", "dockerService");
         }
-
-
 
 
 
@@ -1054,33 +1051,23 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
-        if (details !== undefined) {
-            requestContext.setQueryParam("details", ObjectSerializer.serialize(details, "boolean", ""));
-        }
-
-        // Query Params
-        if (stdout !== undefined) {
-            requestContext.setQueryParam("stdout", ObjectSerializer.serialize(stdout, "boolean", ""));
-        }
-
-        // Query Params
-        if (stderr !== undefined) {
-            requestContext.setQueryParam("stderr", ObjectSerializer.serialize(stderr, "boolean", ""));
-        }
-
-        // Query Params
         if (since !== undefined) {
-            requestContext.setQueryParam("since", ObjectSerializer.serialize(since, "number", ""));
+            requestContext.setQueryParam("since", ObjectSerializer.serialize(since, "string", ""));
         }
 
         // Query Params
-        if (timestamps !== undefined) {
-            requestContext.setQueryParam("timestamps", ObjectSerializer.serialize(timestamps, "boolean", ""));
+        if (limit !== undefined) {
+            requestContext.setQueryParam("limit", ObjectSerializer.serialize(limit, "number", ""));
         }
 
         // Query Params
-        if (tail !== undefined) {
-            requestContext.setQueryParam("tail", ObjectSerializer.serialize(tail, "string", ""));
+        if (direction !== undefined) {
+            requestContext.setQueryParam("direction", ObjectSerializer.serialize(direction, "string", ""));
+        }
+
+        // Query Params
+        if (streamSource !== undefined) {
+            requestContext.setQueryParam("streamSource", ObjectSerializer.serialize(streamSource, "string", ""));
         }
 
 
@@ -1094,16 +1081,20 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Show all services for a given app
+     * Show all services
      * @param app The app ID
+     * @param perPage The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param page Specifies the page number to retrieve in the paginated results.
      */
-    public async getServers(app: number, _options?: Configuration): Promise<RequestContext> {
+    public async getServers(app: number, perPage?: number, page?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServers", "app");
         }
+
+
 
 
         // Path Params
@@ -1113,6 +1104,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
 
 
         
@@ -1257,7 +1258,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Restarts a specific Docker service
+     * Restart the service
      * @param dockerService The docker service ID
      */
     public async restartServer(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -1288,7 +1289,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Restore a backup for a specified Docker service
+     * Restore the latest backup
      * @param dockerService The docker service ID
      */
     public async restoreBackup(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -3123,13 +3124,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getServers
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getServersWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Server> >> {
+     public async getServersWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServers200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Server> = ObjectSerializer.deserialize(
+            const body: GetServers200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Server>", ""
-            ) as Array<Server>;
+                "GetServers200Response", ""
+            ) as GetServers200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
@@ -3146,6 +3147,13 @@ export class AppApiResponseProcessor {
             ) as any;
             throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            throw new ApiException<any>(response.httpStatusCode, "", body, response.headers);
+        }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: any = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -3156,10 +3164,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Server> = ObjectSerializer.deserialize(
+            const body: GetServers200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Server>", ""
-            ) as Array<Server>;
+                "GetServers200Response", ""
+            ) as GetServers200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

@@ -51,6 +51,18 @@ export class Server {
     */
     'location': Location;
     /**
+    * Indicates whether the service can be backed up
+    */
+    'isBackupable': boolean;
+    /**
+    * Indicates whether the service can be restored
+    */
+    'isRestorable': boolean;
+    /**
+    * Indicates whether the service is pending (not running) due to insufficient resources on the node.
+    */
+    'isPending': boolean;
+    /**
     * The environment variables of the service
     */
     'env': { [key: string]: EnvironmentVariable; };
@@ -128,6 +140,24 @@ export class Server {
             "name": "location",
             "baseName": "location",
             "type": "Location",
+            "format": ""
+        },
+        {
+            "name": "isBackupable",
+            "baseName": "isBackupable",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "isRestorable",
+            "baseName": "isRestorable",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "isPending",
+            "baseName": "isPending",
+            "type": "boolean",
             "format": ""
         },
         {

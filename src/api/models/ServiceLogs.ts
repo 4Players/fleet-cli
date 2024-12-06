@@ -14,9 +14,9 @@ import { HttpFile } from '../http/http.ts';
 
 export class ServiceLogs {
     /**
-    * The logs as a string with newlines
+    * The logs as an array of strings
     */
-    'logs': string;
+    'logs': Array<string>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -24,7 +24,7 @@ export class ServiceLogs {
         {
             "name": "logs",
             "baseName": "logs",
-            "type": "string",
+            "type": "Array<string>",
             "format": ""
         }    ];
 
