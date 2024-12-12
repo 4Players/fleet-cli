@@ -1,9 +1,10 @@
-import { Command } from "$cliffy/command/command.ts";
-import { images } from "./fleet.images.ts";
-import { configs } from "./fleet.configs.ts";
-import { deployments } from "./fleet.deployments.ts";
-import { servers } from "./fleet.servers.ts";
-import { locations } from "./fleet.locations.ts";
+import { Command } from "@cliffy/command";
+
+import { images } from "./fleet/images.ts";
+import { configs } from "./fleet/configs.ts";
+import { deployments } from "./fleet/deployments.ts";
+import { servers } from "./fleet/servers.ts";
+import { locations } from "./fleet/locations.ts";
 
 export const fleet = new Command()
   .name("fleet")

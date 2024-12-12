@@ -1,10 +1,5 @@
-import { Input } from "$cliffy/prompt/mod.ts";
-import { Command } from "$cliffy/command/command.ts";
-import { ensureDir } from "$std/fs/mod.ts";
-import { CommandOptions } from "https://deno.land/x/cliffy@v1.0.0-rc.4/command/types.ts";
-import { App } from "./api/index.ts";
-import { apiClient } from "./main.ts";
-import { logError } from "./utils.ts";
+import { Input } from "@cliffy/prompt";
+import { ensureDir } from "@std/fs";
 
 // Get the home directory based on the OS
 const homeDir = Deno.env.get("HOME") || Deno.env.get("USERPROFILE");
@@ -76,37 +71,3 @@ export async function getAccessToken(): Promise<string | null> {
   const config = await getConfig();
   return config ? config.accessKey : null;
 }
-
-export const login = new Command()
-  .name("login")
-  .description("Log into ODIN with your credentials or access token.")
-  .action(async (options: CommandOptions) => {
-    console.log(
-      "You can find your ODIN API key in the dashboard of ODIN in the apps settings section (see https://console.4players.io/settings/api-keys)",
-    );
-    const apiKey: string = options.apiKey ||
-      await Input.prompt("Your API key: ");
-    if (!apiKey || apiKey.length === 0) {
-      console.error("You need to provide an API key.");
-      return;
-    } else {
-      await saveAccessToken(apiKey);
-      console.log("API key stored, you can now proceed with other commands.");
-    }
-
-    if (options.appId) {
-      let app: App;
-      try {
-        app = await apiClient.getAppById(options.appId);
-        const config: Config = (await getConfig()) || { accessKey: apiKey };
-        config.selectedAppId = app.id;
-        await saveConfig(config);
-      } catch (error) {
-        logError(
-          "Failed to load app. Error: " + error.body.message,
-          error.code,
-        );
-        Deno.exit(1);
-      }
-    }
-  });

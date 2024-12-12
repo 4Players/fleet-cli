@@ -1,15 +1,31 @@
 // deno-lint-ignore-file no-explicit-any
-import { colors } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/colors.ts";
-import { Confirm } from "$cliffy/prompt/mod.ts";
-import { CommandOptions } from "$cliffy/command/types.ts";
-import { Table } from "$cliffy/table/table.ts";
+
 import jsonata from "jsonata";
+
+import { colors } from "@cliffy/ansi/colors";
+import { CommandOptions } from "@cliffy/command";
+import { Confirm } from "@cliffy/prompt";
+import { Table } from "@cliffy/table";
+
 import { Tokenizer } from "./tokenizer.ts";
+import { ApiException } from "../backend/api/index.ts";
+
+export function isApiException(error: unknown): error is ApiException<any> {
+  return error instanceof ApiException;
+}
+
+export function ensureApiException(
+  error: any,
+): asserts error is ApiException<any> {
+  if (!isApiException(error)) {
+    logErrorAndExit("Internal error", error);
+  }
+}
 
 export const logErrorAndExit = (
   message: string,
   ...optionalParams: unknown[]
-) => {
+): never => {
   logError(message, ...optionalParams);
   Deno.exit(1);
 };
@@ -40,7 +56,7 @@ export const inform = (
 export const printAsTable = async (data: any, format: string) => {
   // Format is in the format "table(<property-paths>)"
   const match = format.match(
-    /table\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/
+    /table\(((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*)\)/,
   );
   if (!match) {
     console.error("Invalid table format.");
@@ -389,7 +405,7 @@ export const printAsFlattened = (data: any, format: string) => {
 export const stdout = async (
   data: any,
   options: CommandOptions,
-  defaultType: string
+  defaultType: string,
 ) => {
   let type = options.format;
   if (!type || type === "default") {
@@ -449,7 +465,7 @@ export const camelToSnake = (str: string) => {
 
 export const validateAtLeastOneOptionAvailable = (
   options: CommandOptions,
-  requiredOption: string[]
+  requiredOption: string[],
 ) => {
   for (const option of requiredOption) {
     if (options[option]) {
@@ -462,13 +478,13 @@ export const validateAtLeastOneOptionAvailable = (
     .join(", ");
 
   logErrorAndExit(
-    `At least one of the following options is required: ${optionNames}`
+    `At least one of the following options is required: ${optionNames}`,
   );
 };
 
 export const validateRequiredOptions = (
   options: CommandOptions,
-  requiredOption: string[]
+  requiredOption: string[],
 ) => {
   for (const option of requiredOption) {
     if (!options[option]) {

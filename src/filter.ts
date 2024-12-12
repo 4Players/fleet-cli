@@ -1,4 +1,5 @@
 import jsonata from "jsonata";
+
 import { Tokenizer } from "./tokenizer.ts";
 
 /**
@@ -90,7 +91,7 @@ export class FilterTokenizer extends Tokenizer {
 
     // If no valid token is found, throw an error
     throw new Error(
-      `Unexpected character '${char}' at position ${this.current}`
+      `Unexpected character '${char}' at position ${this.current}`,
     );
   }
 
@@ -142,10 +143,9 @@ function parseExpression(tokens: any[]): string {
       if (operator === "~") {
         return `$contains($v.${field}, /${valueToken.value}/)`;
       } else {
-        const value =
-          valueToken.type === TokenType.VALUE_STRING
-            ? `'${valueToken.value}'`
-            : valueToken.value;
+        const value = valueToken.type === TokenType.VALUE_STRING
+          ? `'${valueToken.value}'`
+          : valueToken.value;
 
         return `$v.${field} ${operator} ${value}`;
       }
@@ -184,7 +184,8 @@ export async function filterArray(data: any[], filterExpression: string) {
   const jsonataExpressionStr = parseExpression(tokens);
 
   // Construct the JSONata expression using $filter
-  const jsonataFilterStr = `$filter($, function($v, $i, $a) { ${jsonataExpressionStr} })`;
+  const jsonataFilterStr =
+    `$filter($, function($v, $i, $a) { ${jsonataExpressionStr} })`;
 
   // Prepare and evaluate the JSONata expression
   const expression = jsonata(jsonataFilterStr);

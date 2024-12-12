@@ -1,4 +1,4 @@
-import { Command } from "$cliffy/command/command.ts";
+import { Command } from "@cliffy/command";
 
 const accessKeysList = new Command()
   .name("list")

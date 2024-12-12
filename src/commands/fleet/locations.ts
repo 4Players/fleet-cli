@@ -1,19 +1,19 @@
-import { Command } from "$cliffy/command/command.ts";
-import { Location } from "./api/index.ts";
-import { apiClient } from "./main.ts";
-import { logError, stdout } from "./utils.ts";
-import { filterArray } from "./filter.ts";
+import { Command, CommandOptions } from "@cliffy/command";
+
+import { ensureApiException, logErrorAndExit, stdout } from "../../utils.ts";
+import { apiClient } from "../../client.ts";
+import { filterArray } from "../../filter.ts";
 
 const locationsList = new Command()
   .name("list")
   .description("List all locations available in ODIN Fleet.")
   .option(
     "--filter <filter:string>",
-    "Filter result based on a filter expression"
+    "Filter result based on a filter expression",
   )
-  .action(async (options) => {
+  .action(async (options: CommandOptions) => {
     // Select Location
-    let locations: Location[] = [];
+    let locations;
     try {
       locations = await apiClient.getLocations();
       if (locations.length === 0) {
@@ -21,9 +21,10 @@ const locationsList = new Command()
         return;
       }
     } catch (error) {
-      logError(
+      ensureApiException(error);
+      logErrorAndExit(
         "Failed to load locations. Error: " + error.body.message,
-        error.code
+        error.code,
       );
       Deno.exit(1);
     }
@@ -33,8 +34,8 @@ const locationsList = new Command()
       try {
         locations = await filterArray(locations, options.filter);
       } catch (error) {
-        logError("Failed to filter locations. Error: " + error.message);
-        Deno.exit(1);
+        ensureApiException(error);
+        logErrorAndExit("Failed to filter locations. Error: " + error.message);
       }
     }
 
@@ -44,7 +45,7 @@ const locationsList = new Command()
 export const locations = new Command()
   .name("servers")
   .description(
-    "Manage ODIN Fleet servers have been deployment for the selected app."
+    "Manage ODIN Fleet servers have been deployment for the selected app.",
   )
   .action(() => {
     locations.showHelp();
