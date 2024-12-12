@@ -2,9 +2,8 @@
   "name": "@4players/fleet-cli",
   "version": "1.0.0",
   "description": "CLI tool for ODIN Fleet",
-  "main": "index.js",
   "scripts": {
-    "generate-api-from-backend": "rimraf ./src/api/* && curl https://api.4np.4players.de/b2b/v1/docs/api.json > ./backend/document.json && openapi-generator-cli generate -i ./backend/document.json -g typescript -o ./src/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App"
+    "generate-api-from-backend": "rimraf ./backend/api/* && curl https://api.4np.4players.de/b2b/v1/docs/api.json > ./backend/api.json && openapi-generator-cli generate -i ./backend/api.json -g typescript -o ./backend/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App"
   },
   "keywords": [
     "4players",
@@ -15,10 +14,7 @@
   "author": "Phillip Schuster",
   "license": "MIT",
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "2.14.1",
-    "rimraf": "^6.0.0"
-  },
-  "dependencies": {
-    "jsonata": "^2.0.5"
+    "@openapitools/openapi-generator-cli": "~2.15.0",
+    "rimraf": "~6.0.0"
   }
 }
