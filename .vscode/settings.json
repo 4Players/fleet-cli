@@ -1,0 +1,14 @@
+{
+  "deno.enable": true,
+  "deno.lint": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno",
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+  },
+  "deno.suggest.imports.hosts": {
+    "https://deno.land": true
+  },
+  "deno.config": "deno.jsonc",
+}

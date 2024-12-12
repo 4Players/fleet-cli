@@ -7,7 +7,6 @@
 /.zed/
 /.idea/
 /.vs/
-/.vscode/
 gclient_config.py_entries
 /target/
 /std/hash/_wasm/target
