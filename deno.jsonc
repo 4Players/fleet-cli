@@ -6,6 +6,9 @@
   "compilerOptions": {
     "strict": true
   },
+  "fmt": {
+    "exclude": ["backend/"]
+  },
   "lint": {
     "exclude": ["backend/"]
   },
