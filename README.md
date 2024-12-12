@@ -61,13 +61,10 @@ chmod +x odin
 > This part of the documentation is directed to Mac and Linux development.
 > Working on Windows may require some adaptations to the following instructions.
 
-You need to have `npm` installed on your system. You can install it by following
-the instructions on the official [npm website](https://www.npmjs.com/get-npm).
-
 Install the required dependencies by running:
 
 ```bash
-npm install
+deno install --allow-scripts
 ```
 
 ### Updating the underlying SDK
