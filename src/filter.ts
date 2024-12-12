@@ -174,7 +174,7 @@ function parseExpression(tokens: any[]): string {
 }
 
 // Main function to filter the array using the custom filter syntax and JSONata
-export async function filterArray(data: any[], filterExpression: string) {
+export async function filterArray(data: unknown[], filterExpression: string) {
   // Tokenize the filter expression
   const tokenizer = new FilterTokenizer(filterExpression);
   const tokens = tokenizer.tokenize();

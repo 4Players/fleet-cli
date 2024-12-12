@@ -6,6 +6,9 @@
   "compilerOptions": {
     "strict": true
   },
+  "lint": {
+    "exclude": ["backend/"]
+  },
   "nodeModulesDir": "auto",
   "imports": {
     // Deno Standard Library
