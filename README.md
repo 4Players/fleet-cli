@@ -69,7 +69,7 @@ npm install
 To update the underlying SDK, you can simply run the following command:
 
 ```bash
-npm run generate-api-from-backend
+deno task generate-api-from-backend
 ```
 
 This will pull the latest OpenAPI specification file and generate the SDK from it.
