@@ -3,7 +3,6 @@ import { Input, Number, Select } from "@cliffy/prompt";
 
 import {
   AppLocationSetting,
-  CreateUpdatePlacement,
   Location,
   Placement,
   ServerConfig,
