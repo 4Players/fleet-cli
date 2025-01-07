@@ -170,7 +170,7 @@ const showServerLogs = new Command()
   .option("--stdout <stdout:boolean>", "Show stdout logs.", { default: true })
   .option("--stderr <stderr:boolean>", "Show stderr logs.", { default: true })
   .option(
-    "--since=<since:number>",
+    "--since=<since:string>",
     "Only return logs newer (now - since) where since is a duration either as a number in seconds or with a time unit postfix (s, m, or h). e.g. 7d",
     {
       default: "7d",
@@ -231,7 +231,9 @@ const showServerLogs = new Command()
           ? "stdout"
           : undefined,
       );
-      console.log(data.logs);
+      for (const log of data.logs) {
+        console.log(log);
+      }
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit("Failed to get logs. Error: ", error.message);
