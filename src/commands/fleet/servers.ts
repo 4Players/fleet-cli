@@ -79,9 +79,9 @@ const serverAddress = new Command()
         message: "Select server:",
         options: servers.map((server: Server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -97,7 +97,11 @@ const serverAddress = new Command()
     const table: Table = new Table();
     table.header(["ID", "Address/Port", "Port Name"]);
     Object.entries(server.ports!).forEach(([portName, port]) => {
-      table.push([server.id, `${server.addr}:${port.publishedPort}`, portName]);
+      table.push([
+        server.id,
+        `${server.node.address}:${port.publishedPort}`,
+        portName,
+      ]);
     });
     table.render();
   });
@@ -132,9 +136,9 @@ const showServerInfo = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -210,9 +214,9 @@ const showServerLogs = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -275,9 +279,9 @@ const createBackup = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -365,9 +369,9 @@ const getBackupDownloadUrl = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -428,9 +432,9 @@ export const restoreBackup = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
@@ -498,9 +502,9 @@ const restartServer = new Command()
         message: "Select server:",
         options: servers.map((server) => {
           return {
-            name: `${server.id} - ${server.location!.city} - ${
-              server.serverConfig!.name
-            } - ${server.addr}`,
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
             value: server.id,
           };
         }),
