@@ -2036,7 +2036,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**202** |  |  -  |
+**202** | &#x60;BinaryResource&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **403** | Authorization error |  -  |

@@ -11,13 +11,12 @@
  */
 
 import { Backup } from '../models/Backup.ts';
-import { DockerTaskStatus } from '../models/DockerTaskStatus.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { Location } from '../models/Location.ts';
+import { Node } from '../models/Node.ts';
 import { Port } from '../models/Port.ts';
-import { ResourceAllocations } from '../models/ResourceAllocations.ts';
+import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
-import { ServerConfig } from '../models/ServerConfig.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class Server {
@@ -33,23 +32,26 @@ export class Server {
     * The ID of the instance
     */
     'instance': number;
+    /**
+    * The ID of the server config
+    */
+    'serverConfigId': number;
+    /**
+    * The name of the server config
+    */
+    'serverConfigName': string;
+    /**
+    * The name of the service
+    */
     'name': string;
     /**
-    * The IP address of the node
+    * The current status
     */
-    'addr': string | null;
+    'status': string;
     /**
-    * When the service was created
+    * An optional message
     */
-    'createdAt': Date;
-    /**
-    * When the service was last updated
-    */
-    'updatedAt': Date;
-    /**
-    * The location of the node
-    */
-    'location': Location;
+    'statusMessage': string | null;
     /**
     * Indicates whether the service can be backed up
     */
@@ -63,33 +65,53 @@ export class Server {
     */
     'isPending': boolean;
     /**
-    * The environment variables of the service
+    * Indicates whether the service is currently not found/missing in the cluster.
     */
-    'env': { [key: string]: EnvironmentVariable; };
+    'isNotFound': boolean;
+    /**
+    * Indicates whether the service is currently in an overall healthy state.
+    */
+    'isHealthy': boolean;
+    /**
+    * Indicates if the service is under maintenance
+    */
+    'maintenance': boolean;
     /**
     * The port definitions of the service
     */
     'ports': { [key: string]: Port; };
     /**
+    * The environment variables of the service
+    */
+    'env': { [key: string]: EnvironmentVariable; };
+    /**
     * The restart policy of the service
     */
     'restartPolicy': RestartPolicy;
     /**
-    * The resource allocations of the service
+    * The assigned node
     */
-    'resources': ResourceAllocations;
+    'node': Node;
     /**
-    * The status of the task
+    * The location of the node
     */
-    'status': DockerTaskStatus;
+    'location': Location;
     /**
-    * The server configuration
+    * The assigned resource package
     */
-    'serverConfig': ServerConfig;
+    'resources': ResourcePackage;
     /**
     * The last backup of the service
     */
     'backup'?: Backup;
+    /**
+    * When the service was created
+    */
+    'createdAt': Date | null;
+    /**
+    * When the service was last updated
+    */
+    'updatedAt': Date | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -115,33 +137,33 @@ export class Server {
             "format": ""
         },
         {
+            "name": "serverConfigId",
+            "baseName": "serverConfigId",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "serverConfigName",
+            "baseName": "serverConfigName",
+            "type": "string",
+            "format": ""
+        },
+        {
             "name": "name",
             "baseName": "name",
             "type": "string",
             "format": ""
         },
         {
-            "name": "addr",
-            "baseName": "addr",
+            "name": "status",
+            "baseName": "status",
             "type": "string",
-            "format": "ipv4"
+            "format": ""
         },
         {
-            "name": "createdAt",
-            "baseName": "createdAt",
-            "type": "Date",
-            "format": "date-time"
-        },
-        {
-            "name": "updatedAt",
-            "baseName": "updatedAt",
-            "type": "Date",
-            "format": "date-time"
-        },
-        {
-            "name": "location",
-            "baseName": "location",
-            "type": "Location",
+            "name": "statusMessage",
+            "baseName": "status_message",
+            "type": "string",
             "format": ""
         },
         {
@@ -163,9 +185,21 @@ export class Server {
             "format": ""
         },
         {
-            "name": "env",
-            "baseName": "env",
-            "type": "{ [key: string]: EnvironmentVariable; }",
+            "name": "isNotFound",
+            "baseName": "isNotFound",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "isHealthy",
+            "baseName": "isHealthy",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "maintenance",
+            "baseName": "maintenance",
+            "type": "boolean",
             "format": ""
         },
         {
@@ -175,27 +209,33 @@ export class Server {
             "format": ""
         },
         {
+            "name": "env",
+            "baseName": "env",
+            "type": "{ [key: string]: EnvironmentVariable; }",
+            "format": ""
+        },
+        {
             "name": "restartPolicy",
             "baseName": "restartPolicy",
             "type": "RestartPolicy",
             "format": ""
         },
         {
+            "name": "node",
+            "baseName": "node",
+            "type": "Node",
+            "format": ""
+        },
+        {
+            "name": "location",
+            "baseName": "location",
+            "type": "Location",
+            "format": ""
+        },
+        {
             "name": "resources",
             "baseName": "resources",
-            "type": "ResourceAllocations",
-            "format": ""
-        },
-        {
-            "name": "status",
-            "baseName": "status",
-            "type": "DockerTaskStatus",
-            "format": ""
-        },
-        {
-            "name": "serverConfig",
-            "baseName": "serverConfig",
-            "type": "ServerConfig",
+            "type": "ResourcePackage",
             "format": ""
         },
         {
@@ -203,6 +243,18 @@ export class Server {
             "baseName": "backup",
             "type": "Backup",
             "format": ""
+        },
+        {
+            "name": "createdAt",
+            "baseName": "createdAt",
+            "type": "Date",
+            "format": "date-time"
+        },
+        {
+            "name": "updatedAt",
+            "baseName": "updatedAt",
+            "type": "Date",
+            "format": "date-time"
         }    ];
 
     static getAttributeTypeMap() {

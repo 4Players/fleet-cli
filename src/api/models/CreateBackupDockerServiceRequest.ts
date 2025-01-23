@@ -12,23 +12,11 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export class DockerTaskStatus {
+export class CreateBackupDockerServiceRequest {
     /**
-    * The state of the task
+    * The name of the backup
     */
-    'state': string;
-    /**
-    * The message from the task
-    */
-    'message': string;
-    /**
-    * The error from the task
-    */
-    'err': string | null;
-    /**
-    * The timestamp of the status request
-    */
-    'timestamp': string;
+    'name': string;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -36,32 +24,14 @@ export class DockerTaskStatus {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "state",
-            "baseName": "state",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "message",
-            "baseName": "message",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "err",
-            "baseName": "err",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "timestamp",
-            "baseName": "timestamp",
+            "name": "name",
+            "baseName": "name",
             "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return DockerTaskStatus.attributeTypeMap;
+        return CreateBackupDockerServiceRequest.attributeTypeMap;
     }
 
     public constructor() {

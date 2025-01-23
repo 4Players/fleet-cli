@@ -196,7 +196,7 @@ const createConfig = new Command()
         message: "Select Resource Package:",
         options: resourcePackages.map((resourcePackage) => ({
           name: `${resourcePackage
-            .name!} (${resourcePackage.cpuLimit} MB RAM, ${resourcePackage.memoryLimitMb} CPU cores)`,
+            .name!} (${resourcePackage.cpuLimit} MB RAM, ${resourcePackage.memoryLimitMiB} CPU cores)`,
           value: resourcePackage.slug,
         })),
       });

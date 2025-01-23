@@ -761,7 +761,7 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "",
+                        "description": "`BinaryResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -2197,6 +2197,13 @@
                 ],
                 "title": "AppLocationSettingStatus"
             },
+            "Architecture": {
+                "type": "string",
+                "enum": [
+                    "x86_64"
+                ],
+                "title": "Architecture"
+            },
             "Auth": {
                 "type": "object",
                 "properties": {
@@ -2713,37 +2720,6 @@
                 ],
                 "title": "DockerRegistryType"
             },
-            "DockerTaskStatus": {
-                "type": "object",
-                "properties": {
-                    "state": {
-                        "type": "string",
-                        "description": "The state of the task"
-                    },
-                    "message": {
-                        "type": "string",
-                        "description": "The message from the task"
-                    },
-                    "err": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The error from the task"
-                    },
-                    "timestamp": {
-                        "type": "string",
-                        "description": "The timestamp of the status request"
-                    }
-                },
-                "required": [
-                    "state",
-                    "message",
-                    "err",
-                    "timestamp"
-                ],
-                "title": "DockerTaskStatus"
-            },
             "EnvironmentVariable": {
                 "type": "object",
                 "properties": {
@@ -2857,6 +2833,34 @@
                     "readOnly"
                 ],
                 "title": "Mount"
+            },
+            "Node": {
+                "type": "object",
+                "properties": {
+                    "hostname": {
+                        "type": "string",
+                        "description": "The hostname of the node"
+                    },
+                    "architecture": {
+                        "description": "The architecture of the node (e.g., 'x86_64')",
+                        "$ref": "#\/components\/schemas\/Architecture"
+                    },
+                    "os": {
+                        "description": "The operating system of the node",
+                        "$ref": "#\/components\/schemas\/OperatingSystem"
+                    },
+                    "address": {
+                        "type": "string",
+                        "description": "The IP address of the node"
+                    }
+                },
+                "required": [
+                    "hostname",
+                    "architecture",
+                    "os",
+                    "address"
+                ],
+                "title": "Node"
             },
             "OperatingSystem": {
                 "type": "string",
@@ -3004,13 +3008,13 @@
                         "type": "string",
                         "description": "The minimum CPU of the resource package"
                     },
-                    "memoryLimitMb": {
+                    "memoryLimitMiB": {
                         "type": "integer",
-                        "description": "The maximum memory in megabytes of the resource package"
+                        "description": "The maximum memory in mebibytes (MiB) of the resource package"
                     },
-                    "memoryReservationMb": {
+                    "memoryReservationMiB": {
                         "type": "integer",
-                        "description": "The minimum memory in megabytes of the resource package"
+                        "description": "The minimum memory in mebibytes (MiB) of the resource package"
                     }
                 },
                 "required": [
@@ -3020,8 +3024,8 @@
                     "type",
                     "cpuLimit",
                     "cpuReservation",
-                    "memoryLimitMb",
-                    "memoryReservationMb"
+                    "memoryLimitMiB",
+                    "memoryReservationMiB"
                 ],
                 "title": "ResourcePackage"
             },
@@ -3113,30 +3117,28 @@
                         "type": "integer",
                         "description": "The ID of the instance"
                     },
-                    "name": {
-                        "type": "string"
+                    "serverConfigId": {
+                        "type": "integer",
+                        "description": "The ID of the server config"
                     },
-                    "addr": {
+                    "serverConfigName": {
+                        "type": "string",
+                        "description": "The name of the server config"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the service"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "The current status"
+                    },
+                    "status_message": {
                         "type": [
                             "string",
                             "null"
                         ],
-                        "format": "ipv4",
-                        "description": "The IP address of the node"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "When the service was created"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "When the service was last updated"
-                    },
-                    "location": {
-                        "description": "The location of the node",
-                        "$ref": "#\/components\/schemas\/Location"
+                        "description": "An optional message"
                     },
                     "isBackupable": {
                         "type": "boolean",
@@ -3150,12 +3152,17 @@
                         "type": "boolean",
                         "description": "Indicates whether the service is pending (not running) due to insufficient resources on the node."
                     },
-                    "env": {
-                        "type": "object",
-                        "description": "The environment variables of the service",
-                        "additionalProperties": {
-                            "$ref": "#\/components\/schemas\/EnvironmentVariable"
-                        }
+                    "isNotFound": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service is currently not found\/missing in the cluster."
+                    },
+                    "isHealthy": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service is currently in an overall healthy state."
+                    },
+                    "maintenance": {
+                        "type": "boolean",
+                        "description": "Indicates if the service is under maintenance"
                     },
                     "ports": {
                         "type": "object",
@@ -3164,45 +3171,73 @@
                             "$ref": "#\/components\/schemas\/Port"
                         }
                     },
+                    "env": {
+                        "type": "object",
+                        "description": "The environment variables of the service",
+                        "additionalProperties": {
+                            "$ref": "#\/components\/schemas\/EnvironmentVariable"
+                        }
+                    },
                     "restartPolicy": {
                         "description": "The restart policy of the service",
                         "$ref": "#\/components\/schemas\/RestartPolicy"
                     },
+                    "node": {
+                        "description": "The assigned node",
+                        "$ref": "#\/components\/schemas\/Node"
+                    },
+                    "location": {
+                        "description": "The location of the node",
+                        "$ref": "#\/components\/schemas\/Location"
+                    },
                     "resources": {
-                        "description": "The resource allocations of the service",
-                        "$ref": "#\/components\/schemas\/ResourceAllocations"
-                    },
-                    "status": {
-                        "description": "The status of the task",
-                        "$ref": "#\/components\/schemas\/DockerTaskStatus"
-                    },
-                    "serverConfig": {
-                        "description": "The server configuration",
-                        "$ref": "#\/components\/schemas\/ServerConfig"
+                        "description": "The assigned resource package",
+                        "$ref": "#\/components\/schemas\/ResourcePackage"
                     },
                     "backup": {
                         "description": "The last backup of the service",
                         "$ref": "#\/components\/schemas\/Backup"
+                    },
+                    "createdAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "When the service was created"
+                    },
+                    "updatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "When the service was last updated"
                     }
                 },
                 "required": [
                     "id",
                     "appLocationSettingId",
                     "instance",
+                    "serverConfigId",
+                    "serverConfigName",
                     "name",
-                    "addr",
-                    "createdAt",
-                    "updatedAt",
-                    "location",
+                    "status",
+                    "status_message",
                     "isBackupable",
                     "isRestorable",
                     "isPending",
-                    "env",
+                    "isNotFound",
+                    "isHealthy",
+                    "maintenance",
                     "ports",
+                    "env",
                     "restartPolicy",
+                    "node",
+                    "location",
                     "resources",
-                    "status",
-                    "serverConfig"
+                    "createdAt",
+                    "updatedAt"
                 ],
                 "title": "Server"
             },
