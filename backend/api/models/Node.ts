@@ -16,10 +16,6 @@ import { HttpFile } from '../http/http.ts';
 
 export class Node {
     /**
-    * The hostname of the node
-    */
-    'hostname': string;
-    /**
     * The architecture of the node (e.g., \'x86_64\')
     */
     'architecture': Architecture;
@@ -37,12 +33,6 @@ export class Node {
     static readonly mapping: {[index: string]: string} | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "hostname",
-            "baseName": "hostname",
-            "type": "string",
-            "format": ""
-        },
         {
             "name": "architecture",
             "baseName": "architecture",

@@ -100,7 +100,7 @@ import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
-import { Node     } from '../models/Node.ts';
+import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port      } from '../models/Port.ts';

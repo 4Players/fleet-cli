@@ -2837,10 +2837,6 @@
             "Node": {
                 "type": "object",
                 "properties": {
-                    "hostname": {
-                        "type": "string",
-                        "description": "The hostname of the node"
-                    },
                     "architecture": {
                         "description": "The architecture of the node (e.g., 'x86_64')",
                         "$ref": "#\/components\/schemas\/Architecture"
@@ -2855,7 +2851,6 @@
                     }
                 },
                 "required": [
-                    "hostname",
                     "architecture",
                     "os",
                     "address"
