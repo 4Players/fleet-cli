@@ -14,7 +14,7 @@ jobs:
 
       - name: Check version match
         run: |
-          TAG_VERSION="${{ github.ref_name#v }}"
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
           FILE_VERSION=$(jq -r '.version' src/mod.json)
           if [[ "$TAG_VERSION" == "$FILE_VERSION" ]]; then
             exit 0
@@ -24,6 +24,7 @@ jobs:
           fi
   
   build:
+    needs: ensure_version
     strategy:
       fail-fast: false
       matrix:
