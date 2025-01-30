@@ -6,6 +6,23 @@ on:
       - "v*.*.*"
 
 jobs:
+  ensure_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check version match
+        run: |
+          TAG_VERSION="${{ github.ref_name#v }}"
+          FILE_VERSION=$(jq -r '.version' src/mod.json)
+          if [[ "$TAG_VERSION" == "$FILE_VERSION" ]]; then
+            exit 0
+          else
+            echo "Version mismatch: Tag is $TAG_VERSION, but mod.json has $FILE_VERSION"
+            exit 1
+          fi
+  
   build:
     strategy:
       fail-fast: false

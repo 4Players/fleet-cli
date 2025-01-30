@@ -815,6 +815,62 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[appLocationSettingId]",
+                        "in": "query",
+                        "description": "Filter by AppLocationSetting ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigId]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCity]",
+                        "in": "query",
+                        "description": "Filter by location city.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCityDisplay]",
+                        "in": "query",
+                        "description": "Filter by location city display name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationContinent]",
+                        "in": "query",
+                        "description": "Filter by location continent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCountry]",
+                        "in": "query",
+                        "description": "Filter by location country.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1642,6 +1698,164 @@
                             "application\/json": {
                                 "schema": {
                                     "type": "null"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/metadata": {
+            "put": {
+                "operationId": "docker-services.metadata.set",
+                "summary": "Set or update metadata for the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "docker-services.metadata.delete",
+                "summary": "Delete specific metadata keys from the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object"
+                                        },
+                                        {
+                                            "$ref": "#\/components\/schemas\/Server"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/metadata\/all": {
+            "delete": {
+                "operationId": "docker-services.metadata.delete.all",
+                "summary": "Delete all metadata from the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
                                 }
                             }
                         }
@@ -2816,6 +3030,28 @@
                 },
                 "title": "LocationCollection"
             },
+            "Metadata": {
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "description": "The metadata key"
+                    },
+                    "value": {}
+                },
+                "required": [
+                    "key",
+                    "value"
+                ],
+                "title": "Metadata"
+            },
+            "MetadataCollection": {
+                "type": "array",
+                "items": {
+                    "$ref": "#\/components\/schemas\/Metadata"
+                },
+                "title": "MetadataCollection"
+            },
             "Mount": {
                 "type": "object",
                 "properties": {
@@ -3193,6 +3429,13 @@
                         "description": "The last backup of the service",
                         "$ref": "#\/components\/schemas\/Backup"
                     },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the service",
+                        "additionalProperties": {
+                            "$ref": "#\/components\/schemas\/Metadata"
+                        }
+                    },
                     "createdAt": {
                         "type": [
                             "string",
@@ -3231,6 +3474,7 @@
                     "node",
                     "location",
                     "resources",
+                    "metadata",
                     "createdAt",
                     "updatedAt"
                 ],
@@ -3410,6 +3654,18 @@
                     "logs"
                 ],
                 "title": "ServiceLogs"
+            },
+            "SetMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "title": "SetMetadataRequest"
             },
             "Steam": {
                 "type": "object",

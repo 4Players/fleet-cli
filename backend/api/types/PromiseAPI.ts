@@ -22,6 +22,7 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -33,6 +34,7 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { Metadata } from '../models/Metadata.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -52,6 +54,7 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -286,6 +289,64 @@ export class PromiseAppApi {
      */
     public deleteServerConfig(serverConfig: number, _options?: Configuration): Promise<any> {
         const result = this.api.deleteServerConfig(serverConfig, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDeleteWithHttpInfo(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<HttpInfo<DockerServicesMetadataDelete200Response>> {
+        const result = this.api.dockerServicesMetadataDeleteWithHttpInfo(dockerService, metadata, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDelete(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<DockerServicesMetadataDelete200Response> {
+        const result = this.api.dockerServicesMetadataDelete(dockerService, metadata, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesMetadataDeleteAllWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<Server>> {
+        const result = this.api.dockerServicesMetadataDeleteAllWithHttpInfo(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Promise<Server> {
+        const result = this.api.dockerServicesMetadataDeleteAll(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [setMetadataRequest]
+     */
+    public dockerServicesMetadataSetWithHttpInfo(dockerService: number, setMetadataRequest?: SetMetadataRequest, _options?: Configuration): Promise<HttpInfo<Server>> {
+        const result = this.api.dockerServicesMetadataSetWithHttpInfo(dockerService, setMetadataRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [setMetadataRequest]
+     */
+    public dockerServicesMetadataSet(dockerService: number, setMetadataRequest?: SetMetadataRequest, _options?: Configuration): Promise<Server> {
+        const result = this.api.dockerServicesMetadataSet(dockerService, setMetadataRequest, _options);
         return result.toPromise();
     }
 
@@ -640,9 +701,16 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
      * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [filterStatus] Filter by status.
+     * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        const result = this.api.getServersWithHttpInfo(app, perPage, page, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
+        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, _options);
         return result.toPromise();
     }
 
@@ -651,9 +719,16 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
      * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [filterStatus] Filter by status.
+     * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
      */
-    public getServers(app: number, perPage?: number, page?: number, _options?: Configuration): Promise<GetServers200Response> {
-        const result = this.api.getServers(app, perPage, page, _options);
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, _options?: Configuration): Promise<GetServers200Response> {
+        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, _options);
         return result.toPromise();
     }
 

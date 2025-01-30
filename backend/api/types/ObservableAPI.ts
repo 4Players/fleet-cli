@@ -23,6 +23,7 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -34,6 +35,7 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { Metadata } from '../models/Metadata.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -53,6 +55,7 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -434,6 +437,103 @@ export class ObservableAppApi {
      */
     public deleteServerConfig(serverConfig: number, _options?: Configuration): Observable<any> {
         return this.deleteServerConfigWithHttpInfo(serverConfig, _options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDeleteWithHttpInfo(dockerService: number, metadata: Array<string>, _options?: Configuration): Observable<HttpInfo<DockerServicesMetadataDelete200Response>> {
+        const requestContextPromise = this.requestFactory.dockerServicesMetadataDelete(dockerService, metadata, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesMetadataDeleteWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDelete(dockerService: number, metadata: Array<string>, _options?: Configuration): Observable<DockerServicesMetadataDelete200Response> {
+        return this.dockerServicesMetadataDeleteWithHttpInfo(dockerService, metadata, _options).pipe(map((apiResponse: HttpInfo<DockerServicesMetadataDelete200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesMetadataDeleteAllWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<Server>> {
+        const requestContextPromise = this.requestFactory.dockerServicesMetadataDeleteAll(dockerService, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Observable<Server> {
+        return this.dockerServicesMetadataDeleteAllWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<Server>) => apiResponse.data));
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [setMetadataRequest]
+     */
+    public dockerServicesMetadataSetWithHttpInfo(dockerService: number, setMetadataRequest?: SetMetadataRequest, _options?: Configuration): Observable<HttpInfo<Server>> {
+        const requestContextPromise = this.requestFactory.dockerServicesMetadataSet(dockerService, setMetadataRequest, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [setMetadataRequest]
+     */
+    public dockerServicesMetadataSet(dockerService: number, setMetadataRequest?: SetMetadataRequest, _options?: Configuration): Observable<Server> {
+        return this.dockerServicesMetadataSetWithHttpInfo(dockerService, setMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<Server>) => apiResponse.data));
     }
 
     /**
@@ -1034,9 +1134,16 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
      * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [filterStatus] Filter by status.
+     * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, _options?: Configuration): Observable<HttpInfo<GetServers200Response>> {
-        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, _options?: Configuration): Observable<HttpInfo<GetServers200Response>> {
+        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1059,9 +1166,16 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
      * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [filterStatus] Filter by status.
+     * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
      */
-    public getServers(app: number, perPage?: number, page?: number, _options?: Configuration): Observable<GetServers200Response> {
-        return this.getServersWithHttpInfo(app, perPage, page, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, _options?: Configuration): Observable<GetServers200Response> {
+        return this.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
     }
 
     /**

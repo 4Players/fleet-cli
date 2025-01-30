@@ -32,6 +32,7 @@ models/DockerCompose.ts
 models/DockerImage.ts
 models/DockerRegistry.ts
 models/DockerRegistryType.ts
+models/DockerServicesMetadataDelete200Response.ts
 models/EnvironmentVariable.ts
 models/EnvironmentVariableDefinition.ts
 models/EnvironmentVariableType.ts
@@ -43,6 +44,7 @@ models/GetTaggedImages200Response.ts
 models/InlineObject.ts
 models/InlineObject1.ts
 models/Location.ts
+models/Metadata.ts
 models/Mount.ts
 models/Node.ts
 models/ObjectSerializer.ts
@@ -63,6 +65,7 @@ models/Server.ts
 models/ServerConfig.ts
 models/ServerConfigStatus.ts
 models/ServiceLogs.ts
+models/SetMetadataRequest.ts
 models/Steam.ts
 models/SteamBranch.ts
 models/SteamLauncher.ts

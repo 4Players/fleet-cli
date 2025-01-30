@@ -15,6 +15,9 @@ Method | HTTP request | Description
 [**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /v1/binaries/{binary} | Delete a specified binary
 [**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /v1/docker-registries/{dockerRegistry} | Delete a specific docker registry
 [**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /v1/server-configs/{serverConfig} | Delete a specific server config
+[**dockerServicesMetadataDelete**](AppApi.md#dockerServicesMetadataDelete) | **DELETE** /v1/services/{dockerService}/metadata | Delete specific metadata keys from the service
+[**dockerServicesMetadataDeleteAll**](AppApi.md#dockerServicesMetadataDeleteAll) | **DELETE** /v1/services/{dockerService}/metadata/all | Delete all metadata from the service
+[**dockerServicesMetadataSet**](AppApi.md#dockerServicesMetadataSet) | **PUT** /v1/services/{dockerService}/metadata | Set or update metadata for the service
 [**getAppById**](AppApi.md#getAppById) | **GET** /v1/apps/{app} | Show a specific app
 [**getAppLocationSettingById**](AppApi.md#getAppLocationSettingById) | **GET** /v1/app-location-settings/{appLocationSetting} | Show a specific app location setting
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
@@ -781,6 +784,185 @@ No authorization required
 **204** | No content |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesMetadataDelete**
+> DockerServicesMetadataDelete200Response dockerServicesMetadataDelete()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesMetadataDeleteRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesMetadataDeleteRequest = {
+    // The docker service ID
+  dockerService: 1,
+  
+  metadata: [
+    "metadata_example",
+  ],
+};
+
+const data = await apiInstance.dockerServicesMetadataDelete(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**DockerServicesMetadataDelete200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesMetadataDeleteAll**
+> Server dockerServicesMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesMetadataDeleteAllRequest = {
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.dockerServicesMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**Server**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Server&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesMetadataSet**
+> Server dockerServicesMetadataSet()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesMetadataSetRequest = {
+    // The docker service ID
+  dockerService: 1,
+  
+  setMetadataRequest: {
+    metadata: [
+      "metadata_example",
+    ],
+  },
+};
+
+const data = await apiInstance.dockerServicesMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setMetadataRequest** | **SetMetadataRequest**|  |
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**Server**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Server&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -1835,6 +2017,20 @@ const request: AppApiGetServersRequest = {
   perPage: 1,
     // Specifies the page number to retrieve in the paginated results. (optional)
   page: 1,
+    // Filter by status. (optional)
+  filterStatus: "filter[status]_example",
+    // Filter by AppLocationSetting ID. (optional)
+  filterAppLocationSettingId: 1,
+    // Filter by ServerConfig ID. (optional)
+  filterServerConfigId: 1,
+    // Filter by location city. (optional)
+  filterLocationCity: "filter[locationCity]_example",
+    // Filter by location city display name. (optional)
+  filterLocationCityDisplay: "filter[locationCityDisplay]_example",
+    // Filter by location continent. (optional)
+  filterLocationContinent: "filter[locationContinent]_example",
+    // Filter by location country. (optional)
+  filterLocationCountry: "filter[locationCountry]_example",
 };
 
 const data = await apiInstance.getServers(request);
@@ -1849,6 +2045,13 @@ Name | Type | Description  | Notes
  **app** | [**number**] | The app ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60; | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
+ **filterAppLocationSettingId** | [**number**] | Filter by AppLocationSetting ID. | (optional) defaults to undefined
+ **filterServerConfigId** | [**number**] | Filter by ServerConfig ID. | (optional) defaults to undefined
+ **filterLocationCity** | [**string**] | Filter by location city. | (optional) defaults to undefined
+ **filterLocationCityDisplay** | [**string**] | Filter by location city display name. | (optional) defaults to undefined
+ **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
+ **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
 
 
 ### Return type

@@ -19,6 +19,7 @@ export * from '../models/DockerCompose.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
 export * from '../models/DockerRegistryType.ts';
+export * from '../models/DockerServicesMetadataDelete200Response.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
@@ -30,6 +31,7 @@ export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/InlineObject.ts';
 export * from '../models/InlineObject1.ts';
 export * from '../models/Location.ts';
+export * from '../models/Metadata.ts';
 export * from '../models/Mount.ts';
 export * from '../models/Node.ts';
 export * from '../models/OperatingSystem.ts';
@@ -49,6 +51,7 @@ export * from '../models/Server.ts';
 export * from '../models/ServerConfig.ts';
 export * from '../models/ServerConfigStatus.ts';
 export * from '../models/ServiceLogs.ts';
+export * from '../models/SetMetadataRequest.ts';
 export * from '../models/Steam.ts';
 export * from '../models/SteamBranch.ts';
 export * from '../models/SteamLauncher.ts';
@@ -88,6 +91,7 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry            } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -99,6 +103,7 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { Metadata } from '../models/Metadata.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -118,6 +123,7 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig                    } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
 import { Steam             } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -181,6 +187,7 @@ let typeMap: {[index: string]: any} = {
     "DockerCompose": DockerCompose,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
+    "DockerServicesMetadataDelete200Response": DockerServicesMetadataDelete200Response,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
     "GetServers200Response": GetServers200Response,
@@ -191,6 +198,7 @@ let typeMap: {[index: string]: any} = {
     "InlineObject": InlineObject,
     "InlineObject1": InlineObject1,
     "Location": Location,
+    "Metadata": Metadata,
     "Mount": Mount,
     "Node": Node,
     "Placement": Placement,
@@ -204,6 +212,7 @@ let typeMap: {[index: string]: any} = {
     "Server": Server,
     "ServerConfig": ServerConfig,
     "ServiceLogs": ServiceLogs,
+    "SetMetadataRequest": SetMetadataRequest,
     "Steam": Steam,
     "SteamBranch": SteamBranch,
     "SteamLauncher": SteamLauncher,

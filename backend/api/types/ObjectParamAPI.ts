@@ -22,6 +22,7 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -33,6 +34,7 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { Metadata } from '../models/Metadata.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -52,6 +54,7 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -203,6 +206,49 @@ export interface AppApiDeleteServerConfigRequest {
      * @memberof AppApideleteServerConfig
      */
     serverConfig: number
+}
+
+export interface AppApiDockerServicesMetadataDeleteRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesMetadataDelete
+     */
+    dockerService: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApidockerServicesMetadataDelete
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiDockerServicesMetadataDeleteAllRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesMetadataDeleteAll
+     */
+    dockerService: number
+}
+
+export interface AppApiDockerServicesMetadataSetRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesMetadataSet
+     */
+    dockerService: number
+    /**
+     * 
+     * @type SetMetadataRequest
+     * @memberof AppApidockerServicesMetadataSet
+     */
+    setMetadataRequest?: SetMetadataRequest
 }
 
 export interface AppApiGetAppByIdRequest {
@@ -423,6 +469,55 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     page?: number
+    /**
+     * Filter by status.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterStatus?: string
+    /**
+     * Filter by AppLocationSetting ID.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServers
+     */
+    filterAppLocationSettingId?: number
+    /**
+     * Filter by ServerConfig ID.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServers
+     */
+    filterServerConfigId?: number
+    /**
+     * Filter by location city.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterLocationCity?: string
+    /**
+     * Filter by location city display name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterLocationCityDisplay?: string
+    /**
+     * Filter by location continent.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterLocationContinent?: string
+    /**
+     * Filter by location country.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterLocationCountry?: string
 }
 
 export interface AppApiGetTaggedImagesRequest {
@@ -783,6 +878,54 @@ export class ObjectAppApi {
     }
 
     /**
+     * Delete specific metadata keys from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDeleteWithHttpInfo(param: AppApiDockerServicesMetadataDeleteRequest, options?: Configuration): Promise<HttpInfo<DockerServicesMetadataDelete200Response>> {
+        return this.api.dockerServicesMetadataDeleteWithHttpInfo(param.dockerService, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDelete(param: AppApiDockerServicesMetadataDeleteRequest, options?: Configuration): Promise<DockerServicesMetadataDelete200Response> {
+        return this.api.dockerServicesMetadataDelete(param.dockerService, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDeleteAllWithHttpInfo(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+        return this.api.dockerServicesMetadataDeleteAllWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDeleteAll(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<Server> {
+        return this.api.dockerServicesMetadataDeleteAll(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataSetWithHttpInfo(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+        return this.api.dockerServicesMetadataSetWithHttpInfo(param.dockerService, param.setMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Set or update metadata for the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataSet(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<Server> {
+        return this.api.dockerServicesMetadataSet(param.dockerService, param.setMetadataRequest,  options).toPromise();
+    }
+
+    /**
      * Show a specific app
      * @param param the request object
      */
@@ -1093,7 +1236,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page,  options).toPromise();
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry,  options).toPromise();
     }
 
     /**
@@ -1101,7 +1244,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
-        return this.api.getServers(param.app, param.perPage, param.page,  options).toPromise();
+        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry,  options).toPromise();
     }
 
     /**

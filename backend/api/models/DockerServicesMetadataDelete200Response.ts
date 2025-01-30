@@ -18,9 +18,10 @@ import { Node } from '../models/Node.ts';
 import { Port } from '../models/Port.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
+import { Server } from '../models/Server.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Server {
+export class DockerServicesMetadataDelete200Response {
     /**
     * The ID of the service
     */
@@ -52,7 +53,7 @@ export class Server {
     /**
     * An optional message
     */
-    'statusMessage': string | null;
+    'statusMessage': string;
     /**
     * Indicates whether the service can be backed up
     */
@@ -112,11 +113,11 @@ export class Server {
     /**
     * When the service was created
     */
-    'createdAt': Date | null;
+    'createdAt': Date;
     /**
     * When the service was last updated
     */
-    'updatedAt': Date | null;
+    'updatedAt': Date;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -269,7 +270,7 @@ export class Server {
         }    ];
 
     static getAttributeTypeMap() {
-        return Server.attributeTypeMap;
+        return DockerServicesMetadataDelete200Response.attributeTypeMap;
     }
 
     public constructor() {
