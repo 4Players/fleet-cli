@@ -6,7 +6,6 @@ export * from '../models/Auth.ts';
 export * from '../models/AuthRequest.ts';
 export * from '../models/Backup.ts';
 export * from '../models/BackupDownload.ts';
-export * from '../models/BackupType.ts';
 export * from '../models/Binary.ts';
 export * from '../models/BinaryStatus.ts';
 export * from '../models/BinaryType.ts';
@@ -31,7 +30,6 @@ export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/InlineObject.ts';
 export * from '../models/InlineObject1.ts';
 export * from '../models/Location.ts';
-export * from '../models/Metadata.ts';
 export * from '../models/Mount.ts';
 export * from '../models/Node.ts';
 export * from '../models/OperatingSystem.ts';
@@ -76,9 +74,8 @@ import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts'
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
-import { Backup       } from '../models/Backup.ts';
+import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
-import { BackupType } from '../models/BackupType.ts';
 import { Binary                 } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
@@ -103,7 +100,6 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
-import { Metadata } from '../models/Metadata.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -157,7 +153,6 @@ let primitives = [
 let enumsMap: Set<string> = new Set<string>([
     "AppLocationSettingStatus",
     "Architecture",
-    "BackupType",
     "BinaryStatus",
     "BinaryType",
     "DockerRegistryType",
@@ -198,7 +193,6 @@ let typeMap: {[index: string]: any} = {
     "InlineObject": InlineObject,
     "InlineObject1": InlineObject1,
     "Location": Location,
-    "Metadata": Metadata,
     "Mount": Mount,
     "Node": Node,
     "Placement": Placement,

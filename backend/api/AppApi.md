@@ -2031,6 +2031,8 @@ const request: AppApiGetServersRequest = {
   filterLocationContinent: "filter[locationContinent]_example",
     // Filter by location country. (optional)
   filterLocationCountry: "filter[locationCountry]_example",
+    // Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is `false`: ``` filter[metadata]=idle=false ```  **Nested Filters:** To filter where the `difficulty` inside `gameSettings.survival.difficulty` is `hardcore`: ``` filter[metadata]=gameSettings.survival.difficulty=hardcore ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=hardcore ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getServers(request);
@@ -2052,6 +2054,7 @@ Name | Type | Description  | Notes
  **filterLocationCityDisplay** | [**string**] | Filter by location city display name. | (optional) defaults to undefined
  **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
  **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type

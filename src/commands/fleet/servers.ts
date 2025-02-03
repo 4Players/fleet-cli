@@ -383,7 +383,7 @@ const getBackupDownloadUrl = new Command()
       logErrorAndExit("Server not found.");
     }
 
-    if (!server.backup) {
+    if (!server.backups) {
       logErrorAndExit(
         "No backup found for this server. Use the `server backup` command to create a backup.",
       );
@@ -446,7 +446,7 @@ export const restoreBackup = new Command()
       logErrorAndExit("Server not found.");
     }
 
-    if (!server.backup) {
+    if (!server.backups) {
       logErrorAndExit(
         "No backup found for this server. Use the `server backup` command to create a backup.",
       );

@@ -871,6 +871,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is `false`:\n```\nfilter[metadata]=idle=false\n```\n\n**Nested Filters:**\nTo filter where the `difficulty` inside `gameSettings.survival.difficulty` is `hardcore`:\n```\nfilter[metadata]=gameSettings.survival.difficulty=hardcore\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=hardcore\n```",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -2469,14 +2477,6 @@
                         "type": "string",
                         "description": "The name of the stored archive"
                     },
-                    "backupMethod": {
-                        "description": "The method of the archive",
-                        "$ref": "#\/components\/schemas\/BackupType"
-                    },
-                    "awsRegion": {
-                        "type": "string",
-                        "description": "The AWS region the backup is stored at"
-                    },
                     "createdAt": {
                         "type": "string",
                         "format": "date-time",
@@ -2494,8 +2494,6 @@
                 "required": [
                     "name",
                     "archiveName",
-                    "backupMethod",
-                    "awsRegion",
                     "createdAt",
                     "restoredAt"
                 ],
@@ -2520,13 +2518,6 @@
                     "validUntil"
                 ],
                 "title": "BackupDownload"
-            },
-            "BackupType": {
-                "type": "string",
-                "enum": [
-                    "archive"
-                ],
-                "title": "BackupType"
             },
             "Binary": {
                 "type": "object",
@@ -3030,28 +3021,6 @@
                 },
                 "title": "LocationCollection"
             },
-            "Metadata": {
-                "type": "object",
-                "properties": {
-                    "key": {
-                        "type": "string",
-                        "description": "The metadata key"
-                    },
-                    "value": {}
-                },
-                "required": [
-                    "key",
-                    "value"
-                ],
-                "title": "Metadata"
-            },
-            "MetadataCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/Metadata"
-                },
-                "title": "MetadataCollection"
-            },
             "Mount": {
                 "type": "object",
                 "properties": {
@@ -3425,16 +3394,17 @@
                         "description": "The assigned resource package",
                         "$ref": "#\/components\/schemas\/ResourcePackage"
                     },
-                    "backup": {
-                        "description": "The last backup of the service",
-                        "$ref": "#\/components\/schemas\/Backup"
+                    "backups": {
+                        "type": "array",
+                        "description": "The backups of the service",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Backup"
+                        }
                     },
                     "metadata": {
                         "type": "object",
                         "description": "The metadata for the service",
-                        "additionalProperties": {
-                            "$ref": "#\/components\/schemas\/Metadata"
-                        }
+                        "additionalProperties": {}
                     },
                     "createdAt": {
                         "type": [
@@ -3474,6 +3444,7 @@
                     "node",
                     "location",
                     "resources",
+                    "backups",
                     "metadata",
                     "createdAt",
                     "updatedAt"

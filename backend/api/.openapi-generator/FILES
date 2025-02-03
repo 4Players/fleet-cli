@@ -19,7 +19,6 @@ models/Auth.ts
 models/AuthRequest.ts
 models/Backup.ts
 models/BackupDownload.ts
-models/BackupType.ts
 models/Binary.ts
 models/BinaryStatus.ts
 models/BinaryType.ts
@@ -44,7 +43,6 @@ models/GetTaggedImages200Response.ts
 models/InlineObject.ts
 models/InlineObject1.ts
 models/Location.ts
-models/Metadata.ts
 models/Mount.ts
 models/Node.ts
 models/ObjectSerializer.ts

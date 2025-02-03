@@ -761,7 +761,7 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "",
+                        "description": "`BinaryResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -814,6 +814,70 @@
                         "description": "Specifies the page number to retrieve in the paginated results.",
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[appLocationSettingId]",
+                        "in": "query",
+                        "description": "Filter by AppLocationSetting ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigId]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCity]",
+                        "in": "query",
+                        "description": "Filter by location city.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCityDisplay]",
+                        "in": "query",
+                        "description": "Filter by location city display name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationContinent]",
+                        "in": "query",
+                        "description": "Filter by location continent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCountry]",
+                        "in": "query",
+                        "description": "Filter by location country.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is `false`:\n```\nfilter[metadata]=idle=false\n```\n\n**Nested Filters:**\nTo filter where the `difficulty` inside `gameSettings.survival.difficulty` is `hardcore`:\n```\nfilter[metadata]=gameSettings.survival.difficulty=hardcore\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=hardcore\n```",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -1658,6 +1722,164 @@
                 }
             }
         },
+        "\/v1\/services\/{dockerService}\/metadata": {
+            "put": {
+                "operationId": "docker-services.metadata.set",
+                "summary": "Set or update metadata for the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "docker-services.metadata.delete",
+                "summary": "Delete specific metadata keys from the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "anyOf": [
+                                        {
+                                            "type": "object"
+                                        },
+                                        {
+                                            "$ref": "#\/components\/schemas\/Server"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/metadata\/all": {
+            "delete": {
+                "operationId": "docker-services.metadata.delete.all",
+                "summary": "Delete all metadata from the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/nodes\/locations": {
             "get": {
                 "operationId": "getLocations",
@@ -2255,14 +2477,6 @@
                         "type": "string",
                         "description": "The name of the stored archive"
                     },
-                    "backupMethod": {
-                        "description": "The method of the archive",
-                        "$ref": "#\/components\/schemas\/BackupType"
-                    },
-                    "awsRegion": {
-                        "type": "string",
-                        "description": "The AWS region the backup is stored at"
-                    },
                     "createdAt": {
                         "type": "string",
                         "format": "date-time",
@@ -2280,8 +2494,6 @@
                 "required": [
                     "name",
                     "archiveName",
-                    "backupMethod",
-                    "awsRegion",
                     "createdAt",
                     "restoredAt"
                 ],
@@ -2306,13 +2518,6 @@
                     "validUntil"
                 ],
                 "title": "BackupDownload"
-            },
-            "BackupType": {
-                "type": "string",
-                "enum": [
-                    "archive"
-                ],
-                "title": "BackupType"
             },
             "Binary": {
                 "type": "object",
@@ -2837,10 +3042,6 @@
             "Node": {
                 "type": "object",
                 "properties": {
-                    "hostname": {
-                        "type": "string",
-                        "description": "The hostname of the node"
-                    },
                     "architecture": {
                         "description": "The architecture of the node (e.g., 'x86_64')",
                         "$ref": "#\/components\/schemas\/Architecture"
@@ -2855,7 +3056,6 @@
                     }
                 },
                 "required": [
-                    "hostname",
                     "architecture",
                     "os",
                     "address"
@@ -3172,9 +3372,9 @@
                         }
                     },
                     "env": {
-                        "type": "array",
+                        "type": "object",
                         "description": "The environment variables of the service",
-                        "items": {
+                        "additionalProperties": {
                             "$ref": "#\/components\/schemas\/EnvironmentVariable"
                         }
                     },
@@ -3194,9 +3394,17 @@
                         "description": "The assigned resource package",
                         "$ref": "#\/components\/schemas\/ResourcePackage"
                     },
-                    "backup": {
-                        "description": "The last backup of the service",
-                        "$ref": "#\/components\/schemas\/Backup"
+                    "backups": {
+                        "type": "array",
+                        "description": "The backups of the service",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Backup"
+                        }
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the service",
+                        "additionalProperties": {}
                     },
                     "createdAt": {
                         "type": [
@@ -3236,6 +3444,8 @@
                     "node",
                     "location",
                     "resources",
+                    "backups",
+                    "metadata",
                     "createdAt",
                     "updatedAt"
                 ],
@@ -3415,6 +3625,18 @@
                     "logs"
                 ],
                 "title": "ServiceLogs"
+            },
+            "SetMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "title": "SetMetadataRequest"
             },
             "Steam": {
                 "type": "object",

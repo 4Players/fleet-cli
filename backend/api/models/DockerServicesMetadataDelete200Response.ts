@@ -13,7 +13,6 @@
 import { Backup } from '../models/Backup.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { Location } from '../models/Location.ts';
-import { Metadata } from '../models/Metadata.ts';
 import { Node } from '../models/Node.ts';
 import { Port } from '../models/Port.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
@@ -103,13 +102,13 @@ export class DockerServicesMetadataDelete200Response {
     */
     'resources': ResourcePackage;
     /**
-    * The last backup of the service
+    * The backups of the service
     */
-    'backup'?: Backup;
+    'backups': Array<Backup>;
     /**
     * The metadata for the service
     */
-    'metadata': { [key: string]: Metadata; };
+    'metadata': { [key: string]: any; };
     /**
     * When the service was created
     */
@@ -245,15 +244,15 @@ export class DockerServicesMetadataDelete200Response {
             "format": ""
         },
         {
-            "name": "backup",
-            "baseName": "backup",
-            "type": "Backup",
+            "name": "backups",
+            "baseName": "backups",
+            "type": "Array<Backup>",
             "format": ""
         },
         {
             "name": "metadata",
             "baseName": "metadata",
-            "type": "{ [key: string]: Metadata; }",
+            "type": "{ [key: string]: any; }",
             "format": ""
         },
         {

@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-import { BackupType } from '../models/BackupType.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class Backup {
@@ -22,14 +21,6 @@ export class Backup {
     * The name of the stored archive
     */
     'archiveName': string;
-    /**
-    * The method of the archive
-    */
-    'backupMethod': BackupType;
-    /**
-    * The AWS region the backup is stored at
-    */
-    'awsRegion': string;
     /**
     * The timestamp of the backups creation
     */
@@ -57,18 +48,6 @@ export class Backup {
             "format": ""
         },
         {
-            "name": "backupMethod",
-            "baseName": "backupMethod",
-            "type": "BackupType",
-            "format": ""
-        },
-        {
-            "name": "awsRegion",
-            "baseName": "awsRegion",
-            "type": "string",
-            "format": ""
-        },
-        {
             "name": "createdAt",
             "baseName": "createdAt",
             "type": "Date",
@@ -88,5 +67,3 @@ export class Backup {
     public constructor() {
     }
 }
-
-
