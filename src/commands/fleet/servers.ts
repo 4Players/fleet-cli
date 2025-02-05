@@ -56,7 +56,7 @@ const serverList = new Command()
     stdout(
       servers,
       options,
-      "table(id, location.continent, location.city, serverConfig.name, addr, ports, createdAt, status)",
+      "table(id, location.continent, location.city, serverConfigName, node.address, ports, createdAt, status)",
     );
   });
 
@@ -151,7 +151,7 @@ const showServerInfo = new Command()
       await stdout(
         server,
         options,
-        "table(id, location.continent, location.city, serverConfig.name, addr, ports.*.name, ports.*.publishedPort,createdAt,status)",
+        "table(id, location.continent, location.city, serverConfigName, node.address, ports.*.name, ports.*.publishedPort,createdAt,status)",
       );
       if (!server) {
         logError("Server not found.");
