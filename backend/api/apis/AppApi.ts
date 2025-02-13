@@ -17,13 +17,13 @@ import { BackupDownload } from '../models/BackupDownload.ts';
 import { Binary } from '../models/Binary.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
-import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
@@ -481,27 +481,58 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete all metadata from the service
      * @param dockerService The docker service ID
-     * @param metadata 
      */
-    public async dockerServicesMetadataDelete(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+    public async dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
-            throw new RequiredError("AppApi", "dockerServicesMetadataDelete", "dockerService");
-        }
-
-
-        // verify required parameter 'metadata' is not null or undefined
-        if (metadata === null || metadata === undefined) {
-            throw new RequiredError("AppApi", "dockerServicesMetadataDelete", "metadata");
+            throw new RequiredError("AppApi", "dockerServicesMetadataDeleteAll", "dockerService");
         }
 
 
         // Path Params
         const localVarPath = '/v1/services/{dockerService}/metadata'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata 
+     */
+    public async dockerServicesMetadataDeleteKeys(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesMetadataDeleteKeys", "dockerService");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/metadata/keys'
             .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
 
         // Make Request Context
@@ -527,38 +558,8 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Delete all metadata from the service
-     * @param dockerService The docker service ID
-     */
-    public async dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Promise<RequestContext> {
-        let _config = _options || this.configuration;
-
-        // verify required parameter 'dockerService' is not null or undefined
-        if (dockerService === null || dockerService === undefined) {
-            throw new RequiredError("AppApi", "dockerServicesMetadataDeleteAll", "dockerService");
-        }
-
-
-        // Path Params
-        const localVarPath = '/v1/services/{dockerService}/metadata/all'
-            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
-
-        // Make Request Context
-        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
-
-
-        
-        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
-        if (defaultAuth?.applySecurityAuthentication) {
-            await defaultAuth?.applySecurityAuthentication(requestContext);
-        }
-
-        return requestContext;
-    }
-
-    /**
-     * Set or update metadata for the service
+     * Replaces the entire metadata set with only the values provided in the request.
+     * Set metadata for the service
      * @param dockerService The docker service ID
      * @param setMetadataRequest 
      */
@@ -588,6 +589,51 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", contentType);
         const serializedBody = ObjectSerializer.stringify(
             ObjectSerializer.serialize(setMetadataRequest, "SetMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+     * Update metadata for the service
+     * @param dockerService The docker service ID
+     * @param patchMetadataRequest 
+     */
+    public async dockerServicesMetadataUpdate(dockerService: number, patchMetadataRequest?: PatchMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesMetadataUpdate", "dockerService");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/metadata'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchMetadataRequest, "PatchMetadataRequest", ""),
             contentType
         );
         requestContext.setBody(serializedBody);
@@ -718,7 +764,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
      * Get token
      * @param authRequest 
      */
@@ -1217,7 +1263,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterLocationCityDisplay Filter by location city display name.
      * @param filterLocationContinent Filter by location continent.
      * @param filterLocationCountry Filter by location country.
-     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
     public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
@@ -1364,6 +1410,29 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Refresh token
+     */
+    public async refreshAuthToken(_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // Path Params
+        const localVarPath = '/v1/auth/token';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
@@ -2411,63 +2480,6 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
-     * @params response Response returned by the server for a request to dockerServicesMetadataDelete
-     * @throws ApiException if the response code was not in [200, 299]
-     */
-     public async dockerServicesMetadataDeleteWithHttpInfo(response: ResponseContext): Promise<HttpInfo<DockerServicesMetadataDelete200Response >> {
-        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
-        if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: DockerServicesMetadataDelete200Response = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "DockerServicesMetadataDelete200Response", ""
-            ) as DockerServicesMetadataDelete200Response;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
-        }
-        if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
-        }
-        if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
-        }
-        if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
-
-        // Work around for missing responses in specification, e.g. for petstore.yaml
-        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: DockerServicesMetadataDelete200Response = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "DockerServicesMetadataDelete200Response", ""
-            ) as DockerServicesMetadataDelete200Response;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
-        }
-
-        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
-    }
-
-    /**
-     * Unwraps the actual response sent by the server from the response context and deserializes the response content
-     * to the expected objects
-     *
      * @params response Response returned by the server for a request to dockerServicesMetadataDeleteAll
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -2518,10 +2530,124 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to dockerServicesMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Server >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to dockerServicesMetadataSet
      * @throws ApiException if the response code was not in [200, 299]
      */
      public async dockerServicesMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Server >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerServicesMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Server >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
             const body: Server = ObjectSerializer.deserialize(
@@ -2765,6 +2891,13 @@ export class AppApiResponseProcessor {
                 "Auth", ""
             ) as Auth;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
             const body: InlineObject1 = ObjectSerializer.deserialize(
@@ -3609,6 +3742,49 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<Server>", ""
             ) as Array<Server>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to refreshAuthToken
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async refreshAuthTokenWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Auth >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Auth = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Auth", ""
+            ) as Auth;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Auth = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Auth", ""
+            ) as Auth;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

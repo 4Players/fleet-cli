@@ -21,7 +21,6 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
-import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -36,6 +35,7 @@ import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
@@ -206,23 +206,6 @@ export interface AppApiDeleteServerConfigRequest {
     serverConfig: number
 }
 
-export interface AppApiDockerServicesMetadataDeleteRequest {
-    /**
-     * The docker service ID
-     * Defaults to: undefined
-     * @type number
-     * @memberof AppApidockerServicesMetadataDelete
-     */
-    dockerService: number
-    /**
-     * 
-     * Defaults to: undefined
-     * @type Array&lt;string&gt;
-     * @memberof AppApidockerServicesMetadataDelete
-     */
-    metadata: Array<string>
-}
-
 export interface AppApiDockerServicesMetadataDeleteAllRequest {
     /**
      * The docker service ID
@@ -231,6 +214,23 @@ export interface AppApiDockerServicesMetadataDeleteAllRequest {
      * @memberof AppApidockerServicesMetadataDeleteAll
      */
     dockerService: number
+}
+
+export interface AppApiDockerServicesMetadataDeleteKeysRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesMetadataDeleteKeys
+     */
+    dockerService: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApidockerServicesMetadataDeleteKeys
+     */
+    metadata: Array<string>
 }
 
 export interface AppApiDockerServicesMetadataSetRequest {
@@ -247,6 +247,22 @@ export interface AppApiDockerServicesMetadataSetRequest {
      * @memberof AppApidockerServicesMetadataSet
      */
     setMetadataRequest?: SetMetadataRequest
+}
+
+export interface AppApiDockerServicesMetadataUpdateRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesMetadataUpdate
+     */
+    dockerService: number
+    /**
+     * 
+     * @type PatchMetadataRequest
+     * @memberof AppApidockerServicesMetadataUpdate
+     */
+    patchMetadataRequest?: PatchMetadataRequest
 }
 
 export interface AppApiGetAppByIdRequest {
@@ -517,7 +533,7 @@ export interface AppApiGetServersRequest {
      */
     filterLocationCountry?: string
     /**
-     * Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * Defaults to: undefined
      * @type string
      * @memberof AppApigetServers
@@ -550,6 +566,9 @@ export interface AppApiListServicesForAppLocationSettingRequest {
      * @memberof AppApilistServicesForAppLocationSetting
      */
     appLocationSetting: number
+}
+
+export interface AppApiRefreshAuthTokenRequest {
 }
 
 export interface AppApiRefreshBinaryRequest {
@@ -883,22 +902,6 @@ export class ObjectAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
-     * @param param the request object
-     */
-    public dockerServicesMetadataDeleteWithHttpInfo(param: AppApiDockerServicesMetadataDeleteRequest, options?: Configuration): Promise<HttpInfo<DockerServicesMetadataDelete200Response>> {
-        return this.api.dockerServicesMetadataDeleteWithHttpInfo(param.dockerService, param.metadata,  options).toPromise();
-    }
-
-    /**
-     * Delete specific metadata keys from the service
-     * @param param the request object
-     */
-    public dockerServicesMetadataDelete(param: AppApiDockerServicesMetadataDeleteRequest, options?: Configuration): Promise<DockerServicesMetadataDelete200Response> {
-        return this.api.dockerServicesMetadataDelete(param.dockerService, param.metadata,  options).toPromise();
-    }
-
-    /**
      * Delete all metadata from the service
      * @param param the request object
      */
@@ -915,7 +918,24 @@ export class ObjectAppApi {
     }
 
     /**
-     * Set or update metadata for the service
+     * Delete specific metadata keys from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDeleteKeysWithHttpInfo(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+        return this.api.dockerServicesMetadataDeleteKeysWithHttpInfo(param.dockerService, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataDeleteKeys(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<Server> {
+        return this.api.dockerServicesMetadataDeleteKeys(param.dockerService, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata set with only the values provided in the request.
+     * Set metadata for the service
      * @param param the request object
      */
     public dockerServicesMetadataSetWithHttpInfo(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -923,11 +943,30 @@ export class ObjectAppApi {
     }
 
     /**
-     * Set or update metadata for the service
+     * Replaces the entire metadata set with only the values provided in the request.
+     * Set metadata for the service
      * @param param the request object
      */
     public dockerServicesMetadataSet(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<Server> {
         return this.api.dockerServicesMetadataSet(param.dockerService, param.setMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+     * Update metadata for the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataUpdateWithHttpInfo(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+        return this.api.dockerServicesMetadataUpdateWithHttpInfo(param.dockerService, param.patchMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+     * Update metadata for the service
+     * @param param the request object
+     */
+    public dockerServicesMetadataUpdate(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<Server> {
+        return this.api.dockerServicesMetadataUpdate(param.dockerService, param.patchMetadataRequest,  options).toPromise();
     }
 
     /**
@@ -995,7 +1034,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
      * Get token
      * @param param the request object
      */
@@ -1004,7 +1043,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
      * Get token
      * @param param the request object
      */
@@ -1282,6 +1321,22 @@ export class ObjectAppApi {
      */
     public listServicesForAppLocationSetting(param: AppApiListServicesForAppLocationSettingRequest, options?: Configuration): Promise<Array<Server>> {
         return this.api.listServicesForAppLocationSetting(param.app, param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Refresh token
+     * @param param the request object
+     */
+    public refreshAuthTokenWithHttpInfo(param: AppApiRefreshAuthTokenRequest = {}, options?: Configuration): Promise<HttpInfo<Auth>> {
+        return this.api.refreshAuthTokenWithHttpInfo( options).toPromise();
+    }
+
+    /**
+     * Refresh token
+     * @param param the request object
+     */
+    public refreshAuthToken(param: AppApiRefreshAuthTokenRequest = {}, options?: Configuration): Promise<Auth> {
+        return this.api.refreshAuthToken( options).toPromise();
     }
 
     /**

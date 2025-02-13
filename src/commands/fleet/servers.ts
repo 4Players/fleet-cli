@@ -56,7 +56,7 @@ const serverList = new Command()
     stdout(
       servers,
       options,
-      "table(id, location.continent, location.city, serverConfigName, node.address, ports, createdAt, status)",
+      "table(id, location.continent, location.city, serverConfigName, node.address, ports, createdAt, status, metadata)",
     );
   });
 
@@ -151,7 +151,7 @@ const showServerInfo = new Command()
       await stdout(
         server,
         options,
-        "table(id, location.continent, location.city, serverConfigName, node.address, ports.*.name, ports.*.publishedPort,createdAt,status)",
+        "table(id, location.continent, location.city, serverConfigName, node.address, ports.*.name, ports.*.publishedPort,createdAt,status,metadata)",
       );
       if (!server) {
         logError("Server not found.");
@@ -541,6 +541,129 @@ const backup = new Command()
   .command("download-url", getBackupDownloadUrl)
   .command("restore", restoreBackup);
 
+const getMetadata = new Command()
+  .name("get-metadata")
+  .description("Get the current metadata for a server.")
+  .option("--server-id=<serverId:string>", "Server ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+
+    let serverId = options.serverId;
+    if (!serverId) {
+      let servers: Server[] = [];
+      try {
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        if (servers.length === 0) {
+          inform(
+            options,
+            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          );
+          return;
+        }
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load servers. Error: ",
+          error.body.message,
+          error.code,
+        );
+        Deno.exit(1);
+      }
+      serverId = await Select.prompt<number>({
+        message: "Select server:",
+        options: servers.map((server) => {
+          return {
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
+            value: server.id,
+          };
+        }),
+      });
+    }
+
+    const server = await apiClient.getServerById(app.id, serverId);
+    if (!server) {
+      logErrorAndExit("Server not found.");
+    }
+
+    await stdout(server.metadata, options, "text");
+  });
+
+const setMetadata = new Command()
+  .name("set-metadata")
+  .description("Set the current metadata for a server.")
+  .option("--server-id=<serverId:string>", "Server ID.")
+  .arguments("<metadata>")
+  .action(async (options: CommandOptions, metadata: string) => {
+    let _metadata;
+    try {
+      _metadata = JSON.parse(metadata);
+      if (typeof _metadata !== "object" || Array.isArray(_metadata)) {
+        logErrorAndExit(
+          "Metadata needs to be a JSON object.",
+        );
+      }
+    } catch {
+      logErrorAndExit("Metadata is not a valid JSON object.");
+    }
+
+    const app = await getSelectedAppOrExit(options);
+
+    let serverId = options.serverId;
+    if (!serverId) {
+      let servers: Server[] = [];
+      try {
+        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        if (servers.length === 0) {
+          inform(
+            options,
+            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          );
+          return;
+        }
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load servers. Error: ",
+          error.body.message,
+          error.code,
+        );
+        Deno.exit(1);
+      }
+      serverId = await Select.prompt<number>({
+        message: "Select server:",
+        options: servers.map((server) => {
+          return {
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node.address}`,
+            value: server.id,
+          };
+        }),
+      });
+    }
+
+    const server = await apiClient.dockerServicesMetadataSet(serverId, {
+      metadata: JSON.parse(metadata),
+    });
+
+    if (!server) {
+      logErrorAndExit("Server not found.");
+    }
+
+    await stdout(server.metadata, options, "text");
+  });
+
+const metadata = new Command()
+  .name("metadata")
+  .description("Manage metadata for individual servers.")
+  .action(() => {
+    metadata.showHelp();
+  })
+  .command("get", getMetadata)
+  .command("set", setMetadata);
+
 export const servers = new Command()
   .name("servers")
   .description(
@@ -554,4 +677,5 @@ export const servers = new Command()
   .command("backup", backup)
   .command("restart", restartServer)
   .command("get", showServerInfo)
-  .command("address", serverAddress);
+  .command("address", serverAddress)
+  .command("metadata", metadata);

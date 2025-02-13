@@ -18,7 +18,6 @@ export * from '../models/DockerCompose.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
 export * from '../models/DockerRegistryType.ts';
-export * from '../models/DockerServicesMetadataDelete200Response.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
@@ -33,6 +32,7 @@ export * from '../models/Location.ts';
 export * from '../models/Mount.ts';
 export * from '../models/Node.ts';
 export * from '../models/OperatingSystem.ts';
+export * from '../models/PatchMetadataRequest.ts';
 export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
@@ -88,7 +88,6 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry            } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
-import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -103,6 +102,7 @@ import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port      } from '../models/Port.ts';
 import { PortDefinition     } from '../models/PortDefinition.ts';
@@ -182,7 +182,6 @@ let typeMap: {[index: string]: any} = {
     "DockerCompose": DockerCompose,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
-    "DockerServicesMetadataDelete200Response": DockerServicesMetadataDelete200Response,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
     "GetServers200Response": GetServers200Response,
@@ -195,6 +194,7 @@ let typeMap: {[index: string]: any} = {
     "Location": Location,
     "Mount": Mount,
     "Node": Node,
+    "PatchMetadataRequest": PatchMetadataRequest,
     "Placement": Placement,
     "Port": Port,
     "PortDefinition": PortDefinition,

@@ -13,7 +13,7 @@
 import { HttpFile } from '../http/http.ts';
 
 export class SetMetadataRequest {
-    'metadata'?: Array<string>;
+    'metadata'?: { [key: string]: any; };
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,7 +23,7 @@ export class SetMetadataRequest {
         {
             "name": "metadata",
             "baseName": "metadata",
-            "type": "Array<string>",
+            "type": "{ [key: string]: any; }",
             "format": ""
         }    ];
 

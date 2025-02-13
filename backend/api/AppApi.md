@@ -15,9 +15,10 @@ Method | HTTP request | Description
 [**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /v1/binaries/{binary} | Delete a specified binary
 [**deleteDockerRegistry**](AppApi.md#deleteDockerRegistry) | **DELETE** /v1/docker-registries/{dockerRegistry} | Delete a specific docker registry
 [**deleteServerConfig**](AppApi.md#deleteServerConfig) | **DELETE** /v1/server-configs/{serverConfig} | Delete a specific server config
-[**dockerServicesMetadataDelete**](AppApi.md#dockerServicesMetadataDelete) | **DELETE** /v1/services/{dockerService}/metadata | Delete specific metadata keys from the service
-[**dockerServicesMetadataDeleteAll**](AppApi.md#dockerServicesMetadataDeleteAll) | **DELETE** /v1/services/{dockerService}/metadata/all | Delete all metadata from the service
-[**dockerServicesMetadataSet**](AppApi.md#dockerServicesMetadataSet) | **PUT** /v1/services/{dockerService}/metadata | Set or update metadata for the service
+[**dockerServicesMetadataDeleteAll**](AppApi.md#dockerServicesMetadataDeleteAll) | **DELETE** /v1/services/{dockerService}/metadata | Delete all metadata from the service
+[**dockerServicesMetadataDeleteKeys**](AppApi.md#dockerServicesMetadataDeleteKeys) | **DELETE** /v1/services/{dockerService}/metadata/keys | Delete specific metadata keys from the service
+[**dockerServicesMetadataSet**](AppApi.md#dockerServicesMetadataSet) | **PUT** /v1/services/{dockerService}/metadata | Set metadata for the service
+[**dockerServicesMetadataUpdate**](AppApi.md#dockerServicesMetadataUpdate) | **PATCH** /v1/services/{dockerService}/metadata | Update metadata for the service
 [**getAppById**](AppApi.md#getAppById) | **GET** /v1/apps/{app} | Show a specific app
 [**getAppLocationSettingById**](AppApi.md#getAppLocationSettingById) | **GET** /v1/app-location-settings/{appLocationSetting} | Show a specific app location setting
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
@@ -40,6 +41,7 @@ Method | HTTP request | Description
 [**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | Show all services
 [**getTaggedImages**](AppApi.md#getTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images | List all available tagged images
 [**listServicesForAppLocationSetting**](AppApi.md#listServicesForAppLocationSetting) | **GET** /v1/apps/{app}/location-settings/{appLocationSetting}/services | Show all services for a specific app location setting within a given app
+[**refreshAuthToken**](AppApi.md#refreshAuthToken) | **PUT** /v1/auth/token | Refresh token
 [**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related entity
 [**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
 [**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{dockerService}/restart | Restart the service
@@ -788,67 +790,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
-# **dockerServicesMetadataDelete**
-> DockerServicesMetadataDelete200Response dockerServicesMetadataDelete()
-
-
-### Example
-
-
-```typescript
-import { createConfiguration, AppApi } from '';
-import type { AppApiDockerServicesMetadataDeleteRequest } from '';
-
-const configuration = createConfiguration();
-const apiInstance = new AppApi(configuration);
-
-const request: AppApiDockerServicesMetadataDeleteRequest = {
-    // The docker service ID
-  dockerService: 1,
-  
-  metadata: [
-    "metadata_example",
-  ],
-};
-
-const data = await apiInstance.dockerServicesMetadataDelete(request);
-console.log('API called successfully. Returned data:', data);
-```
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **dockerService** | [**number**] | The docker service ID | defaults to undefined
- **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
-
-
-### Return type
-
-**DockerServicesMetadataDelete200Response**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** |  |  -  |
-**404** | Not found |  -  |
-**401** | Unauthenticated |  -  |
-**422** | Validation error |  -  |
-**403** | Authorization error |  -  |
-
-[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
-
 # **dockerServicesMetadataDeleteAll**
 > Server dockerServicesMetadataDeleteAll()
 
@@ -904,9 +845,71 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **dockerServicesMetadataDeleteKeys**
+> Server dockerServicesMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesMetadataDeleteKeysRequest = {
+    // The docker service ID
+  dockerService: 1,
+  
+  metadata: [
+    "metadata_example",
+  ],
+};
+
+const data = await apiInstance.dockerServicesMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**Server**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Server&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **dockerServicesMetadataSet**
 > Server dockerServicesMetadataSet()
 
+Replaces the entire metadata set with only the values provided in the request.
 
 ### Example
 
@@ -923,9 +926,9 @@ const request: AppApiDockerServicesMetadataSetRequest = {
   dockerService: 1,
   
   setMetadataRequest: {
-    metadata: [
-      "metadata_example",
-    ],
+    metadata: {
+      "key": null,
+    },
   },
 };
 
@@ -939,6 +942,70 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **setMetadataRequest** | **SetMetadataRequest**|  |
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**Server**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Server&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesMetadataUpdate**
+> Server dockerServicesMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesMetadataUpdateRequest = {
+    // The docker service ID
+  dockerService: 1,
+  
+  patchMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.dockerServicesMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchMetadataRequest** | **PatchMetadataRequest**|  |
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
 
 
@@ -1180,7 +1247,7 @@ No authorization required
 # **getAuthToken**
 > Auth getAuthToken(authRequest)
 
-Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
 
 ### Example
 
@@ -1231,6 +1298,7 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | &#x60;Auth&#x60; |  -  |
+**404** | Not found |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
@@ -2031,7 +2099,7 @@ const request: AppApiGetServersRequest = {
   filterLocationContinent: "filter[locationContinent]_example",
     // Filter by location country. (optional)
   filterLocationCountry: "filter[locationCountry]_example",
-    // Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is `false`: ``` filter[metadata]=idle=false ```  **Nested Filters:** To filter where the `difficulty` inside `gameSettings.survival.difficulty` is `hardcore`: ``` filter[metadata]=gameSettings.survival.difficulty=hardcore ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=hardcore ``` (optional)
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
   filterMetadata: "filter[metadata]_example",
 };
 
@@ -2054,7 +2122,7 @@ Name | Type | Description  | Notes
  **filterLocationCityDisplay** | [**string**] | Filter by location city display name. | (optional) defaults to undefined
  **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
  **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
- **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2189,6 +2257,53 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | &#x60;ServerCollection&#x60; |  -  |
 **404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **refreshAuthToken**
+> Auth refreshAuthToken()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request = {};
+
+const data = await apiInstance.refreshAuthToken(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+This endpoint does not need any parameter.
+
+
+### Return type
+
+**Auth**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Auth&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **403** | Authorization error |  -  |
 

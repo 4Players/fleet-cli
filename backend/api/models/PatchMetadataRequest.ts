@@ -12,6 +12,25 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum BackupType {
-    Archive = 'archive'
+export class PatchMetadataRequest {
+    'metadata'?: { [key: string]: any; };
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "metadata",
+            "baseName": "metadata",
+            "type": "{ [key: string]: any; }",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return PatchMetadataRequest.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

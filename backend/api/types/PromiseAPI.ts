@@ -21,7 +21,6 @@ import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
-import { DockerServicesMetadataDelete200Response } from '../models/DockerServicesMetadataDelete200Response.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -36,6 +35,7 @@ import { Location } from '../models/Location.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
@@ -291,26 +291,6 @@ export class PromiseAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
-     * @param dockerService The docker service ID
-     * @param metadata
-     */
-    public dockerServicesMetadataDeleteWithHttpInfo(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<HttpInfo<DockerServicesMetadataDelete200Response>> {
-        const result = this.api.dockerServicesMetadataDeleteWithHttpInfo(dockerService, metadata, _options);
-        return result.toPromise();
-    }
-
-    /**
-     * Delete specific metadata keys from the service
-     * @param dockerService The docker service ID
-     * @param metadata
-     */
-    public dockerServicesMetadataDelete(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<DockerServicesMetadataDelete200Response> {
-        const result = this.api.dockerServicesMetadataDelete(dockerService, metadata, _options);
-        return result.toPromise();
-    }
-
-    /**
      * Delete all metadata from the service
      * @param dockerService The docker service ID
      */
@@ -329,7 +309,28 @@ export class PromiseAppApi {
     }
 
     /**
-     * Set or update metadata for the service
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDeleteKeysWithHttpInfo(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<HttpInfo<Server>> {
+        const result = this.api.dockerServicesMetadataDeleteKeysWithHttpInfo(dockerService, metadata, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete specific metadata keys from the service
+     * @param dockerService The docker service ID
+     * @param metadata
+     */
+    public dockerServicesMetadataDeleteKeys(dockerService: number, metadata: Array<string>, _options?: Configuration): Promise<Server> {
+        const result = this.api.dockerServicesMetadataDeleteKeys(dockerService, metadata, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata set with only the values provided in the request.
+     * Set metadata for the service
      * @param dockerService The docker service ID
      * @param [setMetadataRequest]
      */
@@ -339,12 +340,35 @@ export class PromiseAppApi {
     }
 
     /**
-     * Set or update metadata for the service
+     * Replaces the entire metadata set with only the values provided in the request.
+     * Set metadata for the service
      * @param dockerService The docker service ID
      * @param [setMetadataRequest]
      */
     public dockerServicesMetadataSet(dockerService: number, setMetadataRequest?: SetMetadataRequest, _options?: Configuration): Promise<Server> {
         const result = this.api.dockerServicesMetadataSet(dockerService, setMetadataRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+     * Update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [patchMetadataRequest]
+     */
+    public dockerServicesMetadataUpdateWithHttpInfo(dockerService: number, patchMetadataRequest?: PatchMetadataRequest, _options?: Configuration): Promise<HttpInfo<Server>> {
+        const result = this.api.dockerServicesMetadataUpdateWithHttpInfo(dockerService, patchMetadataRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
+     * Update metadata for the service
+     * @param dockerService The docker service ID
+     * @param [patchMetadataRequest]
+     */
+    public dockerServicesMetadataUpdate(dockerService: number, patchMetadataRequest?: PatchMetadataRequest, _options?: Configuration): Promise<Server> {
+        const result = this.api.dockerServicesMetadataUpdate(dockerService, patchMetadataRequest, _options);
         return result.toPromise();
     }
 
@@ -419,7 +443,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
      * Get token
      * @param authRequest
      */
@@ -429,7 +453,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
      * Get token
      * @param authRequest
      */
@@ -706,7 +730,7 @@ export class PromiseAppApi {
      * @param [filterLocationCityDisplay] Filter by location city display name.
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
-     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
     public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
         const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options);
@@ -725,7 +749,7 @@ export class PromiseAppApi {
      * @param [filterLocationCityDisplay] Filter by location city display name.
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
-     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is &#x60;false&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  **Nested Filters:** To filter where the &#x60;difficulty&#x60; inside &#x60;gameSettings.survival.difficulty&#x60; is &#x60;hardcore&#x60;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;hardcore &#x60;&#x60;&#x60;
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
     public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<GetServers200Response> {
         const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options);
@@ -767,6 +791,22 @@ export class PromiseAppApi {
      */
     public listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: Configuration): Promise<Array<Server>> {
         const result = this.api.listServicesForAppLocationSetting(app, appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Refresh token
+     */
+    public refreshAuthTokenWithHttpInfo(_options?: Configuration): Promise<HttpInfo<Auth>> {
+        const result = this.api.refreshAuthTokenWithHttpInfo(_options);
+        return result.toPromise();
+    }
+
+    /**
+     * Refresh token
+     */
+    public refreshAuthToken(_options?: Configuration): Promise<Auth> {
+        const result = this.api.refreshAuthToken(_options);
         return result.toPromise();
     }
 

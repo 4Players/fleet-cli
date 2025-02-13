@@ -31,7 +31,6 @@ models/DockerCompose.ts
 models/DockerImage.ts
 models/DockerRegistry.ts
 models/DockerRegistryType.ts
-models/DockerServicesMetadataDelete200Response.ts
 models/EnvironmentVariable.ts
 models/EnvironmentVariableDefinition.ts
 models/EnvironmentVariableType.ts
@@ -47,6 +46,7 @@ models/Mount.ts
 models/Node.ts
 models/ObjectSerializer.ts
 models/OperatingSystem.ts
+models/PatchMetadataRequest.ts
 models/Placement.ts
 models/Port.ts
 models/PortDefinition.ts

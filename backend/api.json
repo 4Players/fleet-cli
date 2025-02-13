@@ -17,7 +17,8 @@
                 "operationId": "updateAppLocationSetting",
                 "summary": "Update a location setting",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -69,7 +70,8 @@
                 "operationId": "deleteAppLocationSetting",
                 "summary": "Delete a location setting",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -108,7 +110,8 @@
                 "operationId": "getAppLocationSettingById",
                 "summary": "Show a specific app location setting",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -149,7 +152,8 @@
                 "operationId": "getAppLocationSettings",
                 "summary": "Show all location settings",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -185,7 +189,8 @@
                 "operationId": "createAppLocationSetting",
                 "summary": "Create a new location setting",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -239,7 +244,8 @@
                 "operationId": "listServicesForAppLocationSetting",
                 "summary": "Show all services for a specific app location setting within a given app",
                 "tags": [
-                    "AppLocationSettings"
+                    "AppLocationSettings",
+                    "AppLocationSetting"
                 ],
                 "parameters": [
                     {
@@ -289,7 +295,8 @@
                 "operationId": "getApps",
                 "summary": "Show all apps",
                 "tags": [
-                    "Apps"
+                    "Apps",
+                    "App"
                 ],
                 "responses": {
                     "200": {
@@ -311,7 +318,8 @@
                 "operationId": "createApp",
                 "summary": "Create an app",
                 "tags": [
-                    "Apps"
+                    "Apps",
+                    "App"
                 ],
                 "requestBody": {
                     "required": true,
@@ -351,7 +359,8 @@
                 "operationId": "getAppById",
                 "summary": "Show a specific app",
                 "tags": [
-                    "Apps"
+                    "Apps",
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -390,7 +399,8 @@
                 "operationId": "deleteApp",
                 "summary": "Delete a specific app",
                 "tags": [
-                    "Apps"
+                    "Apps",
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -429,7 +439,8 @@
                 "operationId": "updateAppById",
                 "summary": "Update a specific app",
                 "tags": [
-                    "Apps"
+                    "Apps",
+                    "App"
                 ],
                 "parameters": [
                     {
@@ -481,7 +492,7 @@
         "\/v1\/auth\/token": {
             "post": {
                 "operationId": "getAuthToken",
-                "description": "Authenticates the user based on the user's email, password, and session ID.\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.",
+                "description": "Authenticates the user based on the user's email, password, and session ID.\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.+",
                 "summary": "Get token",
                 "tags": [
                     "Auth"
@@ -507,8 +518,36 @@
                             }
                         }
                     },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "put": {
+                "operationId": "refreshAuthToken",
+                "summary": "Refresh token",
+                "tags": [
+                    "Auth"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Auth`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Auth"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -521,7 +560,8 @@
                 "operationId": "getBinaries",
                 "summary": "Show all binaries",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -560,7 +600,8 @@
                 "operationId": "createBinary",
                 "summary": "Create a binary and the related entity",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -614,7 +655,8 @@
                 "operationId": "getBinaryById",
                 "summary": "Show a specific binary",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -653,7 +695,8 @@
                 "operationId": "deleteBinary",
                 "summary": "Delete a specified binary",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -692,7 +735,8 @@
                 "operationId": "updateBinary",
                 "summary": "Update a binary and the related entity",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -746,7 +790,8 @@
                 "operationId": "refreshBinary",
                 "summary": "Refresh a binary and the related entity",
                 "tags": [
-                    "Binaries"
+                    "Binaries",
+                    "Binary"
                 ],
                 "parameters": [
                     {
@@ -875,7 +920,7 @@
                     {
                         "name": "filter[metadata]",
                         "in": "query",
-                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs. Supports simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is `false`:\n```\nfilter[metadata]=idle=false\n```\n\n**Nested Filters:**\nTo filter where the `difficulty` inside `gameSettings.survival.difficulty` is `hardcore`:\n```\nfilter[metadata]=gameSettings.survival.difficulty=hardcore\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=hardcore\n```",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
                         "schema": {
                             "type": "string"
                         }
@@ -1725,7 +1770,8 @@
         "\/v1\/services\/{dockerService}\/metadata": {
             "put": {
                 "operationId": "docker-services.metadata.set",
-                "summary": "Set or update metadata for the service",
+                "description": "Replaces the entire metadata set with only the values provided in the request.",
+                "summary": "Set metadata for the service",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1775,9 +1821,10 @@
                     }
                 }
             },
-            "delete": {
-                "operationId": "docker-services.metadata.delete",
-                "summary": "Delete specific metadata keys from the service",
+            "patch": {
+                "operationId": "docker-services.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.",
+                "summary": "Update metadata for the service",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1791,34 +1838,24 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "name": "metadata",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            },
-                            "minItems": 1
-                        }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchMetadataRequest"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "`Server`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "object"
-                                        },
-                                        {
-                                            "$ref": "#\/components\/schemas\/Server"
-                                        }
-                                    ]
+                                    "$ref": "#\/components\/schemas\/Server"
                                 }
                             }
                         }
@@ -1836,9 +1873,7 @@
                         "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
-            }
-        },
-        "\/v1\/services\/{dockerService}\/metadata\/all": {
+            },
             "delete": {
                 "operationId": "docker-services.metadata.delete.all",
                 "summary": "Delete all metadata from the service",
@@ -1880,12 +1915,69 @@
                 }
             }
         },
+        "\/v1\/services\/{dockerService}\/metadata\/keys": {
+            "delete": {
+                "operationId": "docker-services.metadata.delete.keys",
+                "summary": "Delete specific metadata keys from the service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/nodes\/locations": {
             "get": {
                 "operationId": "getLocations",
                 "summary": "Show a unique listing of locations based on active and ready worker nodes",
                 "tags": [
-                    "Nodes"
+                    "Nodes",
+                    "DockerNode"
                 ],
                 "responses": {
                     "200": {
@@ -3070,6 +3162,16 @@
                 ],
                 "title": "OperatingSystem"
             },
+            "PatchMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchMetadataRequest"
+            },
             "Placement": {
                 "type": "object",
                 "properties": {
@@ -3630,10 +3732,8 @@
                 "type": "object",
                 "properties": {
                     "metadata": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
+                        "type": "object",
+                        "additionalProperties": {}
                     }
                 },
                 "title": "SetMetadataRequest"
