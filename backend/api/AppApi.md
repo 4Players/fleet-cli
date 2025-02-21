@@ -267,15 +267,8 @@ const request: AppApiCreateBinaryRequest = {
   storeBinaryRequest: {
     name: "name_example",
     version: "version_example",
-    type: "zipFile",
+    type: "dockerImage",
     os: "windows",
-    dockerCompose: {
-      composeFile: "composeFile_example",
-    },
-    zipFile: {
-      zipFileUrl: "zipFileUrl_example",
-      commandLine: "commandLine_example",
-    },
     steam: {
       steamAppId: 1,
       branch: "branch_example",
@@ -2785,15 +2778,8 @@ const request: AppApiUpdateBinaryRequest = {
   updateBinaryRequest: {
     name: "name_example",
     version: "version_example",
-    type: "zipFile",
+    type: "dockerImage",
     os: "windows",
-    dockerCompose: {
-      composeFile: "composeFile_example",
-    },
-    zipFile: {
-      zipFileUrl: "zipFileUrl_example",
-      commandLine: "commandLine_example",
-    },
     steam: {
       steamAppId: 1,
       branch: "branch_example",

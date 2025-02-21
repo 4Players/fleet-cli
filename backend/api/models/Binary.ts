@@ -12,11 +12,9 @@
 
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
-import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { Steam } from '../models/Steam.ts';
-import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class Binary {
@@ -72,14 +70,6 @@ export class Binary {
     * The docker image of the binary
     */
     'dockerImage'?: DockerImage;
-    /**
-    * The docker compose file of the binary
-    */
-    'dockerCompose'?: DockerCompose;
-    /**
-    * The ZIP file of the binary
-    */
-    'zipFile'?: ZipFile;
     /**
     * The steam of the binary
     */
@@ -166,18 +156,6 @@ export class Binary {
             "name": "dockerImage",
             "baseName": "dockerImage",
             "type": "DockerImage",
-            "format": ""
-        },
-        {
-            "name": "dockerCompose",
-            "baseName": "dockerCompose",
-            "type": "DockerCompose",
-            "format": ""
-        },
-        {
-            "name": "zipFile",
-            "baseName": "zipFile",
-            "type": "ZipFile",
             "format": ""
         },
         {

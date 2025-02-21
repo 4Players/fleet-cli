@@ -14,7 +14,6 @@ export * from '../models/CreateBackupDockerServiceRequest.ts';
 export * from '../models/CreateUpdateDockerImage.ts';
 export * from '../models/CreateUpdatePlacement.ts';
 export * from '../models/CreateUpdateSteam.ts';
-export * from '../models/DockerCompose.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
 export * from '../models/DockerRegistryType.ts';
@@ -66,7 +65,6 @@ export * from '../models/UpdateAppRequest.ts';
 export * from '../models/UpdateBinaryRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/UpdateServerConfigRequest.ts';
-export * from '../models/ZipFile.ts';
 
 import { App } from '../models/App.ts';
 import { AppLocationSetting               } from '../models/AppLocationSetting.ts';
@@ -76,7 +74,7 @@ import { Auth } from '../models/Auth.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
-import { Binary                 } from '../models/Binary.ts';
+import { Binary               } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
@@ -84,7 +82,6 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam            } from '../models/CreateUpdateSteam.ts';
-import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry            } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
@@ -126,17 +123,16 @@ import { SteamLauncher } from '../models/SteamLauncher.ts';
 import { SteamRuntime } from '../models/SteamRuntime.ts';
 import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
-import { StoreBinaryRequest         } from '../models/StoreBinaryRequest.ts';
+import { StoreBinaryRequest       } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest           } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
-import { UpdateBinaryRequest         } from '../models/UpdateBinaryRequest.ts';
+import { UpdateBinaryRequest       } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest           } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
-import { ZipFile } from '../models/ZipFile.ts';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -179,7 +175,6 @@ let typeMap: {[index: string]: any} = {
     "CreateUpdateDockerImage": CreateUpdateDockerImage,
     "CreateUpdatePlacement": CreateUpdatePlacement,
     "CreateUpdateSteam": CreateUpdateSteam,
-    "DockerCompose": DockerCompose,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
     "EnvironmentVariable": EnvironmentVariable,
@@ -222,7 +217,6 @@ let typeMap: {[index: string]: any} = {
     "UpdateBinaryRequest": UpdateBinaryRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
     "UpdateServerConfigRequest": UpdateServerConfigRequest,
-    "ZipFile": ZipFile,
 }
 
 type MimeTypeDescriptor = {

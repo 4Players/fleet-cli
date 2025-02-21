@@ -2507,7 +2507,10 @@
                     "upscaling",
                     "downscaling",
                     "error",
-                    "ready"
+                    "ready",
+                    "waiting",
+                    "moving",
+                    "cloning"
                 ],
                 "title": "AppLocationSettingStatus"
             },
@@ -2675,14 +2678,6 @@
                         "description": "The docker image of the binary",
                         "$ref": "#\/components\/schemas\/DockerImage"
                     },
-                    "dockerCompose": {
-                        "description": "The docker compose file of the binary",
-                        "$ref": "#\/components\/schemas\/DockerCompose"
-                    },
-                    "zipFile": {
-                        "description": "The ZIP file of the binary",
-                        "$ref": "#\/components\/schemas\/ZipFile"
-                    },
                     "steam": {
                         "description": "The steam of the binary",
                         "$ref": "#\/components\/schemas\/Steam"
@@ -2725,9 +2720,7 @@
             "BinaryType": {
                 "type": "string",
                 "enum": [
-                    "zipFile",
                     "dockerImage",
-                    "dockerCompose",
                     "steam"
                 ],
                 "title": "BinaryType"
@@ -2876,19 +2869,6 @@
                     "$ref": "#\/components\/schemas\/Backup"
                 },
                 "title": "DockerBackupCollection"
-            },
-            "DockerCompose": {
-                "type": "object",
-                "properties": {
-                    "composeFile": {
-                        "type": "string",
-                        "description": "The content of the docker compose file"
-                    }
-                },
-                "required": [
-                    "composeFile"
-                ],
-                "title": "DockerCompose"
             },
             "DockerImage": {
                 "type": "object",
@@ -4015,14 +3995,6 @@
                         "description": "The operating system of the binary",
                         "$ref": "#\/components\/schemas\/OperatingSystem"
                     },
-                    "dockerCompose": {
-                        "description": "The docker compose settings",
-                        "$ref": "#\/components\/schemas\/DockerCompose"
-                    },
-                    "zipFile": {
-                        "description": "The zip file settings",
-                        "$ref": "#\/components\/schemas\/ZipFile"
-                    },
                     "steam": {
                         "description": "The steam settings",
                         "$ref": "#\/components\/schemas\/CreateUpdateSteam"
@@ -4323,14 +4295,6 @@
                         "description": "The operating system of the binary",
                         "$ref": "#\/components\/schemas\/OperatingSystem"
                     },
-                    "dockerCompose": {
-                        "description": "The docker compose settings",
-                        "$ref": "#\/components\/schemas\/DockerCompose"
-                    },
-                    "zipFile": {
-                        "description": "The zip file settings",
-                        "$ref": "#\/components\/schemas\/ZipFile"
-                    },
                     "steam": {
                         "description": "The steam settings",
                         "$ref": "#\/components\/schemas\/CreateUpdateSteam"
@@ -4519,24 +4483,6 @@
                     "resourcePackageSlug"
                 ],
                 "title": "UpdateServerConfigRequest"
-            },
-            "ZipFile": {
-                "type": "object",
-                "properties": {
-                    "zipFileUrl": {
-                        "type": "string",
-                        "description": "The URL to the ZIP file"
-                    },
-                    "commandLine": {
-                        "type": "string",
-                        "description": "The command line to use"
-                    }
-                },
-                "required": [
-                    "zipFileUrl",
-                    "commandLine"
-                ],
-                "title": "ZipFile"
             }
         },
         "responses": {

@@ -13,8 +13,6 @@
 import { HttpFile } from '../http/http.ts';
 
 export enum BinaryType {
-    ZipFile = 'zipFile',
     DockerImage = 'dockerImage',
-    DockerCompose = 'dockerCompose',
     Steam = 'steam'
 }

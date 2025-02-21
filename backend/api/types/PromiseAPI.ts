@@ -17,7 +17,6 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
-import { DockerCompose } from '../models/DockerCompose.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
@@ -69,7 +68,6 @@ import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
-import { ZipFile } from '../models/ZipFile.ts';
 import { ObservableAppApi } from './ObservableAPI.ts';
 
 import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts";

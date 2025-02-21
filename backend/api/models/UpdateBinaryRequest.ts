@@ -13,9 +13,7 @@
 import { BinaryType } from '../models/BinaryType.ts';
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
-import { DockerCompose } from '../models/DockerCompose.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
-import { ZipFile } from '../models/ZipFile.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class UpdateBinaryRequest {
@@ -35,14 +33,6 @@ export class UpdateBinaryRequest {
     * The operating system of the binary
     */
     'os': OperatingSystem;
-    /**
-    * The docker compose settings
-    */
-    'dockerCompose'?: DockerCompose;
-    /**
-    * The zip file settings
-    */
-    'zipFile'?: ZipFile;
     /**
     * The steam settings
     */
@@ -79,18 +69,6 @@ export class UpdateBinaryRequest {
             "name": "os",
             "baseName": "os",
             "type": "OperatingSystem",
-            "format": ""
-        },
-        {
-            "name": "dockerCompose",
-            "baseName": "dockerCompose",
-            "type": "DockerCompose",
-            "format": ""
-        },
-        {
-            "name": "zipFile",
-            "baseName": "zipFile",
-            "type": "ZipFile",
             "format": ""
         },
         {

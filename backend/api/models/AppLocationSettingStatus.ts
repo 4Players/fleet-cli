@@ -20,5 +20,8 @@ export enum AppLocationSettingStatus {
     Upscaling = 'upscaling',
     Downscaling = 'downscaling',
     Error = 'error',
-    Ready = 'ready'
+    Ready = 'ready',
+    Waiting = 'waiting',
+    Moving = 'moving',
+    Cloning = 'cloning'
 }

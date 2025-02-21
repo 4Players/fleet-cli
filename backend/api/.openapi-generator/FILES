@@ -27,7 +27,6 @@ models/CreateBackupDockerServiceRequest.ts
 models/CreateUpdateDockerImage.ts
 models/CreateUpdatePlacement.ts
 models/CreateUpdateSteam.ts
-models/DockerCompose.ts
 models/DockerImage.ts
 models/DockerRegistry.ts
 models/DockerRegistryType.ts
@@ -80,7 +79,6 @@ models/UpdateAppRequest.ts
 models/UpdateBinaryRequest.ts
 models/UpdateDockerRegistryRequest.ts
 models/UpdateServerConfigRequest.ts
-models/ZipFile.ts
 models/all.ts
 rxjsStub.ts
 servers.ts
