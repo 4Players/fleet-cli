@@ -5,14 +5,14 @@
 [![Build and Release ODIN CLI Tool](https://github.com/4Players/fleet-cli/actions/workflows/build-binaries.yml/badge.svg)](https://github.com/4Players/fleet-cli/actions/workflows/build-binaries.yml)
 
 > [!NOTE]
-> This is a CLI tool for the ODIN project. It is used to interact with the ODIN
+> This is a CLI tool for the [ODIN](https://odin.4players.io/) project by 4Players. It is used to interact with the ODIN
 > APIs. It's written in Deno and uses the TypeScript ODIN SDK internally.
 
 ## :book: Documentation
 
 The documentation for the CLI tool is available in our developer documentation.
 You can find the documentation for the CLI tool in the
-[CLI section](https://www.4players.io/fleet/cli).
+[CLI section](https://docs.4players.io/fleet/cli/).
 
 ## :package: Installation
 
@@ -108,5 +108,5 @@ on Windows) in the root of the project. You can move this binary to a directory
 in your PATH to use it globally.
 
 > [!TIP]
-> More details about the CLI tool can be found in the
-> [developer documentation](https://www.4players.io/fleet/cli).
+> More details about the CLI tool and other technical information can be found in the
+> [developer documentation](https://docs.4players.io/fleet/).
