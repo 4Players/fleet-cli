@@ -8,7 +8,6 @@ import {
   Mount,
   PortDefinition,
   Protocol,
-  PublishMode,
   RestartPolicy,
   RestartPolicyCondition,
   ServerConfig,
@@ -246,7 +245,6 @@ const createConfig = new Command()
         ports.push({
           name: portDefinition.name!,
           targetPort: portDefinition.targetPort!,
-          publishMode: PublishMode.Ingress, // We default to Ingress for now
           protocols: [portDefinition.protocol] as Protocol[],
         });
       }
