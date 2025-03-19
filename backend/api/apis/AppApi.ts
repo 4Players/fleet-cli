@@ -35,6 +35,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -1264,14 +1266,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterLocationContinent Filter by location continent.
      * @param filterLocationCountry Filter by location country.
      * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServers", "app");
         }
+
 
 
 
@@ -1340,6 +1344,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterMetadata !== undefined) {
             requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
         }
 
 
@@ -1639,6 +1651,78 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             }
         }
 
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param storeMinecraftTemplateRequest 
+     */
+    public async templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+
+        // Path Params
+        const localVarPath = '/v1/templates/apps/minecraft';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(storeMinecraftTemplateRequest, "StoreMinecraftTemplateRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param storePalworldTemplateRequest 
+     */
+    public async templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+
+        // Path Params
+        const localVarPath = '/v1/templates/apps/palworld';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(storePalworldTemplateRequest, "StorePalworldTemplateRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -4078,6 +4162,106 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<SteamLauncher>", ""
             ) as Array<SteamLauncher>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to templateAppMinecraftStore
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async templateAppMinecraftStoreWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to templateAppPalworldStore
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async templateAppPalworldStoreWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

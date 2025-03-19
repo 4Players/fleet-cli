@@ -39,7 +39,6 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -60,6 +59,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -729,9 +730,10 @@ export class PromiseAppApi {
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
+        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options);
         return result.toPromise();
     }
 
@@ -748,9 +750,10 @@ export class PromiseAppApi {
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<GetServers200Response> {
-        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options);
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<GetServers200Response> {
+        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options);
         return result.toPromise();
     }
 
@@ -915,6 +918,42 @@ export class PromiseAppApi {
      */
     public steamGetLauncher(appId: number, os?: OperatingSystem, _options?: Configuration): Promise<Array<SteamLauncher>> {
         const result = this.api.steamGetLauncher(appId, os, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Promise<HttpInfo<App>> {
+        const result = this.api.templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Promise<App> {
+        const result = this.api.templateAppMinecraftStore(storeMinecraftTemplateRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Promise<HttpInfo<App>> {
+        const result = this.api.templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Promise<App> {
+        const result = this.api.templateAppPalworldStore(storePalworldTemplateRequest, _options);
         return result.toPromise();
     }
 

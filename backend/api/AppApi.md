@@ -48,6 +48,8 @@ Method | HTTP request | Description
 [**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore the latest backup
 [**steamGetBranches**](AppApi.md#steamGetBranches) | **GET** /v1/binaries/steam/branches | Get branches for a specific steamworks app ID
 [**steamGetLauncher**](AppApi.md#steamGetLauncher) | **GET** /v1/binaries/steam/launchers | Get launchers for a specific steamworks app ID, optionally filtered by OS
+[**templateAppMinecraftStore**](AppApi.md#templateAppMinecraftStore) | **POST** /v1/templates/apps/minecraft | Create a Minecraft template app
+[**templateAppPalworldStore**](AppApi.md#templateAppPalworldStore) | **POST** /v1/templates/apps/palworld | Create a Palworld template app
 [**updateAppById**](AppApi.md#updateAppById) | **PUT** /v1/apps/{app} | Update a specific app
 [**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
 [**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related entity
@@ -464,7 +466,6 @@ const request: AppApiCreateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
-        publishMode: "host",
       },
     ],
   },
@@ -2094,6 +2095,10 @@ const request: AppApiGetServersRequest = {
   filterLocationCountry: "filter[locationCountry]_example",
     // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
   filterMetadata: "filter[metadata]_example",
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  ``` sort[]=id sort[]=-instance ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-instance ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
 };
 
 const data = await apiInstance.getServers(request);
@@ -2116,6 +2121,7 @@ Name | Type | Description  | Notes
  **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
  **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
  **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2634,6 +2640,142 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **templateAppMinecraftStore**
+> App templateAppMinecraftStore()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiTemplateAppMinecraftStoreRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiTemplateAppMinecraftStoreRequest = {
+  
+  storeMinecraftTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.templateAppMinecraftStore(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storeMinecraftTemplateRequest** | **StoreMinecraftTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **templateAppPalworldStore**
+> App templateAppPalworldStore()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiTemplateAppPalworldStoreRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiTemplateAppPalworldStoreRequest = {
+  
+  storePalworldTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.templateAppPalworldStore(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storePalworldTemplateRequest** | **StorePalworldTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **updateAppById**
 > App updateAppById(updateAppRequest)
 
@@ -2979,7 +3121,6 @@ const request: AppApiUpdateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
-        publishMode: "host",
       },
     ],
   },

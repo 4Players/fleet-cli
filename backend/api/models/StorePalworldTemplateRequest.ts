@@ -13,25 +13,21 @@
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class StoreAppLocationSettingRequest {
+export class StorePalworldTemplateRequest {
     /**
-    * The name of the location setting
+    * The name of the template app. If omitted, a default name will be used.
     */
-    'name': string;
+    'appName'?: string | null;
     /**
-    * The id of the server configuration that should be deployed
+    * The slug of the resource package. If omitted, a default resource package will be used.
     */
-    'serverConfigId': number;
+    'resourcePackageSlug'?: string | null;
     /**
-    * The number of instances that should run at the specific location
+    * The placement constraints that define the location. If omitted, no deployment will be created.
     */
-    'numInstances': number;
+    'placement'?: CreateUpdatePlacement | null;
     /**
-    * The placement settings that define the location and other constraints
-    */
-    'placement'?: CreateUpdatePlacement;
-    /**
-    * Password required to deploy services to a protected node location. Required when the selected location is password-protected.
+    * Password required to deploy services to a protected location. Only required when the selected location is password-protected.
     */
     'password'?: string | null;
 
@@ -41,21 +37,15 @@ export class StoreAppLocationSettingRequest {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "appName",
+            "baseName": "appName",
             "type": "string",
             "format": ""
         },
         {
-            "name": "serverConfigId",
-            "baseName": "serverConfigId",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "numInstances",
-            "baseName": "numInstances",
-            "type": "number",
+            "name": "resourcePackageSlug",
+            "baseName": "resourcePackageSlug",
+            "type": "string",
             "format": ""
         },
         {
@@ -72,7 +62,7 @@ export class StoreAppLocationSettingRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return StoreAppLocationSettingRequest.attributeTypeMap;
+        return StorePalworldTemplateRequest.attributeTypeMap;
     }
 
     public constructor() {
