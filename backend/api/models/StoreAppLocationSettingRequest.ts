@@ -33,7 +33,7 @@ export class StoreAppLocationSettingRequest {
     /**
     * Password required to deploy services to a protected node location. Required when the selected location is password-protected.
     */
-    'password'?: string | null;
+    'password'?: string;
 
     static readonly discriminator: string | undefined = undefined;
 

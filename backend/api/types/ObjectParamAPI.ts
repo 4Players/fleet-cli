@@ -39,6 +39,7 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
+import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -59,8 +60,6 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
-import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
-import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -538,13 +537,6 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     filterMetadata?: string
-    /**
-     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
-     * Defaults to: undefined
-     * @type Array&lt;string&gt;
-     * @memberof AppApigetServers
-     */
-    sort?: Array<string>
 }
 
 export interface AppApiGetTaggedImagesRequest {
@@ -642,24 +634,6 @@ export interface AppApiSteamGetLauncherRequest {
      * @memberof AppApisteamGetLauncher
      */
     os?: OperatingSystem
-}
-
-export interface AppApiTemplateAppMinecraftStoreRequest {
-    /**
-     * 
-     * @type StoreMinecraftTemplateRequest
-     * @memberof AppApitemplateAppMinecraftStore
-     */
-    storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest
-}
-
-export interface AppApiTemplateAppPalworldStoreRequest {
-    /**
-     * 
-     * @type StorePalworldTemplateRequest
-     * @memberof AppApitemplateAppPalworldStore
-     */
-    storePalworldTemplateRequest?: StorePalworldTemplateRequest
 }
 
 export interface AppApiUpdateAppByIdRequest {
@@ -1304,7 +1278,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -1312,7 +1286,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
-        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -1457,38 +1431,6 @@ export class ObjectAppApi {
      */
     public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<Array<SteamLauncher>> {
         return this.api.steamGetLauncher(param.appId, param.os,  options).toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param param the request object
-     */
-    public templateAppMinecraftStoreWithHttpInfo(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
-        return this.api.templateAppMinecraftStoreWithHttpInfo(param.storeMinecraftTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param param the request object
-     */
-    public templateAppMinecraftStore(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<App> {
-        return this.api.templateAppMinecraftStore(param.storeMinecraftTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param param the request object
-     */
-    public templateAppPalworldStoreWithHttpInfo(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
-        return this.api.templateAppPalworldStoreWithHttpInfo(param.storePalworldTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param param the request object
-     */
-    public templateAppPalworldStore(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<App> {
-        return this.api.templateAppPalworldStore(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
     /**

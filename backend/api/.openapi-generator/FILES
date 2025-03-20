@@ -50,6 +50,7 @@ models/Placement.ts
 models/Port.ts
 models/PortDefinition.ts
 models/Protocol.ts
+models/PublishMode.ts
 models/ResourceAllocations.ts
 models/ResourcePackage.ts
 models/ResourcePackageType.ts
@@ -70,8 +71,6 @@ models/StoreAppLocationSettingRequest.ts
 models/StoreAppRequest.ts
 models/StoreBinaryRequest.ts
 models/StoreDockerRegistryRequest.ts
-models/StoreMinecraftTemplateRequest.ts
-models/StorePalworldTemplateRequest.ts
 models/StoreServerConfigRequest.ts
 models/TaggedImage.ts
 models/TaggedImageMetaData.ts

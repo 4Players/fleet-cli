@@ -924,47 +924,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "sort[]",
-                        "in": "query",
-                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by instance in descending order:\n\n```\nsort[]=id\nsort[]=-instance\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-instance\n```",
-                        "schema": {
-                            "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-instance",
-                                "instance",
-                                "-status",
-                                "status",
-                                "-status_message",
-                                "status_message",
-                                "-serverConfigId",
-                                "serverConfigId",
-                                "-serverConfigName",
-                                "serverConfigName",
-                                "-appLocationSettingId",
-                                "appLocationSettingId",
-                                "-name",
-                                "name",
-                                "-locationCity",
-                                "locationCity",
-                                "-locationCityDisplay",
-                                "locationCityDisplay",
-                                "-locationContinent",
-                                "locationContinent",
-                                "-locationCountry",
-                                "locationCountry",
-                                "-createdAt",
-                                "createdAt",
-                                "-updatedAt",
-                                "updatedAt"
-                            ],
-                            "items": {
-                                "type": "string"
-                            }
-                        }
                     }
                 ],
                 "responses": {
@@ -2419,86 +2378,6 @@
                     }
                 }
             }
-        },
-        "\/v1\/templates\/apps\/palworld": {
-            "post": {
-                "operationId": "template.app.palworld.store",
-                "summary": "Create a Palworld template app",
-                "tags": [
-                    "Templates",
-                    "TemplateApp"
-                ],
-                "requestBody": {
-                    "content": {
-                        "application\/json": {
-                            "schema": {
-                                "$ref": "#\/components\/schemas\/StorePalworldTemplateRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "`App`",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "$ref": "#\/components\/schemas\/App"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
-                    "422": {
-                        "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            }
-        },
-        "\/v1\/templates\/apps\/minecraft": {
-            "post": {
-                "operationId": "template.app.minecraft.store",
-                "summary": "Create a Minecraft template app",
-                "tags": [
-                    "Templates",
-                    "TemplateApp"
-                ],
-                "requestBody": {
-                    "content": {
-                        "application\/json": {
-                            "schema": {
-                                "$ref": "#\/components\/schemas\/StoreMinecraftTemplateRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "`App`",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "$ref": "#\/components\/schemas\/App"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
-                    "422": {
-                        "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -3304,13 +3183,18 @@
                     "publishedPort": {
                         "type": "integer",
                         "description": "Published Port Where the port is mapped to"
+                    },
+                    "publishMode": {
+                        "description": "Defines whether the port uses the hosts network or the ingress network",
+                        "$ref": "#\/components\/schemas\/PublishMode"
                     }
                 },
                 "required": [
                     "name",
                     "protocol",
                     "targetPort",
-                    "publishedPort"
+                    "publishedPort",
+                    "publishMode"
                 ],
                 "title": "Port"
             },
@@ -3331,12 +3215,17 @@
                     "targetPort": {
                         "type": "integer",
                         "description": "The port to expose"
+                    },
+                    "publishMode": {
+                        "description": "Defines whether the port uses the hosts network or the ingress network",
+                        "$ref": "#\/components\/schemas\/PublishMode"
                     }
                 },
                 "required": [
                     "name",
                     "protocols",
-                    "targetPort"
+                    "targetPort",
+                    "publishMode"
                 ],
                 "title": "PortDefinition"
             },
@@ -3347,6 +3236,14 @@
                     "udp"
                 ],
                 "title": "Protocol"
+            },
+            "PublishMode": {
+                "type": "string",
+                "enum": [
+                    "host",
+                    "ingress"
+                ],
+                "title": "PublishMode"
             },
             "ResourceAllocations": {
                 "type": "object",
@@ -4052,10 +3949,7 @@
                         "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     },
                     "password": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
+                        "type": "string",
                         "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
                     }
                 },
@@ -4196,84 +4090,6 @@
                     "name"
                 ],
                 "title": "StoreDockerRegistryRequest"
-            },
-            "StoreMinecraftTemplateRequest": {
-                "type": "object",
-                "properties": {
-                    "appName": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The name of the template app.\nIf omitted, a default name will be used."
-                    },
-                    "resourcePackageSlug": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The slug of the resource package.\nIf omitted, a default resource package will be used.",
-                        "maxLength": 255
-                    },
-                    "placement": {
-                        "anyOf": [
-                            {
-                                "description": "The placement settings that define the location and other constraints\nIf omitted, no deployment will be created.",
-                                "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ]
-                    },
-                    "password": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
-                    }
-                },
-                "title": "StoreMinecraftTemplateRequest"
-            },
-            "StorePalworldTemplateRequest": {
-                "type": "object",
-                "properties": {
-                    "appName": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The name of the template app.\nIf omitted, a default name will be used."
-                    },
-                    "resourcePackageSlug": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "The slug of the resource package.\nIf omitted, a default resource package will be used.",
-                        "maxLength": 255
-                    },
-                    "placement": {
-                        "anyOf": [
-                            {
-                                "description": "The placement constraints that define the location.\nIf omitted, no deployment will be created.",
-                                "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ]
-                    },
-                    "password": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "description": "Password required to deploy services to a protected location.\nOnly required when the selected location is password-protected."
-                    }
-                },
-                "title": "StorePalworldTemplateRequest"
             },
             "StoreServerConfigRequest": {
                 "type": "object",

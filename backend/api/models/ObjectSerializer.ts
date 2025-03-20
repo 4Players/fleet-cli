@@ -36,6 +36,7 @@ export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
 export * from '../models/Protocol.ts';
+export * from '../models/PublishMode.ts';
 export * from '../models/ResourceAllocations.ts';
 export * from '../models/ResourcePackage.ts';
 export * from '../models/ResourcePackageType.ts';
@@ -56,8 +57,6 @@ export * from '../models/StoreAppLocationSettingRequest.ts';
 export * from '../models/StoreAppRequest.ts';
 export * from '../models/StoreBinaryRequest.ts';
 export * from '../models/StoreDockerRegistryRequest.ts';
-export * from '../models/StoreMinecraftTemplateRequest.ts';
-export * from '../models/StorePalworldTemplateRequest.ts';
 export * from '../models/StoreServerConfigRequest.ts';
 export * from '../models/TaggedImage.ts';
 export * from '../models/TaggedImageMetaData.ts';
@@ -102,9 +101,10 @@ import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
-import { Port     } from '../models/Port.ts';
-import { PortDefinition } from '../models/PortDefinition.ts';
+import { Port      } from '../models/Port.ts';
+import { PortDefinition     } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
+import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage         } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -125,8 +125,6 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest       } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest           } from '../models/StoreDockerRegistryRequest.ts';
-import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
-import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -157,6 +155,7 @@ let enumsMap: Set<string> = new Set<string>([
     "EnvironmentVariableType",
     "OperatingSystem",
     "Protocol",
+    "PublishMode",
     "ResourcePackageType",
     "RestartPolicyCondition",
     "ServerConfigStatus",
@@ -210,8 +209,6 @@ let typeMap: {[index: string]: any} = {
     "StoreAppRequest": StoreAppRequest,
     "StoreBinaryRequest": StoreBinaryRequest,
     "StoreDockerRegistryRequest": StoreDockerRegistryRequest,
-    "StoreMinecraftTemplateRequest": StoreMinecraftTemplateRequest,
-    "StorePalworldTemplateRequest": StorePalworldTemplateRequest,
     "StoreServerConfigRequest": StoreServerConfigRequest,
     "TaggedImage": TaggedImage,
     "TaggedImageMetaData": TaggedImageMetaData,

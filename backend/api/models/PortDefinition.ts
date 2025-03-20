@@ -11,6 +11,7 @@
  */
 
 import { Protocol } from '../models/Protocol.ts';
+import { PublishMode } from '../models/PublishMode.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class PortDefinition {
@@ -26,6 +27,10 @@ export class PortDefinition {
     * The port to expose
     */
     'targetPort': number;
+    /**
+    * Defines whether the port uses the hosts network or the ingress network
+    */
+    'publishMode': PublishMode;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -49,6 +54,12 @@ export class PortDefinition {
             "baseName": "targetPort",
             "type": "number",
             "format": ""
+        },
+        {
+            "name": "publishMode",
+            "baseName": "publishMode",
+            "type": "PublishMode",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {
@@ -58,3 +69,5 @@ export class PortDefinition {
     public constructor() {
     }
 }
+
+
