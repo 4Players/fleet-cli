@@ -11,30 +11,25 @@
  */
 
 import { Protocol } from '../models/Protocol.ts';
-import { PublishMode } from '../models/PublishMode.ts';
 import { HttpFile } from '../http/http.ts';
 
 export class Port {
     /**
-    * The name of the port
+    * The name for the port.
     */
     'name': string;
     /**
-    * The exposed protocol
+    * The protocol used by the port.
     */
     'protocol': Protocol;
     /**
-    * The port to expose
+    * The port inside the container. Incoming traffic is routed to this port within the container.
     */
     'targetPort': number;
     /**
-    * Published Port Where the port is mapped to
+    * The externally published port. This port is exposed, allowing external access.
     */
     'publishedPort': number;
-    /**
-    * Defines whether the port uses the hosts network or the ingress network
-    */
-    'publishMode': PublishMode;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -63,12 +58,6 @@ export class Port {
             "name": "publishedPort",
             "baseName": "publishedPort",
             "type": "number",
-            "format": ""
-        },
-        {
-            "name": "publishMode",
-            "baseName": "publishMode",
-            "type": "PublishMode",
             "format": ""
         }    ];
 

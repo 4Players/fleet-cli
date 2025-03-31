@@ -39,7 +39,7 @@ const configuration = (host: string, token?: string) => {
 };
 
 export function createApiClient(token: string) {
-  apiClient = new AppApi(configuration("https://fleet.4players.io/api", token));
+  apiClient = new AppApi(configuration("http://localhost/api", token));
 }
 
 export async function ensureLoginSession(

@@ -9,6 +9,7 @@ import { filterArray } from "../filter.ts";
 import { getConfig, saveConfig } from "../config.ts";
 import {
   ensureApiException,
+  getAllPaginated,
   inform,
   logError,
   logErrorAndExit,
@@ -72,7 +73,9 @@ export const getApp = async (options: CommandOptions): Promise<App> => {
   if (!appId) {
     let apps: App[] = [];
     try {
-      apps = await apiClient.getApps();
+      apps = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getApps(50, page)));
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit(
@@ -118,7 +121,9 @@ const appList = new Command()
   .action(async (options: CommandOptions) => {
     let apps: App[] = [];
     try {
-      apps = await apiClient.getApps();
+      apps = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getApps(50, page)));
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit(

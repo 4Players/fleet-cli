@@ -17,11 +17,18 @@ import { BackupDownload } from '../models/BackupDownload.ts';
 import { Binary } from '../models/Binary.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
+import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
+import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetBackups200Response } from '../models/GetBackups200Response.ts';
+import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
+import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
+import { GetLocations200Response } from '../models/GetLocations200Response.ts';
+import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
-import { Location } from '../models/Location.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
@@ -35,6 +42,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -712,14 +721,56 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Show all location settings
      * @param app The app ID
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterServerConfigId Filter by ServerConfig ID.
+     * @param filterNumInstances Filter by number of instances.
+     * @param filterStatus Filter by status.
+     * @param filterMaintenance Filter by maintenance.
+     * @param filterLocationCity Filter by location city.
+     * @param filterLocationCityDisplay Filter by location city display name.
+     * @param filterLocationContinent Filter by location continent.
+     * @param filterLocationCountry Filter by location country.
+     * @param filterServerConfigName Filter by ServerConfig name.
+     * @param filterServerConfigCommand Filter by ServerConfig command.
+     * @param filterServerConfigArgs Filter by ServerConfig arguments.
+     * @param filterServerConfigNotes Filter by ServerConfig notes.
+     * @param filterServerConfigStatus Filter by ServerConfig status.
+     * @param filterServerConfigMaintenance Filter by ServerConfig maintenance.
+     * @param filterServerConfigResourcePackageSlug Filter by ServerConfig resource package slug.
      */
-    public async getAppLocationSettings(app: number, _options?: Configuration): Promise<RequestContext> {
+    public async getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getAppLocationSettings", "app");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Path Params
@@ -729,6 +780,114 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigId !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigId]", ObjectSerializer.serialize(filterServerConfigId, "number", ""));
+        }
+
+        // Query Params
+        if (filterNumInstances !== undefined) {
+            requestContext.setQueryParam("filter[numInstances]", ObjectSerializer.serialize(filterNumInstances, "number", ""));
+        }
+
+        // Query Params
+        if (filterStatus !== undefined) {
+            requestContext.setQueryParam("filter[status]", ObjectSerializer.serialize(filterStatus, "string", ""));
+        }
+
+        // Query Params
+        if (filterMaintenance !== undefined) {
+            requestContext.setQueryParam("filter[maintenance]", ObjectSerializer.serialize(filterMaintenance, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterLocationCity !== undefined) {
+            requestContext.setQueryParam("filter[locationCity]", ObjectSerializer.serialize(filterLocationCity, "string", ""));
+        }
+
+        // Query Params
+        if (filterLocationCityDisplay !== undefined) {
+            requestContext.setQueryParam("filter[locationCityDisplay]", ObjectSerializer.serialize(filterLocationCityDisplay, "string", ""));
+        }
+
+        // Query Params
+        if (filterLocationContinent !== undefined) {
+            requestContext.setQueryParam("filter[locationContinent]", ObjectSerializer.serialize(filterLocationContinent, "string", ""));
+        }
+
+        // Query Params
+        if (filterLocationCountry !== undefined) {
+            requestContext.setQueryParam("filter[locationCountry]", ObjectSerializer.serialize(filterLocationCountry, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigName !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigName]", ObjectSerializer.serialize(filterServerConfigName, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigCommand !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigCommand]", ObjectSerializer.serialize(filterServerConfigCommand, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigArgs !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigArgs]", ObjectSerializer.serialize(filterServerConfigArgs, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigNotes !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigNotes]", ObjectSerializer.serialize(filterServerConfigNotes, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigStatus !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigStatus]", ObjectSerializer.serialize(filterServerConfigStatus, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigMaintenance !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigMaintenance]", ObjectSerializer.serialize(filterServerConfigMaintenance, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigResourcePackageSlug !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigResourcePackageSlug]", ObjectSerializer.serialize(filterServerConfigResourcePackageSlug, "string", ""));
+        }
 
 
         
@@ -742,9 +901,23 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Show all apps
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterInUse Filter by in use flag.
      */
-    public async getApps(_options?: Configuration): Promise<RequestContext> {
+    public async getApps(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+
+
+
+
+
+
 
         // Path Params
         const localVarPath = '/v1/apps';
@@ -752,6 +925,44 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterInUse !== undefined) {
+            requestContext.setQueryParam("filter[inUse]", ObjectSerializer.serialize(filterInUse, "boolean", ""));
+        }
 
 
         
@@ -808,14 +1019,24 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * List all backups
      * @param dockerService The docker service ID
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;
+     * @param filterName Filter by name.
+     * @param filterArchiveName Filter by archive name.
      */
-    public async getBackups(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+    public async getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "getBackups", "dockerService");
         }
+
+
+
+
+
 
 
         // Path Params
@@ -825,6 +1046,34 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterArchiveName !== undefined) {
+            requestContext.setQueryParam("filter[archiveName]", ObjectSerializer.serialize(filterArchiveName, "string", ""));
+        }
 
 
         
@@ -839,14 +1088,36 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Show all binaries
      * @param app The app ID
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterVersion Filter by version.
+     * @param filterType Filter by type.
+     * @param filterOs Filter by operating system.
+     * @param filterMaintenance Filter by maintenance status.
+     * @param filterStatus Filter by status.
+     * @param filterInUse Filter by in use flag.
      */
-    public async getBinaries(app: number, _options?: Configuration): Promise<RequestContext> {
+    public async getBinaries(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getBinaries", "app");
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Path Params
@@ -856,6 +1127,64 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterVersion !== undefined) {
+            requestContext.setQueryParam("filter[version]", ObjectSerializer.serialize(filterVersion, "string", ""));
+        }
+
+        // Query Params
+        if (filterType !== undefined) {
+            requestContext.setQueryParam("filter[type]", ObjectSerializer.serialize(filterType, "string", ""));
+        }
+
+        // Query Params
+        if (filterOs !== undefined) {
+            requestContext.setQueryParam("filter[os]", ObjectSerializer.serialize(filterOs, "string", ""));
+        }
+
+        // Query Params
+        if (filterMaintenance !== undefined) {
+            requestContext.setQueryParam("filter[maintenance]", ObjectSerializer.serialize(filterMaintenance, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterStatus !== undefined) {
+            requestContext.setQueryParam("filter[status]", ObjectSerializer.serialize(filterStatus, "string", ""));
+        }
+
+        // Query Params
+        if (filterInUse !== undefined) {
+            requestContext.setQueryParam("filter[inUse]", ObjectSerializer.serialize(filterInUse, "boolean", ""));
+        }
 
 
         
@@ -900,9 +1229,27 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Show all docker registries
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterType Filter by type.
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterUrl Filter by url.
+     * @param filterOrganization Filter by organization.
      */
-    public async getDockerRegistries(_options?: Configuration): Promise<RequestContext> {
+    public async getDockerRegistries(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+
+
+
+
+
+
+
+
 
         // Path Params
         const localVarPath = '/v1/docker-registries';
@@ -910,6 +1257,54 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterType !== undefined) {
+            requestContext.setQueryParam("filter[type]", ObjectSerializer.serialize(filterType, "string", ""));
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterUrl !== undefined) {
+            requestContext.setQueryParam("filter[url]", ObjectSerializer.serialize(filterUrl, "string", ""));
+        }
+
+        // Query Params
+        if (filterOrganization !== undefined) {
+            requestContext.setQueryParam("filter[organization]", ObjectSerializer.serialize(filterOrganization, "string", ""));
+        }
 
 
         
@@ -985,9 +1380,13 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Show a unique listing of locations based on active and ready worker nodes
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
      */
-    public async getLocations(_options?: Configuration): Promise<RequestContext> {
+    public async getLocations(perPage?: number, page?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+
 
         // Path Params
         const localVarPath = '/v1/nodes/locations';
@@ -995,6 +1394,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
 
 
         
@@ -1039,9 +1448,33 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Show all available resource packages
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterSlug Filter by slug.
+     * @param filterType Filter by type.
+     * @param filterCpuLimit Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
+     * @param filterCpuReservation Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
+     * @param filterMemoryLimitMiB Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
+     * @param filterMemoryReservationMiB Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public async getResourcePackages(_options?: Configuration): Promise<RequestContext> {
+    public async getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
+
+
+
+
+
+
+
+
+
+
+
 
         // Path Params
         const localVarPath = '/v1/resource-packages';
@@ -1049,6 +1482,69 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterSlug !== undefined) {
+            requestContext.setQueryParam("filter[slug]", ObjectSerializer.serialize(filterSlug, "string", ""));
+        }
+
+        // Query Params
+        if (filterType !== undefined) {
+            requestContext.setQueryParam("filter[type]", ObjectSerializer.serialize(filterType, "string", ""));
+        }
+
+        // Query Params
+        if (filterCpuLimit !== undefined) {
+            requestContext.setQueryParam("filter[cpuLimit]", ObjectSerializer.serialize(filterCpuLimit, "number", ""));
+        }
+
+        // Query Params
+        if (filterCpuReservation !== undefined) {
+            requestContext.setQueryParam("filter[cpuReservation]", ObjectSerializer.serialize(filterCpuReservation, "number", ""));
+        }
+
+        // Query Params
+        if (filterMemoryLimitMiB !== undefined) {
+            requestContext.setQueryParam("filter[memoryLimitMiB]", ObjectSerializer.serialize(filterMemoryLimitMiB, "number", ""));
+        }
+
+        // Query Params
+        if (filterMemoryReservationMiB !== undefined) {
+            requestContext.setQueryParam("filter[memoryReservationMiB]", ObjectSerializer.serialize(filterMemoryReservationMiB, "number", ""));
+        }
 
 
         
@@ -1164,14 +1660,50 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Show all server configs
      * @param app The app ID
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterBinaryId Filter by binary id.
+     * @param filterName Filter by name.
+     * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param filterCommand Filter by command.
+     * @param filterArgs Filter by arguments.
+     * @param filterNotes Filter by notes.
+     * @param filterStatus Filter by status.
+     * @param filterMaintenance Filter by maintenance status.
+     * @param filterResourcePackageSlug Filter by resource package slug.
+     * @param filterInUse Filter by in use flag.
+     * @param filterBinaryName Filter by binary name.
+     * @param filterBinaryVersion Filter by binary version.
+     * @param filterBinaryType Filter by binary type.
+     * @param filterBinaryOs Filter by binary operating system.
      */
-    public async getServerConfigs(app: number, _options?: Configuration): Promise<RequestContext> {
+    public async getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServerConfigs", "app");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // Path Params
@@ -1181,6 +1713,99 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterBinaryId !== undefined) {
+            requestContext.setQueryParam("filter[binaryId]", ObjectSerializer.serialize(filterBinaryId, "number", ""));
+        }
+
+        // Query Params
+        if (filterName !== undefined) {
+            requestContext.setQueryParam("filter[name]", ObjectSerializer.serialize(filterName, "string", ""));
+        }
+
+        // Query Params
+        if (filterNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[namePartial]", ObjectSerializer.serialize(filterNamePartial, "string", ""));
+        }
+
+        // Query Params
+        if (filterCommand !== undefined) {
+            requestContext.setQueryParam("filter[command]", ObjectSerializer.serialize(filterCommand, "string", ""));
+        }
+
+        // Query Params
+        if (filterArgs !== undefined) {
+            requestContext.setQueryParam("filter[args]", ObjectSerializer.serialize(filterArgs, "string", ""));
+        }
+
+        // Query Params
+        if (filterNotes !== undefined) {
+            requestContext.setQueryParam("filter[notes]", ObjectSerializer.serialize(filterNotes, "string", ""));
+        }
+
+        // Query Params
+        if (filterStatus !== undefined) {
+            requestContext.setQueryParam("filter[status]", ObjectSerializer.serialize(filterStatus, "string", ""));
+        }
+
+        // Query Params
+        if (filterMaintenance !== undefined) {
+            requestContext.setQueryParam("filter[maintenance]", ObjectSerializer.serialize(filterMaintenance, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterResourcePackageSlug !== undefined) {
+            requestContext.setQueryParam("filter[resourcePackageSlug]", ObjectSerializer.serialize(filterResourcePackageSlug, "string", ""));
+        }
+
+        // Query Params
+        if (filterInUse !== undefined) {
+            requestContext.setQueryParam("filter[inUse]", ObjectSerializer.serialize(filterInUse, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterBinaryName !== undefined) {
+            requestContext.setQueryParam("filter[binaryName]", ObjectSerializer.serialize(filterBinaryName, "string", ""));
+        }
+
+        // Query Params
+        if (filterBinaryVersion !== undefined) {
+            requestContext.setQueryParam("filter[binaryVersion]", ObjectSerializer.serialize(filterBinaryVersion, "string", ""));
+        }
+
+        // Query Params
+        if (filterBinaryType !== undefined) {
+            requestContext.setQueryParam("filter[binaryType]", ObjectSerializer.serialize(filterBinaryType, "string", ""));
+        }
+
+        // Query Params
+        if (filterBinaryOs !== undefined) {
+            requestContext.setQueryParam("filter[binaryOs]", ObjectSerializer.serialize(filterBinaryOs, "string", ""));
+        }
 
 
         
@@ -1254,7 +1879,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * Show all services
      * @param app The app ID
-     * @param perPage The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param perPage The number of items to be shown per page.
      * @param page Specifies the page number to retrieve in the paginated results.
      * @param filterStatus Filter by status.
      * @param filterAppLocationSettingId Filter by AppLocationSetting ID.
@@ -1264,14 +1889,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterLocationContinent Filter by location continent.
      * @param filterLocationCountry Filter by location country.
      * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServers", "app");
         }
+
 
 
 
@@ -1340,6 +1967,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterMetadata !== undefined) {
             requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
         }
 
 
@@ -1639,6 +2274,78 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             }
         }
 
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param storeMinecraftTemplateRequest 
+     */
+    public async templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+
+        // Path Params
+        const localVarPath = '/v1/templates/apps/minecraft';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(storeMinecraftTemplateRequest, "StoreMinecraftTemplateRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param storePalworldTemplateRequest 
+     */
+    public async templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+
+        // Path Params
+        const localVarPath = '/v1/templates/apps/palworld';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(storePalworldTemplateRequest, "StorePalworldTemplateRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -2804,13 +3511,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getAppLocationSettings
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getAppLocationSettingsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<AppLocationSetting> >> {
+     public async getAppLocationSettingsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettings200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<AppLocationSetting> = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettings200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<AppLocationSetting>", ""
-            ) as Array<AppLocationSetting>;
+                "GetAppLocationSettings200Response", ""
+            ) as GetAppLocationSettings200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
@@ -2827,13 +3534,27 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<AppLocationSetting> = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettings200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<AppLocationSetting>", ""
-            ) as Array<AppLocationSetting>;
+                "GetAppLocationSettings200Response", ""
+            ) as GetAppLocationSettings200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2847,13 +3568,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getApps
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getAppsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<App> >> {
+     public async getAppsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetApps200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<App> = ObjectSerializer.deserialize(
+            const body: GetApps200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<App>", ""
-            ) as Array<App>;
+                "GetApps200Response", ""
+            ) as GetApps200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
@@ -2863,13 +3584,27 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<App> = ObjectSerializer.deserialize(
+            const body: GetApps200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<App>", ""
-            ) as Array<App>;
+                "GetApps200Response", ""
+            ) as GetApps200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2933,13 +3668,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getBackups
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getBackupsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Backup> >> {
+     public async getBackupsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetBackups200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Backup> = ObjectSerializer.deserialize(
+            const body: GetBackups200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Backup>", ""
-            ) as Array<Backup>;
+                "GetBackups200Response", ""
+            ) as GetBackups200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
@@ -2956,6 +3691,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -2966,10 +3708,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Backup> = ObjectSerializer.deserialize(
+            const body: GetBackups200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Backup>", ""
-            ) as Array<Backup>;
+                "GetBackups200Response", ""
+            ) as GetBackups200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2983,13 +3725,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getBinaries
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getBinariesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Binary> >> {
+     public async getBinariesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetBinaries200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Binary> = ObjectSerializer.deserialize(
+            const body: GetBinaries200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Binary>", ""
-            ) as Array<Binary>;
+                "GetBinaries200Response", ""
+            ) as GetBinaries200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
@@ -3006,6 +3748,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -3016,10 +3765,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Binary> = ObjectSerializer.deserialize(
+            const body: GetBinaries200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Binary>", ""
-            ) as Array<Binary>;
+                "GetBinaries200Response", ""
+            ) as GetBinaries200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3083,13 +3832,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getDockerRegistries
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getDockerRegistriesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<DockerRegistry> >> {
+     public async getDockerRegistriesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetDockerRegistries200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<DockerRegistry> = ObjectSerializer.deserialize(
+            const body: GetDockerRegistries200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<DockerRegistry>", ""
-            ) as Array<DockerRegistry>;
+                "GetDockerRegistries200Response", ""
+            ) as GetDockerRegistries200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
@@ -3099,13 +3848,27 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<DockerRegistry> = ObjectSerializer.deserialize(
+            const body: GetDockerRegistries200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<DockerRegistry>", ""
-            ) as Array<DockerRegistry>;
+                "GetDockerRegistries200Response", ""
+            ) as GetDockerRegistries200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3219,13 +3982,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getLocations
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getLocationsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<Location> >> {
+     public async getLocationsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetLocations200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<Location> = ObjectSerializer.deserialize(
+            const body: GetLocations200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Location>", ""
-            ) as Array<Location>;
+                "GetLocations200Response", ""
+            ) as GetLocations200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
@@ -3235,13 +3998,27 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<Location> = ObjectSerializer.deserialize(
+            const body: GetLocations200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<Location>", ""
-            ) as Array<Location>;
+                "GetLocations200Response", ""
+            ) as GetLocations200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3305,13 +4082,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getResourcePackages
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getResourcePackagesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<ResourcePackage> >> {
+     public async getResourcePackagesWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetResourcePackages200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<ResourcePackage> = ObjectSerializer.deserialize(
+            const body: GetResourcePackages200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<ResourcePackage>", ""
-            ) as Array<ResourcePackage>;
+                "GetResourcePackages200Response", ""
+            ) as GetResourcePackages200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
@@ -3320,6 +4097,13 @@ export class AppApiResponseProcessor {
                 "InlineObject", ""
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -3331,10 +4115,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<ResourcePackage> = ObjectSerializer.deserialize(
+            const body: GetResourcePackages200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<ResourcePackage>", ""
-            ) as Array<ResourcePackage>;
+                "GetResourcePackages200Response", ""
+            ) as GetResourcePackages200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3498,13 +4282,13 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getServerConfigs
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getServerConfigsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Array<ServerConfig> >> {
+     public async getServerConfigsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigs200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: Array<ServerConfig> = ObjectSerializer.deserialize(
+            const body: GetServerConfigs200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<ServerConfig>", ""
-            ) as Array<ServerConfig>;
+                "GetServerConfigs200Response", ""
+            ) as GetServerConfigs200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
@@ -3521,6 +4305,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -3531,10 +4322,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: Array<ServerConfig> = ObjectSerializer.deserialize(
+            const body: GetServerConfigs200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "Array<ServerConfig>", ""
-            ) as Array<ServerConfig>;
+                "GetServerConfigs200Response", ""
+            ) as GetServerConfigs200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -4078,6 +4869,106 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<SteamLauncher>", ""
             ) as Array<SteamLauncher>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to templateAppMinecraftStore
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async templateAppMinecraftStoreWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to templateAppPalworldStore
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async templateAppPalworldStoreWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

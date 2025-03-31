@@ -10,17 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
+import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200ResponseMeta {
+export class GetAppLocationSettings200ResponseMeta {
     'currentPage': number;
     '_from': number | null;
     'lastPage': number;
     /**
     * Generated paginator links.
     */
-    'links': Array<GetServers200ResponseMetaLinksInner>;
+    'links': Array<GetAppLocationSettings200ResponseMetaLinksInner>;
     /**
     * Base path for paginator generated URLs.
     */
@@ -64,7 +64,7 @@ export class GetServers200ResponseMeta {
         {
             "name": "links",
             "baseName": "links",
-            "type": "Array<GetServers200ResponseMetaLinksInner>",
+            "type": "Array<GetAppLocationSettings200ResponseMetaLinksInner>",
             "format": ""
         },
         {
@@ -93,7 +93,7 @@ export class GetServers200ResponseMeta {
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200ResponseMeta.attributeTypeMap;
+        return GetAppLocationSettings200ResponseMeta.attributeTypeMap;
     }
 
     public constructor() {

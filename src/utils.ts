@@ -10,6 +10,202 @@ import { Table } from "@cliffy/table";
 import { Tokenizer } from "./tokenizer.ts";
 import { ApiException } from "../backend/api/index.ts";
 
+export class PaginationLinks {
+  "first": string | null;
+  "last": string | null;
+  "prev": string | null;
+  "next": string | null;
+
+  static readonly discriminator: string | undefined = undefined;
+
+  static readonly mapping: { [index: string]: string } | undefined = undefined;
+
+  static readonly attributeTypeMap: Array<
+    { name: string; baseName: string; type: string; format: string }
+  > = [
+    {
+      "name": "first",
+      "baseName": "first",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "last",
+      "baseName": "last",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "prev",
+      "baseName": "prev",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "next",
+      "baseName": "next",
+      "type": "string",
+      "format": "",
+    },
+  ];
+
+  static getAttributeTypeMap() {
+    return PaginationLinks.attributeTypeMap;
+  }
+
+  public constructor() {
+  }
+}
+
+export class PaginationMetaLinksInner {
+  "url": string | null;
+  "label": string;
+  "active": boolean;
+
+  static readonly discriminator: string | undefined = undefined;
+
+  static readonly mapping: { [index: string]: string } | undefined = undefined;
+
+  static readonly attributeTypeMap: Array<
+    { name: string; baseName: string; type: string; format: string }
+  > = [
+    {
+      "name": "url",
+      "baseName": "url",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "label",
+      "baseName": "label",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "active",
+      "baseName": "active",
+      "type": "boolean",
+      "format": "",
+    },
+  ];
+
+  static getAttributeTypeMap() {
+    return PaginationMetaLinksInner.attributeTypeMap;
+  }
+
+  public constructor() {
+  }
+}
+
+export class PaginationMeta {
+  "currentPage": number;
+  "_from": number | null;
+  "lastPage": number;
+  /**
+   * Generated paginator links.
+   */
+  "links": Array<PaginationMetaLinksInner>;
+  /**
+   * Base path for paginator generated URLs.
+   */
+  "path": string | null;
+  /**
+   * Number of items shown per page.
+   */
+  "perPage": number;
+  /**
+   * Number of the last item in the slice.
+   */
+  "to": number | null;
+  /**
+   * Total number of items being paginated.
+   */
+  "total": number;
+
+  static readonly discriminator: string | undefined = undefined;
+
+  static readonly mapping: { [index: string]: string } | undefined = undefined;
+
+  static readonly attributeTypeMap: Array<
+    { name: string; baseName: string; type: string; format: string }
+  > = [
+    {
+      "name": "currentPage",
+      "baseName": "current_page",
+      "type": "number",
+      "format": "",
+    },
+    {
+      "name": "_from",
+      "baseName": "from",
+      "type": "number",
+      "format": "",
+    },
+    {
+      "name": "lastPage",
+      "baseName": "last_page",
+      "type": "number",
+      "format": "",
+    },
+    {
+      "name": "links",
+      "baseName": "links",
+      "type": "Array<GetAppLocationSettings200ResponseMetaLinksInner>",
+      "format": "",
+    },
+    {
+      "name": "path",
+      "baseName": "path",
+      "type": "string",
+      "format": "",
+    },
+    {
+      "name": "perPage",
+      "baseName": "per_page",
+      "type": "number",
+      "format": "",
+    },
+    {
+      "name": "to",
+      "baseName": "to",
+      "type": "number",
+      "format": "",
+    },
+    {
+      "name": "total",
+      "baseName": "total",
+      "type": "number",
+      "format": "",
+    },
+  ];
+
+  static getAttributeTypeMap() {
+    return PaginationMeta.attributeTypeMap;
+  }
+
+  public constructor() {
+  }
+}
+
+export async function getAllPaginated<T>(
+  getter: (
+    page: number,
+  ) => Promise<
+    { "data": Array<T>; "meta": PaginationMeta; "links": PaginationLinks }
+  >,
+): Promise<Array<T>> {
+  const result: Array<T> = [];
+  let current = await getter(1);
+  result.push(...current.data);
+
+  while (current.meta.currentPage !== current.meta.lastPage) {
+    current = await getter(current.meta.currentPage + 1);
+    result.push(...current.data);
+  }
+
+  return result;
+}
+
 export function isApiException(error: unknown): error is ApiException<any> {
   return error instanceof ApiException;
 }

@@ -164,15 +164,351 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-name",
+                                "name",
+                                "-serverConfigId",
+                                "serverConfigId",
+                                "-numInstances",
+                                "numInstances",
+                                "-status",
+                                "status",
+                                "-statusMessage",
+                                "statusMessage",
+                                "-maintenance",
+                                "maintenance",
+                                "-locationCity",
+                                "locationCity",
+                                "-locationCityDisplay",
+                                "locationCityDisplay",
+                                "-locationContinent",
+                                "locationContinent",
+                                "-locationCountry",
+                                "locationCountry",
+                                "-serverConfigId",
+                                "serverConfigId",
+                                "-serverConfigName",
+                                "serverConfigName",
+                                "-serverConfigCommand",
+                                "serverConfigCommand",
+                                "-serverConfigArgs",
+                                "serverConfigArgs",
+                                "-serverConfigNotes",
+                                "serverConfigNotes",
+                                "-serverConfigStatus",
+                                "serverConfigStatus",
+                                "-serverConfigMaintenance",
+                                "serverConfigMaintenance",
+                                "-serverConfigResourcePackageSlug",
+                                "serverConfigResourcePackageSlug"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigId]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[numInstances]",
+                        "in": "query",
+                        "description": "Filter by number of instances.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[maintenance]",
+                        "in": "query",
+                        "description": "Filter by maintenance.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCity]",
+                        "in": "query",
+                        "description": "Filter by location city.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCityDisplay]",
+                        "in": "query",
+                        "description": "Filter by location city display name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationContinent]",
+                        "in": "query",
+                        "description": "Filter by location continent.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[locationCountry]",
+                        "in": "query",
+                        "description": "Filter by location country.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigName]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigCommand]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig command.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigArgs]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig arguments.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigNotes]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig notes.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigStatus]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigMaintenance]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig maintenance.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigResourcePackageSlug]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig resource package slug.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`AppLocationSettingCollection`",
+                        "description": "Paginated set of `AppLocationSettingResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/AppLocationSettingCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -182,6 +518,12 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -298,19 +640,219 @@
                     "Apps",
                     "App"
                 ],
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-name",
+                                "name",
+                                "-inUse",
+                                "inUse"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[inUse]",
+                        "in": "query",
+                        "description": "Filter by in use flag.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "`AppCollection`",
+                        "description": "Paginated set of `AppResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/AppCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/App"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -572,15 +1114,253 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-name",
+                                "name",
+                                "-version",
+                                "version",
+                                "-type",
+                                "type",
+                                "-os",
+                                "os",
+                                "-status",
+                                "status",
+                                "-statusMessage",
+                                "statusMessage",
+                                "-progress",
+                                "progress",
+                                "-progressMessage",
+                                "progressMessage",
+                                "-inUse",
+                                "inUse"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[version]",
+                        "in": "query",
+                        "description": "Filter by version.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[type]",
+                        "in": "query",
+                        "description": "Filter by type.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[os]",
+                        "in": "query",
+                        "description": "Filter by operating system.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[maintenance]",
+                        "in": "query",
+                        "description": "Filter by maintenance status.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[inUse]",
+                        "in": "query",
+                        "description": "Filter by in use flag.",
+                        "schema": {
+                            "type": "boolean"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`BinaryCollection`",
+                        "description": "Paginated set of `BinaryResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/BinaryCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Binary"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -590,6 +1370,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -848,9 +1631,11 @@
                     {
                         "name": "perPage",
                         "in": "query",
-                        "description": "The number of items to be shown per page.\nUse `-1` to display all results on a single page.\nDefault: `10`",
+                        "description": "The number of items to be shown per page.",
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
                         }
                     },
                     {
@@ -923,6 +1708,47 @@
                         "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by instance in descending order:\n\n```\nsort[]=id\nsort[]=-instance\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-instance\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-instance",
+                                "instance",
+                                "-status",
+                                "status",
+                                "-status_message",
+                                "status_message",
+                                "-serverConfigId",
+                                "serverConfigId",
+                                "-serverConfigName",
+                                "serverConfigName",
+                                "-appLocationSettingId",
+                                "appLocationSettingId",
+                                "-name",
+                                "name",
+                                "-locationCity",
+                                "locationCity",
+                                "-locationCityDisplay",
+                                "locationCityDisplay",
+                                "-locationContinent",
+                                "locationContinent",
+                                "-locationCountry",
+                                "locationCountry",
+                                "-createdAt",
+                                "createdAt",
+                                "-updatedAt",
+                                "updatedAt"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     }
                 ],
@@ -1134,19 +1960,239 @@
                     "Docker",
                     "DockerRegistry"
                 ],
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-type",
+                                "type",
+                                "-name",
+                                "name",
+                                "-url",
+                                "url",
+                                "-organization",
+                                "organization"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[type]",
+                        "in": "query",
+                        "description": "Filter by type.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[url]",
+                        "in": "query",
+                        "description": "Filter by url.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[organization]",
+                        "in": "query",
+                        "description": "Filter by organization.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "`DockerRegistryCollection`",
+                        "description": "Paginated set of `DockerRegistryResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/DockerRegistryCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/DockerRegistry"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -1658,15 +2704,191 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:\n\n```\nsort[]=name\nsort[]=-archiveName\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=name&sort[]=-archiveName\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-name",
+                                "name",
+                                "-archiveName",
+                                "archiveName",
+                                "-createdAt",
+                                "createdAt",
+                                "-restoredAt",
+                                "restoredAt"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[archiveName]",
+                        "in": "query",
+                        "description": "Filter by archive name.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`DockerBackupCollection`",
+                        "description": "Paginated set of `DockerBackupResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/DockerBackupCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Backup"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -1676,6 +2898,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -1979,19 +3204,168 @@
                     "Nodes",
                     "DockerNode"
                 ],
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "`LocationCollection`",
+                        "description": "Paginated set of `LocationResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/LocationCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Location"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -2003,19 +3377,266 @@
                 "tags": [
                     "ResourcePackage"
                 ],
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-name",
+                                "name",
+                                "-slug",
+                                "slug",
+                                "-type",
+                                "type",
+                                "-cpuLimit",
+                                "cpuLimit",
+                                "-cpuReservation",
+                                "cpuReservation",
+                                "-memoryLimitMiB",
+                                "memoryLimitMiB",
+                                "-memoryReservationMiB",
+                                "memoryReservationMiB"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[slug]",
+                        "in": "query",
+                        "description": "Filter by slug.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[type]",
+                        "in": "query",
+                        "description": "Filter by type.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[cpuLimit]",
+                        "in": "query",
+                        "description": "Filter by CPU limit. Maps to the `cpu_limit` column.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[cpuReservation]",
+                        "in": "query",
+                        "description": "Filter by CPU reservation. Maps to the `cpu_reservation` column.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[memoryLimitMiB]",
+                        "in": "query",
+                        "description": "Filter by memory limit in MiB. Maps to the `memory_limit_mebibytes` column.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[memoryReservationMiB]",
+                        "in": "query",
+                        "description": "Filter by memory reservation in MiB. Maps to the `memory_reservation_mebibytes` column.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "`ResourcePackageCollection`",
+                        "description": "Paginated set of `ResourcePackageResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/ResourcePackageCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ResourcePackage"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -2080,15 +3701,321 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-binaryId",
+                                "binaryId",
+                                "-name",
+                                "name",
+                                "-command",
+                                "command",
+                                "-args",
+                                "args",
+                                "-notes",
+                                "notes",
+                                "-status",
+                                "status",
+                                "-statusMessage",
+                                "statusMessage",
+                                "-maintenance",
+                                "maintenance",
+                                "-resourcePackageSlug",
+                                "resourcePackageSlug",
+                                "-inUse",
+                                "inUse",
+                                "binaryId",
+                                "-binaryId",
+                                "binaryName",
+                                "-binaryName",
+                                "binaryVersion",
+                                "-binaryVersion",
+                                "binaryType",
+                                "-binaryType",
+                                "binaryOs",
+                                "-binaryOs"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryId]",
+                        "in": "query",
+                        "description": "Filter by binary id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[name]",
+                        "in": "query",
+                        "description": "Filter by name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[namePartial]",
+                        "in": "query",
+                        "description": "Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[command]",
+                        "in": "query",
+                        "description": "Filter by command.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[args]",
+                        "in": "query",
+                        "description": "Filter by arguments.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[notes]",
+                        "in": "query",
+                        "description": "Filter by notes.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[status]",
+                        "in": "query",
+                        "description": "Filter by status.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[maintenance]",
+                        "in": "query",
+                        "description": "Filter by maintenance status.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[resourcePackageSlug]",
+                        "in": "query",
+                        "description": "Filter by resource package slug.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[inUse]",
+                        "in": "query",
+                        "description": "Filter by in use flag.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryName]",
+                        "in": "query",
+                        "description": "Filter by binary name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryVersion]",
+                        "in": "query",
+                        "description": "Filter by binary version.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryType]",
+                        "in": "query",
+                        "description": "Filter by binary type.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryOs]",
+                        "in": "query",
+                        "description": "Filter by binary operating system.",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "`ServerConfigCollection`",
+                        "description": "Paginated set of `ServerConfigResource`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/ServerConfigCollection"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/ServerConfig"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -2098,6 +4025,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -2378,6 +4308,86 @@
                     }
                 }
             }
+        },
+        "\/v1\/templates\/apps\/palworld": {
+            "post": {
+                "operationId": "template.app.palworld.store",
+                "summary": "Create a Palworld template app",
+                "tags": [
+                    "Templates",
+                    "TemplateApp"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/StorePalworldTemplateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/templates\/apps\/minecraft": {
+            "post": {
+                "operationId": "template.app.minecraft.store",
+                "summary": "Create a Minecraft template app",
+                "tags": [
+                    "Templates",
+                    "TemplateApp"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/StoreMinecraftTemplateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2404,13 +4414,6 @@
                     "inUse"
                 ],
                 "title": "App"
-            },
-            "AppCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/App"
-                },
-                "title": "AppCollection"
             },
             "AppLocationSetting": {
                 "type": "object",
@@ -2489,13 +4492,6 @@
                     "placement"
                 ],
                 "title": "AppLocationSetting"
-            },
-            "AppLocationSettingCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/AppLocationSetting"
-                },
-                "title": "AppLocationSettingCollection"
             },
             "AppLocationSettingStatus": {
                 "type": "string",
@@ -2661,14 +4657,14 @@
                             "number",
                             "null"
                         ],
-                        "description": "The current progress percentage of the image build (0-100)."
+                        "description": "The current progress percentage of the image build (0-100). Only present for binaries of type steam."
                     },
                     "progressMessage": {
                         "type": [
                             "string",
                             "null"
                         ],
-                        "description": "A message describing the current build step."
+                        "description": "A message describing the current build step. Only present for binaries of type steam."
                     },
                     "inUse": {
                         "type": "boolean",
@@ -2696,13 +4692,6 @@
                     "inUse"
                 ],
                 "title": "Binary"
-            },
-            "BinaryCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/Binary"
-                },
-                "title": "BinaryCollection"
             },
             "BinaryStatus": {
                 "type": "string",
@@ -2863,13 +4852,6 @@
                 ],
                 "title": "CreateUpdateSteam"
             },
-            "DockerBackupCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/Backup"
-                },
-                "title": "DockerBackupCollection"
-            },
             "DockerImage": {
                 "type": "object",
                 "properties": {
@@ -2976,13 +4958,6 @@
                 ],
                 "title": "DockerRegistry"
             },
-            "DockerRegistryCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/DockerRegistry"
-                },
-                "title": "DockerRegistryCollection"
-            },
             "DockerRegistryType": {
                 "type": "string",
                 "enum": [
@@ -3086,13 +5061,6 @@
                 ],
                 "title": "Location"
             },
-            "LocationCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/Location"
-                },
-                "title": "LocationCollection"
-            },
             "Mount": {
                 "type": "object",
                 "properties": {
@@ -3170,31 +5138,26 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "description": "The name of the port"
+                        "description": "The name for the port."
                     },
                     "protocol": {
-                        "description": "The exposed protocol",
+                        "description": "The protocol used by the port.",
                         "$ref": "#\/components\/schemas\/Protocol"
                     },
                     "targetPort": {
                         "type": "integer",
-                        "description": "The port to expose"
+                        "description": "The port inside the container. Incoming traffic is routed to this port within the container."
                     },
                     "publishedPort": {
                         "type": "integer",
-                        "description": "Published Port Where the port is mapped to"
-                    },
-                    "publishMode": {
-                        "description": "Defines whether the port uses the hosts network or the ingress network",
-                        "$ref": "#\/components\/schemas\/PublishMode"
+                        "description": "The externally published port. This port is exposed, allowing external access."
                     }
                 },
                 "required": [
                     "name",
                     "protocol",
                     "targetPort",
-                    "publishedPort",
-                    "publishMode"
+                    "publishedPort"
                 ],
                 "title": "Port"
             },
@@ -3215,17 +5178,12 @@
                     "targetPort": {
                         "type": "integer",
                         "description": "The port to expose"
-                    },
-                    "publishMode": {
-                        "description": "Defines whether the port uses the hosts network or the ingress network",
-                        "$ref": "#\/components\/schemas\/PublishMode"
                     }
                 },
                 "required": [
                     "name",
                     "protocols",
-                    "targetPort",
-                    "publishMode"
+                    "targetPort"
                 ],
                 "title": "PortDefinition"
             },
@@ -3236,14 +5194,6 @@
                     "udp"
                 ],
                 "title": "Protocol"
-            },
-            "PublishMode": {
-                "type": "string",
-                "enum": [
-                    "host",
-                    "ingress"
-                ],
-                "title": "PublishMode"
             },
             "ResourceAllocations": {
                 "type": "object",
@@ -3310,13 +5260,6 @@
                     "memoryReservationMiB"
                 ],
                 "title": "ResourcePackage"
-            },
-            "ResourcePackageCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/ResourcePackage"
-                },
-                "title": "ResourcePackageCollection"
             },
             "ResourcePackageType": {
                 "type": "string",
@@ -3465,7 +5408,7 @@
                         "$ref": "#\/components\/schemas\/RestartPolicy"
                     },
                     "node": {
-                        "description": "The assigned node",
+                        "description": "The assigned node. If missing, it likely means the service is overloaded and has not yet been assigned to any node.",
                         "$ref": "#\/components\/schemas\/Node"
                     },
                     "location": {
@@ -3523,7 +5466,6 @@
                     "ports",
                     "env",
                     "restartPolicy",
-                    "node",
                     "location",
                     "resources",
                     "backups",
@@ -3671,13 +5613,6 @@
                     "secretFiles"
                 ],
                 "title": "ServerConfig"
-            },
-            "ServerConfigCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/ServerConfig"
-                },
-                "title": "ServerConfigCollection"
             },
             "ServerConfigStatus": {
                 "type": "string",
@@ -3949,7 +5884,10 @@
                         "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     },
                     "password": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
                     }
                 },
@@ -4090,6 +6028,84 @@
                     "name"
                 ],
                 "title": "StoreDockerRegistryRequest"
+            },
+            "StoreMinecraftTemplateRequest": {
+                "type": "object",
+                "properties": {
+                    "appName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The name of the template app.\nIf omitted, a default name will be used."
+                    },
+                    "resourcePackageSlug": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The slug of the resource package.\nIf omitted, a default resource package will be used.",
+                        "maxLength": 255
+                    },
+                    "placement": {
+                        "anyOf": [
+                            {
+                                "description": "The placement settings that define the location and other constraints\nIf omitted, no deployment will be created.",
+                                "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
+                    }
+                },
+                "title": "StoreMinecraftTemplateRequest"
+            },
+            "StorePalworldTemplateRequest": {
+                "type": "object",
+                "properties": {
+                    "appName": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The name of the template app.\nIf omitted, a default name will be used."
+                    },
+                    "resourcePackageSlug": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The slug of the resource package.\nIf omitted, a default resource package will be used.",
+                        "maxLength": 255
+                    },
+                    "placement": {
+                        "anyOf": [
+                            {
+                                "description": "The placement constraints that define the location.\nIf omitted, no deployment will be created.",
+                                "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Password required to deploy services to a protected location.\nOnly required when the selected location is password-protected."
+                    }
+                },
+                "title": "StorePalworldTemplateRequest"
             },
             "StoreServerConfigRequest": {
                 "type": "object",

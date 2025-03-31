@@ -13,6 +13,7 @@ import {
 import {
   confirm,
   ensureApiException,
+  getAllPaginated,
   inform,
   logErrorAndExit,
   stdout,
@@ -34,11 +35,15 @@ export const imageList = new Command()
     const app = await getSelectedAppOrExit(options);
     let binaries: Binary[] = [];
     try {
-      binaries = await apiClient.getBinaries(app.id);
+      binaries = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getBinaries(app.id, 50, page)));
 
       if (options.unused) {
         // Load all deployments and filter out the used configs
-        const configs = await apiClient.getServerConfigs(app.id);
+        const configs = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServerConfigs(app.id, 50, page)));
         const usedImages = configs.map((config) => config.binaryId);
         binaries = binaries.filter((binary) => !usedImages.includes(binary.id));
       }
@@ -78,7 +83,9 @@ export const getImageDetails = new Command()
     if (!imageId) {
       let images: Binary[] = [];
       try {
-        images = await apiClient.getBinaries(app.id);
+        images = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getBinaries(app.id, 50, page)));
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -205,7 +212,9 @@ export const createImage = new Command()
         console.log("Please wait, loading docker registries...");
         let dockerRegistries: DockerRegistry[] = [];
         try {
-          dockerRegistries = await apiClient.getDockerRegistries();
+          dockerRegistries = await getAllPaginated((
+            page: number,
+          ) => (apiClient.getDockerRegistries(50, page)));
         } catch (e) {
           logErrorAndExit("Failed to load docker registries. Error: " + e);
         }
@@ -419,7 +428,9 @@ export const deleteImage = new Command()
     if (!imageId) {
       let images: Binary[] = [];
       try {
-        images = await apiClient.getBinaries(app.id);
+        images = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getBinaries(app.id, 50, page)));
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(

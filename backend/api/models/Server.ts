@@ -89,9 +89,9 @@ export class Server {
     */
     'restartPolicy': RestartPolicy;
     /**
-    * The assigned node
+    * The assigned node. If missing, it likely means the service is overloaded and has not yet been assigned to any node.
     */
-    'node': Node;
+    'node'?: Node;
     /**
     * The location of the node
     */

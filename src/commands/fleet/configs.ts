@@ -21,6 +21,7 @@ import { apiClient } from "../../client.ts";
 import {
   confirm,
   ensureApiException,
+  getAllPaginated,
   inform,
   logError,
   logErrorAndExit,
@@ -37,11 +38,15 @@ const configsList = new Command()
 
     let configs: ServerConfig[] = [];
     try {
-      configs = await apiClient.getServerConfigs(app.id);
+      configs = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getServerConfigs(app.id, 50, page)));
 
       if (options.unused) {
         // Load all deployments and filter out the used configs
-        const deployments = await apiClient.getAppLocationSettings(app.id);
+        const deployments = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getAppLocationSettings(app.id, 50, page)));
         const usedConfigs = deployments.map(
           (deployment) => deployment.serverConfig?.id,
         );
@@ -76,7 +81,9 @@ export const getConfigDetails = new Command()
     if (!configId) {
       let configs: ServerConfig[] = [];
       try {
-        configs = await apiClient.getServerConfigs(app.id);
+        configs = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServerConfigs(app.id, 50, page)));
       } catch (error) {
         ensureApiException(error);
         console.log(
@@ -136,7 +143,9 @@ const createConfig = new Command()
     } else {
       let binaries: Binary[] = [];
       try {
-        binaries = await apiClient.getBinaries(app.id);
+        binaries = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getBinaries(app.id, 50, page)));
         if (binaries.length === 0) {
           logErrorAndExit(
             options,
@@ -191,7 +200,9 @@ const createConfig = new Command()
       });
 
       // Resource packages
-      const resourcePackages = await apiClient.getResourcePackages();
+      const resourcePackages = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getResourcePackages(50, page)));
       const resourcePackageSlug = await Select.prompt<string>({
         message: "Select Resource Package:",
         options: resourcePackages.map((resourcePackage) => ({
@@ -457,7 +468,9 @@ const updateConfig = new Command()
     if (!configId) {
       let configs: ServerConfig[] = [];
       try {
-        configs = await apiClient.getServerConfigs(app.id);
+        configs = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServerConfigs(app.id, 50, page)));
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -547,7 +560,9 @@ const deleteConfig = new Command()
     if (!configId) {
       let configs: ServerConfig[] = [];
       try {
-        configs = await apiClient.getServerConfigs(app.id);
+        configs = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServerConfigs(app.id, 50, page)));
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(

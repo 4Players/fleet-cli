@@ -23,10 +23,18 @@ import { DockerRegistryType } from '../models/DockerRegistryType.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
+import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
+import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
+import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetBackups200Response } from '../models/GetBackups200Response.ts';
+import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
+import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
+import { GetLocations200Response } from '../models/GetLocations200Response.ts';
+import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
-import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
-import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
-import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
@@ -39,7 +47,6 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -60,6 +67,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -291,9 +300,209 @@ export interface AppApiGetAppLocationSettingsRequest {
      * @memberof AppApigetAppLocationSettings
      */
     app: number
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppLocationSettings
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppLocationSettings
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetAppLocationSettings
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterId?: number
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by ServerConfig ID.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigId?: number
+    /**
+     * Filter by number of instances.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterNumInstances?: number
+    /**
+     * Filter by status.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterStatus?: string
+    /**
+     * Filter by maintenance.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterMaintenance?: boolean
+    /**
+     * Filter by location city.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterLocationCity?: string
+    /**
+     * Filter by location city display name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterLocationCityDisplay?: string
+    /**
+     * Filter by location continent.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterLocationContinent?: string
+    /**
+     * Filter by location country.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterLocationCountry?: string
+    /**
+     * Filter by ServerConfig name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigName?: string
+    /**
+     * Filter by ServerConfig command.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigCommand?: string
+    /**
+     * Filter by ServerConfig arguments.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigArgs?: string
+    /**
+     * Filter by ServerConfig notes.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigNotes?: string
+    /**
+     * Filter by ServerConfig status.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigStatus?: string
+    /**
+     * Filter by ServerConfig maintenance.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigMaintenance?: boolean
+    /**
+     * Filter by ServerConfig resource package slug.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterServerConfigResourcePackageSlug?: string
 }
 
 export interface AppApiGetAppsRequest {
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetApps
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetApps
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetApps
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetApps
+     */
+    filterId?: number
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetApps
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetApps
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by in use flag.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetApps
+     */
+    filterInUse?: boolean
 }
 
 export interface AppApiGetAuthTokenRequest {
@@ -313,6 +522,41 @@ export interface AppApiGetBackupsRequest {
      * @memberof AppApigetBackups
      */
     dockerService: number
+    /**
+     * The number of items to be shown per page.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetBackups
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetBackups
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetBackups
+     */
+    sort?: Array<string>
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBackups
+     */
+    filterName?: string
+    /**
+     * Filter by archive name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBackups
+     */
+    filterArchiveName?: string
 }
 
 export interface AppApiGetBinariesRequest {
@@ -323,6 +567,85 @@ export interface AppApiGetBinariesRequest {
      * @memberof AppApigetBinaries
      */
     app: number
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetBinaries
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetBinaries
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetBinaries
+     */
+    sort?: Array<string>
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by version.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterVersion?: string
+    /**
+     * Filter by type.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterType?: string
+    /**
+     * Filter by operating system.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterOs?: string
+    /**
+     * Filter by maintenance status.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetBinaries
+     */
+    filterMaintenance?: boolean
+    /**
+     * Filter by status.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterStatus?: string
+    /**
+     * Filter by in use flag.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetBinaries
+     */
+    filterInUse?: boolean
 }
 
 export interface AppApiGetBinaryByIdRequest {
@@ -336,6 +659,71 @@ export interface AppApiGetBinaryByIdRequest {
 }
 
 export interface AppApiGetDockerRegistriesRequest {
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetDockerRegistries
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetDockerRegistries
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetDockerRegistries
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetDockerRegistries
+     */
+    filterId?: number
+    /**
+     * Filter by type.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterType?: string
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by url.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterUrl?: string
+    /**
+     * Filter by organization.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterOrganization?: string
 }
 
 export interface AppApiGetDockerRegistryByIdRequest {
@@ -359,6 +747,22 @@ export interface AppApiGetLatestBackupRequest {
 }
 
 export interface AppApiGetLocationsRequest {
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetLocations
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetLocations
+     */
+    page?: number
 }
 
 export interface AppApiGetResourcePackageByIdRequest {
@@ -372,6 +776,92 @@ export interface AppApiGetResourcePackageByIdRequest {
 }
 
 export interface AppApiGetResourcePackagesRequest {
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetResourcePackages
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    filterId?: number
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetResourcePackages
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetResourcePackages
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by slug.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetResourcePackages
+     */
+    filterSlug?: string
+    /**
+     * Filter by type.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetResourcePackages
+     */
+    filterType?: string
+    /**
+     * Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    filterCpuLimit?: number
+    /**
+     * Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    filterCpuReservation?: number
+    /**
+     * Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    filterMemoryLimitMiB?: number
+    /**
+     * Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetResourcePackages
+     */
+    filterMemoryReservationMiB?: number
 }
 
 export interface AppApiGetServerBackupDownloadUrlRequest {
@@ -419,6 +909,134 @@ export interface AppApiGetServerConfigsRequest {
      * @memberof AppApigetServerConfigs
      */
     app: number
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServerConfigs
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServerConfigs
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetServerConfigs
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServerConfigs
+     */
+    filterId?: number
+    /**
+     * Filter by binary id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServerConfigs
+     */
+    filterBinaryId?: number
+    /**
+     * Filter by name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterName?: string
+    /**
+     * Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterNamePartial?: string
+    /**
+     * Filter by command.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterCommand?: string
+    /**
+     * Filter by arguments.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterArgs?: string
+    /**
+     * Filter by notes.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterNotes?: string
+    /**
+     * Filter by status.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterStatus?: string
+    /**
+     * Filter by maintenance status.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServerConfigs
+     */
+    filterMaintenance?: boolean
+    /**
+     * Filter by resource package slug.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterResourcePackageSlug?: string
+    /**
+     * Filter by in use flag.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServerConfigs
+     */
+    filterInUse?: boolean
+    /**
+     * Filter by binary name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterBinaryName?: string
+    /**
+     * Filter by binary version.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterBinaryVersion?: string
+    /**
+     * Filter by binary type.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterBinaryType?: string
+    /**
+     * Filter by binary operating system.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterBinaryOs?: string
 }
 
 export interface AppApiGetServerLogsRequest {
@@ -468,7 +1086,9 @@ export interface AppApiGetServersRequest {
      */
     app: number
     /**
-     * The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
      * Defaults to: undefined
      * @type number
      * @memberof AppApigetServers
@@ -537,6 +1157,13 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     filterMetadata?: string
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetServers
+     */
+    sort?: Array<string>
 }
 
 export interface AppApiGetTaggedImagesRequest {
@@ -634,6 +1261,24 @@ export interface AppApiSteamGetLauncherRequest {
      * @memberof AppApisteamGetLauncher
      */
     os?: OperatingSystem
+}
+
+export interface AppApiTemplateAppMinecraftStoreRequest {
+    /**
+     * 
+     * @type StoreMinecraftTemplateRequest
+     * @memberof AppApitemplateAppMinecraftStore
+     */
+    storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest
+}
+
+export interface AppApiTemplateAppPalworldStoreRequest {
+    /**
+     * 
+     * @type StorePalworldTemplateRequest
+     * @memberof AppApitemplateAppPalworldStore
+     */
+    storePalworldTemplateRequest?: StorePalworldTemplateRequest
 }
 
 export interface AppApiUpdateAppByIdRequest {
@@ -1003,32 +1648,32 @@ export class ObjectAppApi {
      * Show all location settings
      * @param param the request object
      */
-    public getAppLocationSettingsWithHttpInfo(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<HttpInfo<Array<AppLocationSetting>>> {
-        return this.api.getAppLocationSettingsWithHttpInfo(param.app,  options).toPromise();
+    public getAppLocationSettingsWithHttpInfo(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<HttpInfo<GetAppLocationSettings200Response>> {
+        return this.api.getAppLocationSettingsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
     }
 
     /**
      * Show all location settings
      * @param param the request object
      */
-    public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<Array<AppLocationSetting>> {
-        return this.api.getAppLocationSettings(param.app,  options).toPromise();
+    public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<GetAppLocationSettings200Response> {
+        return this.api.getAppLocationSettings(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
     }
 
     /**
      * Show all apps
      * @param param the request object
      */
-    public getAppsWithHttpInfo(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<HttpInfo<Array<App>>> {
-        return this.api.getAppsWithHttpInfo( options).toPromise();
+    public getAppsWithHttpInfo(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<HttpInfo<GetApps200Response>> {
+        return this.api.getAppsWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
     }
 
     /**
      * Show all apps
      * @param param the request object
      */
-    public getApps(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<Array<App>> {
-        return this.api.getApps( options).toPromise();
+    public getApps(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<GetApps200Response> {
+        return this.api.getApps(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
     }
 
     /**
@@ -1053,32 +1698,32 @@ export class ObjectAppApi {
      * List all backups
      * @param param the request object
      */
-    public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: Configuration): Promise<HttpInfo<Array<Backup>>> {
-        return this.api.getBackupsWithHttpInfo(param.dockerService,  options).toPromise();
+    public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: Configuration): Promise<HttpInfo<GetBackups200Response>> {
+        return this.api.getBackupsWithHttpInfo(param.dockerService, param.perPage, param.page, param.sort, param.filterName, param.filterArchiveName,  options).toPromise();
     }
 
     /**
      * List all backups
      * @param param the request object
      */
-    public getBackups(param: AppApiGetBackupsRequest, options?: Configuration): Promise<Array<Backup>> {
-        return this.api.getBackups(param.dockerService,  options).toPromise();
+    public getBackups(param: AppApiGetBackupsRequest, options?: Configuration): Promise<GetBackups200Response> {
+        return this.api.getBackups(param.dockerService, param.perPage, param.page, param.sort, param.filterName, param.filterArchiveName,  options).toPromise();
     }
 
     /**
      * Show all binaries
      * @param param the request object
      */
-    public getBinariesWithHttpInfo(param: AppApiGetBinariesRequest, options?: Configuration): Promise<HttpInfo<Array<Binary>>> {
-        return this.api.getBinariesWithHttpInfo(param.app,  options).toPromise();
+    public getBinariesWithHttpInfo(param: AppApiGetBinariesRequest, options?: Configuration): Promise<HttpInfo<GetBinaries200Response>> {
+        return this.api.getBinariesWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
     }
 
     /**
      * Show all binaries
      * @param param the request object
      */
-    public getBinaries(param: AppApiGetBinariesRequest, options?: Configuration): Promise<Array<Binary>> {
-        return this.api.getBinaries(param.app,  options).toPromise();
+    public getBinaries(param: AppApiGetBinariesRequest, options?: Configuration): Promise<GetBinaries200Response> {
+        return this.api.getBinaries(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
     }
 
     /**
@@ -1101,16 +1746,16 @@ export class ObjectAppApi {
      * Show all docker registries
      * @param param the request object
      */
-    public getDockerRegistriesWithHttpInfo(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<HttpInfo<Array<DockerRegistry>>> {
-        return this.api.getDockerRegistriesWithHttpInfo( options).toPromise();
+    public getDockerRegistriesWithHttpInfo(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<HttpInfo<GetDockerRegistries200Response>> {
+        return this.api.getDockerRegistriesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
     }
 
     /**
      * Show all docker registries
      * @param param the request object
      */
-    public getDockerRegistries(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<Array<DockerRegistry>> {
-        return this.api.getDockerRegistries( options).toPromise();
+    public getDockerRegistries(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<GetDockerRegistries200Response> {
+        return this.api.getDockerRegistries(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
     }
 
     /**
@@ -1149,16 +1794,16 @@ export class ObjectAppApi {
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
-    public getLocationsWithHttpInfo(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<HttpInfo<Array<Location>>> {
-        return this.api.getLocationsWithHttpInfo( options).toPromise();
+    public getLocationsWithHttpInfo(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<HttpInfo<GetLocations200Response>> {
+        return this.api.getLocationsWithHttpInfo(param.perPage, param.page,  options).toPromise();
     }
 
     /**
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
-    public getLocations(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<Array<Location>> {
-        return this.api.getLocations( options).toPromise();
+    public getLocations(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<GetLocations200Response> {
+        return this.api.getLocations(param.perPage, param.page,  options).toPromise();
     }
 
     /**
@@ -1181,16 +1826,16 @@ export class ObjectAppApi {
      * Show all available resource packages
      * @param param the request object
      */
-    public getResourcePackagesWithHttpInfo(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<HttpInfo<Array<ResourcePackage>>> {
-        return this.api.getResourcePackagesWithHttpInfo( options).toPromise();
+    public getResourcePackagesWithHttpInfo(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<HttpInfo<GetResourcePackages200Response>> {
+        return this.api.getResourcePackagesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
     }
 
     /**
      * Show all available resource packages
      * @param param the request object
      */
-    public getResourcePackages(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<Array<ResourcePackage>> {
-        return this.api.getResourcePackages( options).toPromise();
+    public getResourcePackages(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<GetResourcePackages200Response> {
+        return this.api.getResourcePackages(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
     }
 
     /**
@@ -1245,16 +1890,16 @@ export class ObjectAppApi {
      * Show all server configs
      * @param param the request object
      */
-    public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<HttpInfo<Array<ServerConfig>>> {
-        return this.api.getServerConfigsWithHttpInfo(param.app,  options).toPromise();
+    public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<HttpInfo<GetServerConfigs200Response>> {
+        return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
     /**
      * Show all server configs
      * @param param the request object
      */
-    public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<Array<ServerConfig>> {
-        return this.api.getServerConfigs(param.app,  options).toPromise();
+    public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<GetServerConfigs200Response> {
+        return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
     /**
@@ -1278,7 +1923,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata,  options).toPromise();
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
@@ -1286,7 +1931,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
-        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata,  options).toPromise();
+        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
@@ -1431,6 +2076,38 @@ export class ObjectAppApi {
      */
     public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<Array<SteamLauncher>> {
         return this.api.steamGetLauncher(param.appId, param.os,  options).toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param param the request object
+     */
+    public templateAppMinecraftStoreWithHttpInfo(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
+        return this.api.templateAppMinecraftStoreWithHttpInfo(param.storeMinecraftTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param param the request object
+     */
+    public templateAppMinecraftStore(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<App> {
+        return this.api.templateAppMinecraftStore(param.storeMinecraftTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param param the request object
+     */
+    public templateAppPalworldStoreWithHttpInfo(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
+        return this.api.templateAppPalworldStoreWithHttpInfo(param.storePalworldTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param param the request object
+     */
+    public templateAppPalworldStore(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<App> {
+        return this.api.templateAppPalworldStore(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
     /**

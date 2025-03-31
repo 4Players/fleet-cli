@@ -55,11 +55,11 @@ export class Binary {
     */
     'statusMessage': string | null;
     /**
-    * The current progress percentage of the image build (0-100).
+    * The current progress percentage of the image build (0-100). Only present for binaries of type steam.
     */
     'progress'?: number | null;
     /**
-    * A message describing the current build step.
+    * A message describing the current build step. Only present for binaries of type steam.
     */
     'progressMessage'?: string | null;
     /**

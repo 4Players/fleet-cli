@@ -10,15 +10,26 @@
  * Do not edit the class manually.
  */
 
-import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
-import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
-import { Server } from '../models/Server.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200Response {
-    'data': Array<Server>;
-    'meta': GetAppLocationSettings200ResponseMeta;
-    'links': GetAppLocationSettings200ResponseLinks;
+export class StoreMinecraftTemplateRequest {
+    /**
+    * The name of the template app. If omitted, a default name will be used.
+    */
+    'appName'?: string | null;
+    /**
+    * The slug of the resource package. If omitted, a default resource package will be used.
+    */
+    'resourcePackageSlug'?: string | null;
+    /**
+    * The placement settings that define the location and other constraints If omitted, no deployment will be created.
+    */
+    'placement'?: CreateUpdatePlacement | null;
+    /**
+    * Password required to deploy services to a protected node location. Required when the selected location is password-protected.
+    */
+    'password'?: string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -26,26 +37,32 @@ export class GetServers200Response {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "data",
-            "baseName": "data",
-            "type": "Array<Server>",
+            "name": "appName",
+            "baseName": "appName",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "meta",
-            "baseName": "meta",
-            "type": "GetAppLocationSettings200ResponseMeta",
+            "name": "resourcePackageSlug",
+            "baseName": "resourcePackageSlug",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "links",
-            "baseName": "links",
-            "type": "GetAppLocationSettings200ResponseLinks",
+            "name": "placement",
+            "baseName": "placement",
+            "type": "CreateUpdatePlacement",
+            "format": ""
+        },
+        {
+            "name": "password",
+            "baseName": "password",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200Response.attributeTypeMap;
+        return StoreMinecraftTemplateRequest.attributeTypeMap;
     }
 
     public constructor() {

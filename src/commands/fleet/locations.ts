@@ -1,6 +1,11 @@
 import { Command, CommandOptions } from "@cliffy/command";
 
-import { ensureApiException, logErrorAndExit, stdout } from "../../utils.ts";
+import {
+  ensureApiException,
+  getAllPaginated,
+  logErrorAndExit,
+  stdout,
+} from "../../utils.ts";
 import { apiClient } from "../../client.ts";
 import { filterArray } from "../../filter.ts";
 
@@ -15,7 +20,9 @@ const locationsList = new Command()
     // Select Location
     let locations;
     try {
-      locations = await apiClient.getLocations();
+      locations = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getLocations(50, page)));
       if (locations.length === 0) {
         console.log("No locations found.");
         return;

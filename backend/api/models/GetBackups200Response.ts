@@ -10,13 +10,13 @@
  * Do not edit the class manually.
  */
 
+import { Backup } from '../models/Backup.ts';
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
-import { Server } from '../models/Server.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200Response {
-    'data': Array<Server>;
+export class GetBackups200Response {
+    'data': Array<Backup>;
     'meta': GetAppLocationSettings200ResponseMeta;
     'links': GetAppLocationSettings200ResponseLinks;
 
@@ -28,7 +28,7 @@ export class GetServers200Response {
         {
             "name": "data",
             "baseName": "data",
-            "type": "Array<Server>",
+            "type": "Array<Backup>",
             "format": ""
         },
         {
@@ -45,7 +45,7 @@ export class GetServers200Response {
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200Response.attributeTypeMap;
+        return GetBackups200Response.attributeTypeMap;
     }
 
     public constructor() {

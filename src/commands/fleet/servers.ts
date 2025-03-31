@@ -7,6 +7,7 @@ import {
 import { apiClient } from "../../client.ts";
 import {
   ensureApiException,
+  getAllPaginated,
   inform,
   logError,
   logErrorAndExit,
@@ -27,7 +28,9 @@ const serverList = new Command()
     const app = await getSelectedAppOrExit(options);
     let servers: Server[] = [];
     try {
-      servers = (await apiClient.getServers(app.id, -1, 1)).data;
+      servers = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getServers(app.id, 50, page)));
       if (servers.length === 0) {
         console.log(
           "No servers found. Create a deployment with `fleet deployments create` to start a server.",
@@ -68,7 +71,9 @@ const serverAddress = new Command()
     const app = await getSelectedAppOrExit(options);
     let serverId = options.serverId;
     if (!serverId) {
-      const servers = (await apiClient.getServers(app.id, -1, 1)).data;
+      const servers = await getAllPaginated((
+        page: number,
+      ) => (apiClient.getServers(app.id, 50, page)));
       if (servers.length === 0) {
         console.log(
           "No servers found. Create a deployment with `fleet deployments create` to start a server.",
@@ -116,7 +121,9 @@ const showServerInfo = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -194,7 +201,9 @@ const showServerLogs = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -348,7 +357,9 @@ const getBackupDownloadUrl = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -412,7 +423,9 @@ export const restoreBackup = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -482,7 +495,9 @@ const restartServer = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -552,7 +567,9 @@ const getMetadata = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,
@@ -614,7 +631,9 @@ const setMetadata = new Command()
     if (!serverId) {
       let servers: Server[] = [];
       try {
-        servers = (await apiClient.getServers(app.id, -1, 1)).data;
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
         if (servers.length === 0) {
           inform(
             options,

@@ -10,13 +10,15 @@
  * Do not edit the class manually.
  */
 
+import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
+import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
+import { Location } from '../models/Location.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200ResponseLinks {
-    'first': string | null;
-    'last': string | null;
-    'prev': string | null;
-    'next': string | null;
+export class GetLocations200Response {
+    'data': Array<Location>;
+    'meta': GetAppLocationSettings200ResponseMeta;
+    'links': GetAppLocationSettings200ResponseLinks;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -24,32 +26,26 @@ export class GetServers200ResponseLinks {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "first",
-            "baseName": "first",
-            "type": "string",
+            "name": "data",
+            "baseName": "data",
+            "type": "Array<Location>",
             "format": ""
         },
         {
-            "name": "last",
-            "baseName": "last",
-            "type": "string",
+            "name": "meta",
+            "baseName": "meta",
+            "type": "GetAppLocationSettings200ResponseMeta",
             "format": ""
         },
         {
-            "name": "prev",
-            "baseName": "prev",
-            "type": "string",
-            "format": ""
-        },
-        {
-            "name": "next",
-            "baseName": "next",
-            "type": "string",
+            "name": "links",
+            "baseName": "links",
+            "type": "GetAppLocationSettings200ResponseLinks",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200ResponseLinks.attributeTypeMap;
+        return GetLocations200Response.attributeTypeMap;
     }
 
     public constructor() {

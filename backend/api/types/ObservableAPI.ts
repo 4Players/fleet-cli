@@ -24,10 +24,18 @@ import { DockerRegistryType } from '../models/DockerRegistryType.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
+import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
+import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
+import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetBackups200Response } from '../models/GetBackups200Response.ts';
+import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
+import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
+import { GetLocations200Response } from '../models/GetLocations200Response.ts';
+import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
-import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
-import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
-import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
@@ -40,7 +48,6 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -61,6 +68,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -634,9 +643,30 @@ export class ObservableAppApi {
     /**
      * Show all location settings
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterNumInstances] Filter by number of instances.
+     * @param [filterStatus] Filter by status.
+     * @param [filterMaintenance] Filter by maintenance.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
+     * @param [filterServerConfigName] Filter by ServerConfig name.
+     * @param [filterServerConfigCommand] Filter by ServerConfig command.
+     * @param [filterServerConfigArgs] Filter by ServerConfig arguments.
+     * @param [filterServerConfigNotes] Filter by ServerConfig notes.
+     * @param [filterServerConfigStatus] Filter by ServerConfig status.
+     * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
+     * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
      */
-    public getAppLocationSettingsWithHttpInfo(app: number, _options?: Configuration): Observable<HttpInfo<Array<AppLocationSetting>>> {
-        const requestContextPromise = this.requestFactory.getAppLocationSettings(app, _options);
+    public getAppLocationSettingsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: Configuration): Observable<HttpInfo<GetAppLocationSettings200Response>> {
+        const requestContextPromise = this.requestFactory.getAppLocationSettings(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -657,16 +687,44 @@ export class ObservableAppApi {
     /**
      * Show all location settings
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterNumInstances] Filter by number of instances.
+     * @param [filterStatus] Filter by status.
+     * @param [filterMaintenance] Filter by maintenance.
+     * @param [filterLocationCity] Filter by location city.
+     * @param [filterLocationCityDisplay] Filter by location city display name.
+     * @param [filterLocationContinent] Filter by location continent.
+     * @param [filterLocationCountry] Filter by location country.
+     * @param [filterServerConfigName] Filter by ServerConfig name.
+     * @param [filterServerConfigCommand] Filter by ServerConfig command.
+     * @param [filterServerConfigArgs] Filter by ServerConfig arguments.
+     * @param [filterServerConfigNotes] Filter by ServerConfig notes.
+     * @param [filterServerConfigStatus] Filter by ServerConfig status.
+     * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
+     * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
      */
-    public getAppLocationSettings(app: number, _options?: Configuration): Observable<Array<AppLocationSetting>> {
-        return this.getAppLocationSettingsWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<Array<AppLocationSetting>>) => apiResponse.data));
+    public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: Configuration): Observable<GetAppLocationSettings200Response> {
+        return this.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettings200Response>) => apiResponse.data));
     }
 
     /**
      * Show all apps
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterInUse] Filter by in use flag.
      */
-    public getAppsWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<App>>> {
-        const requestContextPromise = this.requestFactory.getApps(_options);
+    public getAppsWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: Configuration): Observable<HttpInfo<GetApps200Response>> {
+        const requestContextPromise = this.requestFactory.getApps(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -686,9 +744,16 @@ export class ObservableAppApi {
 
     /**
      * Show all apps
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterInUse] Filter by in use flag.
      */
-    public getApps(_options?: Configuration): Observable<Array<App>> {
-        return this.getAppsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<App>>) => apiResponse.data));
+    public getApps(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: Configuration): Observable<GetApps200Response> {
+        return this.getAppsWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, _options).pipe(map((apiResponse: HttpInfo<GetApps200Response>) => apiResponse.data));
     }
 
     /**
@@ -727,9 +792,14 @@ export class ObservableAppApi {
     /**
      * List all backups
      * @param dockerService The docker service ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;
+     * @param [filterName] Filter by name.
+     * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackupsWithHttpInfo(dockerService: number, _options?: Configuration): Observable<HttpInfo<Array<Backup>>> {
-        const requestContextPromise = this.requestFactory.getBackups(dockerService, _options);
+    public getBackupsWithHttpInfo(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: Configuration): Observable<HttpInfo<GetBackups200Response>> {
+        const requestContextPromise = this.requestFactory.getBackups(dockerService, perPage, page, sort, filterName, filterArchiveName, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -750,17 +820,33 @@ export class ObservableAppApi {
     /**
      * List all backups
      * @param dockerService The docker service ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;
+     * @param [filterName] Filter by name.
+     * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackups(dockerService: number, _options?: Configuration): Observable<Array<Backup>> {
-        return this.getBackupsWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<Array<Backup>>) => apiResponse.data));
+    public getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: Configuration): Observable<GetBackups200Response> {
+        return this.getBackupsWithHttpInfo(dockerService, perPage, page, sort, filterName, filterArchiveName, _options).pipe(map((apiResponse: HttpInfo<GetBackups200Response>) => apiResponse.data));
     }
 
     /**
      * Show all binaries
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterVersion] Filter by version.
+     * @param [filterType] Filter by type.
+     * @param [filterOs] Filter by operating system.
+     * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterStatus] Filter by status.
+     * @param [filterInUse] Filter by in use flag.
      */
-    public getBinariesWithHttpInfo(app: number, _options?: Configuration): Observable<HttpInfo<Array<Binary>>> {
-        const requestContextPromise = this.requestFactory.getBinaries(app, _options);
+    public getBinariesWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: Configuration): Observable<HttpInfo<GetBinaries200Response>> {
+        const requestContextPromise = this.requestFactory.getBinaries(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -781,9 +867,20 @@ export class ObservableAppApi {
     /**
      * Show all binaries
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterVersion] Filter by version.
+     * @param [filterType] Filter by type.
+     * @param [filterOs] Filter by operating system.
+     * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterStatus] Filter by status.
+     * @param [filterInUse] Filter by in use flag.
      */
-    public getBinaries(app: number, _options?: Configuration): Observable<Array<Binary>> {
-        return this.getBinariesWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<Array<Binary>>) => apiResponse.data));
+    public getBinaries(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: Configuration): Observable<GetBinaries200Response> {
+        return this.getBinariesWithHttpInfo(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, _options).pipe(map((apiResponse: HttpInfo<GetBinaries200Response>) => apiResponse.data));
     }
 
     /**
@@ -819,9 +916,18 @@ export class ObservableAppApi {
 
     /**
      * Show all docker registries
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterType] Filter by type.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterUrl] Filter by url.
+     * @param [filterOrganization] Filter by organization.
      */
-    public getDockerRegistriesWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<DockerRegistry>>> {
-        const requestContextPromise = this.requestFactory.getDockerRegistries(_options);
+    public getDockerRegistriesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: Configuration): Observable<HttpInfo<GetDockerRegistries200Response>> {
+        const requestContextPromise = this.requestFactory.getDockerRegistries(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -841,9 +947,18 @@ export class ObservableAppApi {
 
     /**
      * Show all docker registries
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterType] Filter by type.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterUrl] Filter by url.
+     * @param [filterOrganization] Filter by organization.
      */
-    public getDockerRegistries(_options?: Configuration): Observable<Array<DockerRegistry>> {
-        return this.getDockerRegistriesWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<DockerRegistry>>) => apiResponse.data));
+    public getDockerRegistries(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: Configuration): Observable<GetDockerRegistries200Response> {
+        return this.getDockerRegistriesWithHttpInfo(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, _options).pipe(map((apiResponse: HttpInfo<GetDockerRegistries200Response>) => apiResponse.data));
     }
 
     /**
@@ -910,9 +1025,11 @@ export class ObservableAppApi {
 
     /**
      * Show a unique listing of locations based on active and ready worker nodes
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
      */
-    public getLocationsWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<Location>>> {
-        const requestContextPromise = this.requestFactory.getLocations(_options);
+    public getLocationsWithHttpInfo(perPage?: number, page?: number, _options?: Configuration): Observable<HttpInfo<GetLocations200Response>> {
+        const requestContextPromise = this.requestFactory.getLocations(perPage, page, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -932,9 +1049,11 @@ export class ObservableAppApi {
 
     /**
      * Show a unique listing of locations based on active and ready worker nodes
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
      */
-    public getLocations(_options?: Configuration): Observable<Array<Location>> {
-        return this.getLocationsWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<Location>>) => apiResponse.data));
+    public getLocations(perPage?: number, page?: number, _options?: Configuration): Observable<GetLocations200Response> {
+        return this.getLocationsWithHttpInfo(perPage, page, _options).pipe(map((apiResponse: HttpInfo<GetLocations200Response>) => apiResponse.data));
     }
 
     /**
@@ -970,9 +1089,21 @@ export class ObservableAppApi {
 
     /**
      * Show all available resource packages
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterSlug] Filter by slug.
+     * @param [filterType] Filter by type.
+     * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
+     * @param [filterCpuReservation] Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
+     * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
+     * @param [filterMemoryReservationMiB] Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public getResourcePackagesWithHttpInfo(_options?: Configuration): Observable<HttpInfo<Array<ResourcePackage>>> {
-        const requestContextPromise = this.requestFactory.getResourcePackages(_options);
+    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: Configuration): Observable<HttpInfo<GetResourcePackages200Response>> {
+        const requestContextPromise = this.requestFactory.getResourcePackages(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterCpuReservation, filterMemoryLimitMiB, filterMemoryReservationMiB, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -992,9 +1123,21 @@ export class ObservableAppApi {
 
     /**
      * Show all available resource packages
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterSlug] Filter by slug.
+     * @param [filterType] Filter by type.
+     * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
+     * @param [filterCpuReservation] Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
+     * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
+     * @param [filterMemoryReservationMiB] Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public getResourcePackages(_options?: Configuration): Observable<Array<ResourcePackage>> {
-        return this.getResourcePackagesWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<Array<ResourcePackage>>) => apiResponse.data));
+    public getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: Configuration): Observable<GetResourcePackages200Response> {
+        return this.getResourcePackagesWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterCpuReservation, filterMemoryLimitMiB, filterMemoryReservationMiB, _options).pipe(map((apiResponse: HttpInfo<GetResourcePackages200Response>) => apiResponse.data));
     }
 
     /**
@@ -1095,9 +1238,27 @@ export class ObservableAppApi {
     /**
      * Show all server configs
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterBinaryId] Filter by binary id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterCommand] Filter by command.
+     * @param [filterArgs] Filter by arguments.
+     * @param [filterNotes] Filter by notes.
+     * @param [filterStatus] Filter by status.
+     * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterResourcePackageSlug] Filter by resource package slug.
+     * @param [filterInUse] Filter by in use flag.
+     * @param [filterBinaryName] Filter by binary name.
+     * @param [filterBinaryVersion] Filter by binary version.
+     * @param [filterBinaryType] Filter by binary type.
+     * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigsWithHttpInfo(app: number, _options?: Configuration): Observable<HttpInfo<Array<ServerConfig>>> {
-        const requestContextPromise = this.requestFactory.getServerConfigs(app, _options);
+    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: Configuration): Observable<HttpInfo<GetServerConfigs200Response>> {
+        const requestContextPromise = this.requestFactory.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1118,9 +1279,27 @@ export class ObservableAppApi {
     /**
      * Show all server configs
      * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterBinaryId] Filter by binary id.
+     * @param [filterName] Filter by name.
+     * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * @param [filterCommand] Filter by command.
+     * @param [filterArgs] Filter by arguments.
+     * @param [filterNotes] Filter by notes.
+     * @param [filterStatus] Filter by status.
+     * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterResourcePackageSlug] Filter by resource package slug.
+     * @param [filterInUse] Filter by in use flag.
+     * @param [filterBinaryName] Filter by binary name.
+     * @param [filterBinaryVersion] Filter by binary version.
+     * @param [filterBinaryType] Filter by binary type.
+     * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigs(app: number, _options?: Configuration): Observable<Array<ServerConfig>> {
-        return this.getServerConfigsWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<Array<ServerConfig>>) => apiResponse.data));
+    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: Configuration): Observable<GetServerConfigs200Response> {
+        return this.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigs200Response>) => apiResponse.data));
     }
 
     /**
@@ -1165,7 +1344,7 @@ export class ObservableAppApi {
     /**
      * Show all services
      * @param app The app ID
-     * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
@@ -1175,9 +1354,10 @@ export class ObservableAppApi {
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Observable<HttpInfo<GetServers200Response>> {
-        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Observable<HttpInfo<GetServers200Response>> {
+        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options);
 
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
@@ -1198,7 +1378,7 @@ export class ObservableAppApi {
     /**
      * Show all services
      * @param app The app ID
-     * @param [perPage] The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60;
+     * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
@@ -1208,9 +1388,10 @@ export class ObservableAppApi {
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, _options?: Configuration): Observable<GetServers200Response> {
-        return this.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Observable<GetServers200Response> {
+        return this.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
     }
 
     /**
@@ -1492,6 +1673,68 @@ export class ObservableAppApi {
      */
     public steamGetLauncher(appId: number, os?: OperatingSystem, _options?: Configuration): Observable<Array<SteamLauncher>> {
         return this.steamGetLauncherWithHttpInfo(appId, os, _options).pipe(map((apiResponse: HttpInfo<Array<SteamLauncher>>) => apiResponse.data));
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Observable<HttpInfo<App>> {
+        const requestContextPromise = this.requestFactory.templateAppMinecraftStore(storeMinecraftTemplateRequest, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.templateAppMinecraftStoreWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: Configuration): Observable<App> {
+        return this.templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Observable<HttpInfo<App>> {
+        const requestContextPromise = this.requestFactory.templateAppPalworldStore(storePalworldTemplateRequest, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.templateAppPalworldStoreWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: Configuration): Observable<App> {
+        return this.templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
     }
 
     /**

@@ -10,15 +10,13 @@
  * Do not edit the class manually.
  */
 
-import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
-import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
-import { Server } from '../models/Server.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200Response {
-    'data': Array<Server>;
-    'meta': GetAppLocationSettings200ResponseMeta;
-    'links': GetAppLocationSettings200ResponseLinks;
+export class GetAppLocationSettings200ResponseLinks {
+    'first': string | null;
+    'last': string | null;
+    'prev': string | null;
+    'next': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -26,26 +24,32 @@ export class GetServers200Response {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "data",
-            "baseName": "data",
-            "type": "Array<Server>",
+            "name": "first",
+            "baseName": "first",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "meta",
-            "baseName": "meta",
-            "type": "GetAppLocationSettings200ResponseMeta",
+            "name": "last",
+            "baseName": "last",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "links",
-            "baseName": "links",
-            "type": "GetAppLocationSettings200ResponseLinks",
+            "name": "prev",
+            "baseName": "prev",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "next",
+            "baseName": "next",
+            "type": "string",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200Response.attributeTypeMap;
+        return GetAppLocationSettings200ResponseLinks.attributeTypeMap;
     }
 
     public constructor() {

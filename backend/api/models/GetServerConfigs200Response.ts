@@ -10,12 +10,15 @@
  * Do not edit the class manually.
  */
 
+import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
+import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
+import { ServerConfig } from '../models/ServerConfig.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class GetServers200ResponseMetaLinksInner {
-    'url': string | null;
-    'label': string;
-    'active': boolean;
+export class GetServerConfigs200Response {
+    'data': Array<ServerConfig>;
+    'meta': GetAppLocationSettings200ResponseMeta;
+    'links': GetAppLocationSettings200ResponseLinks;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -23,26 +26,26 @@ export class GetServers200ResponseMetaLinksInner {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "url",
-            "baseName": "url",
-            "type": "string",
+            "name": "data",
+            "baseName": "data",
+            "type": "Array<ServerConfig>",
             "format": ""
         },
         {
-            "name": "label",
-            "baseName": "label",
-            "type": "string",
+            "name": "meta",
+            "baseName": "meta",
+            "type": "GetAppLocationSettings200ResponseMeta",
             "format": ""
         },
         {
-            "name": "active",
-            "baseName": "active",
-            "type": "boolean",
+            "name": "links",
+            "baseName": "links",
+            "type": "GetAppLocationSettings200ResponseLinks",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return GetServers200ResponseMetaLinksInner.attributeTypeMap;
+        return GetServerConfigs200Response.attributeTypeMap;
     }
 
     public constructor() {

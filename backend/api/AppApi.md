@@ -48,6 +48,8 @@ Method | HTTP request | Description
 [**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore the latest backup
 [**steamGetBranches**](AppApi.md#steamGetBranches) | **GET** /v1/binaries/steam/branches | Get branches for a specific steamworks app ID
 [**steamGetLauncher**](AppApi.md#steamGetLauncher) | **GET** /v1/binaries/steam/launchers | Get launchers for a specific steamworks app ID, optionally filtered by OS
+[**templateAppMinecraftStore**](AppApi.md#templateAppMinecraftStore) | **POST** /v1/templates/apps/minecraft | Create a Minecraft template app
+[**templateAppPalworldStore**](AppApi.md#templateAppPalworldStore) | **POST** /v1/templates/apps/palworld | Create a Palworld template app
 [**updateAppById**](AppApi.md#updateAppById) | **PUT** /v1/apps/{app} | Update a specific app
 [**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
 [**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related entity
@@ -464,7 +466,6 @@ const request: AppApiCreateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
-        publishMode: "host",
       },
     ],
   },
@@ -1138,7 +1139,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getAppLocationSettings**
-> Array<AppLocationSetting> getAppLocationSettings()
+> GetAppLocationSettings200Response getAppLocationSettings()
 
 
 ### Example
@@ -1154,6 +1155,50 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetAppLocationSettingsRequest = {
     // The app ID
   app: 1,
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by ServerConfig ID. (optional)
+  filterServerConfigId: 1,
+    // Filter by number of instances. (optional)
+  filterNumInstances: 1,
+    // Filter by status. (optional)
+  filterStatus: "filter[status]_example",
+    // Filter by maintenance. (optional)
+  filterMaintenance: true,
+    // Filter by location city. (optional)
+  filterLocationCity: "filter[locationCity]_example",
+    // Filter by location city display name. (optional)
+  filterLocationCityDisplay: "filter[locationCityDisplay]_example",
+    // Filter by location continent. (optional)
+  filterLocationContinent: "filter[locationContinent]_example",
+    // Filter by location country. (optional)
+  filterLocationCountry: "filter[locationCountry]_example",
+    // Filter by ServerConfig name. (optional)
+  filterServerConfigName: "filter[serverConfigName]_example",
+    // Filter by ServerConfig command. (optional)
+  filterServerConfigCommand: "filter[serverConfigCommand]_example",
+    // Filter by ServerConfig arguments. (optional)
+  filterServerConfigArgs: "filter[serverConfigArgs]_example",
+    // Filter by ServerConfig notes. (optional)
+  filterServerConfigNotes: "filter[serverConfigNotes]_example",
+    // Filter by ServerConfig status. (optional)
+  filterServerConfigStatus: "filter[serverConfigStatus]_example",
+    // Filter by ServerConfig maintenance. (optional)
+  filterServerConfigMaintenance: true,
+    // Filter by ServerConfig resource package slug. (optional)
+  filterServerConfigResourcePackageSlug: "filter[serverConfigResourcePackageSlug]_example",
 };
 
 const data = await apiInstance.getAppLocationSettings(request);
@@ -1166,11 +1211,32 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **app** | [**number**] | The app ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterServerConfigId** | [**number**] | Filter by ServerConfig ID. | (optional) defaults to undefined
+ **filterNumInstances** | [**number**] | Filter by number of instances. | (optional) defaults to undefined
+ **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
+ **filterMaintenance** | [**boolean**] | Filter by maintenance. | (optional) defaults to undefined
+ **filterLocationCity** | [**string**] | Filter by location city. | (optional) defaults to undefined
+ **filterLocationCityDisplay** | [**string**] | Filter by location city display name. | (optional) defaults to undefined
+ **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
+ **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
+ **filterServerConfigName** | [**string**] | Filter by ServerConfig name. | (optional) defaults to undefined
+ **filterServerConfigCommand** | [**string**] | Filter by ServerConfig command. | (optional) defaults to undefined
+ **filterServerConfigArgs** | [**string**] | Filter by ServerConfig arguments. | (optional) defaults to undefined
+ **filterServerConfigNotes** | [**string**] | Filter by ServerConfig notes. | (optional) defaults to undefined
+ **filterServerConfigStatus** | [**string**] | Filter by ServerConfig status. | (optional) defaults to undefined
+ **filterServerConfigMaintenance** | [**boolean**] | Filter by ServerConfig maintenance. | (optional) defaults to undefined
+ **filterServerConfigResourcePackageSlug** | [**string**] | Filter by ServerConfig resource package slug. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<AppLocationSetting>**
+**GetAppLocationSettings200Response**
 
 ### Authorization
 
@@ -1185,14 +1251,16 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;AppLocationSettingCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;AppLocationSettingResource&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getApps**
-> Array<App> getApps()
+> GetApps200Response getApps()
 
 
 ### Example
@@ -1200,11 +1268,29 @@ No authorization required
 
 ```typescript
 import { createConfiguration, AppApi } from '';
+import type { AppApiGetAppsRequest } from '';
 
 const configuration = createConfiguration();
 const apiInstance = new AppApi(configuration);
 
-const request = {};
+const request: AppApiGetAppsRequest = {
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by in use flag. (optional)
+  filterInUse: true,
+};
 
 const data = await apiInstance.getApps(request);
 console.log('API called successfully. Returned data:', data);
@@ -1212,12 +1298,21 @@ console.log('API called successfully. Returned data:', data);
 
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<App>**
+**GetApps200Response**
 
 ### Authorization
 
@@ -1232,8 +1327,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;AppCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;AppResource&#x60; |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1298,7 +1395,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getBackups**
-> Array<Backup> getBackups()
+> GetBackups200Response getBackups()
 
 
 ### Example
@@ -1314,6 +1411,18 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetBackupsRequest = {
     // The docker service ID
   dockerService: 1,
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  ``` sort[]=name sort[]=-archiveName ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=name&sort[]=-archiveName ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by archive name. (optional)
+  filterArchiveName: "filter[archiveName]_example",
 };
 
 const data = await apiInstance.getBackups(request);
@@ -1326,11 +1435,16 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterArchiveName** | [**string**] | Filter by archive name. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<Backup>**
+**GetBackups200Response**
 
 ### Authorization
 
@@ -1345,15 +1459,16 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;DockerBackupCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;DockerBackupResource&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getBinaries**
-> Array<Binary> getBinaries()
+> GetBinaries200Response getBinaries()
 
 
 ### Example
@@ -1369,6 +1484,30 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetBinariesRequest = {
     // The app ID
   app: 1,
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by version. (optional)
+  filterVersion: "filter[version]_example",
+    // Filter by type. (optional)
+  filterType: "filter[type]_example",
+    // Filter by operating system. (optional)
+  filterOs: "filter[os]_example",
+    // Filter by maintenance status. (optional)
+  filterMaintenance: true,
+    // Filter by status. (optional)
+  filterStatus: "filter[status]_example",
+    // Filter by in use flag. (optional)
+  filterInUse: true,
 };
 
 const data = await apiInstance.getBinaries(request);
@@ -1381,11 +1520,22 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **app** | [**number**] | The app ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterVersion** | [**string**] | Filter by version. | (optional) defaults to undefined
+ **filterType** | [**string**] | Filter by type. | (optional) defaults to undefined
+ **filterOs** | [**string**] | Filter by operating system. | (optional) defaults to undefined
+ **filterMaintenance** | [**boolean**] | Filter by maintenance status. | (optional) defaults to undefined
+ **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
+ **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<Binary>**
+**GetBinaries200Response**
 
 ### Authorization
 
@@ -1400,9 +1550,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;BinaryCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;BinaryResource&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -1463,7 +1614,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getDockerRegistries**
-> Array<DockerRegistry> getDockerRegistries()
+> GetDockerRegistries200Response getDockerRegistries()
 
 
 ### Example
@@ -1471,11 +1622,33 @@ No authorization required
 
 ```typescript
 import { createConfiguration, AppApi } from '';
+import type { AppApiGetDockerRegistriesRequest } from '';
 
 const configuration = createConfiguration();
 const apiInstance = new AppApi(configuration);
 
-const request = {};
+const request: AppApiGetDockerRegistriesRequest = {
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by type. (optional)
+  filterType: "filter[type]_example",
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by url. (optional)
+  filterUrl: "filter[url]_example",
+    // Filter by organization. (optional)
+  filterOrganization: "filter[organization]_example",
+};
 
 const data = await apiInstance.getDockerRegistries(request);
 console.log('API called successfully. Returned data:', data);
@@ -1483,12 +1656,23 @@ console.log('API called successfully. Returned data:', data);
 
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterType** | [**string**] | Filter by type. | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterUrl** | [**string**] | Filter by url. | (optional) defaults to undefined
+ **filterOrganization** | [**string**] | Filter by organization. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<DockerRegistry>**
+**GetDockerRegistries200Response**
 
 ### Authorization
 
@@ -1503,8 +1687,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;DockerRegistryCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;DockerRegistryResource&#x60; |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1619,7 +1805,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getLocations**
-> Array<Location> getLocations()
+> GetLocations200Response getLocations()
 
 
 ### Example
@@ -1627,11 +1813,17 @@ No authorization required
 
 ```typescript
 import { createConfiguration, AppApi } from '';
+import type { AppApiGetLocationsRequest } from '';
 
 const configuration = createConfiguration();
 const apiInstance = new AppApi(configuration);
 
-const request = {};
+const request: AppApiGetLocationsRequest = {
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+};
 
 const data = await apiInstance.getLocations(request);
 console.log('API called successfully. Returned data:', data);
@@ -1639,12 +1831,16 @@ console.log('API called successfully. Returned data:', data);
 
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<Location>**
+**GetLocations200Response**
 
 ### Authorization
 
@@ -1659,8 +1855,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;LocationCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;LocationResource&#x60; |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1720,7 +1918,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getResourcePackages**
-> Array<ResourcePackage> getResourcePackages()
+> GetResourcePackages200Response getResourcePackages()
 
 
 ### Example
@@ -1728,11 +1926,39 @@ No authorization required
 
 ```typescript
 import { createConfiguration, AppApi } from '';
+import type { AppApiGetResourcePackagesRequest } from '';
 
 const configuration = createConfiguration();
 const apiInstance = new AppApi(configuration);
 
-const request = {};
+const request: AppApiGetResourcePackagesRequest = {
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by slug. (optional)
+  filterSlug: "filter[slug]_example",
+    // Filter by type. (optional)
+  filterType: "filter[type]_example",
+    // Filter by CPU limit. Maps to the `cpu_limit` column. (optional)
+  filterCpuLimit: 1,
+    // Filter by CPU reservation. Maps to the `cpu_reservation` column. (optional)
+  filterCpuReservation: 1,
+    // Filter by memory limit in MiB. Maps to the `memory_limit_mebibytes` column. (optional)
+  filterMemoryLimitMiB: 1,
+    // Filter by memory reservation in MiB. Maps to the `memory_reservation_mebibytes` column. (optional)
+  filterMemoryReservationMiB: 1,
+};
 
 const data = await apiInstance.getResourcePackages(request);
 console.log('API called successfully. Returned data:', data);
@@ -1740,12 +1966,26 @@ console.log('API called successfully. Returned data:', data);
 
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterSlug** | [**string**] | Filter by slug. | (optional) defaults to undefined
+ **filterType** | [**string**] | Filter by type. | (optional) defaults to undefined
+ **filterCpuLimit** | [**number**] | Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column. | (optional) defaults to undefined
+ **filterCpuReservation** | [**number**] | Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column. | (optional) defaults to undefined
+ **filterMemoryLimitMiB** | [**number**] | Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column. | (optional) defaults to undefined
+ **filterMemoryReservationMiB** | [**number**] | Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<ResourcePackage>**
+**GetResourcePackages200Response**
 
 ### Authorization
 
@@ -1760,8 +2000,9 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;ResourcePackageCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;ResourcePackageResource&#x60; |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -1935,7 +2176,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getServerConfigs**
-> Array<ServerConfig> getServerConfigs()
+> GetServerConfigs200Response getServerConfigs()
 
 
 ### Example
@@ -1951,6 +2192,44 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetServerConfigsRequest = {
     // The app ID
   app: 1,
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by binary id. (optional)
+  filterBinaryId: 1,
+    // Filter by name. (optional)
+  filterName: "filter[name]_example",
+    // Filter by name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\". (optional)
+  filterNamePartial: "filter[namePartial]_example",
+    // Filter by command. (optional)
+  filterCommand: "filter[command]_example",
+    // Filter by arguments. (optional)
+  filterArgs: "filter[args]_example",
+    // Filter by notes. (optional)
+  filterNotes: "filter[notes]_example",
+    // Filter by status. (optional)
+  filterStatus: "filter[status]_example",
+    // Filter by maintenance status. (optional)
+  filterMaintenance: true,
+    // Filter by resource package slug. (optional)
+  filterResourcePackageSlug: "filter[resourcePackageSlug]_example",
+    // Filter by in use flag. (optional)
+  filterInUse: true,
+    // Filter by binary name. (optional)
+  filterBinaryName: "filter[binaryName]_example",
+    // Filter by binary version. (optional)
+  filterBinaryVersion: "filter[binaryVersion]_example",
+    // Filter by binary type. (optional)
+  filterBinaryType: "filter[binaryType]_example",
+    // Filter by binary operating system. (optional)
+  filterBinaryOs: "filter[binaryOs]_example",
 };
 
 const data = await apiInstance.getServerConfigs(request);
@@ -1963,11 +2242,29 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **app** | [**number**] | The app ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterBinaryId** | [**number**] | Filter by binary id. | (optional) defaults to undefined
+ **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
+ **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
+ **filterCommand** | [**string**] | Filter by command. | (optional) defaults to undefined
+ **filterArgs** | [**string**] | Filter by arguments. | (optional) defaults to undefined
+ **filterNotes** | [**string**] | Filter by notes. | (optional) defaults to undefined
+ **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
+ **filterMaintenance** | [**boolean**] | Filter by maintenance status. | (optional) defaults to undefined
+ **filterResourcePackageSlug** | [**string**] | Filter by resource package slug. | (optional) defaults to undefined
+ **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
+ **filterBinaryName** | [**string**] | Filter by binary name. | (optional) defaults to undefined
+ **filterBinaryVersion** | [**string**] | Filter by binary version. | (optional) defaults to undefined
+ **filterBinaryType** | [**string**] | Filter by binary type. | (optional) defaults to undefined
+ **filterBinaryOs** | [**string**] | Filter by binary operating system. | (optional) defaults to undefined
 
 
 ### Return type
 
-**Array<ServerConfig>**
+**GetServerConfigs200Response**
 
 ### Authorization
 
@@ -1982,9 +2279,10 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;ServerConfigCollection&#x60; |  -  |
+**200** | Paginated set of &#x60;ServerConfigResource&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -2074,7 +2372,7 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetServersRequest = {
     // The app ID
   app: 1,
-    // The number of items to be shown per page. Use `-1` to display all results on a single page. Default: `10` (optional)
+    // The number of items to be shown per page. (optional)
   perPage: 1,
     // Specifies the page number to retrieve in the paginated results. (optional)
   page: 1,
@@ -2094,6 +2392,10 @@ const request: AppApiGetServersRequest = {
   filterLocationCountry: "filter[locationCountry]_example",
     // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
   filterMetadata: "filter[metadata]_example",
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  ``` sort[]=id sort[]=-instance ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-instance ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
 };
 
 const data = await apiInstance.getServers(request);
@@ -2106,7 +2408,7 @@ console.log('API called successfully. Returned data:', data);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **app** | [**number**] | The app ID | defaults to undefined
- **perPage** | [**number**] | The number of items to be shown per page. Use &#x60;-1&#x60; to display all results on a single page. Default: &#x60;10&#x60; | (optional) defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
  **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
  **filterAppLocationSettingId** | [**number**] | Filter by AppLocationSetting ID. | (optional) defaults to undefined
@@ -2116,6 +2418,7 @@ Name | Type | Description  | Notes
  **filterLocationContinent** | [**string**] | Filter by location continent. | (optional) defaults to undefined
  **filterLocationCountry** | [**string**] | Filter by location country. | (optional) defaults to undefined
  **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2634,6 +2937,142 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **templateAppMinecraftStore**
+> App templateAppMinecraftStore()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiTemplateAppMinecraftStoreRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiTemplateAppMinecraftStoreRequest = {
+  
+  storeMinecraftTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.templateAppMinecraftStore(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storeMinecraftTemplateRequest** | **StoreMinecraftTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **templateAppPalworldStore**
+> App templateAppPalworldStore()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiTemplateAppPalworldStoreRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiTemplateAppPalworldStoreRequest = {
+  
+  storePalworldTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.templateAppPalworldStore(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storePalworldTemplateRequest** | **StorePalworldTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **updateAppById**
 > App updateAppById(updateAppRequest)
 
@@ -2979,7 +3418,6 @@ const request: AppApiUpdateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
-        publishMode: "host",
       },
     ],
   },

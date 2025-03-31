@@ -20,10 +20,18 @@ export * from '../models/DockerRegistryType.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
+export * from '../models/GetAppLocationSettings200Response.ts';
+export * from '../models/GetAppLocationSettings200ResponseLinks.ts';
+export * from '../models/GetAppLocationSettings200ResponseMeta.ts';
+export * from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+export * from '../models/GetApps200Response.ts';
+export * from '../models/GetBackups200Response.ts';
+export * from '../models/GetBinaries200Response.ts';
+export * from '../models/GetDockerRegistries200Response.ts';
+export * from '../models/GetLocations200Response.ts';
+export * from '../models/GetResourcePackages200Response.ts';
+export * from '../models/GetServerConfigs200Response.ts';
 export * from '../models/GetServers200Response.ts';
-export * from '../models/GetServers200ResponseLinks.ts';
-export * from '../models/GetServers200ResponseMeta.ts';
-export * from '../models/GetServers200ResponseMetaLinksInner.ts';
 export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/InlineObject.ts';
 export * from '../models/InlineObject1.ts';
@@ -36,7 +44,6 @@ export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
 export * from '../models/Protocol.ts';
-export * from '../models/PublishMode.ts';
 export * from '../models/ResourceAllocations.ts';
 export * from '../models/ResourcePackage.ts';
 export * from '../models/ResourcePackageType.ts';
@@ -57,6 +64,8 @@ export * from '../models/StoreAppLocationSettingRequest.ts';
 export * from '../models/StoreAppRequest.ts';
 export * from '../models/StoreBinaryRequest.ts';
 export * from '../models/StoreDockerRegistryRequest.ts';
+export * from '../models/StoreMinecraftTemplateRequest.ts';
+export * from '../models/StorePalworldTemplateRequest.ts';
 export * from '../models/StoreServerConfigRequest.ts';
 export * from '../models/TaggedImage.ts';
 export * from '../models/TaggedImageMetaData.ts';
@@ -88,10 +97,18 @@ import { DockerRegistryType } from '../models/DockerRegistryType.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
+import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
+import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
+import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetBackups200Response } from '../models/GetBackups200Response.ts';
+import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
+import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
+import { GetLocations200Response } from '../models/GetLocations200Response.ts';
+import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
-import { GetServers200ResponseLinks } from '../models/GetServers200ResponseLinks.ts';
-import { GetServers200ResponseMeta } from '../models/GetServers200ResponseMeta.ts';
-import { GetServers200ResponseMetaLinksInner } from '../models/GetServers200ResponseMetaLinksInner.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
@@ -101,10 +118,9 @@ import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
-import { Port      } from '../models/Port.ts';
-import { PortDefinition     } from '../models/PortDefinition.ts';
+import { Port     } from '../models/Port.ts';
+import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { PublishMode } from '../models/PublishMode.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage         } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -125,6 +141,8 @@ import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettin
 import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest       } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest           } from '../models/StoreDockerRegistryRequest.ts';
+import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
@@ -155,7 +173,6 @@ let enumsMap: Set<string> = new Set<string>([
     "EnvironmentVariableType",
     "OperatingSystem",
     "Protocol",
-    "PublishMode",
     "ResourcePackageType",
     "RestartPolicyCondition",
     "ServerConfigStatus",
@@ -179,10 +196,18 @@ let typeMap: {[index: string]: any} = {
     "DockerRegistry": DockerRegistry,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
+    "GetAppLocationSettings200Response": GetAppLocationSettings200Response,
+    "GetAppLocationSettings200ResponseLinks": GetAppLocationSettings200ResponseLinks,
+    "GetAppLocationSettings200ResponseMeta": GetAppLocationSettings200ResponseMeta,
+    "GetAppLocationSettings200ResponseMetaLinksInner": GetAppLocationSettings200ResponseMetaLinksInner,
+    "GetApps200Response": GetApps200Response,
+    "GetBackups200Response": GetBackups200Response,
+    "GetBinaries200Response": GetBinaries200Response,
+    "GetDockerRegistries200Response": GetDockerRegistries200Response,
+    "GetLocations200Response": GetLocations200Response,
+    "GetResourcePackages200Response": GetResourcePackages200Response,
+    "GetServerConfigs200Response": GetServerConfigs200Response,
     "GetServers200Response": GetServers200Response,
-    "GetServers200ResponseLinks": GetServers200ResponseLinks,
-    "GetServers200ResponseMeta": GetServers200ResponseMeta,
-    "GetServers200ResponseMetaLinksInner": GetServers200ResponseMetaLinksInner,
     "GetTaggedImages200Response": GetTaggedImages200Response,
     "InlineObject": InlineObject,
     "InlineObject1": InlineObject1,
@@ -209,6 +234,8 @@ let typeMap: {[index: string]: any} = {
     "StoreAppRequest": StoreAppRequest,
     "StoreBinaryRequest": StoreBinaryRequest,
     "StoreDockerRegistryRequest": StoreDockerRegistryRequest,
+    "StoreMinecraftTemplateRequest": StoreMinecraftTemplateRequest,
+    "StorePalworldTemplateRequest": StorePalworldTemplateRequest,
     "StoreServerConfigRequest": StoreServerConfigRequest,
     "TaggedImage": TaggedImage,
     "TaggedImageMetaData": TaggedImageMetaData,
