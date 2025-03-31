@@ -16,6 +16,7 @@ import { filterArray } from "../../filter.ts";
 import {
   confirm,
   ensureApiException,
+  getAllPaginated,
   inform,
   logError,
   logErrorAndExit,
@@ -35,7 +36,9 @@ const deploymentsList = new Command()
     const app = await getSelectedAppOrExit(options);
     let deployments: AppLocationSetting[] = [];
     try {
-      deployments = await apiClient.getAppLocationSettings(app.id);
+      deployments = await getAllPaginated((page) =>
+        apiClient.getAppLocationSettings(app.id, 50, page)
+      );
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit(
@@ -76,7 +79,9 @@ export const getDeploymentDetails = new Command()
     if (!deploymentId) {
       let deployments: AppLocationSetting[] = [];
       try {
-        deployments = await apiClient.getAppLocationSettings(app.id);
+        deployments = await getAllPaginated((page) =>
+          apiClient.getAppLocationSettings(app.id, 50, page)
+        );
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -154,7 +159,9 @@ export const createDeployment = new Command()
       // Select Location
       let locations: Location[] = [];
       try {
-        locations = await apiClient.getLocations();
+        locations = await getAllPaginated((page) =>
+          apiClient.getLocations(50, page)
+        );
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -186,7 +193,9 @@ export const createDeployment = new Command()
 
       let configs: ServerConfig[] = [];
       try {
-        configs = await apiClient.getServerConfigs(app.id);
+        configs = await getAllPaginated((page) =>
+          apiClient.getServerConfigs(app.id, 50, page)
+        );
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -234,7 +243,9 @@ export const createDeployment = new Command()
       // Try to find the correct location using the specified options (--city, --country and --password)
       let locations: Location[] = [];
       try {
-        locations = await apiClient.getLocations();
+        locations = await getAllPaginated((page) =>
+          apiClient.getLocations(50, page)
+        );
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
@@ -337,7 +348,9 @@ const updateDeployment = new Command()
     let deploymentId = options.deploymentId;
     let deployments: AppLocationSetting[] = [];
     try {
-      deployments = await apiClient.getAppLocationSettings(selectedApp.id);
+      deployments = await getAllPaginated((page) =>
+        apiClient.getAppLocationSettings(selectedApp.id, 50, page)
+      );
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit(
@@ -416,7 +429,9 @@ const deleteDeployment = new Command()
     let deploymentId = options.deploymentId;
     let deployments: AppLocationSetting[] = [];
     try {
-      deployments = await apiClient.getAppLocationSettings(selectedApp.id);
+      deployments = await getAllPaginated((page) =>
+        apiClient.getAppLocationSettings(selectedApp.id, 50, page)
+      );
     } catch (error) {
       ensureApiException(error);
       logErrorAndExit(

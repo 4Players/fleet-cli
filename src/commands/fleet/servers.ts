@@ -86,7 +86,7 @@ const serverAddress = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -104,7 +104,7 @@ const serverAddress = new Command()
     Object.entries(server.ports!).forEach(([portName, port]) => {
       table.push([
         server.id,
-        `${server.node.address}:${port.publishedPort}`,
+        `${server.node?.address}:${port.publishedPort}`,
         portName,
       ]);
     });
@@ -145,7 +145,7 @@ const showServerInfo = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -225,7 +225,7 @@ const showServerLogs = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -290,7 +290,7 @@ const createBackup = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -382,7 +382,7 @@ const getBackupDownloadUrl = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -447,7 +447,7 @@ export const restoreBackup = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -519,7 +519,7 @@ const restartServer = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -592,7 +592,7 @@ const getMetadata = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
@@ -656,7 +656,7 @@ const setMetadata = new Command()
           return {
             name: `${server.id} - ${
               server.location!.city
-            } - ${server.serverConfigName} - ${server.node.address}`,
+            } - ${server.serverConfigName} - ${server.node?.address}`,
             value: server.id,
           };
         }),
