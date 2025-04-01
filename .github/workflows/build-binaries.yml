@@ -6,7 +6,7 @@ on:
       - "v*.*.*"
 
 jobs:
-  ensure_version:
+  sanity_checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,9 +22,21 @@ jobs:
             echo "Version mismatch: Tag is $TAG_VERSION, but mod.json has $FILE_VERSION"
             exit 1
           fi
-  
+      
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version-file: .dvmrc
+
+      - name: Run Sanity Checks
+        run: |
+          for f in .github/tests/*.ts; do
+            echo "Running $f..."
+            deno run --allow-read --allow-env "$f"
+          done
+
   build:
-    needs: ensure_version
+    needs: sanity_checks
     strategy:
       fail-fast: false
       matrix:
