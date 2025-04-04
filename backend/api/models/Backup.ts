@@ -26,7 +26,7 @@ export class Backup {
     */
     'createdAt': Date;
     /**
-    * $restoredAt The timestamp of when the backup was restored, null if not restored
+    * The timestamp of when the backup was restored, null if not restored
     */
     'restoredAt': Date | null;
 

@@ -122,7 +122,7 @@ import { Port     } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
-import { ResourcePackage         } from '../models/ResourcePackage.ts';
+import { ResourcePackage             } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
 import { Resources } from '../models/Resources.ts';
 import { RestartPolicy  } from '../models/RestartPolicy.ts';

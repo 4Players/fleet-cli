@@ -79,7 +79,7 @@ export class Server {
     /**
     * The port definitions of the service
     */
-    'ports': { [key: string]: Port; };
+    'ports': Array<Port>;
     /**
     * The environment variables of the service
     */
@@ -209,7 +209,7 @@ export class Server {
         {
             "name": "ports",
             "baseName": "ports",
-            "type": "{ [key: string]: Port; }",
+            "type": "Array<Port>",
             "format": ""
         },
         {

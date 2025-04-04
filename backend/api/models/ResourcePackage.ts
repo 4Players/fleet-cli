@@ -39,13 +39,29 @@ export class ResourcePackage {
     */
     'cpuReservation': string;
     /**
+    * The maximum memory in bytes of the resource package
+    */
+    'memoryLimitBytes': number;
+    /**
     * The maximum memory in mebibytes (MiB) of the resource package
     */
     'memoryLimitMiB': number;
     /**
+    * The maximum memory in a human-readable format
+    */
+    'memoryLimitFileSizeString': string;
+    /**
+    * The minimum memory in bytes of the resource package
+    */
+    'memoryReservationBytes': number;
+    /**
     * The minimum memory in mebibytes (MiB) of the resource package
     */
     'memoryReservationMiB': number;
+    /**
+    * The minimum memory in a human-readable format
+    */
+    'memoryReservationFileSizeString': string;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -89,8 +105,26 @@ export class ResourcePackage {
             "format": ""
         },
         {
+            "name": "memoryLimitBytes",
+            "baseName": "memoryLimitBytes",
+            "type": "number",
+            "format": ""
+        },
+        {
             "name": "memoryLimitMiB",
             "baseName": "memoryLimitMiB",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "memoryLimitFileSizeString",
+            "baseName": "memoryLimitFileSizeString",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "memoryReservationBytes",
+            "baseName": "memoryReservationBytes",
             "type": "number",
             "format": ""
         },
@@ -98,6 +132,12 @@ export class ResourcePackage {
             "name": "memoryReservationMiB",
             "baseName": "memoryReservationMiB",
             "type": "number",
+            "format": ""
+        },
+        {
+            "name": "memoryReservationFileSizeString",
+            "baseName": "memoryReservationFileSizeString",
+            "type": "string",
             "format": ""
         }    ];
 

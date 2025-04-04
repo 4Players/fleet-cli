@@ -1251,7 +1251,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;AppLocationSettingResource&#x60; |  -  |
+**200** | Paginated set of &#x60;AppLocationSetting&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
@@ -1327,7 +1327,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;AppResource&#x60; |  -  |
+**200** | Paginated set of &#x60;App&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
@@ -1459,7 +1459,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;DockerBackupResource&#x60; |  -  |
+**200** | Paginated set of &#x60;DockerBackup&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
@@ -1550,7 +1550,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;BinaryResource&#x60; |  -  |
+**200** | Paginated set of &#x60;Binary&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
@@ -1687,7 +1687,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;DockerRegistryResource&#x60; |  -  |
+**200** | Paginated set of &#x60;DockerRegistry&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
@@ -1855,7 +1855,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;LocationResource&#x60; |  -  |
+**200** | Paginated set of &#x60;Location&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
@@ -1910,7 +1910,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | &#x60;ResourcePackage&#x60; |  -  |
+**200** | &#x60;Package&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **403** | Authorization error |  -  |
@@ -2000,7 +2000,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;ResourcePackageResource&#x60; |  -  |
+**200** | Paginated set of &#x60;Package&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
@@ -2279,7 +2279,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;ServerConfigResource&#x60; |  -  |
+**200** | Paginated set of &#x60;ServerConfig&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
@@ -2438,7 +2438,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;CustomDockerServiceResource&#x60; |  -  |
+**200** | Paginated set of &#x60;CustomDockerService&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
@@ -2653,7 +2653,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**202** | &#x60;BinaryResource&#x60; |  -  |
+**202** | &#x60;Binary&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **403** | Authorization error |  -  |

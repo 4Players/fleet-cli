@@ -381,7 +381,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `AppLocationSettingResource`",
+                        "description": "Paginated set of `AppLocationSetting`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -713,7 +713,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `AppResource`",
+                        "description": "Paginated set of `App`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -1233,7 +1233,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `BinaryResource`",
+                        "description": "Paginated set of `Binary`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -1589,7 +1589,7 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "`BinaryResource`",
+                        "description": "`Binary`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -1754,7 +1754,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `CustomDockerServiceResource`",
+                        "description": "Paginated set of `CustomDockerService`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -2053,7 +2053,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `DockerRegistryResource`",
+                        "description": "Paginated set of `DockerRegistry`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -2761,7 +2761,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `DockerBackupResource`",
+                        "description": "Paginated set of `DockerBackup`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -3226,7 +3226,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `LocationResource`",
+                        "description": "Paginated set of `Location`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -3500,7 +3500,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `ResourcePackageResource`",
+                        "description": "Paginated set of `Package`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -3664,7 +3664,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`ResourcePackage`",
+                        "description": "`Package`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -3888,7 +3888,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `ServerConfigResource`",
+                        "description": "Paginated set of `ServerConfig`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -4579,7 +4579,7 @@
                             "null"
                         ],
                         "format": "date-time",
-                        "description": "$restoredAt The timestamp of when the backup was restored, null if not restored"
+                        "description": "The timestamp of when the backup was restored, null if not restored"
                     }
                 },
                 "required": [
@@ -5240,13 +5240,29 @@
                         "type": "string",
                         "description": "The minimum CPU of the resource package"
                     },
+                    "memoryLimitBytes": {
+                        "type": "integer",
+                        "description": "The maximum memory in bytes of the resource package"
+                    },
                     "memoryLimitMiB": {
                         "type": "integer",
                         "description": "The maximum memory in mebibytes (MiB) of the resource package"
                     },
+                    "memoryLimitFileSizeString": {
+                        "type": "string",
+                        "description": "The maximum memory in a human-readable format"
+                    },
+                    "memoryReservationBytes": {
+                        "type": "integer",
+                        "description": "The minimum memory in bytes of the resource package"
+                    },
                     "memoryReservationMiB": {
                         "type": "integer",
                         "description": "The minimum memory in mebibytes (MiB) of the resource package"
+                    },
+                    "memoryReservationFileSizeString": {
+                        "type": "string",
+                        "description": "The minimum memory in a human-readable format"
                     }
                 },
                 "required": [
@@ -5256,8 +5272,12 @@
                     "type",
                     "cpuLimit",
                     "cpuReservation",
+                    "memoryLimitBytes",
                     "memoryLimitMiB",
-                    "memoryReservationMiB"
+                    "memoryLimitFileSizeString",
+                    "memoryReservationBytes",
+                    "memoryReservationMiB",
+                    "memoryReservationFileSizeString"
                 ],
                 "title": "ResourcePackage"
             },
@@ -5390,9 +5410,9 @@
                         "description": "Indicates if the service is under maintenance"
                     },
                     "ports": {
-                        "type": "object",
+                        "type": "array",
                         "description": "The port definitions of the service",
-                        "additionalProperties": {
+                        "items": {
                             "$ref": "#\/components\/schemas\/Port"
                         }
                     },
