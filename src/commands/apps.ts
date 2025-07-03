@@ -159,6 +159,7 @@ const appList = new Command()
               0x1bebda,
             ),
           inUse: app.inUse,
+          billingState: app.billingState,
         });
       });
 
