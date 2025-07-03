@@ -2,6 +2,7 @@ import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/htt
 import { Configuration} from '../configuration.ts'
 
 import { App } from '../models/App.ts';
+import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -270,6 +271,23 @@ export interface AppApiDockerServicesMetadataUpdateRequest {
      * @memberof AppApidockerServicesMetadataUpdate
      */
     patchMetadataRequest?: PatchMetadataRequest
+}
+
+export interface AppApiDownloadServerLogsRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidownloadServerLogs
+     */
+    dockerService: number
+    /**
+     * Only return logs filtered by stream source like stdout or stderr.
+     * Defaults to: undefined
+     * @type &#39;stdout&#39; | &#39;stderr&#39;
+     * @memberof AppApidownloadServerLogs
+     */
+    streamSource?: 'stdout' | 'stderr'
 }
 
 export interface AppApiGetAppByIdRequest {
@@ -1048,13 +1066,6 @@ export interface AppApiGetServerLogsRequest {
      */
     dockerService: number
     /**
-     * A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
-     * Defaults to: undefined
-     * @type string
-     * @memberof AppApigetServerLogs
-     */
-    since?: string
-    /**
      * The max number of entries to return. Default: 100
      * Defaults to: undefined
      * @type number
@@ -1071,10 +1082,10 @@ export interface AppApiGetServerLogsRequest {
     /**
      * Only return logs filtered by stream source like stdout or stderr. Default: null
      * Defaults to: undefined
-     * @type string
+     * @type &#39;stdout&#39; | &#39;stderr&#39;
      * @memberof AppApigetServerLogs
      */
-    streamSource?: string
+    streamSource?: 'stdout' | 'stderr'
 }
 
 export interface AppApiGetServersRequest {
@@ -1123,6 +1134,20 @@ export interface AppApiGetServersRequest {
      */
     filterServerConfigId?: number
     /**
+     * Filter by ServerConfig name.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterServerConfigName?: string
+    /**
+     * Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServers
+     */
+    filterServerConfigNamePartial?: string
+    /**
      * Filter by location city.
      * Defaults to: undefined
      * @type string
@@ -1150,6 +1175,55 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     filterLocationCountry?: string
+    /**
+     * Filter by whether the service can be backed up.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsBackupable?: boolean
+    /**
+     * Filter by whether the service can be restored.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsRestorable?: boolean
+    /**
+     * Filter by whether the service is pending (not running) due to insufficient resources on the node.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsPending?: boolean
+    /**
+     * Filter by whether the service is not found/missing in the cluster.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsNotFound?: boolean
+    /**
+     * Filter by whether the service is currently in an overall healthy state.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsHealthy?: boolean
+    /**
+     * Filter by Binary ID.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetServers
+     */
+    filterBinaryId?: number
+    /**
+     * Filter by whether the service is currenctly stopped.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterIsStopped?: boolean
     /**
      * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * Defaults to: undefined
@@ -1236,6 +1310,56 @@ export interface AppApiRestoreBackupRequest {
     dockerService: number
 }
 
+export interface AppApiStartServerRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistartServer
+     */
+    dockerService: number
+}
+
+export interface AppApiStartServersForAppRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistartServersForApp
+     */
+    app: number
+}
+
+export interface AppApiStartServersForAppLocationSettingRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistartServersForAppLocationSetting
+     */
+    appLocationSetting: number
+}
+
+export interface AppApiStartServersForBinaryRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistartServersForBinary
+     */
+    binary: number
+}
+
+export interface AppApiStartServersForServerConfigRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistartServersForServerConfig
+     */
+    serverConfig: number
+}
+
 export interface AppApiSteamGetBranchesRequest {
     /**
      * The steamworks app id
@@ -1261,6 +1385,56 @@ export interface AppApiSteamGetLauncherRequest {
      * @memberof AppApisteamGetLauncher
      */
     os?: OperatingSystem
+}
+
+export interface AppApiStopServerRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistopServer
+     */
+    dockerService: number
+}
+
+export interface AppApiStopServersForAppRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistopServersForApp
+     */
+    app: number
+}
+
+export interface AppApiStopServersForAppLocationSettingRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistopServersForAppLocationSetting
+     */
+    appLocationSetting: number
+}
+
+export interface AppApiStopServersForBinaryRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistopServersForBinary
+     */
+    binary: number
+}
+
+export interface AppApiStopServersForServerConfigRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApistopServersForServerConfig
+     */
+    serverConfig: number
 }
 
 export interface AppApiTemplateAppMinecraftStoreRequest {
@@ -1401,18 +1575,18 @@ export class ObjectAppApi {
     }
 
     /**
-     * Creates a backup
+     * Create service backup
      * @param param the request object
      */
-    public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.createBackupWithHttpInfo(param.dockerService, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
     /**
-     * Creates a backup
+     * Create service backup
      * @param param the request object
      */
-    public createBackup(param: AppApiCreateBackupRequest, options?: Configuration): Promise<any> {
+    public createBackup(param: AppApiCreateBackupRequest, options?: Configuration): Promise<void> {
         return this.api.createBackup(param.dockerService, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
@@ -1468,7 +1642,7 @@ export class ObjectAppApi {
      * Delete a specific app
      * @param param the request object
      */
-    public deleteAppWithHttpInfo(param: AppApiDeleteAppRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteAppWithHttpInfo(param: AppApiDeleteAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteAppWithHttpInfo(param.app,  options).toPromise();
     }
 
@@ -1476,7 +1650,7 @@ export class ObjectAppApi {
      * Delete a specific app
      * @param param the request object
      */
-    public deleteApp(param: AppApiDeleteAppRequest, options?: Configuration): Promise<any> {
+    public deleteApp(param: AppApiDeleteAppRequest, options?: Configuration): Promise<void> {
         return this.api.deleteApp(param.app,  options).toPromise();
     }
 
@@ -1484,7 +1658,7 @@ export class ObjectAppApi {
      * Delete a location setting
      * @param param the request object
      */
-    public deleteAppLocationSettingWithHttpInfo(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteAppLocationSettingWithHttpInfo(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1492,7 +1666,7 @@ export class ObjectAppApi {
      * Delete a location setting
      * @param param the request object
      */
-    public deleteAppLocationSetting(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<any> {
+    public deleteAppLocationSetting(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<void> {
         return this.api.deleteAppLocationSetting(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1500,7 +1674,7 @@ export class ObjectAppApi {
      * Delete a specified binary
      * @param param the request object
      */
-    public deleteBinaryWithHttpInfo(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteBinaryWithHttpInfo(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -1508,7 +1682,7 @@ export class ObjectAppApi {
      * Delete a specified binary
      * @param param the request object
      */
-    public deleteBinary(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<any> {
+    public deleteBinary(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<void> {
         return this.api.deleteBinary(param.binary,  options).toPromise();
     }
 
@@ -1516,7 +1690,7 @@ export class ObjectAppApi {
      * Delete a specific docker registry
      * @param param the request object
      */
-    public deleteDockerRegistryWithHttpInfo(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteDockerRegistryWithHttpInfo(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteDockerRegistryWithHttpInfo(param.dockerRegistry,  options).toPromise();
     }
 
@@ -1524,7 +1698,7 @@ export class ObjectAppApi {
      * Delete a specific docker registry
      * @param param the request object
      */
-    public deleteDockerRegistry(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<any> {
+    public deleteDockerRegistry(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<void> {
         return this.api.deleteDockerRegistry(param.dockerRegistry,  options).toPromise();
     }
 
@@ -1532,7 +1706,7 @@ export class ObjectAppApi {
      * Delete a specific server config
      * @param param the request object
      */
-    public deleteServerConfigWithHttpInfo(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteServerConfigWithHttpInfo(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.deleteServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -1540,12 +1714,12 @@ export class ObjectAppApi {
      * Delete a specific server config
      * @param param the request object
      */
-    public deleteServerConfig(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<any> {
+    public deleteServerConfig(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<void> {
         return this.api.deleteServerConfig(param.serverConfig,  options).toPromise();
     }
 
     /**
-     * Delete all metadata from the service
+     * Delete all service metadata
      * @param param the request object
      */
     public dockerServicesMetadataDeleteAllWithHttpInfo(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -1553,7 +1727,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Delete all metadata from the service
+     * Delete all service metadata
      * @param param the request object
      */
     public dockerServicesMetadataDeleteAll(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<Server> {
@@ -1561,7 +1735,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete service metadata keys
      * @param param the request object
      */
     public dockerServicesMetadataDeleteKeysWithHttpInfo(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -1569,7 +1743,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete service metadata keys
      * @param param the request object
      */
     public dockerServicesMetadataDeleteKeys(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<Server> {
@@ -1578,7 +1752,7 @@ export class ObjectAppApi {
 
     /**
      * Replaces the entire metadata set with only the values provided in the request.
-     * Set metadata for the service
+     * Set service metadata
      * @param param the request object
      */
     public dockerServicesMetadataSetWithHttpInfo(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -1587,7 +1761,7 @@ export class ObjectAppApi {
 
     /**
      * Replaces the entire metadata set with only the values provided in the request.
-     * Set metadata for the service
+     * Set service metadata
      * @param param the request object
      */
     public dockerServicesMetadataSet(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<Server> {
@@ -1596,7 +1770,7 @@ export class ObjectAppApi {
 
     /**
      * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
-     * Update metadata for the service
+     * Update service metadata
      * @param param the request object
      */
     public dockerServicesMetadataUpdateWithHttpInfo(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<HttpInfo<Server>> {
@@ -1605,11 +1779,27 @@ export class ObjectAppApi {
 
     /**
      * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
-     * Update metadata for the service
+     * Update service metadata
      * @param param the request object
      */
     public dockerServicesMetadataUpdate(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<Server> {
         return this.api.dockerServicesMetadataUpdate(param.dockerService, param.patchMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Download service logs
+     * @param param the request object
+     */
+    public downloadServerLogsWithHttpInfo(param: AppApiDownloadServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+        return this.api.downloadServerLogsWithHttpInfo(param.dockerService, param.streamSource,  options).toPromise();
+    }
+
+    /**
+     * Download service logs
+     * @param param the request object
+     */
+    public downloadServerLogs(param: AppApiDownloadServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
+        return this.api.downloadServerLogs(param.dockerService, param.streamSource,  options).toPromise();
     }
 
     /**
@@ -1695,7 +1885,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * List all backups
+     * List service backups
      * @param param the request object
      */
     public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: Configuration): Promise<HttpInfo<GetBackups200Response>> {
@@ -1703,7 +1893,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * List all backups
+     * List service backups
      * @param param the request object
      */
     public getBackups(param: AppApiGetBackupsRequest, options?: Configuration): Promise<GetBackups200Response> {
@@ -1775,7 +1965,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display the latest backup
+     * Get latest service backup
      * @param param the request object
      */
     public getLatestBackupWithHttpInfo(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<HttpInfo<Backup>> {
@@ -1783,7 +1973,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Display the latest backup
+     * Get latest service backup
      * @param param the request object
      */
     public getLatestBackup(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<Backup> {
@@ -1839,7 +2029,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Generate a presigned URL for downloading the latest backup from AWS S3
+     * Get service backup download URL
      * @param param the request object
      */
     public getServerBackupDownloadUrlWithHttpInfo(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<HttpInfo<BackupDownload>> {
@@ -1847,7 +2037,7 @@ export class ObjectAppApi {
     }
 
     /**
-     * Generate a presigned URL for downloading the latest backup from AWS S3
+     * Get service backup download URL
      * @param param the request object
      */
     public getServerBackupDownloadUrl(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<BackupDownload> {
@@ -1903,35 +2093,35 @@ export class ObjectAppApi {
     }
 
     /**
-     * Get stdout and stderr logs from the latest gameserver task
+     * Get service logs
      * @param param the request object
      */
     public getServerLogsWithHttpInfo(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
-        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.since, param.limit, param.direction, param.streamSource,  options).toPromise();
+        return this.api.getServerLogsWithHttpInfo(param.dockerService, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
     /**
-     * Get stdout and stderr logs from the latest gameserver task
+     * Get service logs
      * @param param the request object
      */
     public getServerLogs(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
-        return this.api.getServerLogs(param.dockerService, param.since, param.limit, param.direction, param.streamSource,  options).toPromise();
+        return this.api.getServerLogs(param.dockerService, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
     /**
-     * Show all services
+     * List services
      * @param param the request object
      */
     public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
-     * Show all services
+     * List services
      * @param param the request object
      */
     public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
-        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
@@ -2015,35 +2205,115 @@ export class ObjectAppApi {
     }
 
     /**
-     * Restart the service
+     * Restart service
      * @param param the request object
      */
-    public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.restartServerWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
     /**
-     * Restart the service
+     * Restart service
      * @param param the request object
      */
-    public restartServer(param: AppApiRestartServerRequest, options?: Configuration): Promise<any> {
+    public restartServer(param: AppApiRestartServerRequest, options?: Configuration): Promise<void> {
         return this.api.restartServer(param.dockerService,  options).toPromise();
     }
 
     /**
-     * Restore the latest backup
+     * Restore latest service backup
      * @param param the request object
      */
-    public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<HttpInfo<any>> {
+    public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<HttpInfo<void>> {
         return this.api.restoreBackupWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
     /**
-     * Restore the latest backup
+     * Restore latest service backup
      * @param param the request object
      */
-    public restoreBackup(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<any> {
+    public restoreBackup(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<void> {
         return this.api.restoreBackup(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Start service
+     * @param param the request object
+     */
+    public startServerWithHttpInfo(param: AppApiStartServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.startServerWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Start service
+     * @param param the request object
+     */
+    public startServer(param: AppApiStartServerRequest, options?: Configuration): Promise<void> {
+        return this.api.startServer(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app
+     * @param param the request object
+     */
+    public startServersForAppWithHttpInfo(param: AppApiStartServersForAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.startServersForAppWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app
+     * @param param the request object
+     */
+    public startServersForApp(param: AppApiStartServersForAppRequest, options?: Configuration): Promise<void> {
+        return this.api.startServersForApp(param.app,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app location setting
+     * @param param the request object
+     */
+    public startServersForAppLocationSettingWithHttpInfo(param: AppApiStartServersForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.startServersForAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app location setting
+     * @param param the request object
+     */
+    public startServersForAppLocationSetting(param: AppApiStartServersForAppLocationSettingRequest, options?: Configuration): Promise<void> {
+        return this.api.startServersForAppLocationSetting(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific binary
+     * @param param the request object
+     */
+    public startServersForBinaryWithHttpInfo(param: AppApiStartServersForBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.startServersForBinaryWithHttpInfo(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific binary
+     * @param param the request object
+     */
+    public startServersForBinary(param: AppApiStartServersForBinaryRequest, options?: Configuration): Promise<void> {
+        return this.api.startServersForBinary(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific server config
+     * @param param the request object
+     */
+    public startServersForServerConfigWithHttpInfo(param: AppApiStartServersForServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.startServersForServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
+    }
+
+    /**
+     * Start all services related to a specific server config
+     * @param param the request object
+     */
+    public startServersForServerConfig(param: AppApiStartServersForServerConfigRequest, options?: Configuration): Promise<void> {
+        return this.api.startServersForServerConfig(param.serverConfig,  options).toPromise();
     }
 
     /**
@@ -2076,6 +2346,86 @@ export class ObjectAppApi {
      */
     public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<Array<SteamLauncher>> {
         return this.api.steamGetLauncher(param.appId, param.os,  options).toPromise();
+    }
+
+    /**
+     * Stop service
+     * @param param the request object
+     */
+    public stopServerWithHttpInfo(param: AppApiStopServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.stopServerWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Stop service
+     * @param param the request object
+     */
+    public stopServer(param: AppApiStopServerRequest, options?: Configuration): Promise<void> {
+        return this.api.stopServer(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app
+     * @param param the request object
+     */
+    public stopServersForAppWithHttpInfo(param: AppApiStopServersForAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.stopServersForAppWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app
+     * @param param the request object
+     */
+    public stopServersForApp(param: AppApiStopServersForAppRequest, options?: Configuration): Promise<void> {
+        return this.api.stopServersForApp(param.app,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app location setting
+     * @param param the request object
+     */
+    public stopServersForAppLocationSettingWithHttpInfo(param: AppApiStopServersForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.stopServersForAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app location setting
+     * @param param the request object
+     */
+    public stopServersForAppLocationSetting(param: AppApiStopServersForAppLocationSettingRequest, options?: Configuration): Promise<void> {
+        return this.api.stopServersForAppLocationSetting(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific binary
+     * @param param the request object
+     */
+    public stopServersForBinaryWithHttpInfo(param: AppApiStopServersForBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.stopServersForBinaryWithHttpInfo(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific binary
+     * @param param the request object
+     */
+    public stopServersForBinary(param: AppApiStopServersForBinaryRequest, options?: Configuration): Promise<void> {
+        return this.api.stopServersForBinary(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific server config
+     * @param param the request object
+     */
+    public stopServersForServerConfigWithHttpInfo(param: AppApiStopServersForServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.stopServersForServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific server config
+     * @param param the request object
+     */
+    public stopServersForServerConfig(param: AppApiStopServersForServerConfigRequest, options?: Configuration): Promise<void> {
+        return this.api.stopServersForServerConfig(param.serverConfig,  options).toPromise();
     }
 
     /**

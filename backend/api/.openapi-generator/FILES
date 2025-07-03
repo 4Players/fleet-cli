@@ -12,6 +12,7 @@ http/isomorphic-fetch.ts
 index.ts
 middleware.ts
 models/App.ts
+models/AppBillingState.ts
 models/AppLocationSetting.ts
 models/AppLocationSettingStatus.ts
 models/Architecture.ts

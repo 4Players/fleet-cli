@@ -12,16 +12,8 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppLocationSettingStatus {
-    Pending = 'pending',
-    Creating = 'creating',
-    Updating = 'updating',
-    Deleting = 'deleting',
-    Upscaling = 'upscaling',
-    Downscaling = 'downscaling',
-    Error = 'error',
-    Ready = 'ready',
-    Waiting = 'waiting',
-    Moving = 'moving',
-    Cloning = 'cloning'
+export enum AppBillingState {
+    Free = 'free',
+    Active = 'active',
+    Cancelled = 'cancelled'
 }

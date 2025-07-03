@@ -1,4 +1,5 @@
 export * from '../models/App.ts';
+export * from '../models/AppBillingState.ts';
 export * from '../models/AppLocationSetting.ts';
 export * from '../models/AppLocationSettingStatus.ts';
 export * from '../models/Architecture.ts';
@@ -75,7 +76,8 @@ export * from '../models/UpdateBinaryRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/UpdateServerConfigRequest.ts';
 
-import { App } from '../models/App.ts';
+import { App     } from '../models/App.ts';
+import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting               } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -165,6 +167,7 @@ let primitives = [
                  ];
 
 let enumsMap: Set<string> = new Set<string>([
+    "AppBillingState",
     "AppLocationSettingStatus",
     "Architecture",
     "BinaryStatus",

@@ -2,6 +2,7 @@ import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/htt
 import { Configuration} from '../configuration.ts'
 
 import { App } from '../models/App.ts';
+import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -130,21 +131,21 @@ export class PromiseAppApi {
     }
 
     /**
-     * Creates a backup
+     * Create service backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest
      */
-    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<HttpInfo<any>> {
+    public createBackupWithHttpInfo(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.createBackupWithHttpInfo(dockerService, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
 
     /**
-     * Creates a backup
+     * Create service backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest
      */
-    public createBackup(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<any> {
+    public createBackup(dockerService: number, createBackupDockerServiceRequest: CreateBackupDockerServiceRequest, _options?: Configuration): Promise<void> {
         const result = this.api.createBackup(dockerService, createBackupDockerServiceRequest, _options);
         return result.toPromise();
     }
@@ -211,7 +212,7 @@ export class PromiseAppApi {
      * Delete a specific app
      * @param app The app ID
      */
-    public deleteAppWithHttpInfo(app: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteAppWithHttpInfo(app: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deleteAppWithHttpInfo(app, _options);
         return result.toPromise();
     }
@@ -220,7 +221,7 @@ export class PromiseAppApi {
      * Delete a specific app
      * @param app The app ID
      */
-    public deleteApp(app: number, _options?: Configuration): Promise<any> {
+    public deleteApp(app: number, _options?: Configuration): Promise<void> {
         const result = this.api.deleteApp(app, _options);
         return result.toPromise();
     }
@@ -229,7 +230,7 @@ export class PromiseAppApi {
      * Delete a location setting
      * @param appLocationSetting The app location setting ID
      */
-    public deleteAppLocationSettingWithHttpInfo(appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteAppLocationSettingWithHttpInfo(appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deleteAppLocationSettingWithHttpInfo(appLocationSetting, _options);
         return result.toPromise();
     }
@@ -238,7 +239,7 @@ export class PromiseAppApi {
      * Delete a location setting
      * @param appLocationSetting The app location setting ID
      */
-    public deleteAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<any> {
+    public deleteAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<void> {
         const result = this.api.deleteAppLocationSetting(appLocationSetting, _options);
         return result.toPromise();
     }
@@ -247,7 +248,7 @@ export class PromiseAppApi {
      * Delete a specified binary
      * @param binary The binary ID
      */
-    public deleteBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deleteBinaryWithHttpInfo(binary, _options);
         return result.toPromise();
     }
@@ -256,7 +257,7 @@ export class PromiseAppApi {
      * Delete a specified binary
      * @param binary The binary ID
      */
-    public deleteBinary(binary: number, _options?: Configuration): Promise<any> {
+    public deleteBinary(binary: number, _options?: Configuration): Promise<void> {
         const result = this.api.deleteBinary(binary, _options);
         return result.toPromise();
     }
@@ -265,7 +266,7 @@ export class PromiseAppApi {
      * Delete a specific docker registry
      * @param dockerRegistry The docker registry ID
      */
-    public deleteDockerRegistryWithHttpInfo(dockerRegistry: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteDockerRegistryWithHttpInfo(dockerRegistry: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deleteDockerRegistryWithHttpInfo(dockerRegistry, _options);
         return result.toPromise();
     }
@@ -274,7 +275,7 @@ export class PromiseAppApi {
      * Delete a specific docker registry
      * @param dockerRegistry The docker registry ID
      */
-    public deleteDockerRegistry(dockerRegistry: number, _options?: Configuration): Promise<any> {
+    public deleteDockerRegistry(dockerRegistry: number, _options?: Configuration): Promise<void> {
         const result = this.api.deleteDockerRegistry(dockerRegistry, _options);
         return result.toPromise();
     }
@@ -283,7 +284,7 @@ export class PromiseAppApi {
      * Delete a specific server config
      * @param serverConfig The server config ID
      */
-    public deleteServerConfigWithHttpInfo(serverConfig: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public deleteServerConfigWithHttpInfo(serverConfig: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.deleteServerConfigWithHttpInfo(serverConfig, _options);
         return result.toPromise();
     }
@@ -292,13 +293,13 @@ export class PromiseAppApi {
      * Delete a specific server config
      * @param serverConfig The server config ID
      */
-    public deleteServerConfig(serverConfig: number, _options?: Configuration): Promise<any> {
+    public deleteServerConfig(serverConfig: number, _options?: Configuration): Promise<void> {
         const result = this.api.deleteServerConfig(serverConfig, _options);
         return result.toPromise();
     }
 
     /**
-     * Delete all metadata from the service
+     * Delete all service metadata
      * @param dockerService The docker service ID
      */
     public dockerServicesMetadataDeleteAllWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<Server>> {
@@ -307,7 +308,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Delete all metadata from the service
+     * Delete all service metadata
      * @param dockerService The docker service ID
      */
     public dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Promise<Server> {
@@ -316,7 +317,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete service metadata keys
      * @param dockerService The docker service ID
      * @param metadata
      */
@@ -326,7 +327,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete service metadata keys
      * @param dockerService The docker service ID
      * @param metadata
      */
@@ -337,7 +338,7 @@ export class PromiseAppApi {
 
     /**
      * Replaces the entire metadata set with only the values provided in the request.
-     * Set metadata for the service
+     * Set service metadata
      * @param dockerService The docker service ID
      * @param [setMetadataRequest]
      */
@@ -348,7 +349,7 @@ export class PromiseAppApi {
 
     /**
      * Replaces the entire metadata set with only the values provided in the request.
-     * Set metadata for the service
+     * Set service metadata
      * @param dockerService The docker service ID
      * @param [setMetadataRequest]
      */
@@ -359,7 +360,7 @@ export class PromiseAppApi {
 
     /**
      * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
-     * Update metadata for the service
+     * Update service metadata
      * @param dockerService The docker service ID
      * @param [patchMetadataRequest]
      */
@@ -370,12 +371,32 @@ export class PromiseAppApi {
 
     /**
      * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
-     * Update metadata for the service
+     * Update service metadata
      * @param dockerService The docker service ID
      * @param [patchMetadataRequest]
      */
     public dockerServicesMetadataUpdate(dockerService: number, patchMetadataRequest?: PatchMetadataRequest, _options?: Configuration): Promise<Server> {
         const result = this.api.dockerServicesMetadataUpdate(dockerService, patchMetadataRequest, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Download service logs
+     * @param dockerService The docker service ID
+     * @param [streamSource] Only return logs filtered by stream source like stdout or stderr.
+     */
+    public downloadServerLogsWithHttpInfo(dockerService: number, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+        const result = this.api.downloadServerLogsWithHttpInfo(dockerService, streamSource, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Download service logs
+     * @param dockerService The docker service ID
+     * @param [streamSource] Only return logs filtered by stream source like stdout or stderr.
+     */
+    public downloadServerLogs(dockerService: number, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<ServiceLogs> {
+        const result = this.api.downloadServerLogs(dockerService, streamSource, _options);
         return result.toPromise();
     }
 
@@ -526,7 +547,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * List all backups
+     * List service backups
      * @param dockerService The docker service ID
      * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
@@ -540,7 +561,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * List all backups
+     * List service backups
      * @param dockerService The docker service ID
      * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
@@ -664,7 +685,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Display the latest backup
+     * Get latest service backup
      * @param dockerService The docker service ID
      */
     public getLatestBackupWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<Backup>> {
@@ -673,7 +694,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Display the latest backup
+     * Get latest service backup
      * @param dockerService The docker service ID
      */
     public getLatestBackup(dockerService: number, _options?: Configuration): Promise<Backup> {
@@ -760,7 +781,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Generate a presigned URL for downloading the latest backup from AWS S3
+     * Get service backup download URL
      * @param dockerService The docker service ID
      */
     public getServerBackupDownloadUrlWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<BackupDownload>> {
@@ -769,7 +790,7 @@ export class PromiseAppApi {
     }
 
     /**
-     * Generate a presigned URL for downloading the latest backup from AWS S3
+     * Get service backup download URL
      * @param dockerService The docker service ID
      */
     public getServerBackupDownloadUrl(dockerService: number, _options?: Configuration): Promise<BackupDownload> {
@@ -870,68 +891,84 @@ export class PromiseAppApi {
     }
 
     /**
-     * Get stdout and stderr logs from the latest gameserver task
+     * Get service logs
      * @param dockerService The docker service ID
-     * @param [since] A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
      * @param [limit] The max number of entries to return. Default: 100
      * @param [direction] Determines the sort order of logs. Supported values are forward or backward. Default: forward
      * @param [streamSource] Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public getServerLogsWithHttpInfo(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
-        const result = this.api.getServerLogsWithHttpInfo(dockerService, since, limit, direction, streamSource, _options);
+    public getServerLogsWithHttpInfo(dockerService: number, limit?: number, direction?: string, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+        const result = this.api.getServerLogsWithHttpInfo(dockerService, limit, direction, streamSource, _options);
         return result.toPromise();
     }
 
     /**
-     * Get stdout and stderr logs from the latest gameserver task
+     * Get service logs
      * @param dockerService The docker service ID
-     * @param [since] A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
      * @param [limit] The max number of entries to return. Default: 100
      * @param [direction] Determines the sort order of logs. Supported values are forward or backward. Default: forward
      * @param [streamSource] Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public getServerLogs(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Promise<ServiceLogs> {
-        const result = this.api.getServerLogs(dockerService, since, limit, direction, streamSource, _options);
+    public getServerLogs(dockerService: number, limit?: number, direction?: string, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<ServiceLogs> {
+        const result = this.api.getServerLogs(dockerService, limit, direction, streamSource, _options);
         return result.toPromise();
     }
 
     /**
-     * Show all services
+     * List services
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterServerConfigName] Filter by ServerConfig name.
+     * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterLocationCity] Filter by location city.
      * @param [filterLocationCityDisplay] Filter by location city display name.
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
+     * @param [filterIsBackupable] Filter by whether the service can be backed up.
+     * @param [filterIsRestorable] Filter by whether the service can be restored.
+     * @param [filterIsPending] Filter by whether the service is pending (not running) due to insufficient resources on the node.
+     * @param [filterIsNotFound] Filter by whether the service is not found/missing in the cluster.
+     * @param [filterIsHealthy] Filter by whether the service is currently in an overall healthy state.
+     * @param [filterBinaryId] Filter by Binary ID.
+     * @param [filterIsStopped] Filter by whether the service is currenctly stopped.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
-        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options);
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
+        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _options);
         return result.toPromise();
     }
 
     /**
-     * Show all services
+     * List services
      * @param app The app ID
      * @param [perPage] The number of items to be shown per page.
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
+     * @param [filterServerConfigName] Filter by ServerConfig name.
+     * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterLocationCity] Filter by location city.
      * @param [filterLocationCityDisplay] Filter by location city display name.
      * @param [filterLocationContinent] Filter by location continent.
      * @param [filterLocationCountry] Filter by location country.
+     * @param [filterIsBackupable] Filter by whether the service can be backed up.
+     * @param [filterIsRestorable] Filter by whether the service can be restored.
+     * @param [filterIsPending] Filter by whether the service is pending (not running) due to insufficient resources on the node.
+     * @param [filterIsNotFound] Filter by whether the service is not found/missing in the cluster.
+     * @param [filterIsHealthy] Filter by whether the service is currently in an overall healthy state.
+     * @param [filterBinaryId] Filter by Binary ID.
+     * @param [filterIsStopped] Filter by whether the service is currenctly stopped.
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<GetServers200Response> {
-        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterMetadata, sort, _options);
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<GetServers200Response> {
+        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _options);
         return result.toPromise();
     }
 
@@ -1026,38 +1063,128 @@ export class PromiseAppApi {
     }
 
     /**
-     * Restart the service
+     * Restart service
      * @param dockerService The docker service ID
      */
-    public restartServerWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public restartServerWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.restartServerWithHttpInfo(dockerService, _options);
         return result.toPromise();
     }
 
     /**
-     * Restart the service
+     * Restart service
      * @param dockerService The docker service ID
      */
-    public restartServer(dockerService: number, _options?: Configuration): Promise<any> {
+    public restartServer(dockerService: number, _options?: Configuration): Promise<void> {
         const result = this.api.restartServer(dockerService, _options);
         return result.toPromise();
     }
 
     /**
-     * Restore the latest backup
+     * Restore latest service backup
      * @param dockerService The docker service ID
      */
-    public restoreBackupWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<any>> {
+    public restoreBackupWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<void>> {
         const result = this.api.restoreBackupWithHttpInfo(dockerService, _options);
         return result.toPromise();
     }
 
     /**
-     * Restore the latest backup
+     * Restore latest service backup
      * @param dockerService The docker service ID
      */
-    public restoreBackup(dockerService: number, _options?: Configuration): Promise<any> {
+    public restoreBackup(dockerService: number, _options?: Configuration): Promise<void> {
         const result = this.api.restoreBackup(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start service
+     * @param dockerService The docker service ID
+     */
+    public startServerWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.startServerWithHttpInfo(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start service
+     * @param dockerService The docker service ID
+     */
+    public startServer(dockerService: number, _options?: Configuration): Promise<void> {
+        const result = this.api.startServer(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app
+     * @param app The app ID
+     */
+    public startServersForAppWithHttpInfo(app: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.startServersForAppWithHttpInfo(app, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app
+     * @param app The app ID
+     */
+    public startServersForApp(app: number, _options?: Configuration): Promise<void> {
+        const result = this.api.startServersForApp(app, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public startServersForAppLocationSettingWithHttpInfo(appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.startServersForAppLocationSettingWithHttpInfo(appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public startServersForAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<void> {
+        const result = this.api.startServersForAppLocationSetting(appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public startServersForBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.startServersForBinaryWithHttpInfo(binary, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public startServersForBinary(binary: number, _options?: Configuration): Promise<void> {
+        const result = this.api.startServersForBinary(binary, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public startServersForServerConfigWithHttpInfo(serverConfig: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.startServersForServerConfigWithHttpInfo(serverConfig, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Start all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public startServersForServerConfig(serverConfig: number, _options?: Configuration): Promise<void> {
+        const result = this.api.startServersForServerConfig(serverConfig, _options);
         return result.toPromise();
     }
 
@@ -1096,6 +1223,96 @@ export class PromiseAppApi {
      */
     public steamGetLauncher(appId: number, os?: OperatingSystem, _options?: Configuration): Promise<Array<SteamLauncher>> {
         const result = this.api.steamGetLauncher(appId, os, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop service
+     * @param dockerService The docker service ID
+     */
+    public stopServerWithHttpInfo(dockerService: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.stopServerWithHttpInfo(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop service
+     * @param dockerService The docker service ID
+     */
+    public stopServer(dockerService: number, _options?: Configuration): Promise<void> {
+        const result = this.api.stopServer(dockerService, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app
+     * @param app The app ID
+     */
+    public stopServersForAppWithHttpInfo(app: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.stopServersForAppWithHttpInfo(app, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app
+     * @param app The app ID
+     */
+    public stopServersForApp(app: number, _options?: Configuration): Promise<void> {
+        const result = this.api.stopServersForApp(app, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public stopServersForAppLocationSettingWithHttpInfo(appLocationSetting: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.stopServersForAppLocationSettingWithHttpInfo(appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public stopServersForAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<void> {
+        const result = this.api.stopServersForAppLocationSetting(appLocationSetting, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public stopServersForBinaryWithHttpInfo(binary: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.stopServersForBinaryWithHttpInfo(binary, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public stopServersForBinary(binary: number, _options?: Configuration): Promise<void> {
+        const result = this.api.stopServersForBinary(binary, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public stopServersForServerConfigWithHttpInfo(serverConfig: number, _options?: Configuration): Promise<HttpInfo<void>> {
+        const result = this.api.stopServersForServerConfigWithHttpInfo(serverConfig, _options);
+        return result.toPromise();
+    }
+
+    /**
+     * Stop all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public stopServersForServerConfig(serverConfig: number, _options?: Configuration): Promise<void> {
+        const result = this.api.stopServersForServerConfig(serverConfig, _options);
         return result.toPromise();
     }
 

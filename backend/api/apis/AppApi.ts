@@ -147,7 +147,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Creates a backup
+     * Create service backup
      * @param dockerService The docker service ID
      * @param createBackupDockerServiceRequest 
      */
@@ -490,7 +490,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Delete all metadata from the service
+     * Delete all service metadata
      * @param dockerService The docker service ID
      */
     public async dockerServicesMetadataDeleteAll(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -521,7 +521,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Delete specific metadata keys from the service
+     * Delete service metadata keys
      * @param dockerService The docker service ID
      * @param metadata 
      */
@@ -568,7 +568,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Replaces the entire metadata set with only the values provided in the request.
-     * Set metadata for the service
+     * Set service metadata
      * @param dockerService The docker service ID
      * @param setMetadataRequest 
      */
@@ -613,7 +613,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
     /**
      * Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.
-     * Update metadata for the service
+     * Update service metadata
      * @param dockerService The docker service ID
      * @param patchMetadataRequest 
      */
@@ -646,6 +646,44 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Download service logs
+     * @param dockerService The docker service ID
+     * @param streamSource Only return logs filtered by stream source like stdout or stderr.
+     */
+    public async downloadServerLogs(dockerService: number, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "downloadServerLogs", "dockerService");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/logs/download'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (streamSource !== undefined) {
+            requestContext.setQueryParam("streamSource", ObjectSerializer.serialize(streamSource, "'stdout' | 'stderr'", ""));
+        }
+
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -1017,7 +1055,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * List all backups
+     * List service backups
      * @param dockerService The docker service ID
      * @param perPage The number of items to be shown per page.
      * @param page Specifies the page number to retrieve in the paginated results.
@@ -1348,7 +1386,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Display the latest backup
+     * Get latest service backup
      * @param dockerService The docker service ID
      */
     public async getLatestBackup(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -1557,7 +1595,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Generate a presigned URL for downloading the latest backup from AWS S3
+     * Get service backup download URL
      * @param dockerService The docker service ID
      */
     public async getServerBackupDownloadUrl(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -1818,21 +1856,19 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Get stdout and stderr logs from the latest gameserver task
+     * Get service logs
      * @param dockerService The docker service ID
-     * @param since A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d
      * @param limit The max number of entries to return. Default: 100
      * @param direction Determines the sort order of logs. Supported values are forward or backward. Default: forward
      * @param streamSource Only return logs filtered by stream source like stdout or stderr. Default: null
      */
-    public async getServerLogs(dockerService: number, since?: string, limit?: number, direction?: string, streamSource?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServerLogs(dockerService: number, limit?: number, direction?: string, streamSource?: 'stdout' | 'stderr', _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
         if (dockerService === null || dockerService === undefined) {
             throw new RequiredError("AppApi", "getServerLogs", "dockerService");
         }
-
 
 
 
@@ -1847,11 +1883,6 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
         // Query Params
-        if (since !== undefined) {
-            requestContext.setQueryParam("since", ObjectSerializer.serialize(since, "string", ""));
-        }
-
-        // Query Params
         if (limit !== undefined) {
             requestContext.setQueryParam("limit", ObjectSerializer.serialize(limit, "number", ""));
         }
@@ -1863,7 +1894,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (streamSource !== undefined) {
-            requestContext.setQueryParam("streamSource", ObjectSerializer.serialize(streamSource, "string", ""));
+            requestContext.setQueryParam("streamSource", ObjectSerializer.serialize(streamSource, "'stdout' | 'stderr'", ""));
         }
 
 
@@ -1877,27 +1908,45 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Show all services
+     * List services
      * @param app The app ID
      * @param perPage The number of items to be shown per page.
      * @param page Specifies the page number to retrieve in the paginated results.
      * @param filterStatus Filter by status.
      * @param filterAppLocationSettingId Filter by AppLocationSetting ID.
      * @param filterServerConfigId Filter by ServerConfig ID.
+     * @param filterServerConfigName Filter by ServerConfig name.
+     * @param filterServerConfigNamePartial Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param filterLocationCity Filter by location city.
      * @param filterLocationCityDisplay Filter by location city display name.
      * @param filterLocationContinent Filter by location continent.
      * @param filterLocationCountry Filter by location country.
+     * @param filterIsBackupable Filter by whether the service can be backed up.
+     * @param filterIsRestorable Filter by whether the service can be restored.
+     * @param filterIsPending Filter by whether the service is pending (not running) due to insufficient resources on the node.
+     * @param filterIsNotFound Filter by whether the service is not found/missing in the cluster.
+     * @param filterIsHealthy Filter by whether the service is currently in an overall healthy state.
+     * @param filterBinaryId Filter by Binary ID.
+     * @param filterIsStopped Filter by whether the service is currenctly stopped.
      * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<RequestContext> {
+    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServers", "app");
         }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1945,6 +1994,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         }
 
         // Query Params
+        if (filterServerConfigName !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigName]", ObjectSerializer.serialize(filterServerConfigName, "string", ""));
+        }
+
+        // Query Params
+        if (filterServerConfigNamePartial !== undefined) {
+            requestContext.setQueryParam("filter[serverConfigNamePartial]", ObjectSerializer.serialize(filterServerConfigNamePartial, "string", ""));
+        }
+
+        // Query Params
         if (filterLocationCity !== undefined) {
             requestContext.setQueryParam("filter[locationCity]", ObjectSerializer.serialize(filterLocationCity, "string", ""));
         }
@@ -1962,6 +2021,41 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterLocationCountry !== undefined) {
             requestContext.setQueryParam("filter[locationCountry]", ObjectSerializer.serialize(filterLocationCountry, "string", ""));
+        }
+
+        // Query Params
+        if (filterIsBackupable !== undefined) {
+            requestContext.setQueryParam("filter[isBackupable]", ObjectSerializer.serialize(filterIsBackupable, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterIsRestorable !== undefined) {
+            requestContext.setQueryParam("filter[isRestorable]", ObjectSerializer.serialize(filterIsRestorable, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterIsPending !== undefined) {
+            requestContext.setQueryParam("filter[isPending]", ObjectSerializer.serialize(filterIsPending, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterIsNotFound !== undefined) {
+            requestContext.setQueryParam("filter[isNotFound]", ObjectSerializer.serialize(filterIsNotFound, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterIsHealthy !== undefined) {
+            requestContext.setQueryParam("filter[isHealthy]", ObjectSerializer.serialize(filterIsHealthy, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterBinaryId !== undefined) {
+            requestContext.setQueryParam("filter[binaryId]", ObjectSerializer.serialize(filterBinaryId, "number", ""));
+        }
+
+        // Query Params
+        if (filterIsStopped !== undefined) {
+            requestContext.setQueryParam("filter[isStopped]", ObjectSerializer.serialize(filterIsStopped, "boolean", ""));
         }
 
         // Query Params
@@ -2143,7 +2237,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Restart the service
+     * Restart service
      * @param dockerService The docker service ID
      */
     public async restartServer(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -2174,7 +2268,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
-     * Restore the latest backup
+     * Restore latest service backup
      * @param dockerService The docker service ID
      */
     public async restoreBackup(dockerService: number, _options?: Configuration): Promise<RequestContext> {
@@ -2189,6 +2283,161 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Path Params
         const localVarPath = '/v1/services/{dockerService}/restore'
             .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Start service
+     * @param dockerService The docker service ID
+     */
+    public async startServer(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "startServer", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/start'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Start all services related to a specific app
+     * @param app The app ID
+     */
+    public async startServersForApp(app: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "startServersForApp", "app");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/services/start'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Start all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public async startServersForAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "startServersForAppLocationSetting", "appLocationSetting");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/services/start'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Start all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public async startServersForBinary(binary: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "startServersForBinary", "binary");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/services/start'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Start all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public async startServersForServerConfig(serverConfig: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "startServersForServerConfig", "serverConfig");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/services/start'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
 
         // Make Request Context
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
@@ -2273,6 +2522,161 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
                 requestContext.setQueryParam(key, serializedParams[key]);
             }
         }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Stop service
+     * @param dockerService The docker service ID
+     */
+    public async stopServer(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "stopServer", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/stop'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Stop all services related to a specific app
+     * @param app The app ID
+     */
+    public async stopServersForApp(app: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "stopServersForApp", "app");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/services/stop'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Stop all services related to a specific app location setting
+     * @param appLocationSetting The app location setting ID
+     */
+    public async stopServersForAppLocationSetting(appLocationSetting: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "stopServersForAppLocationSetting", "appLocationSetting");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/services/stop'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Stop all services related to a specific binary
+     * @param binary The binary ID
+     */
+    public async stopServersForBinary(binary: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "stopServersForBinary", "binary");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/services/stop'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Stop all services related to a specific server config
+     * @param serverConfig The server config ID
+     */
+    public async stopServersForServerConfig(serverConfig: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "stopServersForServerConfig", "serverConfig");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/services/stop'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
 
         
@@ -2635,13 +3039,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -2678,6 +3075,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
         if (isCodeInRange("401", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -2691,13 +3095,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -2719,14 +3116,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to createBackup
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async createBackupWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async createBackupWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("202", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -2734,6 +3127,13 @@ export class AppApiResponseProcessor {
                 "InlineObject", ""
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -2749,20 +3149,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2856,13 +3249,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -2940,14 +3326,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteApp
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteAppWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async deleteAppWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -2973,10 +3355,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -2990,14 +3372,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteAppLocationSetting
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async deleteAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -3023,10 +3401,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3040,14 +3418,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteBinary
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteBinaryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async deleteBinaryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -3073,10 +3447,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3090,14 +3464,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteDockerRegistry
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteDockerRegistryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async deleteDockerRegistryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -3123,10 +3493,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3140,14 +3510,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to deleteServerConfig
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async deleteServerConfigWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async deleteServerConfigWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("204", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -3173,10 +3539,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -3408,6 +3774,63 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to downloadServerLogs
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async downloadServerLogsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<ServiceLogs >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: ServiceLogs = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "ServiceLogs", ""
+            ) as ServiceLogs;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: ServiceLogs = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "ServiceLogs", ""
+            ) as ServiceLogs;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to getAppById
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -3590,13 +4013,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -3855,13 +4271,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -4005,13 +4414,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -4055,13 +4457,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -4104,13 +4499,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4562,13 +4950,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -4682,14 +5063,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to restartServer
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async restartServerWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async restartServerWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("202", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -4698,13 +5075,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
-        if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
-        }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -4712,13 +5082,20 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -4732,14 +5109,10 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to restoreBackup
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async restoreBackupWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+     public async restoreBackupWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("202", response.httpStatusCode)) {
-            const body: any = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
-            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -4748,12 +5121,51 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
         if (isCodeInRange("401", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to startServer
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async startServerWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
@@ -4762,13 +5174,204 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: any = ObjectSerializer.deserialize(
+            const body: void = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "any", ""
-            ) as any;
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to startServersForApp
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async startServersForAppWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to startServersForAppLocationSetting
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async startServersForAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to startServersForBinary
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async startServersForBinaryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to startServersForServerConfig
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async startServersForServerConfigWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -4804,13 +5407,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4855,13 +5451,6 @@ export class AppApiResponseProcessor {
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
         }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
-        }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
@@ -4869,6 +5458,236 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "Array<SteamLauncher>", ""
             ) as Array<SteamLauncher>;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to stopServer
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async stopServerWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to stopServersForApp
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async stopServersForAppWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to stopServersForAppLocationSetting
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async stopServersForAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to stopServersForBinary
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async stopServersForBinaryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to stopServersForServerConfig
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async stopServersForServerConfigWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -4904,13 +5723,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4954,13 +5766,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5055,6 +5860,13 @@ export class AppApiResponseProcessor {
             ) as InlineObject;
             throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
         }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
         if (isCodeInRange("401", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
@@ -5068,13 +5880,6 @@ export class AppApiResponseProcessor {
                 "InlineObject1", ""
             ) as InlineObject1;
             throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml

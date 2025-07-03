@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "ODIN Fleet API",
-        "version": "0.8.1",
+        "version": "0.9.0",
         "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
     },
     "servers": [
@@ -55,14 +55,14 @@
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -86,14 +86,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -134,6 +127,76 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/app-location-settings\/{appLocationSetting}\/services\/start": {
+            "post": {
+                "operationId": "startServersForAppLocationSetting",
+                "summary": "Start all services related to a specific app location setting",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/app-location-settings\/{appLocationSetting}\/services\/stop": {
+            "post": {
+                "operationId": "stopServersForAppLocationSetting",
+                "summary": "Stop all services related to a specific app location setting",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -569,14 +632,14 @@
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -850,9 +913,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -889,9 +949,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -957,14 +1014,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -1031,6 +1081,76 @@
                 }
             }
         },
+        "\/v1\/apps\/{app}\/services\/start": {
+            "post": {
+                "operationId": "startServersForApp",
+                "summary": "Start all services related to a specific app",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/apps\/{app}\/services\/stop": {
+            "post": {
+                "operationId": "stopServersForApp",
+                "summary": "Stop all services related to a specific app",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/auth\/token": {
             "post": {
                 "operationId": "getAuthToken",
@@ -1090,9 +1210,6 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -1494,14 +1611,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -1610,10 +1720,80 @@
                 }
             }
         },
+        "\/v1\/binaries\/{binary}\/services\/start": {
+            "post": {
+                "operationId": "startServersForBinary",
+                "summary": "Start all services related to a specific binary",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/binaries\/{binary}\/services\/stop": {
+            "post": {
+                "operationId": "stopServersForBinary",
+                "summary": "Stop all services related to a specific binary",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/apps\/{app}\/services": {
             "get": {
                 "operationId": "getServers",
-                "summary": "Show all services",
+                "summary": "List services",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -1671,6 +1851,22 @@
                         }
                     },
                     {
+                        "name": "filter[serverConfigName]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig name.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[serverConfigNamePartial]",
+                        "in": "query",
+                        "description": "Filter by ServerConfig name using partial matching. For example, \"ann\" matches \"Joanna\" or \"Annie\".",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "filter[locationCity]",
                         "in": "query",
                         "description": "Filter by location city.",
@@ -1700,6 +1896,62 @@
                         "description": "Filter by location country.",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[isBackupable]",
+                        "in": "query",
+                        "description": "Filter by whether the service can be backed up.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[isRestorable]",
+                        "in": "query",
+                        "description": "Filter by whether the service can be restored.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[isPending]",
+                        "in": "query",
+                        "description": "Filter by whether the service is pending (not running) due to insufficient resources on the node.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[isNotFound]",
+                        "in": "query",
+                        "description": "Filter by whether the service is not found\/missing in the cluster.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[isHealthy]",
+                        "in": "query",
+                        "description": "Filter by whether the service is currently in an overall healthy state.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[binaryId]",
+                        "in": "query",
+                        "description": "Filter by Binary ID.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[isStopped]",
+                        "in": "query",
+                        "description": "Filter by whether the service is currenctly stopped.",
+                        "schema": {
+                            "type": "boolean"
                         }
                     },
                     {
@@ -1741,6 +1993,18 @@
                                 "locationContinent",
                                 "-locationCountry",
                                 "locationCountry",
+                                "isBackupable",
+                                "-isBackupable",
+                                "isRestorable",
+                                "-isRestorable",
+                                "isPending",
+                                "-isPending",
+                                "isNotFound",
+                                "-isNotFound",
+                                "isHealthy",
+                                "-isHealthy",
+                                "isStopped",
+                                "-isStopped",
                                 "-createdAt",
                                 "createdAt",
                                 "-updatedAt",
@@ -2190,9 +2454,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -2229,9 +2490,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -2350,14 +2608,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -2476,7 +2727,7 @@
         "\/v1\/services\/{dockerService}\/logs": {
             "get": {
                 "operationId": "getServerLogs",
-                "summary": "Get stdout and stderr logs from the latest gameserver task",
+                "summary": "Get service logs",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2492,14 +2743,6 @@
                         }
                     },
                     {
-                        "name": "since",
-                        "in": "query",
-                        "description": "A duration used to calculate start relative to end. If end is in the future, start is calculated as this duration before now. Any value specified for start supersedes this parameter. Default: 7d",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
                         "name": "limit",
                         "in": "query",
                         "description": "The max number of entries to return. Default: 100",
@@ -2510,7 +2753,7 @@
                     {
                         "name": "direction",
                         "in": "query",
-                        "description": "Determines the sort order of logs. Supported values are forward or backward. Default: forward",
+                        "description": "Determines the sort order of logs. Supported values are forward or backward.\nDefault: forward",
                         "schema": {
                             "type": "string"
                         }
@@ -2520,7 +2763,68 @@
                         "in": "query",
                         "description": "Only return logs filtered by stream source like stdout or stderr. Default: null",
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "stdout",
+                                "stderr"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ServiceLogs`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/ServiceLogs"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/logs\/download": {
+            "get": {
+                "operationId": "downloadServerLogs",
+                "summary": "Download service logs",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "streamSource",
+                        "in": "query",
+                        "description": "Only return logs filtered by stream source like stdout or stderr.",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "stdout",
+                                "stderr"
+                            ]
                         }
                     }
                 ],
@@ -2553,7 +2857,7 @@
         "\/v1\/services\/{dockerService}\/backup": {
             "post": {
                 "operationId": "createBackup",
-                "summary": "Creates a backup",
+                "summary": "Create service backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2581,32 +2885,25 @@
                 },
                 "responses": {
                     "202": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": ""
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
             "get": {
                 "operationId": "getLatestBackup",
-                "summary": "Display the latest backup",
+                "summary": "Get latest service backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2648,7 +2945,7 @@
         "\/v1\/services\/{dockerService}\/restore": {
             "post": {
                 "operationId": "restoreBackup",
-                "summary": "Restore the latest backup",
+                "summary": "Restore latest service backup",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2666,23 +2963,16 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": ""
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
@@ -2690,7 +2980,7 @@
         "\/v1\/services\/{dockerService}\/backups": {
             "get": {
                 "operationId": "getBackups",
-                "summary": "List all backups",
+                "summary": "List service backups",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2911,7 +3201,7 @@
         "\/v1\/services\/{dockerService}\/backup\/download": {
             "get": {
                 "operationId": "getServerBackupDownloadUrl",
-                "summary": "Generate a presigned URL for downloading the latest backup from AWS S3",
+                "summary": "Get service backup download URL",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2953,7 +3243,7 @@
         "\/v1\/services\/{dockerService}\/restart": {
             "post": {
                 "operationId": "restartServer",
-                "summary": "Restart the service",
+                "summary": "Restart service",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -2971,23 +3261,16 @@
                 ],
                 "responses": {
                     "202": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": ""
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     }
                 }
             }
@@ -2996,7 +3279,7 @@
             "put": {
                 "operationId": "docker-services.metadata.set",
                 "description": "Replaces the entire metadata set with only the values provided in the request.",
-                "summary": "Set metadata for the service",
+                "summary": "Set service metadata",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -3049,7 +3332,7 @@
             "patch": {
                 "operationId": "docker-services.metadata.update",
                 "description": "Updates existing metadata keys or adds new keys without deleting metadata that is not mentioned.",
-                "summary": "Update metadata for the service",
+                "summary": "Update service metadata",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -3101,7 +3384,7 @@
             },
             "delete": {
                 "operationId": "docker-services.metadata.delete.all",
-                "summary": "Delete all metadata from the service",
+                "summary": "Delete all service metadata",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -3143,7 +3426,7 @@
         "\/v1\/services\/{dockerService}\/metadata\/keys": {
             "delete": {
                 "operationId": "docker-services.metadata.delete.keys",
-                "summary": "Delete specific metadata keys from the service",
+                "summary": "Delete service metadata keys",
                 "tags": [
                     "Docker",
                     "DockerService"
@@ -3189,6 +3472,76 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/start": {
+            "post": {
+                "operationId": "startServer",
+                "summary": "Start service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/stop": {
+            "post": {
+                "operationId": "stopServer",
+                "summary": "Stop service",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -3363,9 +3716,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -3637,9 +3987,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -3678,9 +4025,6 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4146,14 +4490,7 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No content",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "null"
-                                }
-                            }
-                        }
+                        "description": "No content"
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -4219,6 +4556,74 @@
                 }
             }
         },
+        "\/v1\/server-configs\/{serverConfig}\/services\/start": {
+            "post": {
+                "operationId": "startServersForServerConfig",
+                "summary": "Start all services related to a specific server config",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/server-configs\/{serverConfig}\/services\/stop": {
+            "post": {
+                "operationId": "stopServersForServerConfig",
+                "summary": "Stop all services related to a specific server config",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/binaries\/steam\/launchers": {
             "get": {
                 "operationId": "steamGetLauncher",
@@ -4261,9 +4666,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4302,9 +4704,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4342,9 +4741,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4382,9 +4778,6 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4406,14 +4799,28 @@
                     "inUse": {
                         "type": "boolean",
                         "description": "Indicates whether the app is currently in use"
+                    },
+                    "billingState": {
+                        "description": "The billing state of the app",
+                        "$ref": "#\/components\/schemas\/AppBillingState"
                     }
                 },
                 "required": [
                     "id",
                     "name",
-                    "inUse"
+                    "inUse",
+                    "billingState"
                 ],
                 "title": "App"
+            },
+            "AppBillingState": {
+                "type": "string",
+                "enum": [
+                    "free",
+                    "active",
+                    "cancelled"
+                ],
+                "title": "AppBillingState"
             },
             "AppLocationSetting": {
                 "type": "object",
@@ -5149,8 +5556,11 @@
                         "description": "The port inside the container. Incoming traffic is routed to this port within the container."
                     },
                     "publishedPort": {
-                        "type": "integer",
-                        "description": "The externally published port. This port is exposed, allowing external access."
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The externally published port, which allows external access. If `null`, the port has not yet been assigned."
                     }
                 },
                 "required": [
@@ -5242,6 +5652,7 @@
                     },
                     "memoryLimitBytes": {
                         "type": "integer",
+                        "format": "int64",
                         "description": "The maximum memory in bytes of the resource package"
                     },
                     "memoryLimitMiB": {
@@ -5254,6 +5665,7 @@
                     },
                     "memoryReservationBytes": {
                         "type": "integer",
+                        "format": "int64",
                         "description": "The minimum memory in bytes of the resource package"
                     },
                     "memoryReservationMiB": {
@@ -5405,6 +5817,10 @@
                         "type": "boolean",
                         "description": "Indicates whether the service is currently in an overall healthy state."
                     },
+                    "isStopped": {
+                        "type": "boolean",
+                        "description": "Indicates whether the service is currently stopped."
+                    },
                     "maintenance": {
                         "type": "boolean",
                         "description": "Indicates if the service is under maintenance"
@@ -5482,6 +5898,7 @@
                     "isPending",
                     "isNotFound",
                     "isHealthy",
+                    "isStopped",
                     "maintenance",
                     "ports",
                     "env",
@@ -6541,6 +6958,25 @@
                     }
                 }
             },
+            "AuthorizationException": {
+                "description": "Authorization error",
+                "content": {
+                    "application\/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "description": "Error overview."
+                                }
+                            },
+                            "required": [
+                                "message"
+                            ]
+                        }
+                    }
+                }
+            },
             "AuthenticationException": {
                 "description": "Unauthenticated",
                 "content": {
@@ -6585,25 +7021,6 @@
                             "required": [
                                 "message",
                                 "errors"
-                            ]
-                        }
-                    }
-                }
-            },
-            "AuthorizationException": {
-                "description": "Authorization error",
-                "content": {
-                    "application\/json": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "message": {
-                                    "type": "string",
-                                    "description": "Error overview."
-                                }
-                            },
-                            "required": [
-                                "message"
                             ]
                         }
                     }
