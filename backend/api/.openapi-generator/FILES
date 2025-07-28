@@ -38,6 +38,7 @@ models/GetAppLocationSettings200Response.ts
 models/GetAppLocationSettings200ResponseLinks.ts
 models/GetAppLocationSettings200ResponseMeta.ts
 models/GetAppLocationSettings200ResponseMetaLinksInner.ts
+models/GetAppWallets200Response.ts
 models/GetApps200Response.ts
 models/GetBackups200Response.ts
 models/GetBinaries200Response.ts
@@ -89,6 +90,10 @@ models/UpdateAppRequest.ts
 models/UpdateBinaryRequest.ts
 models/UpdateDockerRegistryRequest.ts
 models/UpdateServerConfigRequest.ts
+models/Wallet.ts
+models/WalletCurrency.ts
+models/WalletCurrencyCode.ts
+models/WalletScope.ts
 models/all.ts
 rxjsStub.ts
 servers.ts

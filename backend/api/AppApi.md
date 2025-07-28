@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related entity
 [**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /v1/docker-registries | Create a new docker registry
 [**createServerConfig**](AppApi.md#createServerConfig) | **POST** /v1/apps/{app}/configs | Create a new server config
+[**debugExceptionThrow**](AppApi.md#debugExceptionThrow) | **GET** /v1/debug/exception | Simulate an exception
 [**deleteApp**](AppApi.md#deleteApp) | **DELETE** /v1/apps/{app} | Delete a specific app
 [**deleteAppLocationSetting**](AppApi.md#deleteAppLocationSetting) | **DELETE** /v1/app-location-settings/{appLocationSetting} | Delete a location setting
 [**deleteBinary**](AppApi.md#deleteBinary) | **DELETE** /v1/binaries/{binary} | Delete a specified binary
@@ -23,6 +24,7 @@ Method | HTTP request | Description
 [**getAppById**](AppApi.md#getAppById) | **GET** /v1/apps/{app} | Show a specific app
 [**getAppLocationSettingById**](AppApi.md#getAppLocationSettingById) | **GET** /v1/app-location-settings/{appLocationSetting} | Show a specific app location setting
 [**getAppLocationSettings**](AppApi.md#getAppLocationSettings) | **GET** /v1/apps/{app}/location-settings | Show all location settings
+[**getAppWallets**](AppApi.md#getAppWallets) | **GET** /v1/apps/{app}/wallets | Show all wallets for a specific app
 [**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
 [**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Get token
 [**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{dockerService}/backups | List service backups
@@ -514,6 +516,53 @@ No authorization required
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **debugExceptionThrow**
+> any debugExceptionThrow()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request = {};
+
+const data = await apiInstance.debugExceptionThrow(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+This endpoint does not need any parameter.
+
+
+### Return type
+
+**any**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+**401** | Unauthenticated |  -  |
 **403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
@@ -1320,6 +1369,79 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Paginated set of &#x60;AppLocationSetting&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **getAppWallets**
+> GetAppWallets200Response getAppWallets()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiGetAppWalletsRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiGetAppWalletsRequest = {
+    // The app ID
+  app: 1,
+    // The number of items to be shown per page. (optional)
+  perPage: 1,
+    // Specifies the page number to retrieve in the paginated results. (optional)
+  page: 1,
+    // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
+  sort: [
+    "sort[]_example",
+  ],
+    // Filter by id. (optional)
+  filterId: 1,
+    // Filter by balance. (optional)
+  filterBalance: 3.14,
+};
+
+const data = await apiInstance.getAppWallets(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
+ **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
+ **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
+ **filterBalance** | [**number**] | Filter by balance. | (optional) defaults to undefined
+
+
+### Return type
+
+**GetAppWallets200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Paginated set of &#x60;Wallet&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |

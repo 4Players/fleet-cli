@@ -12,9 +12,38 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Cancelled = 'cancelled',
-    Indie = 'indie'
+export class WalletCurrency {
+    /**
+    * Unique code, e.g. \'CPUH\'
+    */
+    'code': string;
+    /**
+    * Human-readable currency name, e.g. \'CPU-hours\'
+    */
+    'name': string;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "code",
+            "baseName": "code",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return WalletCurrency.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

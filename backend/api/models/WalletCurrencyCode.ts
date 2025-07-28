@@ -12,9 +12,10 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Cancelled = 'cancelled',
-    Indie = 'indie'
+export enum WalletCurrencyCode {
+    Cpuh = 'CPUH',
+    CpuhIndie = 'CPUH_INDIE',
+    Ramh = 'RAMH',
+    RamhIndie = 'RAMH_INDIE',
+    Eur = 'EUR'
 }

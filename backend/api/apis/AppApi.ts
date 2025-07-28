@@ -18,6 +18,7 @@ import { Binary } from '../models/Binary.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
+import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
@@ -324,6 +325,29 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Simulate an exception
+     */
+    public async debugExceptionThrow(_options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // Path Params
+        const localVarPath = '/v1/debug/exception';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
 
         
         const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
@@ -925,6 +949,75 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterServerConfigResourcePackageSlug !== undefined) {
             requestContext.setQueryParam("filter[serverConfigResourcePackageSlug]", ObjectSerializer.serialize(filterServerConfigResourcePackageSlug, "string", ""));
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _options?.authMethods?.default || this.configuration?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Show all wallets for a specific app
+     * @param app The app ID
+     * @param perPage The number of items to be shown per page.
+     * @param page Specifies the page number to retrieve in the paginated results.
+     * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param filterId Filter by id.
+     * @param filterBalance Filter by balance.
+     */
+    public async getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "getAppWallets", "app");
+        }
+
+
+
+
+
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/wallets'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (perPage !== undefined) {
+            requestContext.setQueryParam("perPage", ObjectSerializer.serialize(perPage, "number", ""));
+        }
+
+        // Query Params
+        if (page !== undefined) {
+            requestContext.setQueryParam("page", ObjectSerializer.serialize(page, "number", ""));
+        }
+
+        // Query Params
+        if (sort !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("sort[]", serializedParam);
+            }
+        }
+
+        // Query Params
+        if (filterId !== undefined) {
+            requestContext.setQueryParam("filter[id]", ObjectSerializer.serialize(filterId, "number", ""));
+        }
+
+        // Query Params
+        if (filterBalance !== undefined) {
+            requestContext.setQueryParam("filter[balance]", ObjectSerializer.serialize(filterBalance, "number", ""));
         }
 
 
@@ -3323,6 +3416,49 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to debugExceptionThrow
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async debugExceptionThrowWithHttpInfo(response: ResponseContext): Promise<HttpInfo<any >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: any = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "any", ""
+            ) as any;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to deleteApp
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -3978,6 +4114,63 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "GetAppLocationSettings200Response", ""
             ) as GetAppLocationSettings200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to getAppWallets
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async getAppWalletsWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppWallets200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetAppWallets200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppWallets200Response", ""
+            ) as GetAppWallets200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject1 = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject1", ""
+            ) as InlineObject1;
+            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetAppWallets200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppWallets200Response", ""
+            ) as GetAppWallets200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 

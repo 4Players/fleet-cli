@@ -12,9 +12,7 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Cancelled = 'cancelled',
-    Indie = 'indie'
+export enum WalletScope {
+    User = 'user',
+    App = 'app'
 }

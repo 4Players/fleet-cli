@@ -25,6 +25,7 @@ export * from '../models/GetAppLocationSettings200Response.ts';
 export * from '../models/GetAppLocationSettings200ResponseLinks.ts';
 export * from '../models/GetAppLocationSettings200ResponseMeta.ts';
 export * from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+export * from '../models/GetAppWallets200Response.ts';
 export * from '../models/GetApps200Response.ts';
 export * from '../models/GetBackups200Response.ts';
 export * from '../models/GetBinaries200Response.ts';
@@ -75,6 +76,10 @@ export * from '../models/UpdateAppRequest.ts';
 export * from '../models/UpdateBinaryRequest.ts';
 export * from '../models/UpdateDockerRegistryRequest.ts';
 export * from '../models/UpdateServerConfigRequest.ts';
+export * from '../models/Wallet.ts';
+export * from '../models/WalletCurrency.ts';
+export * from '../models/WalletCurrencyCode.ts';
+export * from '../models/WalletScope.ts';
 
 import { App     } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
@@ -103,6 +108,7 @@ import { GetAppLocationSettings200Response } from '../models/GetAppLocationSetti
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
@@ -153,6 +159,10 @@ import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest       } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest           } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
+import { Wallet      } from '../models/Wallet.ts';
+import { WalletCurrency } from '../models/WalletCurrency.ts';
+import { WalletCurrencyCode } from '../models/WalletCurrencyCode.ts';
+import { WalletScope } from '../models/WalletScope.ts';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -180,6 +190,8 @@ let enumsMap: Set<string> = new Set<string>([
     "RestartPolicyCondition",
     "ServerConfigStatus",
     "SteamRuntime",
+    "WalletCurrencyCode",
+    "WalletScope",
 ]);
 
 let typeMap: {[index: string]: any} = {
@@ -203,6 +215,7 @@ let typeMap: {[index: string]: any} = {
     "GetAppLocationSettings200ResponseLinks": GetAppLocationSettings200ResponseLinks,
     "GetAppLocationSettings200ResponseMeta": GetAppLocationSettings200ResponseMeta,
     "GetAppLocationSettings200ResponseMetaLinksInner": GetAppLocationSettings200ResponseMetaLinksInner,
+    "GetAppWallets200Response": GetAppWallets200Response,
     "GetApps200Response": GetApps200Response,
     "GetBackups200Response": GetBackups200Response,
     "GetBinaries200Response": GetBinaries200Response,
@@ -247,6 +260,8 @@ let typeMap: {[index: string]: any} = {
     "UpdateBinaryRequest": UpdateBinaryRequest,
     "UpdateDockerRegistryRequest": UpdateDockerRegistryRequest,
     "UpdateServerConfigRequest": UpdateServerConfigRequest,
+    "Wallet": Wallet,
+    "WalletCurrency": WalletCurrency,
 }
 
 type MimeTypeDescriptor = {

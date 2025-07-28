@@ -28,6 +28,7 @@ import { GetAppLocationSettings200Response } from '../models/GetAppLocationSetti
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
@@ -78,6 +79,10 @@ import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
+import { Wallet } from '../models/Wallet.ts';
+import { WalletCurrency } from '../models/WalletCurrency.ts';
+import { WalletCurrencyCode } from '../models/WalletCurrencyCode.ts';
+import { WalletScope } from '../models/WalletScope.ts';
 
 import { ObservableAppApi } from "./ObservableAPI.ts";
 import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts";
@@ -162,6 +167,9 @@ export interface AppApiCreateServerConfigRequest {
      * @memberof AppApicreateServerConfig
      */
     storeServerConfigRequest: StoreServerConfigRequest
+}
+
+export interface AppApiDebugExceptionThrowRequest {
 }
 
 export interface AppApiDeleteAppRequest {
@@ -467,6 +475,53 @@ export interface AppApiGetAppLocationSettingsRequest {
      * @memberof AppApigetAppLocationSettings
      */
     filterServerConfigResourcePackageSlug?: string
+}
+
+export interface AppApiGetAppWalletsRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppWallets
+     */
+    app: number
+    /**
+     * The number of items to be shown per page.
+     * Minimum: 1
+     * Maximum: 100
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppWallets
+     */
+    perPage?: number
+    /**
+     * Specifies the page number to retrieve in the paginated results.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppWallets
+     */
+    page?: number
+    /**
+     * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApigetAppWallets
+     */
+    sort?: Array<string>
+    /**
+     * Filter by id.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppWallets
+     */
+    filterId?: number
+    /**
+     * Filter by balance.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApigetAppWallets
+     */
+    filterBalance?: number
 }
 
 export interface AppApiGetAppsRequest {
@@ -1639,6 +1694,22 @@ export class ObjectAppApi {
     }
 
     /**
+     * Simulate an exception
+     * @param param the request object
+     */
+    public debugExceptionThrowWithHttpInfo(param: AppApiDebugExceptionThrowRequest = {}, options?: Configuration): Promise<HttpInfo<any>> {
+        return this.api.debugExceptionThrowWithHttpInfo( options).toPromise();
+    }
+
+    /**
+     * Simulate an exception
+     * @param param the request object
+     */
+    public debugExceptionThrow(param: AppApiDebugExceptionThrowRequest = {}, options?: Configuration): Promise<any> {
+        return this.api.debugExceptionThrow( options).toPromise();
+    }
+
+    /**
      * Delete a specific app
      * @param param the request object
      */
@@ -1848,6 +1919,22 @@ export class ObjectAppApi {
      */
     public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<GetAppLocationSettings200Response> {
         return this.api.getAppLocationSettings(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
+    }
+
+    /**
+     * Show all wallets for a specific app
+     * @param param the request object
+     */
+    public getAppWalletsWithHttpInfo(param: AppApiGetAppWalletsRequest, options?: Configuration): Promise<HttpInfo<GetAppWallets200Response>> {
+        return this.api.getAppWalletsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBalance,  options).toPromise();
+    }
+
+    /**
+     * Show all wallets for a specific app
+     * @param param the request object
+     */
+    public getAppWallets(param: AppApiGetAppWalletsRequest, options?: Configuration): Promise<GetAppWallets200Response> {
+        return this.api.getAppWallets(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBalance,  options).toPromise();
     }
 
     /**

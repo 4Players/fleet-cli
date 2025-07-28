@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "CLI tool for ODIN Fleet",
   "scripts": {
-    "generate-api-from-backend": "rimraf ./backend/api/* && curl https://api.4np.4players.de/b2b/v1/docs/api.json > ./backend/api.json && openapi-generator-cli generate -i ./backend/api.json -g typescript -o ./backend/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App"
+    "generate-api-from-backend": "rimraf ./backend/api/* && curl https://fleet.4players.io/docs/api.json > ./backend/api.json && openapi-generator-cli generate -i ./backend/api.json -g typescript -o ./backend/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App",
+    "generate-api-from-staging": "rimraf ./backend/api/* && curl https://staging.api.fleet.4players.io/docs/api.json > ./backend/api.json && openapi-generator-cli generate -i ./backend/api.json -g typescript -o ./backend/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App",
+    "generate-api-from-local-api": "rimraf ./backend/api/* && curl http://localhost/docs/api.json > ./backend/api.json && openapi-generator-cli generate -i ./backend/api.json -g typescript -o ./backend/api --additional-properties=fileNaming=kebab-case,withNodeImports=true,platform=deno --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=App"
   },
   "keywords": [
     "4players",

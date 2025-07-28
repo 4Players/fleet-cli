@@ -1151,6 +1151,225 @@
                 }
             }
         },
+        "\/v1\/apps\/{app}\/wallets": {
+            "get": {
+                "operationId": "getAppWallets",
+                "summary": "Show all wallets for a specific app",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "The number of items to be shown per page.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Specifies the page number to retrieve in the paginated results.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sort[]",
+                        "in": "query",
+                        "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
+                        "schema": {
+                            "type": "array",
+                            "enum": [
+                                "-id",
+                                "id",
+                                "-balance",
+                                "balance"
+                            ],
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    {
+                        "name": "filter[id]",
+                        "in": "query",
+                        "description": "Filter by id.",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "filter[balance]",
+                        "in": "query",
+                        "description": "Filter by balance.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated set of `Wallet`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/Wallet"
+                                            }
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "type": "integer"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "description": "Generated paginator links.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": [
+                                                                    "string",
+                                                                    "null"
+                                                                ]
+                                                            },
+                                                            "label": {
+                                                                "type": "string"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "url",
+                                                            "label",
+                                                            "active"
+                                                        ]
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ],
+                                                    "description": "Base path for paginator generated URLs."
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "description": "Number of items shown per page."
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ],
+                                                    "description": "Number of the last item in the slice."
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "description": "Total number of items being paginated."
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/auth\/token": {
             "post": {
                 "operationId": "getAuthToken",
@@ -1780,6 +1999,33 @@
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/debug\/exception": {
+            "get": {
+                "operationId": "debug.exception.throw",
+                "summary": "Simulate an exception",
+                "tags": [
+                    "Debug"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
@@ -4818,7 +5064,8 @@
                 "enum": [
                     "free",
                     "active",
-                    "cancelled"
+                    "cancelled",
+                    "indie"
                 ],
                 "title": "AppBillingState"
             },
@@ -6936,6 +7183,77 @@
                     "resourcePackageSlug"
                 ],
                 "title": "UpdateServerConfigRequest"
+            },
+            "Wallet": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The id of the wallet"
+                    },
+                    "balance": {
+                        "type": "number",
+                        "description": "The balance of the wallet"
+                    },
+                    "scope": {
+                        "description": "The scope of the wallet.",
+                        "$ref": "#\/components\/schemas\/WalletScope"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "When the wallet was last updated"
+                    },
+                    "currency": {
+                        "description": "The currency of the wallet",
+                        "$ref": "#\/components\/schemas\/WalletCurrency"
+                    }
+                },
+                "required": [
+                    "id",
+                    "balance",
+                    "scope",
+                    "updatedAt",
+                    "currency"
+                ],
+                "title": "Wallet"
+            },
+            "WalletCurrency": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "Unique code, e.g. 'CPUH'"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Human-readable currency name, e.g. 'CPU-hours'"
+                    }
+                },
+                "required": [
+                    "code",
+                    "name"
+                ],
+                "title": "WalletCurrency"
+            },
+            "WalletCurrencyCode": {
+                "type": "string",
+                "enum": [
+                    "CPUH",
+                    "CPUH_INDIE",
+                    "RAMH",
+                    "RAMH_INDIE",
+                    "EUR"
+                ],
+                "title": "WalletCurrencyCode"
+            },
+            "WalletScope": {
+                "type": "string",
+                "enum": [
+                    "user",
+                    "app"
+                ],
+                "title": "WalletScope"
             }
         },
         "responses": {

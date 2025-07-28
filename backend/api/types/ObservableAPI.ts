@@ -29,6 +29,7 @@ import { GetAppLocationSettings200Response } from '../models/GetAppLocationSetti
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
+import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
@@ -79,6 +80,10 @@ import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
+import { Wallet } from '../models/Wallet.ts';
+import { WalletCurrency } from '../models/WalletCurrency.ts';
+import { WalletCurrencyCode } from '../models/WalletCurrencyCode.ts';
+import { WalletScope } from '../models/WalletScope.ts';
 
 import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts";
 export class ObservableAppApi {
@@ -288,6 +293,35 @@ export class ObservableAppApi {
      */
     public createServerConfig(app: number, storeServerConfigRequest: StoreServerConfigRequest, _options?: Configuration): Observable<ServerConfig> {
         return this.createServerConfigWithHttpInfo(app, storeServerConfigRequest, _options).pipe(map((apiResponse: HttpInfo<ServerConfig>) => apiResponse.data));
+    }
+
+    /**
+     * Simulate an exception
+     */
+    public debugExceptionThrowWithHttpInfo(_options?: Configuration): Observable<HttpInfo<any>> {
+        const requestContextPromise = this.requestFactory.debugExceptionThrow(_options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.debugExceptionThrowWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Simulate an exception
+     */
+    public debugExceptionThrow(_options?: Configuration): Observable<any> {
+        return this.debugExceptionThrowWithHttpInfo(_options).pipe(map((apiResponse: HttpInfo<any>) => apiResponse.data));
     }
 
     /**
@@ -745,6 +779,47 @@ export class ObservableAppApi {
      */
     public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: Configuration): Observable<GetAppLocationSettings200Response> {
         return this.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettings200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Show all wallets for a specific app
+     * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterBalance] Filter by balance.
+     */
+    public getAppWalletsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: Configuration): Observable<HttpInfo<GetAppWallets200Response>> {
+        const requestContextPromise = this.requestFactory.getAppWallets(app, perPage, page, sort, filterId, filterBalance, _options);
+
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of this.configuration.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of this.configuration.middleware) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getAppWalletsWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Show all wallets for a specific app
+     * @param app The app ID
+     * @param [perPage] The number of items to be shown per page.
+     * @param [page] Specifies the page number to retrieve in the paginated results.
+     * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
+     * @param [filterId] Filter by id.
+     * @param [filterBalance] Filter by balance.
+     */
+    public getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: Configuration): Observable<GetAppWallets200Response> {
+        return this.getAppWalletsWithHttpInfo(app, perPage, page, sort, filterId, filterBalance, _options).pipe(map((apiResponse: HttpInfo<GetAppWallets200Response>) => apiResponse.data));
     }
 
     /**
