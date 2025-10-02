@@ -2,6 +2,7 @@ export * from '../models/App.ts';
 export * from '../models/AppBillingState.ts';
 export * from '../models/AppLocationSetting.ts';
 export * from '../models/AppLocationSettingStatus.ts';
+export * from '../models/AppStatus.ts';
 export * from '../models/Architecture.ts';
 export * from '../models/Auth.ts';
 export * from '../models/AuthRequest.ts';
@@ -81,10 +82,11 @@ export * from '../models/WalletCurrency.ts';
 export * from '../models/WalletCurrencyCode.ts';
 export * from '../models/WalletScope.ts';
 
-import { App     } from '../models/App.ts';
+import { App        } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting               } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
+import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
@@ -130,7 +132,7 @@ import { Port     } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourceAllocations } from '../models/ResourceAllocations.ts';
-import { ResourcePackage             } from '../models/ResourcePackage.ts';
+import { ResourcePackage         } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
 import { Resources } from '../models/Resources.ts';
 import { RestartPolicy  } from '../models/RestartPolicy.ts';
@@ -159,7 +161,7 @@ import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest       } from '../models/UpdateBinaryRequest.ts';
 import { UpdateDockerRegistryRequest           } from '../models/UpdateDockerRegistryRequest.ts';
 import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.ts';
-import { Wallet      } from '../models/Wallet.ts';
+import { Wallet         } from '../models/Wallet.ts';
 import { WalletCurrency } from '../models/WalletCurrency.ts';
 import { WalletCurrencyCode } from '../models/WalletCurrencyCode.ts';
 import { WalletScope } from '../models/WalletScope.ts';
@@ -179,6 +181,7 @@ let primitives = [
 let enumsMap: Set<string> = new Set<string>([
     "AppBillingState",
     "AppLocationSettingStatus",
+    "AppStatus",
     "Architecture",
     "BinaryStatus",
     "BinaryType",
@@ -392,13 +395,16 @@ export class ObjectSerializer {
             }
             return transformedData;
         } else if (type === "Date") {
+            if (!(data instanceof Date)) {
+                return data;
+            }
             if (format == "date") {
                 let month = data.getMonth()+1
-                month = month < 10 ? "0" + month.toString() : month.toString()
+                let monthStr = month < 10 ? "0" + month.toString() : month.toString()
                 let day = data.getDate();
-                day = day < 10 ? "0" + day.toString() : day.toString();
+                let dayStr = day < 10 ? "0" + day.toString() : day.toString();
 
-                return data.getFullYear() + "-" + month + "-" + day;
+                return data.getFullYear() + "-" + monthStr + "-" + dayStr;
             } else {
                 return data.toISOString();
             }
@@ -502,7 +508,7 @@ export class ObjectSerializer {
             return "application/json";
         }
 
-        const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
+        const normalMediaTypes = mediaTypes.map(ObjectSerializer.normalizeMediaType);
 
         for (const predicate of supportedMimeTypePredicatesWithPriority) {
             for (const mediaType of normalMediaTypes) {

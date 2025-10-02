@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "ODIN Fleet API",
-        "version": "0.9.0",
+        "version": "0.9.1",
         "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
     },
     "servers": [
@@ -456,6 +456,41 @@
                                                 "$ref": "#\/components\/schemas\/AppLocationSetting"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -488,12 +523,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -530,47 +572,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -674,11 +681,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`ServerCollection`",
+                        "description": "Array of `CustomDockerService`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/ServerCollection"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/Server"
+                                    }
                                 }
                             }
                         }
@@ -788,6 +798,41 @@
                                                 "$ref": "#\/components\/schemas\/App"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -820,12 +865,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -862,47 +914,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -1013,8 +1030,8 @@
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No content"
+                    "202": {
+                        "description": ""
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
@@ -1235,6 +1252,41 @@
                                                 "$ref": "#\/components\/schemas\/Wallet"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -1267,12 +1319,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -1309,47 +1368,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -1370,10 +1394,28 @@
                 }
             }
         },
+        "\/v1\/apps\/unused": {
+            "delete": {
+                "operationId": "deleteUnusedApps",
+                "summary": "Delete all unused apps",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
         "\/v1\/auth\/token": {
             "post": {
                 "operationId": "getAuthToken",
-                "description": "Authenticates the user based on the user's email, password, and session ID.\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.+",
+                "description": "Authenticates the user based on the user's email, password, and session ID.\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.",
                 "summary": "Get token",
                 "tags": [
                     "Auth"
@@ -1581,6 +1623,41 @@
                                                 "$ref": "#\/components\/schemas\/Binary"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -1613,12 +1690,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -1655,47 +1739,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -1762,6 +1811,41 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/apps\/{app}\/binaries\/unused": {
+            "delete": {
+                "operationId": "deleteUnusedBinaries",
+                "summary": "Delete all unused binaries",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -1933,6 +2017,9 @@
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
                     }
@@ -1999,33 +2086,6 @@
                     },
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
-                    },
-                    "401": {
-                        "$ref": "#\/components\/responses\/AuthenticationException"
-                    },
-                    "403": {
-                        "$ref": "#\/components\/responses\/AuthorizationException"
-                    }
-                }
-            }
-        },
-        "\/v1\/debug\/exception": {
-            "get": {
-                "operationId": "debug.exception.throw",
-                "summary": "Simulate an exception",
-                "tags": [
-                    "Debug"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
@@ -2203,7 +2263,7 @@
                     {
                         "name": "filter[metadata]",
                         "in": "query",
-                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
                         "schema": {
                             "type": "string"
                         }
@@ -2276,6 +2336,41 @@
                                                 "$ref": "#\/components\/schemas\/Server"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -2308,12 +2403,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -2350,47 +2452,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -2575,6 +2642,41 @@
                                                 "$ref": "#\/components\/schemas\/DockerRegistry"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -2607,12 +2709,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -2649,47 +2758,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -2889,14 +2963,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`TaggedImageCollection`",
+                        "description": "",
                         "content": {
                             "application\/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#\/components\/schemas\/TaggedImageCollection"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/TaggedImage"
+                                            }
                                         },
                                         "meta": {
                                             "$ref": "#\/components\/schemas\/TaggedImageMetaData"
@@ -2940,14 +3017,17 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`TaggedImageCollection`",
+                        "description": "",
                         "content": {
                             "application\/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#\/components\/schemas\/TaggedImageCollection"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#\/components\/schemas\/TaggedImage"
+                                            }
                                         },
                                         "meta": {
                                             "$ref": "#\/components\/schemas\/TaggedImageMetaData"
@@ -3309,6 +3389,41 @@
                                                 "$ref": "#\/components\/schemas\/Backup"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -3341,12 +3456,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -3383,47 +3505,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -3688,7 +3775,7 @@
                         }
                     },
                     {
-                        "name": "metadata",
+                        "name": "metadata[]",
                         "in": "query",
                         "required": true,
                         "schema": {
@@ -3837,6 +3924,41 @@
                                                 "$ref": "#\/components\/schemas\/Location"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -3869,12 +3991,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -3911,47 +4040,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -4108,6 +4202,41 @@
                                                 "$ref": "#\/components\/schemas\/ResourcePackage"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -4140,12 +4269,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -4182,47 +4318,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -4490,6 +4591,41 @@
                                                 "$ref": "#\/components\/schemas\/ServerConfig"
                                             }
                                         },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
                                         "meta": {
                                             "type": "object",
                                             "properties": {
@@ -4522,12 +4658,19 @@
                                                             },
                                                             "active": {
                                                                 "type": "boolean"
+                                                            },
+                                                            "page": {
+                                                                "type": [
+                                                                    "integer",
+                                                                    "null"
+                                                                ]
                                                             }
                                                         },
                                                         "required": [
                                                             "url",
                                                             "label",
-                                                            "active"
+                                                            "active",
+                                                            "page"
                                                         ]
                                                     }
                                                 },
@@ -4564,47 +4707,12 @@
                                                 "to",
                                                 "total"
                                             ]
-                                        },
-                                        "links": {
-                                            "type": "object",
-                                            "properties": {
-                                                "first": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "last": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "prev": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                },
-                                                "next": {
-                                                    "type": [
-                                                        "string",
-                                                        "null"
-                                                    ]
-                                                }
-                                            },
-                                            "required": [
-                                                "first",
-                                                "last",
-                                                "prev",
-                                                "next"
-                                            ]
                                         }
                                     },
                                     "required": [
                                         "data",
-                                        "links",
-                                        "meta"
+                                        "meta",
+                                        "links"
                                     ]
                                 }
                             }
@@ -4670,6 +4778,40 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/apps\/{app}\/configs\/unused": {
+            "delete": {
+                "operationId": "deleteUnusedServerConfigs",
+                "summary": "Delete all unused server configs",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -4898,11 +5040,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`SteamLauncherCollection`",
+                        "description": "Array of `SteamLauncher`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/SteamLauncherCollection"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/SteamLauncher"
+                                    }
                                 }
                             }
                         }
@@ -4936,11 +5081,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "`SteamBranchCollection`",
+                        "description": "Array of `SteamBranch`",
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/SteamBranchCollection"
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/SteamBranch"
+                                    }
                                 }
                             }
                         }
@@ -5049,13 +5197,31 @@
                     "billingState": {
                         "description": "The billing state of the app",
                         "$ref": "#\/components\/schemas\/AppBillingState"
+                    },
+                    "maintenance": {
+                        "type": "boolean",
+                        "description": "Indicates if the app is under maintenance"
+                    },
+                    "status": {
+                        "description": "The current status of the app",
+                        "$ref": "#\/components\/schemas\/AppStatus"
+                    },
+                    "statusMessage": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "An optional status message"
                     }
                 },
                 "required": [
                     "id",
                     "name",
                     "inUse",
-                    "billingState"
+                    "billingState",
+                    "maintenance",
+                    "status",
+                    "statusMessage"
                 ],
                 "title": "App"
             },
@@ -5163,6 +5329,17 @@
                     "cloning"
                 ],
                 "title": "AppLocationSettingStatus"
+            },
+            "AppStatus": {
+                "type": "string",
+                "enum": [
+                    "ready",
+                    "updating",
+                    "deleting",
+                    "error",
+                    "waiting"
+                ],
+                "title": "AppStatus"
             },
             "Architecture": {
                 "type": "string",
@@ -5890,12 +6067,8 @@
                         "$ref": "#\/components\/schemas\/ResourcePackageType"
                     },
                     "cpuLimit": {
-                        "type": "string",
+                        "type": "number",
                         "description": "The maximum CPU of the resource package"
-                    },
-                    "cpuReservation": {
-                        "type": "string",
-                        "description": "The minimum CPU of the resource package"
                     },
                     "memoryLimitBytes": {
                         "type": "integer",
@@ -5903,25 +6076,12 @@
                         "description": "The maximum memory in bytes of the resource package"
                     },
                     "memoryLimitMiB": {
-                        "type": "integer",
+                        "type": "number",
                         "description": "The maximum memory in mebibytes (MiB) of the resource package"
                     },
                     "memoryLimitFileSizeString": {
                         "type": "string",
                         "description": "The maximum memory in a human-readable format"
-                    },
-                    "memoryReservationBytes": {
-                        "type": "integer",
-                        "format": "int64",
-                        "description": "The minimum memory in bytes of the resource package"
-                    },
-                    "memoryReservationMiB": {
-                        "type": "integer",
-                        "description": "The minimum memory in mebibytes (MiB) of the resource package"
-                    },
-                    "memoryReservationFileSizeString": {
-                        "type": "string",
-                        "description": "The minimum memory in a human-readable format"
                     }
                 },
                 "required": [
@@ -5930,13 +6090,9 @@
                     "slug",
                     "type",
                     "cpuLimit",
-                    "cpuReservation",
                     "memoryLimitBytes",
                     "memoryLimitMiB",
-                    "memoryLimitFileSizeString",
-                    "memoryReservationBytes",
-                    "memoryReservationMiB",
-                    "memoryReservationFileSizeString"
+                    "memoryLimitFileSizeString"
                 ],
                 "title": "ResourcePackage"
             },
@@ -6158,13 +6314,6 @@
                     "updatedAt"
                 ],
                 "title": "Server"
-            },
-            "ServerCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/Server"
-                },
-                "title": "ServerCollection"
             },
             "ServerConfig": {
                 "type": "object",
@@ -6462,13 +6611,6 @@
                 ],
                 "title": "SteamBranch"
             },
-            "SteamBranchCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/SteamBranch"
-                },
-                "title": "SteamBranchCollection"
-            },
             "SteamLauncher": {
                 "type": "object",
                 "properties": {
@@ -6529,13 +6671,6 @@
                     "description"
                 ],
                 "title": "SteamLauncher"
-            },
-            "SteamLauncherCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/SteamLauncher"
-                },
-                "title": "SteamLauncherCollection"
             },
             "SteamRuntime": {
                 "type": "string",
@@ -6912,13 +7047,6 @@
                 ],
                 "title": "TaggedImage"
             },
-            "TaggedImageCollection": {
-                "type": "array",
-                "items": {
-                    "$ref": "#\/components\/schemas\/TaggedImage"
-                },
-                "title": "TaggedImageCollection"
-            },
             "TaggedImageMetaData": {
                 "type": "object",
                 "properties": {
@@ -7189,20 +7317,39 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "description": "The id of the wallet"
+                        "description": "The id of the wallet."
                     },
                     "balance": {
                         "type": "number",
-                        "description": "The balance of the wallet"
+                        "description": "The balance of the wallet."
                     },
                     "scope": {
                         "description": "The scope of the wallet.",
                         "$ref": "#\/components\/schemas\/WalletScope"
                     },
+                    "initialBalance": {
+                        "type": "number",
+                        "description": "The initial balance of the wallet."
+                    },
+                    "rechargeAmount": {
+                        "type": [
+                            "number",
+                            "null"
+                        ],
+                        "description": "The recharge amount or null if none."
+                    },
+                    "rechargeAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "Next recharge date or null if none."
+                    },
                     "updatedAt": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "When the wallet was last updated"
+                        "description": "When the wallet was last updated."
                     },
                     "currency": {
                         "description": "The currency of the wallet",
@@ -7213,6 +7360,9 @@
                     "id",
                     "balance",
                     "scope",
+                    "initialBalance",
+                    "rechargeAmount",
+                    "rechargeAt",
                     "updatedAt",
                     "currency"
                 ],

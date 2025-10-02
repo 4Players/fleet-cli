@@ -149,19 +149,14 @@ const appList = new Command()
     }
 
     if (!options.format || options.format === "default") {
-      const data: App[] = [];
-      apps.forEach((app) => {
-        data.push({
-          id: app.id,
-          name: app.name +
-            colors.rgb24(
-              app.id === selectedApp?.id ? " (selected)" : "",
-              0x1bebda,
-            ),
-          inUse: app.inUse,
-          billingState: app.billingState,
-        });
-      });
+      const data = apps.map((app) => ({
+        ...app,
+        name: app.name +
+          colors.rgb24(
+            app.id === selectedApp?.id ? " (selected)" : "",
+            0x1bebda,
+          ),
+      }));
 
       await stdout(data, options, "table(id,name,inUse)");
     } else {

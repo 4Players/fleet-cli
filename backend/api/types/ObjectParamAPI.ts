@@ -1,10 +1,12 @@
 import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http.ts';
-import { Configuration} from '../configuration.ts'
+import { Configuration, ConfigurationOptions } from '../configuration.ts'
+import type { Middleware } from '../middleware.ts';
 
 import { App } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
+import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
@@ -169,9 +171,6 @@ export interface AppApiCreateServerConfigRequest {
     storeServerConfigRequest: StoreServerConfigRequest
 }
 
-export interface AppApiDebugExceptionThrowRequest {
-}
-
 export interface AppApiDeleteAppRequest {
     /**
      * The app ID
@@ -220,6 +219,29 @@ export interface AppApiDeleteServerConfigRequest {
      * @memberof AppApideleteServerConfig
      */
     serverConfig: number
+}
+
+export interface AppApiDeleteUnusedAppsRequest {
+}
+
+export interface AppApiDeleteUnusedBinariesRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApideleteUnusedBinaries
+     */
+    app: number
+}
+
+export interface AppApiDeleteUnusedServerConfigsRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApideleteUnusedServerConfigs
+     */
+    app: number
 }
 
 export interface AppApiDockerServicesMetadataDeleteAllRequest {
@@ -1280,7 +1302,7 @@ export interface AppApiGetServersRequest {
      */
     filterIsStopped?: boolean
     /**
-     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * Defaults to: undefined
      * @type string
      * @memberof AppApigetServers
@@ -1601,7 +1623,7 @@ export class ObjectAppApi {
      * Create an app
      * @param param the request object
      */
-    public createAppWithHttpInfo(param: AppApiCreateAppRequest, options?: Configuration): Promise<HttpInfo<App>> {
+    public createAppWithHttpInfo(param: AppApiCreateAppRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
         return this.api.createAppWithHttpInfo(param.storeAppRequest,  options).toPromise();
     }
 
@@ -1609,7 +1631,7 @@ export class ObjectAppApi {
      * Create an app
      * @param param the request object
      */
-    public createApp(param: AppApiCreateAppRequest, options?: Configuration): Promise<App> {
+    public createApp(param: AppApiCreateAppRequest, options?: ConfigurationOptions): Promise<App> {
         return this.api.createApp(param.storeAppRequest,  options).toPromise();
     }
 
@@ -1617,7 +1639,7 @@ export class ObjectAppApi {
      * Create a new location setting
      * @param param the request object
      */
-    public createAppLocationSettingWithHttpInfo(param: AppApiCreateAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
         return this.api.createAppLocationSettingWithHttpInfo(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -1625,7 +1647,7 @@ export class ObjectAppApi {
      * Create a new location setting
      * @param param the request object
      */
-    public createAppLocationSetting(param: AppApiCreateAppLocationSettingRequest, options?: Configuration): Promise<AppLocationSetting> {
+    public createAppLocationSetting(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
         return this.api.createAppLocationSetting(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -1633,7 +1655,7 @@ export class ObjectAppApi {
      * Create service backup
      * @param param the request object
      */
-    public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public createBackupWithHttpInfo(param: AppApiCreateBackupRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.createBackupWithHttpInfo(param.dockerService, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
@@ -1641,7 +1663,7 @@ export class ObjectAppApi {
      * Create service backup
      * @param param the request object
      */
-    public createBackup(param: AppApiCreateBackupRequest, options?: Configuration): Promise<void> {
+    public createBackup(param: AppApiCreateBackupRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.createBackup(param.dockerService, param.createBackupDockerServiceRequest,  options).toPromise();
     }
 
@@ -1649,7 +1671,7 @@ export class ObjectAppApi {
      * Create a binary and the related entity
      * @param param the request object
      */
-    public createBinaryWithHttpInfo(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
+    public createBinaryWithHttpInfo(param: AppApiCreateBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<Binary>> {
         return this.api.createBinaryWithHttpInfo(param.app, param.storeBinaryRequest,  options).toPromise();
     }
 
@@ -1657,7 +1679,7 @@ export class ObjectAppApi {
      * Create a binary and the related entity
      * @param param the request object
      */
-    public createBinary(param: AppApiCreateBinaryRequest, options?: Configuration): Promise<Binary> {
+    public createBinary(param: AppApiCreateBinaryRequest, options?: ConfigurationOptions): Promise<Binary> {
         return this.api.createBinary(param.app, param.storeBinaryRequest,  options).toPromise();
     }
 
@@ -1665,7 +1687,7 @@ export class ObjectAppApi {
      * Create a new docker registry
      * @param param the request object
      */
-    public createDockerRegistryWithHttpInfo(param: AppApiCreateDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public createDockerRegistryWithHttpInfo(param: AppApiCreateDockerRegistryRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
         return this.api.createDockerRegistryWithHttpInfo(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
@@ -1673,7 +1695,7 @@ export class ObjectAppApi {
      * Create a new docker registry
      * @param param the request object
      */
-    public createDockerRegistry(param: AppApiCreateDockerRegistryRequest, options?: Configuration): Promise<DockerRegistry> {
+    public createDockerRegistry(param: AppApiCreateDockerRegistryRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
         return this.api.createDockerRegistry(param.storeDockerRegistryRequest,  options).toPromise();
     }
 
@@ -1681,7 +1703,7 @@ export class ObjectAppApi {
      * Create a new server config
      * @param param the request object
      */
-    public createServerConfigWithHttpInfo(param: AppApiCreateServerConfigRequest, options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+    public createServerConfigWithHttpInfo(param: AppApiCreateServerConfigRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServerConfig>> {
         return this.api.createServerConfigWithHttpInfo(param.app, param.storeServerConfigRequest,  options).toPromise();
     }
 
@@ -1689,31 +1711,15 @@ export class ObjectAppApi {
      * Create a new server config
      * @param param the request object
      */
-    public createServerConfig(param: AppApiCreateServerConfigRequest, options?: Configuration): Promise<ServerConfig> {
+    public createServerConfig(param: AppApiCreateServerConfigRequest, options?: ConfigurationOptions): Promise<ServerConfig> {
         return this.api.createServerConfig(param.app, param.storeServerConfigRequest,  options).toPromise();
-    }
-
-    /**
-     * Simulate an exception
-     * @param param the request object
-     */
-    public debugExceptionThrowWithHttpInfo(param: AppApiDebugExceptionThrowRequest = {}, options?: Configuration): Promise<HttpInfo<any>> {
-        return this.api.debugExceptionThrowWithHttpInfo( options).toPromise();
-    }
-
-    /**
-     * Simulate an exception
-     * @param param the request object
-     */
-    public debugExceptionThrow(param: AppApiDebugExceptionThrowRequest = {}, options?: Configuration): Promise<any> {
-        return this.api.debugExceptionThrow( options).toPromise();
     }
 
     /**
      * Delete a specific app
      * @param param the request object
      */
-    public deleteAppWithHttpInfo(param: AppApiDeleteAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteAppWithHttpInfo(param: AppApiDeleteAppRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteAppWithHttpInfo(param.app,  options).toPromise();
     }
 
@@ -1721,7 +1727,7 @@ export class ObjectAppApi {
      * Delete a specific app
      * @param param the request object
      */
-    public deleteApp(param: AppApiDeleteAppRequest, options?: Configuration): Promise<void> {
+    public deleteApp(param: AppApiDeleteAppRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteApp(param.app,  options).toPromise();
     }
 
@@ -1729,7 +1735,7 @@ export class ObjectAppApi {
      * Delete a location setting
      * @param param the request object
      */
-    public deleteAppLocationSettingWithHttpInfo(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteAppLocationSettingWithHttpInfo(param: AppApiDeleteAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1737,7 +1743,7 @@ export class ObjectAppApi {
      * Delete a location setting
      * @param param the request object
      */
-    public deleteAppLocationSetting(param: AppApiDeleteAppLocationSettingRequest, options?: Configuration): Promise<void> {
+    public deleteAppLocationSetting(param: AppApiDeleteAppLocationSettingRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteAppLocationSetting(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1745,7 +1751,7 @@ export class ObjectAppApi {
      * Delete a specified binary
      * @param param the request object
      */
-    public deleteBinaryWithHttpInfo(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteBinaryWithHttpInfo(param: AppApiDeleteBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -1753,7 +1759,7 @@ export class ObjectAppApi {
      * Delete a specified binary
      * @param param the request object
      */
-    public deleteBinary(param: AppApiDeleteBinaryRequest, options?: Configuration): Promise<void> {
+    public deleteBinary(param: AppApiDeleteBinaryRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteBinary(param.binary,  options).toPromise();
     }
 
@@ -1761,7 +1767,7 @@ export class ObjectAppApi {
      * Delete a specific docker registry
      * @param param the request object
      */
-    public deleteDockerRegistryWithHttpInfo(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteDockerRegistryWithHttpInfo(param: AppApiDeleteDockerRegistryRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteDockerRegistryWithHttpInfo(param.dockerRegistry,  options).toPromise();
     }
 
@@ -1769,7 +1775,7 @@ export class ObjectAppApi {
      * Delete a specific docker registry
      * @param param the request object
      */
-    public deleteDockerRegistry(param: AppApiDeleteDockerRegistryRequest, options?: Configuration): Promise<void> {
+    public deleteDockerRegistry(param: AppApiDeleteDockerRegistryRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteDockerRegistry(param.dockerRegistry,  options).toPromise();
     }
 
@@ -1777,7 +1783,7 @@ export class ObjectAppApi {
      * Delete a specific server config
      * @param param the request object
      */
-    public deleteServerConfigWithHttpInfo(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public deleteServerConfigWithHttpInfo(param: AppApiDeleteServerConfigRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.deleteServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -1785,15 +1791,63 @@ export class ObjectAppApi {
      * Delete a specific server config
      * @param param the request object
      */
-    public deleteServerConfig(param: AppApiDeleteServerConfigRequest, options?: Configuration): Promise<void> {
+    public deleteServerConfig(param: AppApiDeleteServerConfigRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.deleteServerConfig(param.serverConfig,  options).toPromise();
+    }
+
+    /**
+     * Delete all unused apps
+     * @param param the request object
+     */
+    public deleteUnusedAppsWithHttpInfo(param: AppApiDeleteUnusedAppsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.deleteUnusedAppsWithHttpInfo( options).toPromise();
+    }
+
+    /**
+     * Delete all unused apps
+     * @param param the request object
+     */
+    public deleteUnusedApps(param: AppApiDeleteUnusedAppsRequest = {}, options?: ConfigurationOptions): Promise<void> {
+        return this.api.deleteUnusedApps( options).toPromise();
+    }
+
+    /**
+     * Delete all unused binaries
+     * @param param the request object
+     */
+    public deleteUnusedBinariesWithHttpInfo(param: AppApiDeleteUnusedBinariesRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.deleteUnusedBinariesWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Delete all unused binaries
+     * @param param the request object
+     */
+    public deleteUnusedBinaries(param: AppApiDeleteUnusedBinariesRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.deleteUnusedBinaries(param.app,  options).toPromise();
+    }
+
+    /**
+     * Delete all unused server configs
+     * @param param the request object
+     */
+    public deleteUnusedServerConfigsWithHttpInfo(param: AppApiDeleteUnusedServerConfigsRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.deleteUnusedServerConfigsWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Delete all unused server configs
+     * @param param the request object
+     */
+    public deleteUnusedServerConfigs(param: AppApiDeleteUnusedServerConfigsRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.deleteUnusedServerConfigs(param.app,  options).toPromise();
     }
 
     /**
      * Delete all service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataDeleteAllWithHttpInfo(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+    public dockerServicesMetadataDeleteAllWithHttpInfo(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
         return this.api.dockerServicesMetadataDeleteAllWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -1801,7 +1855,7 @@ export class ObjectAppApi {
      * Delete all service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataDeleteAll(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: Configuration): Promise<Server> {
+    public dockerServicesMetadataDeleteAll(param: AppApiDockerServicesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<Server> {
         return this.api.dockerServicesMetadataDeleteAll(param.dockerService,  options).toPromise();
     }
 
@@ -1809,7 +1863,7 @@ export class ObjectAppApi {
      * Delete service metadata keys
      * @param param the request object
      */
-    public dockerServicesMetadataDeleteKeysWithHttpInfo(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+    public dockerServicesMetadataDeleteKeysWithHttpInfo(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
         return this.api.dockerServicesMetadataDeleteKeysWithHttpInfo(param.dockerService, param.metadata,  options).toPromise();
     }
 
@@ -1817,7 +1871,7 @@ export class ObjectAppApi {
      * Delete service metadata keys
      * @param param the request object
      */
-    public dockerServicesMetadataDeleteKeys(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: Configuration): Promise<Server> {
+    public dockerServicesMetadataDeleteKeys(param: AppApiDockerServicesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<Server> {
         return this.api.dockerServicesMetadataDeleteKeys(param.dockerService, param.metadata,  options).toPromise();
     }
 
@@ -1826,7 +1880,7 @@ export class ObjectAppApi {
      * Set service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataSetWithHttpInfo(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+    public dockerServicesMetadataSetWithHttpInfo(param: AppApiDockerServicesMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
         return this.api.dockerServicesMetadataSetWithHttpInfo(param.dockerService, param.setMetadataRequest,  options).toPromise();
     }
 
@@ -1835,7 +1889,7 @@ export class ObjectAppApi {
      * Set service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataSet(param: AppApiDockerServicesMetadataSetRequest, options?: Configuration): Promise<Server> {
+    public dockerServicesMetadataSet(param: AppApiDockerServicesMetadataSetRequest, options?: ConfigurationOptions): Promise<Server> {
         return this.api.dockerServicesMetadataSet(param.dockerService, param.setMetadataRequest,  options).toPromise();
     }
 
@@ -1844,7 +1898,7 @@ export class ObjectAppApi {
      * Update service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataUpdateWithHttpInfo(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+    public dockerServicesMetadataUpdateWithHttpInfo(param: AppApiDockerServicesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
         return this.api.dockerServicesMetadataUpdateWithHttpInfo(param.dockerService, param.patchMetadataRequest,  options).toPromise();
     }
 
@@ -1853,7 +1907,7 @@ export class ObjectAppApi {
      * Update service metadata
      * @param param the request object
      */
-    public dockerServicesMetadataUpdate(param: AppApiDockerServicesMetadataUpdateRequest, options?: Configuration): Promise<Server> {
+    public dockerServicesMetadataUpdate(param: AppApiDockerServicesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<Server> {
         return this.api.dockerServicesMetadataUpdate(param.dockerService, param.patchMetadataRequest,  options).toPromise();
     }
 
@@ -1861,7 +1915,7 @@ export class ObjectAppApi {
      * Download service logs
      * @param param the request object
      */
-    public downloadServerLogsWithHttpInfo(param: AppApiDownloadServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+    public downloadServerLogsWithHttpInfo(param: AppApiDownloadServerLogsRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServiceLogs>> {
         return this.api.downloadServerLogsWithHttpInfo(param.dockerService, param.streamSource,  options).toPromise();
     }
 
@@ -1869,7 +1923,7 @@ export class ObjectAppApi {
      * Download service logs
      * @param param the request object
      */
-    public downloadServerLogs(param: AppApiDownloadServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
+    public downloadServerLogs(param: AppApiDownloadServerLogsRequest, options?: ConfigurationOptions): Promise<ServiceLogs> {
         return this.api.downloadServerLogs(param.dockerService, param.streamSource,  options).toPromise();
     }
 
@@ -1877,7 +1931,7 @@ export class ObjectAppApi {
      * Show a specific app
      * @param param the request object
      */
-    public getAppByIdWithHttpInfo(param: AppApiGetAppByIdRequest, options?: Configuration): Promise<HttpInfo<App>> {
+    public getAppByIdWithHttpInfo(param: AppApiGetAppByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
         return this.api.getAppByIdWithHttpInfo(param.app,  options).toPromise();
     }
 
@@ -1885,7 +1939,7 @@ export class ObjectAppApi {
      * Show a specific app
      * @param param the request object
      */
-    public getAppById(param: AppApiGetAppByIdRequest, options?: Configuration): Promise<App> {
+    public getAppById(param: AppApiGetAppByIdRequest, options?: ConfigurationOptions): Promise<App> {
         return this.api.getAppById(param.app,  options).toPromise();
     }
 
@@ -1893,7 +1947,7 @@ export class ObjectAppApi {
      * Show a specific app location setting
      * @param param the request object
      */
-    public getAppLocationSettingByIdWithHttpInfo(param: AppApiGetAppLocationSettingByIdRequest, options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+    public getAppLocationSettingByIdWithHttpInfo(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
         return this.api.getAppLocationSettingByIdWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1901,7 +1955,7 @@ export class ObjectAppApi {
      * Show a specific app location setting
      * @param param the request object
      */
-    public getAppLocationSettingById(param: AppApiGetAppLocationSettingByIdRequest, options?: Configuration): Promise<AppLocationSetting> {
+    public getAppLocationSettingById(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
         return this.api.getAppLocationSettingById(param.appLocationSetting,  options).toPromise();
     }
 
@@ -1909,7 +1963,7 @@ export class ObjectAppApi {
      * Show all location settings
      * @param param the request object
      */
-    public getAppLocationSettingsWithHttpInfo(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<HttpInfo<GetAppLocationSettings200Response>> {
+    public getAppLocationSettingsWithHttpInfo(param: AppApiGetAppLocationSettingsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettings200Response>> {
         return this.api.getAppLocationSettingsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
     }
 
@@ -1917,7 +1971,7 @@ export class ObjectAppApi {
      * Show all location settings
      * @param param the request object
      */
-    public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: Configuration): Promise<GetAppLocationSettings200Response> {
+    public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettings200Response> {
         return this.api.getAppLocationSettings(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
     }
 
@@ -1925,7 +1979,7 @@ export class ObjectAppApi {
      * Show all wallets for a specific app
      * @param param the request object
      */
-    public getAppWalletsWithHttpInfo(param: AppApiGetAppWalletsRequest, options?: Configuration): Promise<HttpInfo<GetAppWallets200Response>> {
+    public getAppWalletsWithHttpInfo(param: AppApiGetAppWalletsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppWallets200Response>> {
         return this.api.getAppWalletsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBalance,  options).toPromise();
     }
 
@@ -1933,7 +1987,7 @@ export class ObjectAppApi {
      * Show all wallets for a specific app
      * @param param the request object
      */
-    public getAppWallets(param: AppApiGetAppWalletsRequest, options?: Configuration): Promise<GetAppWallets200Response> {
+    public getAppWallets(param: AppApiGetAppWalletsRequest, options?: ConfigurationOptions): Promise<GetAppWallets200Response> {
         return this.api.getAppWallets(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBalance,  options).toPromise();
     }
 
@@ -1941,7 +1995,7 @@ export class ObjectAppApi {
      * Show all apps
      * @param param the request object
      */
-    public getAppsWithHttpInfo(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<HttpInfo<GetApps200Response>> {
+    public getAppsWithHttpInfo(param: AppApiGetAppsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetApps200Response>> {
         return this.api.getAppsWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
     }
 
@@ -1949,25 +2003,25 @@ export class ObjectAppApi {
      * Show all apps
      * @param param the request object
      */
-    public getApps(param: AppApiGetAppsRequest = {}, options?: Configuration): Promise<GetApps200Response> {
+    public getApps(param: AppApiGetAppsRequest = {}, options?: ConfigurationOptions): Promise<GetApps200Response> {
         return this.api.getApps(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
      * Get token
      * @param param the request object
      */
-    public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<HttpInfo<Auth>> {
+    public getAuthTokenWithHttpInfo(param: AppApiGetAuthTokenRequest, options?: ConfigurationOptions): Promise<HttpInfo<Auth>> {
         return this.api.getAuthTokenWithHttpInfo(param.authRequest,  options).toPromise();
     }
 
     /**
-     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.+
+     * Authenticates the user based on the user\'s email, password, and session ID. If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
      * Get token
      * @param param the request object
      */
-    public getAuthToken(param: AppApiGetAuthTokenRequest, options?: Configuration): Promise<Auth> {
+    public getAuthToken(param: AppApiGetAuthTokenRequest, options?: ConfigurationOptions): Promise<Auth> {
         return this.api.getAuthToken(param.authRequest,  options).toPromise();
     }
 
@@ -1975,7 +2029,7 @@ export class ObjectAppApi {
      * List service backups
      * @param param the request object
      */
-    public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: Configuration): Promise<HttpInfo<GetBackups200Response>> {
+    public getBackupsWithHttpInfo(param: AppApiGetBackupsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetBackups200Response>> {
         return this.api.getBackupsWithHttpInfo(param.dockerService, param.perPage, param.page, param.sort, param.filterName, param.filterArchiveName,  options).toPromise();
     }
 
@@ -1983,7 +2037,7 @@ export class ObjectAppApi {
      * List service backups
      * @param param the request object
      */
-    public getBackups(param: AppApiGetBackupsRequest, options?: Configuration): Promise<GetBackups200Response> {
+    public getBackups(param: AppApiGetBackupsRequest, options?: ConfigurationOptions): Promise<GetBackups200Response> {
         return this.api.getBackups(param.dockerService, param.perPage, param.page, param.sort, param.filterName, param.filterArchiveName,  options).toPromise();
     }
 
@@ -1991,7 +2045,7 @@ export class ObjectAppApi {
      * Show all binaries
      * @param param the request object
      */
-    public getBinariesWithHttpInfo(param: AppApiGetBinariesRequest, options?: Configuration): Promise<HttpInfo<GetBinaries200Response>> {
+    public getBinariesWithHttpInfo(param: AppApiGetBinariesRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetBinaries200Response>> {
         return this.api.getBinariesWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
     }
 
@@ -1999,7 +2053,7 @@ export class ObjectAppApi {
      * Show all binaries
      * @param param the request object
      */
-    public getBinaries(param: AppApiGetBinariesRequest, options?: Configuration): Promise<GetBinaries200Response> {
+    public getBinaries(param: AppApiGetBinariesRequest, options?: ConfigurationOptions): Promise<GetBinaries200Response> {
         return this.api.getBinaries(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
     }
 
@@ -2007,7 +2061,7 @@ export class ObjectAppApi {
      * Show a specific binary
      * @param param the request object
      */
-    public getBinaryByIdWithHttpInfo(param: AppApiGetBinaryByIdRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
+    public getBinaryByIdWithHttpInfo(param: AppApiGetBinaryByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<Binary>> {
         return this.api.getBinaryByIdWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -2015,7 +2069,7 @@ export class ObjectAppApi {
      * Show a specific binary
      * @param param the request object
      */
-    public getBinaryById(param: AppApiGetBinaryByIdRequest, options?: Configuration): Promise<Binary> {
+    public getBinaryById(param: AppApiGetBinaryByIdRequest, options?: ConfigurationOptions): Promise<Binary> {
         return this.api.getBinaryById(param.binary,  options).toPromise();
     }
 
@@ -2023,7 +2077,7 @@ export class ObjectAppApi {
      * Show all docker registries
      * @param param the request object
      */
-    public getDockerRegistriesWithHttpInfo(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<HttpInfo<GetDockerRegistries200Response>> {
+    public getDockerRegistriesWithHttpInfo(param: AppApiGetDockerRegistriesRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetDockerRegistries200Response>> {
         return this.api.getDockerRegistriesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
     }
 
@@ -2031,7 +2085,7 @@ export class ObjectAppApi {
      * Show all docker registries
      * @param param the request object
      */
-    public getDockerRegistries(param: AppApiGetDockerRegistriesRequest = {}, options?: Configuration): Promise<GetDockerRegistries200Response> {
+    public getDockerRegistries(param: AppApiGetDockerRegistriesRequest = {}, options?: ConfigurationOptions): Promise<GetDockerRegistries200Response> {
         return this.api.getDockerRegistries(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
     }
 
@@ -2039,7 +2093,7 @@ export class ObjectAppApi {
      * Display a specific docker registry
      * @param param the request object
      */
-    public getDockerRegistryByIdWithHttpInfo(param: AppApiGetDockerRegistryByIdRequest, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public getDockerRegistryByIdWithHttpInfo(param: AppApiGetDockerRegistryByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
         return this.api.getDockerRegistryByIdWithHttpInfo(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2047,7 +2101,7 @@ export class ObjectAppApi {
      * Display a specific docker registry
      * @param param the request object
      */
-    public getDockerRegistryById(param: AppApiGetDockerRegistryByIdRequest, options?: Configuration): Promise<DockerRegistry> {
+    public getDockerRegistryById(param: AppApiGetDockerRegistryByIdRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
         return this.api.getDockerRegistryById(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2055,7 +2109,7 @@ export class ObjectAppApi {
      * Get latest service backup
      * @param param the request object
      */
-    public getLatestBackupWithHttpInfo(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<HttpInfo<Backup>> {
+    public getLatestBackupWithHttpInfo(param: AppApiGetLatestBackupRequest, options?: ConfigurationOptions): Promise<HttpInfo<Backup>> {
         return this.api.getLatestBackupWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2063,7 +2117,7 @@ export class ObjectAppApi {
      * Get latest service backup
      * @param param the request object
      */
-    public getLatestBackup(param: AppApiGetLatestBackupRequest, options?: Configuration): Promise<Backup> {
+    public getLatestBackup(param: AppApiGetLatestBackupRequest, options?: ConfigurationOptions): Promise<Backup> {
         return this.api.getLatestBackup(param.dockerService,  options).toPromise();
     }
 
@@ -2071,7 +2125,7 @@ export class ObjectAppApi {
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
-    public getLocationsWithHttpInfo(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<HttpInfo<GetLocations200Response>> {
+    public getLocationsWithHttpInfo(param: AppApiGetLocationsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetLocations200Response>> {
         return this.api.getLocationsWithHttpInfo(param.perPage, param.page,  options).toPromise();
     }
 
@@ -2079,7 +2133,7 @@ export class ObjectAppApi {
      * Show a unique listing of locations based on active and ready worker nodes
      * @param param the request object
      */
-    public getLocations(param: AppApiGetLocationsRequest = {}, options?: Configuration): Promise<GetLocations200Response> {
+    public getLocations(param: AppApiGetLocationsRequest = {}, options?: ConfigurationOptions): Promise<GetLocations200Response> {
         return this.api.getLocations(param.perPage, param.page,  options).toPromise();
     }
 
@@ -2087,7 +2141,7 @@ export class ObjectAppApi {
      * Show a specified resource package
      * @param param the request object
      */
-    public getResourcePackageByIdWithHttpInfo(param: AppApiGetResourcePackageByIdRequest, options?: Configuration): Promise<HttpInfo<ResourcePackage>> {
+    public getResourcePackageByIdWithHttpInfo(param: AppApiGetResourcePackageByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<ResourcePackage>> {
         return this.api.getResourcePackageByIdWithHttpInfo(param.resourcePackage,  options).toPromise();
     }
 
@@ -2095,7 +2149,7 @@ export class ObjectAppApi {
      * Show a specified resource package
      * @param param the request object
      */
-    public getResourcePackageById(param: AppApiGetResourcePackageByIdRequest, options?: Configuration): Promise<ResourcePackage> {
+    public getResourcePackageById(param: AppApiGetResourcePackageByIdRequest, options?: ConfigurationOptions): Promise<ResourcePackage> {
         return this.api.getResourcePackageById(param.resourcePackage,  options).toPromise();
     }
 
@@ -2103,7 +2157,7 @@ export class ObjectAppApi {
      * Show all available resource packages
      * @param param the request object
      */
-    public getResourcePackagesWithHttpInfo(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<HttpInfo<GetResourcePackages200Response>> {
+    public getResourcePackagesWithHttpInfo(param: AppApiGetResourcePackagesRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
         return this.api.getResourcePackagesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
     }
 
@@ -2111,7 +2165,7 @@ export class ObjectAppApi {
      * Show all available resource packages
      * @param param the request object
      */
-    public getResourcePackages(param: AppApiGetResourcePackagesRequest = {}, options?: Configuration): Promise<GetResourcePackages200Response> {
+    public getResourcePackages(param: AppApiGetResourcePackagesRequest = {}, options?: ConfigurationOptions): Promise<GetResourcePackages200Response> {
         return this.api.getResourcePackages(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
     }
 
@@ -2119,7 +2173,7 @@ export class ObjectAppApi {
      * Get service backup download URL
      * @param param the request object
      */
-    public getServerBackupDownloadUrlWithHttpInfo(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<HttpInfo<BackupDownload>> {
+    public getServerBackupDownloadUrlWithHttpInfo(param: AppApiGetServerBackupDownloadUrlRequest, options?: ConfigurationOptions): Promise<HttpInfo<BackupDownload>> {
         return this.api.getServerBackupDownloadUrlWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2127,7 +2181,7 @@ export class ObjectAppApi {
      * Get service backup download URL
      * @param param the request object
      */
-    public getServerBackupDownloadUrl(param: AppApiGetServerBackupDownloadUrlRequest, options?: Configuration): Promise<BackupDownload> {
+    public getServerBackupDownloadUrl(param: AppApiGetServerBackupDownloadUrlRequest, options?: ConfigurationOptions): Promise<BackupDownload> {
         return this.api.getServerBackupDownloadUrl(param.dockerService,  options).toPromise();
     }
 
@@ -2135,7 +2189,7 @@ export class ObjectAppApi {
      * Display a specific service
      * @param param the request object
      */
-    public getServerByIdWithHttpInfo(param: AppApiGetServerByIdRequest, options?: Configuration): Promise<HttpInfo<Server>> {
+    public getServerByIdWithHttpInfo(param: AppApiGetServerByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
         return this.api.getServerByIdWithHttpInfo(param.app, param.dockerService,  options).toPromise();
     }
 
@@ -2143,7 +2197,7 @@ export class ObjectAppApi {
      * Display a specific service
      * @param param the request object
      */
-    public getServerById(param: AppApiGetServerByIdRequest, options?: Configuration): Promise<Server> {
+    public getServerById(param: AppApiGetServerByIdRequest, options?: ConfigurationOptions): Promise<Server> {
         return this.api.getServerById(param.app, param.dockerService,  options).toPromise();
     }
 
@@ -2151,7 +2205,7 @@ export class ObjectAppApi {
      * Show a specific server config
      * @param param the request object
      */
-    public getServerConfigByIdWithHttpInfo(param: AppApiGetServerConfigByIdRequest, options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+    public getServerConfigByIdWithHttpInfo(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServerConfig>> {
         return this.api.getServerConfigByIdWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -2159,7 +2213,7 @@ export class ObjectAppApi {
      * Show a specific server config
      * @param param the request object
      */
-    public getServerConfigById(param: AppApiGetServerConfigByIdRequest, options?: Configuration): Promise<ServerConfig> {
+    public getServerConfigById(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<ServerConfig> {
         return this.api.getServerConfigById(param.serverConfig,  options).toPromise();
     }
 
@@ -2167,7 +2221,7 @@ export class ObjectAppApi {
      * Show all server configs
      * @param param the request object
      */
-    public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<HttpInfo<GetServerConfigs200Response>> {
+    public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
         return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
@@ -2175,7 +2229,7 @@ export class ObjectAppApi {
      * Show all server configs
      * @param param the request object
      */
-    public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: Configuration): Promise<GetServerConfigs200Response> {
+    public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<GetServerConfigs200Response> {
         return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
@@ -2183,7 +2237,7 @@ export class ObjectAppApi {
      * Get service logs
      * @param param the request object
      */
-    public getServerLogsWithHttpInfo(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<HttpInfo<ServiceLogs>> {
+    public getServerLogsWithHttpInfo(param: AppApiGetServerLogsRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServiceLogs>> {
         return this.api.getServerLogsWithHttpInfo(param.dockerService, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
@@ -2191,7 +2245,7 @@ export class ObjectAppApi {
      * Get service logs
      * @param param the request object
      */
-    public getServerLogs(param: AppApiGetServerLogsRequest, options?: Configuration): Promise<ServiceLogs> {
+    public getServerLogs(param: AppApiGetServerLogsRequest, options?: ConfigurationOptions): Promise<ServiceLogs> {
         return this.api.getServerLogs(param.dockerService, param.limit, param.direction, param.streamSource,  options).toPromise();
     }
 
@@ -2199,7 +2253,7 @@ export class ObjectAppApi {
      * List services
      * @param param the request object
      */
-    public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: Configuration): Promise<HttpInfo<GetServers200Response>> {
+    public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServers200Response>> {
         return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
@@ -2207,7 +2261,7 @@ export class ObjectAppApi {
      * List services
      * @param param the request object
      */
-    public getServers(param: AppApiGetServersRequest, options?: Configuration): Promise<GetServers200Response> {
+    public getServers(param: AppApiGetServersRequest, options?: ConfigurationOptions): Promise<GetServers200Response> {
         return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
@@ -2215,7 +2269,7 @@ export class ObjectAppApi {
      * List all available tagged images
      * @param param the request object
      */
-    public getTaggedImagesWithHttpInfo(param: AppApiGetTaggedImagesRequest, options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+    public getTaggedImagesWithHttpInfo(param: AppApiGetTaggedImagesRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetTaggedImages200Response>> {
         return this.api.getTaggedImagesWithHttpInfo(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2223,7 +2277,7 @@ export class ObjectAppApi {
      * List all available tagged images
      * @param param the request object
      */
-    public getTaggedImages(param: AppApiGetTaggedImagesRequest, options?: Configuration): Promise<GetTaggedImages200Response> {
+    public getTaggedImages(param: AppApiGetTaggedImagesRequest, options?: ConfigurationOptions): Promise<GetTaggedImages200Response> {
         return this.api.getTaggedImages(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2231,7 +2285,7 @@ export class ObjectAppApi {
      * Show all services for a specific app location setting within a given app
      * @param param the request object
      */
-    public listServicesForAppLocationSettingWithHttpInfo(param: AppApiListServicesForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<Array<Server>>> {
+    public listServicesForAppLocationSettingWithHttpInfo(param: AppApiListServicesForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<Array<Server>>> {
         return this.api.listServicesForAppLocationSettingWithHttpInfo(param.app, param.appLocationSetting,  options).toPromise();
     }
 
@@ -2239,7 +2293,7 @@ export class ObjectAppApi {
      * Show all services for a specific app location setting within a given app
      * @param param the request object
      */
-    public listServicesForAppLocationSetting(param: AppApiListServicesForAppLocationSettingRequest, options?: Configuration): Promise<Array<Server>> {
+    public listServicesForAppLocationSetting(param: AppApiListServicesForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<Array<Server>> {
         return this.api.listServicesForAppLocationSetting(param.app, param.appLocationSetting,  options).toPromise();
     }
 
@@ -2247,7 +2301,7 @@ export class ObjectAppApi {
      * Refresh token
      * @param param the request object
      */
-    public refreshAuthTokenWithHttpInfo(param: AppApiRefreshAuthTokenRequest = {}, options?: Configuration): Promise<HttpInfo<Auth>> {
+    public refreshAuthTokenWithHttpInfo(param: AppApiRefreshAuthTokenRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<Auth>> {
         return this.api.refreshAuthTokenWithHttpInfo( options).toPromise();
     }
 
@@ -2255,7 +2309,7 @@ export class ObjectAppApi {
      * Refresh token
      * @param param the request object
      */
-    public refreshAuthToken(param: AppApiRefreshAuthTokenRequest = {}, options?: Configuration): Promise<Auth> {
+    public refreshAuthToken(param: AppApiRefreshAuthTokenRequest = {}, options?: ConfigurationOptions): Promise<Auth> {
         return this.api.refreshAuthToken( options).toPromise();
     }
 
@@ -2263,7 +2317,7 @@ export class ObjectAppApi {
      * Refresh a binary and the related entity
      * @param param the request object
      */
-    public refreshBinaryWithHttpInfo(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
+    public refreshBinaryWithHttpInfo(param: AppApiRefreshBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<Binary>> {
         return this.api.refreshBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -2271,7 +2325,7 @@ export class ObjectAppApi {
      * Refresh a binary and the related entity
      * @param param the request object
      */
-    public refreshBinary(param: AppApiRefreshBinaryRequest, options?: Configuration): Promise<Binary> {
+    public refreshBinary(param: AppApiRefreshBinaryRequest, options?: ConfigurationOptions): Promise<Binary> {
         return this.api.refreshBinary(param.binary,  options).toPromise();
     }
 
@@ -2279,7 +2333,7 @@ export class ObjectAppApi {
      * Refresh the cache for all available tagged images
      * @param param the request object
      */
-    public refreshTaggedImagesWithHttpInfo(param: AppApiRefreshTaggedImagesRequest, options?: Configuration): Promise<HttpInfo<GetTaggedImages200Response>> {
+    public refreshTaggedImagesWithHttpInfo(param: AppApiRefreshTaggedImagesRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetTaggedImages200Response>> {
         return this.api.refreshTaggedImagesWithHttpInfo(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2287,7 +2341,7 @@ export class ObjectAppApi {
      * Refresh the cache for all available tagged images
      * @param param the request object
      */
-    public refreshTaggedImages(param: AppApiRefreshTaggedImagesRequest, options?: Configuration): Promise<GetTaggedImages200Response> {
+    public refreshTaggedImages(param: AppApiRefreshTaggedImagesRequest, options?: ConfigurationOptions): Promise<GetTaggedImages200Response> {
         return this.api.refreshTaggedImages(param.dockerRegistry,  options).toPromise();
     }
 
@@ -2295,7 +2349,7 @@ export class ObjectAppApi {
      * Restart service
      * @param param the request object
      */
-    public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public restartServerWithHttpInfo(param: AppApiRestartServerRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.restartServerWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2303,7 +2357,7 @@ export class ObjectAppApi {
      * Restart service
      * @param param the request object
      */
-    public restartServer(param: AppApiRestartServerRequest, options?: Configuration): Promise<void> {
+    public restartServer(param: AppApiRestartServerRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.restartServer(param.dockerService,  options).toPromise();
     }
 
@@ -2311,7 +2365,7 @@ export class ObjectAppApi {
      * Restore latest service backup
      * @param param the request object
      */
-    public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public restoreBackupWithHttpInfo(param: AppApiRestoreBackupRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.restoreBackupWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2319,7 +2373,7 @@ export class ObjectAppApi {
      * Restore latest service backup
      * @param param the request object
      */
-    public restoreBackup(param: AppApiRestoreBackupRequest, options?: Configuration): Promise<void> {
+    public restoreBackup(param: AppApiRestoreBackupRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.restoreBackup(param.dockerService,  options).toPromise();
     }
 
@@ -2327,7 +2381,7 @@ export class ObjectAppApi {
      * Start service
      * @param param the request object
      */
-    public startServerWithHttpInfo(param: AppApiStartServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public startServerWithHttpInfo(param: AppApiStartServerRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.startServerWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2335,7 +2389,7 @@ export class ObjectAppApi {
      * Start service
      * @param param the request object
      */
-    public startServer(param: AppApiStartServerRequest, options?: Configuration): Promise<void> {
+    public startServer(param: AppApiStartServerRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.startServer(param.dockerService,  options).toPromise();
     }
 
@@ -2343,7 +2397,7 @@ export class ObjectAppApi {
      * Start all services related to a specific app
      * @param param the request object
      */
-    public startServersForAppWithHttpInfo(param: AppApiStartServersForAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public startServersForAppWithHttpInfo(param: AppApiStartServersForAppRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.startServersForAppWithHttpInfo(param.app,  options).toPromise();
     }
 
@@ -2351,7 +2405,7 @@ export class ObjectAppApi {
      * Start all services related to a specific app
      * @param param the request object
      */
-    public startServersForApp(param: AppApiStartServersForAppRequest, options?: Configuration): Promise<void> {
+    public startServersForApp(param: AppApiStartServersForAppRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.startServersForApp(param.app,  options).toPromise();
     }
 
@@ -2359,7 +2413,7 @@ export class ObjectAppApi {
      * Start all services related to a specific app location setting
      * @param param the request object
      */
-    public startServersForAppLocationSettingWithHttpInfo(param: AppApiStartServersForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public startServersForAppLocationSettingWithHttpInfo(param: AppApiStartServersForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.startServersForAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2367,7 +2421,7 @@ export class ObjectAppApi {
      * Start all services related to a specific app location setting
      * @param param the request object
      */
-    public startServersForAppLocationSetting(param: AppApiStartServersForAppLocationSettingRequest, options?: Configuration): Promise<void> {
+    public startServersForAppLocationSetting(param: AppApiStartServersForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.startServersForAppLocationSetting(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2375,7 +2429,7 @@ export class ObjectAppApi {
      * Start all services related to a specific binary
      * @param param the request object
      */
-    public startServersForBinaryWithHttpInfo(param: AppApiStartServersForBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public startServersForBinaryWithHttpInfo(param: AppApiStartServersForBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.startServersForBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -2383,7 +2437,7 @@ export class ObjectAppApi {
      * Start all services related to a specific binary
      * @param param the request object
      */
-    public startServersForBinary(param: AppApiStartServersForBinaryRequest, options?: Configuration): Promise<void> {
+    public startServersForBinary(param: AppApiStartServersForBinaryRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.startServersForBinary(param.binary,  options).toPromise();
     }
 
@@ -2391,7 +2445,7 @@ export class ObjectAppApi {
      * Start all services related to a specific server config
      * @param param the request object
      */
-    public startServersForServerConfigWithHttpInfo(param: AppApiStartServersForServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public startServersForServerConfigWithHttpInfo(param: AppApiStartServersForServerConfigRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.startServersForServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -2399,7 +2453,7 @@ export class ObjectAppApi {
      * Start all services related to a specific server config
      * @param param the request object
      */
-    public startServersForServerConfig(param: AppApiStartServersForServerConfigRequest, options?: Configuration): Promise<void> {
+    public startServersForServerConfig(param: AppApiStartServersForServerConfigRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.startServersForServerConfig(param.serverConfig,  options).toPromise();
     }
 
@@ -2407,7 +2461,7 @@ export class ObjectAppApi {
      * Get branches for a specific steamworks app ID
      * @param param the request object
      */
-    public steamGetBranchesWithHttpInfo(param: AppApiSteamGetBranchesRequest, options?: Configuration): Promise<HttpInfo<Array<SteamBranch>>> {
+    public steamGetBranchesWithHttpInfo(param: AppApiSteamGetBranchesRequest, options?: ConfigurationOptions): Promise<HttpInfo<Array<SteamBranch>>> {
         return this.api.steamGetBranchesWithHttpInfo(param.appId,  options).toPromise();
     }
 
@@ -2415,7 +2469,7 @@ export class ObjectAppApi {
      * Get branches for a specific steamworks app ID
      * @param param the request object
      */
-    public steamGetBranches(param: AppApiSteamGetBranchesRequest, options?: Configuration): Promise<Array<SteamBranch>> {
+    public steamGetBranches(param: AppApiSteamGetBranchesRequest, options?: ConfigurationOptions): Promise<Array<SteamBranch>> {
         return this.api.steamGetBranches(param.appId,  options).toPromise();
     }
 
@@ -2423,7 +2477,7 @@ export class ObjectAppApi {
      * Get launchers for a specific steamworks app ID, optionally filtered by OS
      * @param param the request object
      */
-    public steamGetLauncherWithHttpInfo(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<HttpInfo<Array<SteamLauncher>>> {
+    public steamGetLauncherWithHttpInfo(param: AppApiSteamGetLauncherRequest, options?: ConfigurationOptions): Promise<HttpInfo<Array<SteamLauncher>>> {
         return this.api.steamGetLauncherWithHttpInfo(param.appId, param.os,  options).toPromise();
     }
 
@@ -2431,7 +2485,7 @@ export class ObjectAppApi {
      * Get launchers for a specific steamworks app ID, optionally filtered by OS
      * @param param the request object
      */
-    public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: Configuration): Promise<Array<SteamLauncher>> {
+    public steamGetLauncher(param: AppApiSteamGetLauncherRequest, options?: ConfigurationOptions): Promise<Array<SteamLauncher>> {
         return this.api.steamGetLauncher(param.appId, param.os,  options).toPromise();
     }
 
@@ -2439,7 +2493,7 @@ export class ObjectAppApi {
      * Stop service
      * @param param the request object
      */
-    public stopServerWithHttpInfo(param: AppApiStopServerRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public stopServerWithHttpInfo(param: AppApiStopServerRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.stopServerWithHttpInfo(param.dockerService,  options).toPromise();
     }
 
@@ -2447,7 +2501,7 @@ export class ObjectAppApi {
      * Stop service
      * @param param the request object
      */
-    public stopServer(param: AppApiStopServerRequest, options?: Configuration): Promise<void> {
+    public stopServer(param: AppApiStopServerRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServer(param.dockerService,  options).toPromise();
     }
 
@@ -2455,7 +2509,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific app
      * @param param the request object
      */
-    public stopServersForAppWithHttpInfo(param: AppApiStopServersForAppRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public stopServersForAppWithHttpInfo(param: AppApiStopServersForAppRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.stopServersForAppWithHttpInfo(param.app,  options).toPromise();
     }
 
@@ -2463,7 +2517,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific app
      * @param param the request object
      */
-    public stopServersForApp(param: AppApiStopServersForAppRequest, options?: Configuration): Promise<void> {
+    public stopServersForApp(param: AppApiStopServersForAppRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServersForApp(param.app,  options).toPromise();
     }
 
@@ -2471,7 +2525,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific app location setting
      * @param param the request object
      */
-    public stopServersForAppLocationSettingWithHttpInfo(param: AppApiStopServersForAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public stopServersForAppLocationSettingWithHttpInfo(param: AppApiStopServersForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.stopServersForAppLocationSettingWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2479,7 +2533,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific app location setting
      * @param param the request object
      */
-    public stopServersForAppLocationSetting(param: AppApiStopServersForAppLocationSettingRequest, options?: Configuration): Promise<void> {
+    public stopServersForAppLocationSetting(param: AppApiStopServersForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServersForAppLocationSetting(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2487,7 +2541,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific binary
      * @param param the request object
      */
-    public stopServersForBinaryWithHttpInfo(param: AppApiStopServersForBinaryRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public stopServersForBinaryWithHttpInfo(param: AppApiStopServersForBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.stopServersForBinaryWithHttpInfo(param.binary,  options).toPromise();
     }
 
@@ -2495,7 +2549,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific binary
      * @param param the request object
      */
-    public stopServersForBinary(param: AppApiStopServersForBinaryRequest, options?: Configuration): Promise<void> {
+    public stopServersForBinary(param: AppApiStopServersForBinaryRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServersForBinary(param.binary,  options).toPromise();
     }
 
@@ -2503,7 +2557,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific server config
      * @param param the request object
      */
-    public stopServersForServerConfigWithHttpInfo(param: AppApiStopServersForServerConfigRequest, options?: Configuration): Promise<HttpInfo<void>> {
+    public stopServersForServerConfigWithHttpInfo(param: AppApiStopServersForServerConfigRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
         return this.api.stopServersForServerConfigWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -2511,7 +2565,7 @@ export class ObjectAppApi {
      * Stop all services related to a specific server config
      * @param param the request object
      */
-    public stopServersForServerConfig(param: AppApiStopServersForServerConfigRequest, options?: Configuration): Promise<void> {
+    public stopServersForServerConfig(param: AppApiStopServersForServerConfigRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServersForServerConfig(param.serverConfig,  options).toPromise();
     }
 
@@ -2519,7 +2573,7 @@ export class ObjectAppApi {
      * Create a Minecraft template app
      * @param param the request object
      */
-    public templateAppMinecraftStoreWithHttpInfo(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
+    public templateAppMinecraftStoreWithHttpInfo(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
         return this.api.templateAppMinecraftStoreWithHttpInfo(param.storeMinecraftTemplateRequest,  options).toPromise();
     }
 
@@ -2527,7 +2581,7 @@ export class ObjectAppApi {
      * Create a Minecraft template app
      * @param param the request object
      */
-    public templateAppMinecraftStore(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: Configuration): Promise<App> {
+    public templateAppMinecraftStore(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: ConfigurationOptions): Promise<App> {
         return this.api.templateAppMinecraftStore(param.storeMinecraftTemplateRequest,  options).toPromise();
     }
 
@@ -2535,7 +2589,7 @@ export class ObjectAppApi {
      * Create a Palworld template app
      * @param param the request object
      */
-    public templateAppPalworldStoreWithHttpInfo(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<HttpInfo<App>> {
+    public templateAppPalworldStoreWithHttpInfo(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
         return this.api.templateAppPalworldStoreWithHttpInfo(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
@@ -2543,7 +2597,7 @@ export class ObjectAppApi {
      * Create a Palworld template app
      * @param param the request object
      */
-    public templateAppPalworldStore(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: Configuration): Promise<App> {
+    public templateAppPalworldStore(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: ConfigurationOptions): Promise<App> {
         return this.api.templateAppPalworldStore(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
@@ -2551,7 +2605,7 @@ export class ObjectAppApi {
      * Update a specific app
      * @param param the request object
      */
-    public updateAppByIdWithHttpInfo(param: AppApiUpdateAppByIdRequest, options?: Configuration): Promise<HttpInfo<App>> {
+    public updateAppByIdWithHttpInfo(param: AppApiUpdateAppByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
         return this.api.updateAppByIdWithHttpInfo(param.app, param.updateAppRequest,  options).toPromise();
     }
 
@@ -2559,7 +2613,7 @@ export class ObjectAppApi {
      * Update a specific app
      * @param param the request object
      */
-    public updateAppById(param: AppApiUpdateAppByIdRequest, options?: Configuration): Promise<App> {
+    public updateAppById(param: AppApiUpdateAppByIdRequest, options?: ConfigurationOptions): Promise<App> {
         return this.api.updateAppById(param.app, param.updateAppRequest,  options).toPromise();
     }
 
@@ -2567,7 +2621,7 @@ export class ObjectAppApi {
      * Update a location setting
      * @param param the request object
      */
-    public updateAppLocationSettingWithHttpInfo(param: AppApiUpdateAppLocationSettingRequest, options?: Configuration): Promise<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
         return this.api.updateAppLocationSettingWithHttpInfo(param.appLocationSetting, param.updateAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -2575,7 +2629,7 @@ export class ObjectAppApi {
      * Update a location setting
      * @param param the request object
      */
-    public updateAppLocationSetting(param: AppApiUpdateAppLocationSettingRequest, options?: Configuration): Promise<AppLocationSetting> {
+    public updateAppLocationSetting(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
         return this.api.updateAppLocationSetting(param.appLocationSetting, param.updateAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -2583,7 +2637,7 @@ export class ObjectAppApi {
      * Update a binary and the related entity
      * @param param the request object
      */
-    public updateBinaryWithHttpInfo(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<HttpInfo<Binary>> {
+    public updateBinaryWithHttpInfo(param: AppApiUpdateBinaryRequest, options?: ConfigurationOptions): Promise<HttpInfo<Binary>> {
         return this.api.updateBinaryWithHttpInfo(param.binary, param.updateBinaryRequest,  options).toPromise();
     }
 
@@ -2591,7 +2645,7 @@ export class ObjectAppApi {
      * Update a binary and the related entity
      * @param param the request object
      */
-    public updateBinary(param: AppApiUpdateBinaryRequest, options?: Configuration): Promise<Binary> {
+    public updateBinary(param: AppApiUpdateBinaryRequest, options?: ConfigurationOptions): Promise<Binary> {
         return this.api.updateBinary(param.binary, param.updateBinaryRequest,  options).toPromise();
     }
 
@@ -2599,7 +2653,7 @@ export class ObjectAppApi {
      * Update a specific docker registry
      * @param param the request object
      */
-    public updateDockerRegistryWithHttpInfo(param: AppApiUpdateDockerRegistryRequest, options?: Configuration): Promise<HttpInfo<DockerRegistry>> {
+    public updateDockerRegistryWithHttpInfo(param: AppApiUpdateDockerRegistryRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
         return this.api.updateDockerRegistryWithHttpInfo(param.dockerRegistry, param.updateDockerRegistryRequest,  options).toPromise();
     }
 
@@ -2607,7 +2661,7 @@ export class ObjectAppApi {
      * Update a specific docker registry
      * @param param the request object
      */
-    public updateDockerRegistry(param: AppApiUpdateDockerRegistryRequest, options?: Configuration): Promise<DockerRegistry> {
+    public updateDockerRegistry(param: AppApiUpdateDockerRegistryRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
         return this.api.updateDockerRegistry(param.dockerRegistry, param.updateDockerRegistryRequest,  options).toPromise();
     }
 
@@ -2615,7 +2669,7 @@ export class ObjectAppApi {
      * Update a server config
      * @param param the request object
      */
-    public updateServerConfigWithHttpInfo(param: AppApiUpdateServerConfigRequest, options?: Configuration): Promise<HttpInfo<ServerConfig>> {
+    public updateServerConfigWithHttpInfo(param: AppApiUpdateServerConfigRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServerConfig>> {
         return this.api.updateServerConfigWithHttpInfo(param.serverConfig, param.updateServerConfigRequest,  options).toPromise();
     }
 
@@ -2623,7 +2677,7 @@ export class ObjectAppApi {
      * Update a server config
      * @param param the request object
      */
-    public updateServerConfig(param: AppApiUpdateServerConfigRequest, options?: Configuration): Promise<ServerConfig> {
+    public updateServerConfig(param: AppApiUpdateServerConfigRequest, options?: ConfigurationOptions): Promise<ServerConfig> {
         return this.api.updateServerConfig(param.serverConfig, param.updateServerConfigRequest,  options).toPromise();
     }
 

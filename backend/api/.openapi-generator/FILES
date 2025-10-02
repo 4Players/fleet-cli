@@ -15,6 +15,7 @@ models/App.ts
 models/AppBillingState.ts
 models/AppLocationSetting.ts
 models/AppLocationSettingStatus.ts
+models/AppStatus.ts
 models/Architecture.ts
 models/Auth.ts
 models/AuthRequest.ts

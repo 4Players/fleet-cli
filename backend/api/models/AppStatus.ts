@@ -12,7 +12,10 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum BinaryType {
-    DockerImage = 'dockerImage',
-    Steam = 'steam'
+export enum AppStatus {
+    Ready = 'ready',
+    Updating = 'updating',
+    Deleting = 'deleting',
+    Error = 'error',
+    Waiting = 'waiting'
 }
