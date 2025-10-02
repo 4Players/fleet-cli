@@ -22,7 +22,7 @@ jobs:
             echo "Version mismatch: Tag is $TAG_VERSION, but mod.json has $FILE_VERSION"
             exit 1
           fi
-      
+
       - name: Set up Deno
         uses: denoland/setup-deno@v2
         with:

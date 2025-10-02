@@ -5,13 +5,15 @@
 [![Build and Release ODIN Fleet CLI Tool](https://github.com/4Players/fleet-cli/actions/workflows/build-binaries.yml/badge.svg)](https://github.com/4Players/fleet-cli/actions/workflows/build-binaries.yml)
 
 > [!NOTE]
-> This is a CLI tool for the [ODIN Fleet](https://odin.4players.io/fleet/) service by 4Players to manage and deploy your game servers. It is used to interact with the
-> [ODIN Fleet API](https://docs.4players.io/fleet/api/). It's written in Deno and uses the TypeScript ODIN Fleet SDK internally.
+> This is a CLI tool for the [ODIN Fleet](https://odin.4players.io/fleet/)
+> service by 4Players to manage and deploy your game servers. It is used to
+> interact with the [ODIN Fleet API](https://docs.4players.io/fleet/api/). It's
+> written in Deno and uses the TypeScript ODIN Fleet SDK internally.
 
 ## :book: Documentation
 
-The documentation for the CLI tool is available in our developer documentation for **ODIN Fleet**.
-You can find the documentation for the CLI tool in the
+The documentation for the CLI tool is available in our developer documentation
+for **ODIN Fleet**. You can find the documentation for the CLI tool in the
 [CLI section](https://docs.4players.io/fleet/cli/).
 
 ## :package: Installation
@@ -108,5 +110,5 @@ on Windows) in the root of the project. You can move this binary to a directory
 in your PATH to use it globally.
 
 > [!TIP]
-> More details about the CLI tool and other technical information can be found in the
-> [developer documentation](https://docs.4players.io/fleet/).
+> More details about the CLI tool and other technical information can be found
+> in the [developer documentation](https://docs.4players.io/fleet/).
