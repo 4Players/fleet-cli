@@ -1,4 +1,4 @@
-import ts from "https://esm.sh/typescript";
+import ts from "typescript";
 
 const EXPECTED_URL = "https://fleet.4players.io/api";
 const FILE_TO_CHECK = "./src/client.ts";
