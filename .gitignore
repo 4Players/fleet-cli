@@ -39,6 +39,7 @@ Untitled*.ipynb
 
 # Node Modules for easy script support
 node_modules/
+package-lock.json
 
 # Binaries
 odin
