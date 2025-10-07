@@ -51,10 +51,8 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
-import { Resources } from '../models/Resources.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
@@ -904,13 +902,11 @@ export class PromiseAppApi {
      * @param [filterSlug] Filter by slug.
      * @param [filterType] Filter by type.
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
-     * @param [filterCpuReservation] Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
-     * @param [filterMemoryReservationMiB] Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
+    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getResourcePackagesWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterCpuReservation, filterMemoryLimitMiB, filterMemoryReservationMiB, observableOptions);
+        const result = this.api.getResourcePackagesWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, observableOptions);
         return result.toPromise();
     }
 
@@ -925,13 +921,11 @@ export class PromiseAppApi {
      * @param [filterSlug] Filter by slug.
      * @param [filterType] Filter by type.
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
-     * @param [filterCpuReservation] Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
-     * @param [filterMemoryReservationMiB] Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: PromiseConfigurationOptions): Promise<GetResourcePackages200Response> {
+    public getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<GetResourcePackages200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getResourcePackages(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterCpuReservation, filterMemoryLimitMiB, filterMemoryReservationMiB, observableOptions);
+        const result = this.api.getResourcePackages(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, observableOptions);
         return result.toPromise();
     }
 

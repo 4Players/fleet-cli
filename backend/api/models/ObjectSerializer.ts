@@ -47,10 +47,8 @@ export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
 export * from '../models/Protocol.ts';
-export * from '../models/ResourceAllocations.ts';
 export * from '../models/ResourcePackage.ts';
 export * from '../models/ResourcePackageType.ts';
-export * from '../models/Resources.ts';
 export * from '../models/RestartPolicy.ts';
 export * from '../models/RestartPolicyCondition.ts';
 export * from '../models/SecretFile.ts';
@@ -131,10 +129,8 @@ import { Placement } from '../models/Placement.ts';
 import { Port     } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage         } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
-import { Resources } from '../models/Resources.ts';
 import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
@@ -237,9 +233,7 @@ let typeMap: {[index: string]: any} = {
     "Placement": Placement,
     "Port": Port,
     "PortDefinition": PortDefinition,
-    "ResourceAllocations": ResourceAllocations,
     "ResourcePackage": ResourcePackage,
-    "Resources": Resources,
     "RestartPolicy": RestartPolicy,
     "SecretFile": SecretFile,
     "Server": Server,

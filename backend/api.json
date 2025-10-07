@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "ODIN Fleet API",
-        "version": "0.9.1",
+        "version": "0.9.2",
         "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
     },
     "servers": [
@@ -4103,12 +4103,8 @@
                                 "type",
                                 "-cpuLimit",
                                 "cpuLimit",
-                                "-cpuReservation",
-                                "cpuReservation",
                                 "-memoryLimitMiB",
-                                "memoryLimitMiB",
-                                "-memoryReservationMiB",
-                                "memoryReservationMiB"
+                                "memoryLimitMiB"
                             ],
                             "items": {
                                 "type": "string"
@@ -4164,25 +4160,9 @@
                         }
                     },
                     {
-                        "name": "filter[cpuReservation]",
-                        "in": "query",
-                        "description": "Filter by CPU reservation. Maps to the `cpu_reservation` column.",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
                         "name": "filter[memoryLimitMiB]",
                         "in": "query",
                         "description": "Filter by memory limit in MiB. Maps to the `memory_limit_mebibytes` column.",
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "filter[memoryReservationMiB]",
-                        "in": "query",
-                        "description": "Filter by memory reservation in MiB. Maps to the `memory_reservation_mebibytes` column.",
                         "schema": {
                             "type": "integer"
                         }
@@ -6029,24 +6009,6 @@
                 ],
                 "title": "Protocol"
             },
-            "ResourceAllocations": {
-                "type": "object",
-                "properties": {
-                    "limits": {
-                        "description": "The limits set for the server",
-                        "$ref": "#\/components\/schemas\/Resources"
-                    },
-                    "reservations": {
-                        "description": "The resources that are reserved for the server",
-                        "$ref": "#\/components\/schemas\/Resources"
-                    }
-                },
-                "required": [
-                    "limits",
-                    "reservations"
-                ],
-                "title": "ResourceAllocations"
-            },
             "ResourcePackage": {
                 "type": "object",
                 "properties": {
@@ -6103,24 +6065,6 @@
                     "dedicated"
                 ],
                 "title": "ResourcePackageType"
-            },
-            "Resources": {
-                "type": "object",
-                "properties": {
-                    "cpu": {
-                        "type": "integer",
-                        "description": "The amount of cpu to allocate in cores"
-                    },
-                    "memory": {
-                        "type": "integer",
-                        "description": "The amount of memory to allocate in GB"
-                    }
-                },
-                "required": [
-                    "cpu",
-                    "memory"
-                ],
-                "title": "Resources"
             },
             "RestartPolicy": {
                 "type": "object",
@@ -6982,10 +6926,6 @@
                             "$ref": "#\/components\/schemas\/SecretFile"
                         }
                     },
-                    "resources": {
-                        "description": "The resources used in this server configuration",
-                        "$ref": "#\/components\/schemas\/ResourceAllocations"
-                    },
                     "restartPolicy": {
                         "description": "The restart policy of the server configuration",
                         "$ref": "#\/components\/schemas\/RestartPolicy"
@@ -7274,10 +7214,6 @@
                         "items": {
                             "$ref": "#\/components\/schemas\/SecretFile"
                         }
-                    },
-                    "resources": {
-                        "description": "The resources used in this server configuration",
-                        "$ref": "#\/components\/schemas\/ResourceAllocations"
                     },
                     "restartPolicy": {
                         "description": "The restart policy of the server configuration",

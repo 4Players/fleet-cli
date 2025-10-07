@@ -445,16 +445,6 @@ const request: AppApiCreateServerConfigRequest = {
         content: "content_example",
       },
     ],
-    resources: {
-      limits: {
-        cpu: 1,
-        memory: 1,
-      },
-      reservations: {
-        cpu: 1,
-        memory: 1,
-      },
-    },
     restartPolicy: {
       condition: "none",
     },
@@ -2249,12 +2239,8 @@ const request: AppApiGetResourcePackagesRequest = {
   filterType: "filter[type]_example",
     // Filter by CPU limit. Maps to the `cpu_limit` column. (optional)
   filterCpuLimit: 1,
-    // Filter by CPU reservation. Maps to the `cpu_reservation` column. (optional)
-  filterCpuReservation: 1,
     // Filter by memory limit in MiB. Maps to the `memory_limit_mebibytes` column. (optional)
   filterMemoryLimitMiB: 1,
-    // Filter by memory reservation in MiB. Maps to the `memory_reservation_mebibytes` column. (optional)
-  filterMemoryReservationMiB: 1,
 };
 
 const data = await apiInstance.getResourcePackages(request);
@@ -2275,9 +2261,7 @@ Name | Type | Description  | Notes
  **filterSlug** | [**string**] | Filter by slug. | (optional) defaults to undefined
  **filterType** | [**string**] | Filter by type. | (optional) defaults to undefined
  **filterCpuLimit** | [**number**] | Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column. | (optional) defaults to undefined
- **filterCpuReservation** | [**number**] | Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column. | (optional) defaults to undefined
  **filterMemoryLimitMiB** | [**number**] | Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column. | (optional) defaults to undefined
- **filterMemoryReservationMiB** | [**number**] | Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column. | (optional) defaults to undefined
 
 
 ### Return type
@@ -4250,16 +4234,6 @@ const request: AppApiUpdateServerConfigRequest = {
         content: "content_example",
       },
     ],
-    resources: {
-      limits: {
-        cpu: 1,
-        memory: 1,
-      },
-      reservations: {
-        cpu: 1,
-        memory: 1,
-      },
-    },
     restartPolicy: {
       condition: "none",
     },

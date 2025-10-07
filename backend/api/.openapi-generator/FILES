@@ -61,10 +61,8 @@ models/Placement.ts
 models/Port.ts
 models/PortDefinition.ts
 models/Protocol.ts
-models/ResourceAllocations.ts
 models/ResourcePackage.ts
 models/ResourcePackageType.ts
-models/Resources.ts
 models/RestartPolicy.ts
 models/RestartPolicyCondition.ts
 models/SecretFile.ts

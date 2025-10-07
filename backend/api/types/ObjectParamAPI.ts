@@ -51,10 +51,8 @@ import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
 import { Protocol } from '../models/Protocol.ts';
-import { ResourceAllocations } from '../models/ResourceAllocations.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
-import { Resources } from '../models/Resources.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
@@ -937,26 +935,12 @@ export interface AppApiGetResourcePackagesRequest {
      */
     filterCpuLimit?: number
     /**
-     * Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
-     * Defaults to: undefined
-     * @type number
-     * @memberof AppApigetResourcePackages
-     */
-    filterCpuReservation?: number
-    /**
      * Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      * Defaults to: undefined
      * @type number
      * @memberof AppApigetResourcePackages
      */
     filterMemoryLimitMiB?: number
-    /**
-     * Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
-     * Defaults to: undefined
-     * @type number
-     * @memberof AppApigetResourcePackages
-     */
-    filterMemoryReservationMiB?: number
 }
 
 export interface AppApiGetServerBackupDownloadUrlRequest {
@@ -2158,7 +2142,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getResourcePackagesWithHttpInfo(param: AppApiGetResourcePackagesRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
-        return this.api.getResourcePackagesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
+        return this.api.getResourcePackagesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterMemoryLimitMiB,  options).toPromise();
     }
 
     /**
@@ -2166,7 +2150,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getResourcePackages(param: AppApiGetResourcePackagesRequest = {}, options?: ConfigurationOptions): Promise<GetResourcePackages200Response> {
-        return this.api.getResourcePackages(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterCpuReservation, param.filterMemoryLimitMiB, param.filterMemoryReservationMiB,  options).toPromise();
+        return this.api.getResourcePackages(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterSlug, param.filterType, param.filterCpuLimit, param.filterMemoryLimitMiB,  options).toPromise();
     }
 
     /**

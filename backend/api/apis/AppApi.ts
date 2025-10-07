@@ -1650,14 +1650,10 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterSlug Filter by slug.
      * @param filterType Filter by type.
      * @param filterCpuLimit Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
-     * @param filterCpuReservation Filter by CPU reservation. Maps to the &#x60;cpu_reservation&#x60; column.
      * @param filterMemoryLimitMiB Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
-     * @param filterMemoryReservationMiB Filter by memory reservation in MiB. Maps to the &#x60;memory_reservation_mebibytes&#x60; column.
      */
-    public async getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterCpuReservation?: number, filterMemoryLimitMiB?: number, filterMemoryReservationMiB?: number, _options?: Configuration): Promise<RequestContext> {
+    public async getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
-
-
 
 
 
@@ -1725,18 +1721,8 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         }
 
         // Query Params
-        if (filterCpuReservation !== undefined) {
-            requestContext.setQueryParam("filter[cpuReservation]", ObjectSerializer.serialize(filterCpuReservation, "number", ""));
-        }
-
-        // Query Params
         if (filterMemoryLimitMiB !== undefined) {
             requestContext.setQueryParam("filter[memoryLimitMiB]", ObjectSerializer.serialize(filterMemoryLimitMiB, "number", ""));
-        }
-
-        // Query Params
-        if (filterMemoryReservationMiB !== undefined) {
-            requestContext.setQueryParam("filter[memoryReservationMiB]", ObjectSerializer.serialize(filterMemoryReservationMiB, "number", ""));
         }
 
 
