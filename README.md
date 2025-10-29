@@ -6,7 +6,7 @@
 
 > [!NOTE]
 > This is a CLI tool for the [ODIN Fleet](https://odin.4players.io/fleet/)
-> service by 4Players to manage and deploy your game servers. It is used to
+> service by [4Players](https://www.4players.io/company/about_us/) to manage and deploy your game servers. It is used to
 > interact with the [ODIN Fleet API](https://docs.4players.io/fleet/api/). It's
 > written in Deno and uses the TypeScript ODIN Fleet SDK internally.
 
