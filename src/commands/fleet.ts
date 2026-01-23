@@ -5,6 +5,7 @@ import { configs } from "./fleet/configs.ts";
 import { deployments } from "./fleet/deployments.ts";
 import { servers } from "./fleet/servers.ts";
 import { locations } from "./fleet/locations.ts";
+import { metrics } from "./fleet/metrics.ts";
 
 export const fleet = new Command()
   .name("fleet")
@@ -18,4 +19,5 @@ export const fleet = new Command()
   .command("configs", configs)
   .command("deployments", deployments)
   .command("servers", servers)
-  .command("locations", locations);
+  .command("locations", locations)
+  .command("metrics", metrics);
