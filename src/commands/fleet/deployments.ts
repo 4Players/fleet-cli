@@ -477,6 +477,110 @@ const deleteDeployment = new Command()
     }
   });
 
+const startDeployment = new Command()
+  .name("start")
+  .description("Start all servers for a deployment.")
+  .option("--deployment-id <deploymentId:number>", "Deployment ID.")
+  .action(async (options: CommandOptions) => {
+    const selectedApp = await getSelectedAppOrExit(options);
+    let deploymentId = options.deploymentId;
+    let deployments: AppLocationSetting[] = [];
+    try {
+      deployments = await getAllPaginated((page) =>
+        apiClient.getAppLocationSettings(selectedApp.id, 50, page)
+      );
+    } catch (error) {
+      ensureApiException(error);
+      logErrorAndExit(
+        "Failed to load deployments. Error: " + error.body.message,
+        error.code,
+      );
+    }
+
+    if (!deploymentId) {
+      deploymentId = await Select.prompt<number>({
+        message:
+          "Select the deployment to start or provide the --deployment-id=<deploymentId> flag",
+        options: deployments.map((deployment) => {
+          return { name: deployment.name, value: deployment.id };
+        }),
+      });
+    }
+
+    const deployment = deployments.find((d) => d.id === deploymentId);
+    if (!deployment) {
+      logErrorAndExit(
+        `Deployment ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`,
+      );
+    }
+
+    const confirmed = await confirm(
+      options,
+      `Do you want to start all servers for deployment "${deployment!.name}"?`,
+    );
+
+    if (confirmed) {
+      try {
+        await apiClient.startServersForAppLocationSetting(deploymentId);
+        inform(options, "All servers for the deployment are starting.");
+      } catch (error) {
+        logErrorAndExit("Failed to start deployment servers. Error: " + error);
+      }
+    }
+  });
+
+const stopDeployment = new Command()
+  .name("stop")
+  .description("Stop all servers for a deployment.")
+  .option("--deployment-id <deploymentId:number>", "Deployment ID.")
+  .action(async (options: CommandOptions) => {
+    const selectedApp = await getSelectedAppOrExit(options);
+    let deploymentId = options.deploymentId;
+    let deployments: AppLocationSetting[] = [];
+    try {
+      deployments = await getAllPaginated((page) =>
+        apiClient.getAppLocationSettings(selectedApp.id, 50, page)
+      );
+    } catch (error) {
+      ensureApiException(error);
+      logErrorAndExit(
+        "Failed to load deployments. Error: " + error.body.message,
+        error.code,
+      );
+    }
+
+    if (!deploymentId) {
+      deploymentId = await Select.prompt<number>({
+        message:
+          "Select the deployment to stop or provide the --deployment-id=<deploymentId> flag",
+        options: deployments.map((deployment) => {
+          return { name: deployment.name, value: deployment.id };
+        }),
+      });
+    }
+
+    const deployment = deployments.find((d) => d.id === deploymentId);
+    if (!deployment) {
+      logErrorAndExit(
+        `Deployment ${deploymentId} does not exist (or not in the app ${selectedApp.name}, id: ${selectedApp.id})`,
+      );
+    }
+
+    const confirmed = await confirm(
+      options,
+      `Do you want to stop all servers for deployment "${deployment!.name}"?`,
+    );
+
+    if (confirmed) {
+      try {
+        await apiClient.stopServersForAppLocationSetting(deploymentId);
+        inform(options, "All servers for the deployment are stopping.");
+      } catch (error) {
+        logErrorAndExit("Failed to stop deployment servers. Error: " + error);
+      }
+    }
+  });
+
 export const deployments = new Command()
   .name("deployments")
   .description("Manage ODIN Fleet server deployments.")
@@ -485,6 +589,8 @@ export const deployments = new Command()
   })
   .command("list", deploymentsList)
   .command("get", getDeploymentDetails)
-  .command("update", updateDeployment)
   .command("create", createDeployment)
-  .command("delete", deleteDeployment);
+  .command("update", updateDeployment)
+  .command("delete", deleteDeployment)
+  .command("start", startDeployment)
+  .command("stop", stopDeployment);

@@ -6,6 +6,7 @@ import {
 } from "../../../backend/api/index.ts";
 import { apiClient } from "../../client.ts";
 import {
+  confirm,
   ensureApiException,
   getAllPaginated,
   inform,
@@ -309,6 +310,7 @@ const createBackup = new Command()
         "The server will be stopped for a few seconds to create a backup and will then be restarted.",
       );
       const confirmation = await confirm(
+        options,
         "Are you sure you want to create a backup of this server?",
       );
       if (!confirmation) {
@@ -452,6 +454,7 @@ export const restoreBackup = new Command()
       "The server will be stopped for a few seconds to restore the backup and will then be restarted.",
     );
     const confirmation = await confirm(
+      options,
       "Are you sure you want to restore the backup to this server?",
     );
     if (!confirmation) {
@@ -463,6 +466,124 @@ export const restoreBackup = new Command()
       inform(options, "Backup is being restored");
     } catch (error) {
       logErrorAndExit("Failed to get download URL. Error: ", error);
+    }
+  });
+
+const startServer = new Command()
+  .name("start")
+  .description("Start a server.")
+  .option("--server-id=<serverId:string>", "Server ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+
+    let serverId = options.serverId;
+    if (!serverId) {
+      let servers: Server[] = [];
+      try {
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
+        if (servers.length === 0) {
+          inform(
+            options,
+            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          );
+          return;
+        }
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load servers. Error: ",
+          error.body.message,
+          error.code,
+        );
+      }
+      serverId = await Select.prompt<number>({
+        message: "Select server:",
+        options: servers.map((server) => {
+          return {
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node?.address}`,
+            value: server.id,
+          };
+        }),
+      });
+    }
+
+    const confirmation = await confirm(
+      options,
+      "Are you sure you want to start this server?",
+    );
+    if (!confirmation) {
+      return;
+    }
+
+    try {
+      await apiClient.startServer(serverId);
+      inform(options, "Server is starting");
+    } catch (error) {
+      logError("Failed to start server. Error: ", error);
+      Deno.exit(1);
+    }
+  });
+
+const stopServer = new Command()
+  .name("stop")
+  .description("Stop a server.")
+  .option("--server-id=<serverId:string>", "Server ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+
+    let serverId = options.serverId;
+    if (!serverId) {
+      let servers: Server[] = [];
+      try {
+        servers = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getServers(app.id, 50, page)));
+        if (servers.length === 0) {
+          inform(
+            options,
+            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+          );
+          return;
+        }
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load servers. Error: ",
+          error.body.message,
+          error.code,
+        );
+      }
+      serverId = await Select.prompt<number>({
+        message: "Select server:",
+        options: servers.map((server) => {
+          return {
+            name: `${server.id} - ${
+              server.location!.city
+            } - ${server.serverConfigName} - ${server.node?.address}`,
+            value: server.id,
+          };
+        }),
+      });
+    }
+
+    const confirmation = await confirm(
+      options,
+      "Are you sure you want to stop this server?",
+    );
+    if (!confirmation) {
+      return;
+    }
+
+    try {
+      await apiClient.stopServer(serverId);
+      inform(options, "Server is stopping");
+    } catch (error) {
+      logError("Failed to stop server. Error: ", error);
+      Deno.exit(1);
     }
   });
 
@@ -513,6 +634,7 @@ const restartServer = new Command()
       "The server will be stopped for a few seconds and then started again.",
     );
     const confirmation = await confirm(
+      options,
       "Are you sure you want to restart this server?",
     );
     if (!confirmation) {
@@ -524,6 +646,52 @@ const restartServer = new Command()
       inform(options, "Server is restarting");
     } catch (error) {
       logError("Failed to restart server. Error: ", error);
+      Deno.exit(1);
+    }
+  });
+
+const startAllServers = new Command()
+  .name("start-all")
+  .description("Start all servers for the selected app.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+
+    const confirmation = await confirm(
+      options,
+      `Are you sure you want to start all servers for app "${app.name}"?`,
+    );
+    if (!confirmation) {
+      return;
+    }
+
+    try {
+      await apiClient.startServersForApp(app.id);
+      inform(options, "All servers are starting");
+    } catch (error) {
+      logError("Failed to start servers. Error: ", error);
+      Deno.exit(1);
+    }
+  });
+
+const stopAllServers = new Command()
+  .name("stop-all")
+  .description("Stop all servers for the selected app.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+
+    const confirmation = await confirm(
+      options,
+      `Are you sure you want to stop all servers for app "${app.name}"?`,
+    );
+    if (!confirmation) {
+      return;
+    }
+
+    try {
+      await apiClient.stopServersForApp(app.id);
+      inform(options, "All servers are stopping");
+    } catch (error) {
+      logError("Failed to stop servers. Error: ", error);
       Deno.exit(1);
     }
   });
@@ -675,8 +843,12 @@ export const servers = new Command()
   })
   .command("list", serverList)
   .command("logs", showServerLogs)
-  .command("backup", backup)
+  .command("start", startServer)
+  .command("stop", stopServer)
   .command("restart", restartServer)
+  .command("start-all", startAllServers)
+  .command("stop-all", stopAllServers)
+  .command("backup", backup)
   .command("get", showServerInfo)
   .command("address", serverAddress)
   .command("metadata", metadata);
