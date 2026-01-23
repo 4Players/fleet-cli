@@ -43,6 +43,12 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { MetricData } from '../models/MetricData.ts';
+import { MetricInstantData } from '../models/MetricInstantData.ts';
+import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
+import { MetricInstantResult } from '../models/MetricInstantResult.ts';
+import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
+import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -74,6 +80,7 @@ import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateReq
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
@@ -1328,6 +1335,252 @@ export interface AppApiListServicesForAppLocationSettingRequest {
     appLocationSetting: number
 }
 
+export interface AppApiMetricsAppCpuSecondsInstantRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuSecondsInstant
+     */
+    app: number
+}
+
+export interface AppApiMetricsAppCpuUsageRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsage
+     */
+    app: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsage
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsage
+     */
+    end: number
+}
+
+export interface AppApiMetricsAppCpuUsagePerDayRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsagePerDay
+     */
+    app: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsagePerDay
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppCpuUsagePerDay
+     */
+    end: number
+}
+
+export interface AppApiMetricsAppInstancesPeakInstantRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppInstancesPeakInstant
+     */
+    app: number
+}
+
+export interface AppApiMetricsAppInstancesRunningRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppInstancesRunning
+     */
+    app: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppInstancesRunning
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppInstancesRunning
+     */
+    end: number
+}
+
+export interface AppApiMetricsAppInstancesRunningInstantRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsAppInstancesRunningInstant
+     */
+    app: number
+}
+
+export interface AppApiMetricsDockerServiceCpuUsageRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceCpuUsage
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceCpuUsage
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceCpuUsage
+     */
+    end: number
+}
+
+export interface AppApiMetricsDockerServiceDiskReadRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskRead
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskRead
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskRead
+     */
+    end: number
+}
+
+export interface AppApiMetricsDockerServiceDiskWriteRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskWrite
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskWrite
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceDiskWrite
+     */
+    end: number
+}
+
+export interface AppApiMetricsDockerServiceMemoryUsageRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceMemoryUsage
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceMemoryUsage
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceMemoryUsage
+     */
+    end: number
+}
+
+export interface AppApiMetricsDockerServiceNetworkEgressRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkEgress
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkEgress
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkEgress
+     */
+    end: number
+}
+
+export interface AppApiMetricsDockerServiceNetworkIngressRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkIngress
+     */
+    dockerService: number
+    /**
+     * Start of the time range as a Unix timestamp in seconds.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkIngress
+     */
+    start: number
+    /**
+     * End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApimetricsDockerServiceNetworkIngress
+     */
+    end: number
+}
+
 export interface AppApiRefreshAuthTokenRequest {
 }
 
@@ -2279,6 +2532,198 @@ export class ObjectAppApi {
      */
     public listServicesForAppLocationSetting(param: AppApiListServicesForAppLocationSettingRequest, options?: ConfigurationOptions): Promise<Array<Server>> {
         return this.api.listServicesForAppLocationSetting(param.app, param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuSecondsInstantWithHttpInfo(param: AppApiMetricsAppCpuSecondsInstantRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        return this.api.metricsAppCpuSecondsInstantWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuSecondsInstant(param: AppApiMetricsAppCpuSecondsInstantRequest, options?: ConfigurationOptions): Promise<MetricInstantResponse> {
+        return this.api.metricsAppCpuSecondsInstant(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuUsageWithHttpInfo(param: AppApiMetricsAppCpuUsageRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsAppCpuUsageWithHttpInfo(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuUsage(param: AppApiMetricsAppCpuUsageRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsAppCpuUsage(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuUsagePerDayWithHttpInfo(param: AppApiMetricsAppCpuUsagePerDayRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsAppCpuUsagePerDayWithHttpInfo(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param param the request object
+     */
+    public metricsAppCpuUsagePerDay(param: AppApiMetricsAppCpuUsagePerDayRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsAppCpuUsagePerDay(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesPeakInstantWithHttpInfo(param: AppApiMetricsAppInstancesPeakInstantRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        return this.api.metricsAppInstancesPeakInstantWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesPeakInstant(param: AppApiMetricsAppInstancesPeakInstantRequest, options?: ConfigurationOptions): Promise<MetricInstantResponse> {
+        return this.api.metricsAppInstancesPeakInstant(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesRunningWithHttpInfo(param: AppApiMetricsAppInstancesRunningRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsAppInstancesRunningWithHttpInfo(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesRunning(param: AppApiMetricsAppInstancesRunningRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsAppInstancesRunning(param.app, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesRunningInstantWithHttpInfo(param: AppApiMetricsAppInstancesRunningInstantRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        return this.api.metricsAppInstancesRunningInstantWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param param the request object
+     */
+    public metricsAppInstancesRunningInstant(param: AppApiMetricsAppInstancesRunningInstantRequest, options?: ConfigurationOptions): Promise<MetricInstantResponse> {
+        return this.api.metricsAppInstancesRunningInstant(param.app,  options).toPromise();
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceCpuUsageWithHttpInfo(param: AppApiMetricsDockerServiceCpuUsageRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceCpuUsageWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceCpuUsage(param: AppApiMetricsDockerServiceCpuUsageRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceCpuUsage(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceDiskReadWithHttpInfo(param: AppApiMetricsDockerServiceDiskReadRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceDiskReadWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceDiskRead(param: AppApiMetricsDockerServiceDiskReadRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceDiskRead(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceDiskWriteWithHttpInfo(param: AppApiMetricsDockerServiceDiskWriteRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceDiskWriteWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceDiskWrite(param: AppApiMetricsDockerServiceDiskWriteRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceDiskWrite(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceMemoryUsageWithHttpInfo(param: AppApiMetricsDockerServiceMemoryUsageRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceMemoryUsageWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceMemoryUsage(param: AppApiMetricsDockerServiceMemoryUsageRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceMemoryUsage(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceNetworkEgressWithHttpInfo(param: AppApiMetricsDockerServiceNetworkEgressRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceNetworkEgressWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceNetworkEgress(param: AppApiMetricsDockerServiceNetworkEgressRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceNetworkEgress(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceNetworkIngressWithHttpInfo(param: AppApiMetricsDockerServiceNetworkIngressRequest, options?: ConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        return this.api.metricsDockerServiceNetworkIngressWithHttpInfo(param.dockerService, param.start, param.end,  options).toPromise();
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param param the request object
+     */
+    public metricsDockerServiceNetworkIngress(param: AppApiMetricsDockerServiceNetworkIngressRequest, options?: ConfigurationOptions): Promise<MetricRangeResponse> {
+        return this.api.metricsDockerServiceNetworkIngress(param.dockerService, param.start, param.end,  options).toPromise();
     }
 
     /**

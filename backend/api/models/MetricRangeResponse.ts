@@ -10,14 +10,18 @@
  * Do not edit the class manually.
  */
 
-import { Location } from '../models/Location.ts';
+import { MetricData } from '../models/MetricData.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class MetricRangeResponse {
     /**
-    * The constraints to use
+    * Overall query status.
     */
-    'constraints': Location;
+    'status': string;
+    /**
+    * The query result data.
+    */
+    'data': MetricData;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -25,14 +29,20 @@ export class Placement {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Location",
+            "name": "status",
+            "baseName": "status",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "data",
+            "baseName": "data",
+            "type": "MetricData",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return MetricRangeResponse.attributeTypeMap;
     }
 
     public constructor() {

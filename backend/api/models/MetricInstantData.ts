@@ -10,14 +10,18 @@
  * Do not edit the class manually.
  */
 
-import { Location } from '../models/Location.ts';
+import { MetricInstantResult } from '../models/MetricInstantResult.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class MetricInstantData {
     /**
-    * The constraints to use
+    * The result type. For instant queries this will be \"vector\".
     */
-    'constraints': Location;
+    'resultType': string;
+    /**
+    * The vector data. Each entry represents one time series with its labels and current value.
+    */
+    'result': Array<MetricInstantResult>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -25,14 +29,20 @@ export class Placement {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Location",
+            "name": "resultType",
+            "baseName": "resultType",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "result",
+            "baseName": "result",
+            "type": "Array<MetricInstantResult>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return MetricInstantData.attributeTypeMap;
     }
 
     public constructor() {

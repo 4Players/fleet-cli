@@ -2,7 +2,7 @@
     "openapi": "3.1.0",
     "info": {
         "title": "ODIN Fleet API",
-        "version": "0.9.2",
+        "version": "0.9.3",
         "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
     },
     "servers": [
@@ -52,17 +52,35 @@
                             }
                         }
                     },
-                    "404": {
-                        "$ref": "#\/components\/responses\/ModelNotFoundException"
-                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -171,6 +189,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -576,8 +612,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -636,17 +672,35 @@
                             }
                         }
                     },
-                    "404": {
-                        "$ref": "#\/components\/responses\/ModelNotFoundException"
-                    },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -918,8 +972,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -930,6 +984,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -966,6 +1023,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -1129,6 +1189,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1372,8 +1450,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -1408,6 +1486,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -1471,6 +1552,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -1743,8 +1827,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -2057,6 +2141,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2456,8 +2558,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -2762,8 +2864,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -2774,6 +2876,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             },
@@ -2810,6 +2915,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -2992,6 +3100,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -3046,6 +3157,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -3224,6 +3338,24 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -3299,6 +3431,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -3509,8 +3659,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -3604,6 +3754,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -3843,6 +4011,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -3875,6 +4061,705 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/instances\/running": {
+            "get": {
+                "operationId": "metrics.app.instances.running",
+                "summary": "Get the running server instances for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/instances\/running\/instant": {
+            "get": {
+                "operationId": "metrics.app.instances.running.instant",
+                "summary": "Get the current number of running instances for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricInstantResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricInstantResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/instances\/peak\/instant": {
+            "get": {
+                "operationId": "metrics.app.instances.peak.instant",
+                "summary": "Get the peak number of running instances for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricInstantResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricInstantResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/cpu\/usage": {
+            "get": {
+                "operationId": "metrics.app.cpu.usage",
+                "summary": "Get CPU cores used for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/cpu\/usagePerDay": {
+            "get": {
+                "operationId": "metrics.app.cpu.usagePerDay",
+                "summary": "Get the daily peak CPU cores used for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/app\/{app}\/cpu\/seconds\/instant": {
+            "get": {
+                "operationId": "metrics.app.cpu.seconds.instant",
+                "summary": "Get the total CPU seconds for the given app",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricInstantResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricInstantResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/cpu\/usage": {
+            "get": {
+                "operationId": "metrics.docker-service.cpu.usage",
+                "summary": "Get the CPU usage by the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/memory\/usage": {
+            "get": {
+                "operationId": "metrics.docker-service.memory.usage",
+                "summary": "Get the memory usage by the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/network\/ingress": {
+            "get": {
+                "operationId": "metrics.docker-service.network.ingress",
+                "summary": "Get the network ingress for the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/network\/egress": {
+            "get": {
+                "operationId": "metrics.docker-service.network.egress",
+                "summary": "Get the network egress for the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/disk\/read": {
+            "get": {
+                "operationId": "metrics.docker-service.disk.read",
+                "summary": "Get the disk read throughput for the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/metrics\/service\/{dockerService}\/disk\/write": {
+            "get": {
+                "operationId": "metrics.docker-service.disk.write",
+                "summary": "Get disk write throughput for the given service",
+                "tags": [
+                    "Metrics"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start of the time range as a Unix timestamp in seconds.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761215622
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "required": true,
+                        "description": "End of the time range as a Unix timestamp in seconds. Must be greater than `start`.",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1761300174
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`MetricRangeResponse`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/MetricRangeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -4044,8 +4929,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -4056,6 +4941,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4302,8 +5190,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -4314,6 +5202,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4352,6 +5243,9 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -4691,8 +5585,8 @@
                                     },
                                     "required": [
                                         "data",
-                                        "meta",
-                                        "links"
+                                        "links",
+                                        "meta"
                                     ]
                                 }
                             }
@@ -4954,6 +5848,24 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "402": {
+                        "description": "Payment required",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -5037,6 +5949,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -5078,6 +5993,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -5115,6 +6033,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -5152,6 +6073,9 @@
                     },
                     "422": {
                         "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
                     }
                 }
             }
@@ -5871,6 +6795,151 @@
                     "isProtected"
                 ],
                 "title": "Location"
+            },
+            "MetricData": {
+                "type": "object",
+                "properties": {
+                    "resultType": {
+                        "type": "string",
+                        "description": "The result type. For range queries this will be \"matrix\"."
+                    },
+                    "result": {
+                        "type": "array",
+                        "description": "The time series data. Each entry is one series with its labels and samples.",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/MetricTimeResult"
+                        }
+                    }
+                },
+                "required": [
+                    "resultType",
+                    "result"
+                ],
+                "title": "MetricData"
+            },
+            "MetricInstantData": {
+                "type": "object",
+                "properties": {
+                    "resultType": {
+                        "type": "string",
+                        "description": "The result type. For instant queries this will be \"vector\"."
+                    },
+                    "result": {
+                        "type": "array",
+                        "description": "The vector data. Each entry represents one time series with its labels and current value.",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/MetricInstantResult"
+                        }
+                    }
+                },
+                "required": [
+                    "resultType",
+                    "result"
+                ],
+                "title": "MetricInstantData"
+            },
+            "MetricInstantResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Overall query status."
+                    },
+                    "data": {
+                        "description": "The instant query result data.",
+                        "$ref": "#\/components\/schemas\/MetricInstantData"
+                    }
+                },
+                "required": [
+                    "status",
+                    "data"
+                ],
+                "title": "MetricInstantResponse"
+            },
+            "MetricInstantResult": {
+                "type": "object",
+                "properties": {
+                    "metric": {
+                        "type": "object",
+                        "description": "Labels identifying this series.",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "value": {
+                        "type": "array",
+                        "description": "[timestamp, value] pair representing this series.",
+                        "prefixItems": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ],
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "additionalItems": false
+                    }
+                },
+                "required": [
+                    "metric",
+                    "value"
+                ],
+                "title": "MetricInstantResult"
+            },
+            "MetricRangeResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Overall query status."
+                    },
+                    "data": {
+                        "description": "The query result data.",
+                        "$ref": "#\/components\/schemas\/MetricData"
+                    }
+                },
+                "required": [
+                    "status",
+                    "data"
+                ],
+                "title": "MetricRangeResponse"
+            },
+            "MetricTimeResult": {
+                "type": "object",
+                "properties": {
+                    "metric": {
+                        "type": "object",
+                        "description": "Labels identifying this time series.",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "values": {
+                        "type": "array",
+                        "description": "List of [timestamp, value] pairs for this series.",
+                        "items": {
+                            "type": "array",
+                            "prefixItems": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ],
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "additionalItems": false
+                        }
+                    }
+                },
+                "required": [
+                    "metric",
+                    "values"
+                ],
+                "title": "MetricTimeResult"
             },
             "Mount": {
                 "type": "object",
@@ -6643,7 +7712,7 @@
                         "minimum": 1
                     },
                     "placement": {
-                        "description": "The placement settings that define the location and other constraints",
+                        "description": "The placement constraints that define the location",
                         "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
                     },
                     "password": {
@@ -6657,7 +7726,8 @@
                 "required": [
                     "name",
                     "serverConfigId",
-                    "numInstances"
+                    "numInstances",
+                    "placement"
                 ],
                 "title": "StoreAppLocationSettingRequest"
             },
@@ -7343,8 +8413,8 @@
             }
         },
         "responses": {
-            "ModelNotFoundException": {
-                "description": "Not found",
+            "AuthorizationException": {
+                "description": "Authorization error",
                 "content": {
                     "application\/json": {
                         "schema": {
@@ -7362,8 +8432,8 @@
                     }
                 }
             },
-            "AuthorizationException": {
-                "description": "Authorization error",
+            "ModelNotFoundException": {
+                "description": "Not found",
                 "content": {
                     "application\/json": {
                         "schema": {

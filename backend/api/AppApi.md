@@ -46,6 +46,18 @@ Method | HTTP request | Description
 [**getServers**](AppApi.md#getServers) | **GET** /v1/apps/{app}/services | List services
 [**getTaggedImages**](AppApi.md#getTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images | List all available tagged images
 [**listServicesForAppLocationSetting**](AppApi.md#listServicesForAppLocationSetting) | **GET** /v1/apps/{app}/location-settings/{appLocationSetting}/services | Show all services for a specific app location setting within a given app
+[**metricsAppCpuSecondsInstant**](AppApi.md#metricsAppCpuSecondsInstant) | **GET** /v1/metrics/app/{app}/cpu/seconds/instant | Get the total CPU seconds for the given app
+[**metricsAppCpuUsage**](AppApi.md#metricsAppCpuUsage) | **GET** /v1/metrics/app/{app}/cpu/usage | Get CPU cores used for the given app
+[**metricsAppCpuUsagePerDay**](AppApi.md#metricsAppCpuUsagePerDay) | **GET** /v1/metrics/app/{app}/cpu/usagePerDay | Get the daily peak CPU cores used for the given app
+[**metricsAppInstancesPeakInstant**](AppApi.md#metricsAppInstancesPeakInstant) | **GET** /v1/metrics/app/{app}/instances/peak/instant | Get the peak number of running instances for the given app
+[**metricsAppInstancesRunning**](AppApi.md#metricsAppInstancesRunning) | **GET** /v1/metrics/app/{app}/instances/running | Get the running server instances for the given app
+[**metricsAppInstancesRunningInstant**](AppApi.md#metricsAppInstancesRunningInstant) | **GET** /v1/metrics/app/{app}/instances/running/instant | Get the current number of running instances for the given app
+[**metricsDockerServiceCpuUsage**](AppApi.md#metricsDockerServiceCpuUsage) | **GET** /v1/metrics/service/{dockerService}/cpu/usage | Get the CPU usage by the given service
+[**metricsDockerServiceDiskRead**](AppApi.md#metricsDockerServiceDiskRead) | **GET** /v1/metrics/service/{dockerService}/disk/read | Get the disk read throughput for the given service
+[**metricsDockerServiceDiskWrite**](AppApi.md#metricsDockerServiceDiskWrite) | **GET** /v1/metrics/service/{dockerService}/disk/write | Get disk write throughput for the given service
+[**metricsDockerServiceMemoryUsage**](AppApi.md#metricsDockerServiceMemoryUsage) | **GET** /v1/metrics/service/{dockerService}/memory/usage | Get the memory usage by the given service
+[**metricsDockerServiceNetworkEgress**](AppApi.md#metricsDockerServiceNetworkEgress) | **GET** /v1/metrics/service/{dockerService}/network/egress | Get the network egress for the given service
+[**metricsDockerServiceNetworkIngress**](AppApi.md#metricsDockerServiceNetworkIngress) | **GET** /v1/metrics/service/{dockerService}/network/ingress | Get the network ingress for the given service
 [**refreshAuthToken**](AppApi.md#refreshAuthToken) | **PUT** /v1/auth/token | Refresh token
 [**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related entity
 [**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
@@ -125,6 +137,7 @@ No authorization required
 **200** | &#x60;App&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -194,10 +207,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | &#x60;AppLocationSetting&#x60; |  -  |
-**404** | Not found |  -  |
 **403** | Authorization error |  -  |
+**404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -259,6 +273,7 @@ No authorization required
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -405,6 +420,7 @@ No authorization required
 **200** | &#x60;DockerRegistry&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -562,8 +578,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -830,6 +846,7 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -883,8 +900,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -938,8 +955,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1621,6 +1638,7 @@ No authorization required
 **200** | Paginated set of &#x60;App&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -1980,6 +1998,7 @@ No authorization required
 **200** | Paginated set of &#x60;DockerRegistry&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2147,6 +2166,7 @@ No authorization required
 **200** | Paginated set of &#x60;Location&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2201,6 +2221,7 @@ No authorization required
 **200** | &#x60;Package&#x60; |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2284,6 +2305,7 @@ No authorization required
 **200** | Paginated set of &#x60;Package&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2801,6 +2823,7 @@ No authorization required
 **200** |  |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -2862,6 +2885,729 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **metricsAppCpuSecondsInstant**
+> MetricInstantResponse metricsAppCpuSecondsInstant()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppCpuSecondsInstantRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppCpuSecondsInstantRequest = {
+    // The app ID
+  app: 1,
+};
+
+const data = await apiInstance.metricsAppCpuSecondsInstant(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**MetricInstantResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricInstantResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsAppCpuUsage**
+> MetricRangeResponse metricsAppCpuUsage()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppCpuUsageRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppCpuUsageRequest = {
+    // The app ID
+  app: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsAppCpuUsage(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsAppCpuUsagePerDay**
+> MetricRangeResponse metricsAppCpuUsagePerDay()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppCpuUsagePerDayRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppCpuUsagePerDayRequest = {
+    // The app ID
+  app: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsAppCpuUsagePerDay(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsAppInstancesPeakInstant**
+> MetricInstantResponse metricsAppInstancesPeakInstant()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppInstancesPeakInstantRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppInstancesPeakInstantRequest = {
+    // The app ID
+  app: 1,
+};
+
+const data = await apiInstance.metricsAppInstancesPeakInstant(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**MetricInstantResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricInstantResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsAppInstancesRunning**
+> MetricRangeResponse metricsAppInstancesRunning()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppInstancesRunningRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppInstancesRunningRequest = {
+    // The app ID
+  app: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsAppInstancesRunning(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsAppInstancesRunningInstant**
+> MetricInstantResponse metricsAppInstancesRunningInstant()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsAppInstancesRunningInstantRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsAppInstancesRunningInstantRequest = {
+    // The app ID
+  app: 1,
+};
+
+const data = await apiInstance.metricsAppInstancesRunningInstant(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**MetricInstantResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricInstantResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceCpuUsage**
+> MetricRangeResponse metricsDockerServiceCpuUsage()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceCpuUsageRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceCpuUsageRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceCpuUsage(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceDiskRead**
+> MetricRangeResponse metricsDockerServiceDiskRead()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceDiskReadRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceDiskReadRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceDiskRead(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceDiskWrite**
+> MetricRangeResponse metricsDockerServiceDiskWrite()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceDiskWriteRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceDiskWriteRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceDiskWrite(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceMemoryUsage**
+> MetricRangeResponse metricsDockerServiceMemoryUsage()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceMemoryUsageRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceMemoryUsageRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceMemoryUsage(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceNetworkEgress**
+> MetricRangeResponse metricsDockerServiceNetworkEgress()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceNetworkEgressRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceNetworkEgressRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceNetworkEgress(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **metricsDockerServiceNetworkIngress**
+> MetricRangeResponse metricsDockerServiceNetworkIngress()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiMetricsDockerServiceNetworkIngressRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiMetricsDockerServiceNetworkIngressRequest = {
+    // The docker service ID
+  dockerService: 1,
+    // Start of the time range as a Unix timestamp in seconds.
+  start: 1761215622,
+    // End of the time range as a Unix timestamp in seconds. Must be greater than `start`.
+  end: 1761300174,
+};
+
+const data = await apiInstance.metricsDockerServiceNetworkIngress(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+ **start** | [**number**] | Start of the time range as a Unix timestamp in seconds. | defaults to undefined
+ **end** | [**number**] | End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;. | defaults to undefined
+
+
+### Return type
+
+**MetricRangeResponse**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;MetricRangeResponse&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **refreshAuthToken**
 > Auth refreshAuthToken()
 
@@ -2905,6 +3651,7 @@ No authorization required
 |-------------|-------------|------------------|
 **200** | &#x60;Auth&#x60; |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3015,6 +3762,7 @@ No authorization required
 **200** |  |  -  |
 **404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3070,6 +3818,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3125,6 +3874,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3180,6 +3930,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3235,6 +3986,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3290,6 +4042,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3345,6 +4098,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3400,6 +4154,7 @@ No authorization required
 **404** | Not found |  -  |
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3454,6 +4209,7 @@ No authorization required
 **200** | Array of &#x60;SteamBranch&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3511,6 +4267,7 @@ No authorization required
 **200** | Array of &#x60;SteamLauncher&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3564,8 +4321,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3619,8 +4376,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3674,8 +4431,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3729,8 +4486,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3784,8 +4541,8 @@ No authorization required
 |-------------|-------------|------------------|
 **202** |  |  -  |
 **404** | Not found |  -  |
-**403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3853,6 +4610,7 @@ No authorization required
 **200** | &#x60;App&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -3920,6 +4678,7 @@ No authorization required
 **200** | &#x60;App&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -4039,10 +4798,11 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | &#x60;AppLocationSetting&#x60; |  -  |
-**404** | Not found |  -  |
 **403** | Authorization error |  -  |
+**404** | Not found |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
+**402** | Payment required |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 

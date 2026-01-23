@@ -52,6 +52,12 @@ models/GetTaggedImages200Response.ts
 models/InlineObject.ts
 models/InlineObject1.ts
 models/Location.ts
+models/MetricData.ts
+models/MetricInstantData.ts
+models/MetricInstantResponse.ts
+models/MetricInstantResult.ts
+models/MetricRangeResponse.ts
+models/MetricTimeResult.ts
 models/Mount.ts
 models/Node.ts
 models/ObjectSerializer.ts
@@ -84,6 +90,7 @@ models/StorePalworldTemplateRequest.ts
 models/StoreServerConfigRequest.ts
 models/TaggedImage.ts
 models/TaggedImageMetaData.ts
+models/UpdateAppLocationSetting402Response.ts
 models/UpdateAppLocationSettingRequest.ts
 models/UpdateAppRequest.ts
 models/UpdateBinaryRequest.ts

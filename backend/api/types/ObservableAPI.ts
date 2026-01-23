@@ -44,6 +44,12 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { MetricData } from '../models/MetricData.ts';
+import { MetricInstantData } from '../models/MetricInstantData.ts';
+import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
+import { MetricInstantResult } from '../models/MetricInstantResult.ts';
+import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
+import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -75,6 +81,7 @@ import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateReq
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
@@ -1681,6 +1688,426 @@ export class ObservableAppApi {
      */
     public listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: ConfigurationOptions): Observable<Array<Server>> {
         return this.listServicesForAppLocationSettingWithHttpInfo(app, appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<Array<Server>>) => apiResponse.data));
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param app The app ID
+     */
+    public metricsAppCpuSecondsInstantWithHttpInfo(app: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricInstantResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppCpuSecondsInstant(app, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppCpuSecondsInstantWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param app The app ID
+     */
+    public metricsAppCpuSecondsInstant(app: number, _options?: ConfigurationOptions): Observable<MetricInstantResponse> {
+        return this.metricsAppCpuSecondsInstantWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<MetricInstantResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsageWithHttpInfo(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppCpuUsage(app, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppCpuUsageWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsage(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsAppCpuUsageWithHttpInfo(app, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsagePerDayWithHttpInfo(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppCpuUsagePerDay(app, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppCpuUsagePerDayWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsagePerDay(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsAppCpuUsagePerDayWithHttpInfo(app, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesPeakInstantWithHttpInfo(app: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricInstantResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppInstancesPeakInstant(app, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppInstancesPeakInstantWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesPeakInstant(app: number, _options?: ConfigurationOptions): Observable<MetricInstantResponse> {
+        return this.metricsAppInstancesPeakInstantWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<MetricInstantResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppInstancesRunningWithHttpInfo(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppInstancesRunning(app, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppInstancesRunningWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppInstancesRunning(app: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsAppInstancesRunningWithHttpInfo(app, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesRunningInstantWithHttpInfo(app: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricInstantResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsAppInstancesRunningInstant(app, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsAppInstancesRunningInstantWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesRunningInstant(app: number, _options?: ConfigurationOptions): Observable<MetricInstantResponse> {
+        return this.metricsAppInstancesRunningInstantWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<MetricInstantResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceCpuUsageWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceCpuUsage(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceCpuUsageWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceCpuUsage(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceCpuUsageWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskReadWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceDiskRead(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceDiskReadWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskRead(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceDiskReadWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskWriteWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceDiskWrite(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceDiskWriteWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskWrite(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceDiskWriteWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceMemoryUsageWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceMemoryUsage(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceMemoryUsageWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceMemoryUsage(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceMemoryUsageWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkEgressWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceNetworkEgress(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceNetworkEgressWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkEgress(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceNetworkEgressWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkIngressWithHttpInfo(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<HttpInfo<MetricRangeResponse>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.metricsDockerServiceNetworkIngress(dockerService, start, end, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.metricsDockerServiceNetworkIngressWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkIngress(dockerService: number, start: number, end: number, _options?: ConfigurationOptions): Observable<MetricRangeResponse> {
+        return this.metricsDockerServiceNetworkIngressWithHttpInfo(dockerService, start, end, _options).pipe(map((apiResponse: HttpInfo<MetricRangeResponse>) => apiResponse.data));
     }
 
     /**

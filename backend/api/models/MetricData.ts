@@ -10,14 +10,18 @@
  * Do not edit the class manually.
  */
 
-import { Location } from '../models/Location.ts';
+import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class MetricData {
     /**
-    * The constraints to use
+    * The result type. For range queries this will be \"matrix\".
     */
-    'constraints': Location;
+    'resultType': string;
+    /**
+    * The time series data. Each entry is one series with its labels and samples.
+    */
+    'result': Array<MetricTimeResult>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -25,14 +29,20 @@ export class Placement {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Location",
+            "name": "resultType",
+            "baseName": "resultType",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "result",
+            "baseName": "result",
+            "type": "Array<MetricTimeResult>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return MetricData.attributeTypeMap;
     }
 
     public constructor() {

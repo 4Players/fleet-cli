@@ -10,14 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { Location } from '../models/Location.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class Placement {
+export class MetricTimeResult {
     /**
-    * The constraints to use
+    * Labels identifying this time series.
     */
-    'constraints': Location;
+    'metric': { [key: string]: string; };
+    /**
+    * List of [timestamp, value] pairs for this series.
+    */
+    'values': Array<Array<any>>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -25,14 +28,20 @@ export class Placement {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "constraints",
-            "baseName": "constraints",
-            "type": "Location",
+            "name": "metric",
+            "baseName": "metric",
+            "type": "{ [key: string]: string; }",
+            "format": ""
+        },
+        {
+            "name": "values",
+            "baseName": "values",
+            "type": "Array<Array<any>>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return Placement.attributeTypeMap;
+        return MetricTimeResult.attributeTypeMap;
     }
 
     public constructor() {

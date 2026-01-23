@@ -43,6 +43,12 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { MetricData } from '../models/MetricData.ts';
+import { MetricInstantData } from '../models/MetricInstantData.ts';
+import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
+import { MetricInstantResult } from '../models/MetricInstantResult.ts';
+import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
+import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -74,6 +80,7 @@ import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateReq
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest } from '../models/UpdateBinaryRequest.ts';
@@ -1172,6 +1179,282 @@ export class PromiseAppApi {
     public listServicesForAppLocationSetting(app: number, appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<Array<Server>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.listServicesForAppLocationSetting(app, appLocationSetting, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param app The app ID
+     */
+    public metricsAppCpuSecondsInstantWithHttpInfo(app: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuSecondsInstantWithHttpInfo(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the total CPU seconds for the given app
+     * @param app The app ID
+     */
+    public metricsAppCpuSecondsInstant(app: number, _options?: PromiseConfigurationOptions): Promise<MetricInstantResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuSecondsInstant(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsageWithHttpInfo(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuUsageWithHttpInfo(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsage(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuUsage(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsagePerDayWithHttpInfo(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuUsagePerDayWithHttpInfo(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the daily peak CPU cores used for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppCpuUsagePerDay(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppCpuUsagePerDay(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesPeakInstantWithHttpInfo(app: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesPeakInstantWithHttpInfo(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the peak number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesPeakInstant(app: number, _options?: PromiseConfigurationOptions): Promise<MetricInstantResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesPeakInstant(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppInstancesRunningWithHttpInfo(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesRunningWithHttpInfo(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the running server instances for the given app
+     * @param app The app ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsAppInstancesRunning(app: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesRunning(app, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesRunningInstantWithHttpInfo(app: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricInstantResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesRunningInstantWithHttpInfo(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the current number of running instances for the given app
+     * @param app The app ID
+     */
+    public metricsAppInstancesRunningInstant(app: number, _options?: PromiseConfigurationOptions): Promise<MetricInstantResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsAppInstancesRunningInstant(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceCpuUsageWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceCpuUsageWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the CPU usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceCpuUsage(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceCpuUsage(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskReadWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceDiskReadWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the disk read throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskRead(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceDiskRead(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskWriteWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceDiskWriteWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get disk write throughput for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceDiskWrite(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceDiskWrite(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceMemoryUsageWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceMemoryUsageWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the memory usage by the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceMemoryUsage(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceMemoryUsage(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkEgressWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceNetworkEgressWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the network egress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkEgress(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceNetworkEgress(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkIngressWithHttpInfo(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<MetricRangeResponse>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceNetworkIngressWithHttpInfo(dockerService, start, end, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Get the network ingress for the given service
+     * @param dockerService The docker service ID
+     * @param start Start of the time range as a Unix timestamp in seconds.
+     * @param end End of the time range as a Unix timestamp in seconds. Must be greater than &#x60;start&#x60;.
+     */
+    public metricsDockerServiceNetworkIngress(dockerService: number, start: number, end: number, _options?: PromiseConfigurationOptions): Promise<MetricRangeResponse> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.metricsDockerServiceNetworkIngress(dockerService, start, end, observableOptions);
         return result.toPromise();
     }
 

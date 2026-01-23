@@ -39,6 +39,12 @@ export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/InlineObject.ts';
 export * from '../models/InlineObject1.ts';
 export * from '../models/Location.ts';
+export * from '../models/MetricData.ts';
+export * from '../models/MetricInstantData.ts';
+export * from '../models/MetricInstantResponse.ts';
+export * from '../models/MetricInstantResult.ts';
+export * from '../models/MetricRangeResponse.ts';
+export * from '../models/MetricTimeResult.ts';
 export * from '../models/Mount.ts';
 export * from '../models/Node.ts';
 export * from '../models/OperatingSystem.ts';
@@ -70,6 +76,7 @@ export * from '../models/StorePalworldTemplateRequest.ts';
 export * from '../models/StoreServerConfigRequest.ts';
 export * from '../models/TaggedImage.ts';
 export * from '../models/TaggedImageMetaData.ts';
+export * from '../models/UpdateAppLocationSetting402Response.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
 export * from '../models/UpdateAppRequest.ts';
 export * from '../models/UpdateBinaryRequest.ts';
@@ -121,6 +128,12 @@ import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response
 import { InlineObject } from '../models/InlineObject.ts';
 import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { MetricData } from '../models/MetricData.ts';
+import { MetricInstantData } from '../models/MetricInstantData.ts';
+import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
+import { MetricInstantResult } from '../models/MetricInstantResult.ts';
+import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
+import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
@@ -152,6 +165,7 @@ import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateReq
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
 import { UpdateBinaryRequest       } from '../models/UpdateBinaryRequest.ts';
@@ -227,6 +241,12 @@ let typeMap: {[index: string]: any} = {
     "InlineObject": InlineObject,
     "InlineObject1": InlineObject1,
     "Location": Location,
+    "MetricData": MetricData,
+    "MetricInstantData": MetricInstantData,
+    "MetricInstantResponse": MetricInstantResponse,
+    "MetricInstantResult": MetricInstantResult,
+    "MetricRangeResponse": MetricRangeResponse,
+    "MetricTimeResult": MetricTimeResult,
     "Mount": Mount,
     "Node": Node,
     "PatchMetadataRequest": PatchMetadataRequest,
@@ -252,6 +272,7 @@ let typeMap: {[index: string]: any} = {
     "StoreServerConfigRequest": StoreServerConfigRequest,
     "TaggedImage": TaggedImage,
     "TaggedImageMetaData": TaggedImageMetaData,
+    "UpdateAppLocationSetting402Response": UpdateAppLocationSetting402Response,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
     "UpdateAppRequest": UpdateAppRequest,
     "UpdateBinaryRequest": UpdateBinaryRequest,
