@@ -43,7 +43,7 @@ export const getSelectedApp = async (
       ensureApiException(error);
       if (error.code === 403) {
         logErrorAndExit(
-          "You don't have access to the selected app. Please select another app. If you provide the `--appId` parameter, make sure it's correct.",
+          "You don't have access to the selected app. Please select another app. If you provide the `--app-id` parameter, make sure it's correct.",
         );
       } else {
         logErrorAndExit(
