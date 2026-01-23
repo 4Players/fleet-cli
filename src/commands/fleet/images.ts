@@ -8,6 +8,7 @@ import {
   OperatingSystem,
   SteamRuntime,
   StoreBinaryRequest,
+  UpdateBinaryRequest,
 } from "../../../backend/api/index.ts";
 
 import {
@@ -18,6 +19,7 @@ import {
   logErrorAndExit,
   stdout,
   validateRequiredOptions,
+  validateAtLeastOneOptionAvailable,
 } from "../../utils.ts";
 import { getSelectedAppOrExit } from "../apps.ts";
 import { apiClient } from "../../client.ts";
@@ -478,6 +480,260 @@ export const deleteImage = new Command()
     }
   });
 
+export const updateImage = new Command()
+  .name("update")
+  .description("Update an image.")
+  .option("--image-id <imageId:number>", "Image ID.")
+  .group("Update Options")
+  .option("--payload <payload:string>", "Payload as JSON string.")
+  .option("--name <name:string>", "Name of the image.")
+  .option("--version <version:string>", "Version of the image.")
+  .option("--os <os:string>", "Operating system (linux or windows).")
+  .option("--docker-image <dockerImage:string>", "Docker image name.")
+  .option("--registry-id <registryId:number>", "Docker registry ID.")
+  .option("--steam-app-id <steamAppId:number>", "Steam App ID.")
+  .option("--branch <branch:string>", "Steam branch.")
+  .option("--password <password:string>", "Steam password.")
+  .option("--command <command:string>", "Steam command.")
+  .option(
+    "--steamcmd-username <steamcmdUsername:string>",
+    "Steam CMD username.",
+  )
+  .option(
+    "--steamcmd-password <steamcmdPassword:string>",
+    "Steam CMD password.",
+  )
+  .option("--runtime <runtime:string>", "Steam runtime.")
+  .option("--headful", "Steam headful.")
+  .option("--request-license", "Steam request license.")
+  .option("--unpublished", "Steam unpublished.")
+  .option(
+    "--additional-packages <additionalPackages:string>",
+    "Additional packages to be installed in the Docker image.",
+  )
+  .group("Other Options")
+  .option(
+    "--dry-run",
+    "Dry run mode, does not update the image, but prints the payload.",
+  )
+  .action(async (options: CommandOptions) => {
+    // Step 1: Validate that at least one update option is provided
+    validateAtLeastOneOptionAvailable(options, [
+      "payload",
+      "name",
+      "version",
+      "os",
+      "dockerImage",
+      "registryId",
+      "steamAppId",
+      "branch",
+      "password",
+      "command",
+      "steamcmdUsername",
+      "steamcmdPassword",
+      "runtime",
+      "headful",
+      "requestLicense",
+      "unpublished",
+      "additionalPackages",
+    ]);
+
+    // Step 2: Get app and image ID
+    const app = await getSelectedAppOrExit(options);
+    let imageId = options.imageId;
+
+    if (!imageId) {
+      let images: Binary[] = [];
+      try {
+        images = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getBinaries(app.id, 50, page)));
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load images. Error: ",
+          error.body.message,
+          error.code,
+        );
+      }
+
+      imageId = await Select.prompt({
+        message:
+          "Select the image to update or provide the --image-id=<imageId> flag",
+        options: images.map((image) => {
+          return {
+            name: `${image.name} (${image.version}) - ${image.type}`,
+            value: image.id,
+          };
+        }),
+      });
+    }
+
+    // Step 3: Fetch current image state
+    let currentImage: Binary;
+    try {
+      currentImage = await apiClient.getBinaryById(imageId);
+    } catch (_error) {
+      logErrorAndExit(
+        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+      );
+    }
+
+    // Step 4 & 5: Build and validate update payload
+    let payload: UpdateBinaryRequest | null = null;
+
+    if (options.payload && options.payload.length > 0) {
+      // Parse JSON payload
+      try {
+        payload = JSON.parse(options.payload) as UpdateBinaryRequest;
+      } catch (error) {
+        logErrorAndExit(
+          "Invalid payload. Please provide a valid JSON string.",
+          error,
+        );
+      }
+
+      // Validate that payload type matches current image type
+      if (payload!.type !== currentImage!.type) {
+        logErrorAndExit(
+          `Cannot change image type. Current type is "${currentImage!.type}", but payload specifies "${payload!.type}". Type switching is not allowed.`,
+        );
+      }
+    } else {
+      // Validate OS if provided
+      if (options.os && options.os !== "linux" && options.os !== "windows") {
+        logErrorAndExit(
+          "Invalid operating system. Please select either linux or windows.",
+        );
+      }
+
+      // Validate that options match the current image type
+      const dockerOptions = [
+        "dockerImage",
+        "registryId",
+      ];
+      const steamOptions = [
+        "steamAppId",
+        "branch",
+        "password",
+        "command",
+        "steamcmdUsername",
+        "steamcmdPassword",
+        "runtime",
+        "headful",
+        "requestLicense",
+        "unpublished",
+        "additionalPackages",
+      ];
+
+      const hasDockerOptions = dockerOptions.some((opt) => options[opt] !== undefined);
+      const hasSteamOptions = steamOptions.some((opt) => options[opt] !== undefined);
+
+      if (currentImage!.type === "dockerImage" && hasSteamOptions) {
+        logErrorAndExit(
+          "Cannot update Docker image with Steam-specific options. This image type is 'dockerImage'.",
+        );
+      }
+
+      if (currentImage!.type === "steam" && hasDockerOptions) {
+        logErrorAndExit(
+          "Cannot update Steam image with Docker-specific options. This image type is 'steam'.",
+        );
+      }
+
+      // Build payload by merging options with current values
+      payload = {
+        name: options.name || currentImage!.name,
+        version: options.version || currentImage!.version,
+        type: currentImage!.type, // Always use current type
+        os: (options.os as OperatingSystem) || currentImage!.os,
+      };
+
+      // Add type-specific fields based on current image type
+      if (currentImage!.type === "dockerImage") {
+        payload.dockerImage = {
+          imageName: options.dockerImage ||
+            currentImage!.dockerImage?.imageName || "",
+          registryId: options.registryId ||
+            currentImage!.dockerImage?.registryId || 0,
+        };
+      } else if (currentImage!.type === "steam") {
+        payload.steam = {
+          steamAppId: options.steamAppId ||
+            currentImage!.steam?.steamAppId || 0,
+          branch: options.branch || currentImage!.steam?.branch || "",
+          password: options.password !== undefined
+            ? options.password
+            : (currentImage!.steam?.password || null),
+          command: options.command || currentImage!.steam?.command || "",
+          steamcmdUsername: options.steamcmdUsername !== undefined
+            ? options.steamcmdUsername
+            : (currentImage!.steam?.steamcmdUsername || null),
+          steamcmdPassword: options.steamcmdPassword !== undefined
+            ? options.steamcmdPassword
+            : (currentImage!.steam?.steamcmdPassword || null),
+          runtime: (options.runtime as SteamRuntime) ||
+            currentImage!.steam?.runtime || "sniper",
+          headful: options.headful !== undefined
+            ? options.headful
+            : (currentImage!.steam?.headful || false),
+          requestLicense: options.requestLicense !== undefined
+            ? options.requestLicense
+            : (currentImage!.steam?.requestLicense || false),
+          unpublished: options.unpublished !== undefined
+            ? options.unpublished
+            : (currentImage!.steam?.unpublished || false),
+          additionalPackages: options.additionalPackages !== undefined
+            ? options.additionalPackages
+            : (currentImage!.steam?.additionalPackages || null),
+        };
+      }
+    }
+
+    if (!payload) {
+      logErrorAndExit("Something went wrong, invalid payload.");
+    }
+
+    // Step 6: Dry run or confirmation
+    if (options.dryRun) {
+      inform(options, "Dry run mode, payload:");
+      await stdout(payload, options, "json");
+    } else {
+      const confirmed = await confirm(
+        options,
+        `Do you really want to update the image ${currentImage!.name}?`,
+      );
+
+      if (confirmed) {
+        // Step 7: Execute update
+        try {
+          const updatedImage = await apiClient.updateBinary(imageId, payload!);
+          inform(options, "Image updated successfully.");
+          await stdout(
+            updatedImage,
+            options,
+            "table(id,name,version,type,os,ready,status,statusMessage)",
+          );
+        } catch (error) {
+          ensureApiException(error);
+          logErrorAndExit(
+            "Failed to update image. Error: ",
+            error.body.message,
+            error.code,
+            JSON.stringify(payload),
+          );
+        }
+      } else {
+        inform(options, "Image update aborted.");
+        inform(
+          options,
+          "This payload would have been used, you can use the --payload flag to provide it: ",
+        );
+        await stdout(payload, options, "json");
+      }
+    }
+  });
+
 export const images = new Command()
   .name("images")
   .description(
@@ -489,4 +745,5 @@ export const images = new Command()
   .command("list", imageList)
   .command("get", getImageDetails)
   .command("create", createImage)
+  .command("update", updateImage)
   .command("delete", deleteImage);
