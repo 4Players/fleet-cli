@@ -257,6 +257,8 @@ const createConfig = new Command()
           name: portDefinition.name!,
           targetPort: portDefinition.targetPort!,
           protocols: [portDefinition.protocol] as Protocol[],
+          dnsMode: null,
+          dnsPrivate: false,
         });
       }
 
