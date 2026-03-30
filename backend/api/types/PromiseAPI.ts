@@ -9,6 +9,7 @@ import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts'
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
@@ -20,9 +21,11 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
+import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -32,6 +35,7 @@ import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationS
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetAuthTokenViaFsid403Response } from '../models/GetAuthTokenViaFsid403Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
@@ -56,6 +60,7 @@ import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
+import { PortDefinitionRequest } from '../models/PortDefinitionRequest.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -76,10 +81,20 @@ import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StoreOpenClawTemplateRequest } from '../models/StoreOpenClawTemplateRequest.ts';
+import { StoreOpenClawTemplateRequestApp } from '../models/StoreOpenClawTemplateRequestApp.ts';
+import { StoreOpenClawTemplateRequestAppLocationSetting } from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+import { StoreOpenClawTemplateRequestPayment } from '../models/StoreOpenClawTemplateRequestPayment.ts';
+import { StoreOpenClawTemplateRequestServerConfig } from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { TemplateApp } from '../models/TemplateApp.ts';
+import { TemplateAppLocationSetting } from '../models/TemplateAppLocationSetting.ts';
+import { TemplateAppResult } from '../models/TemplateAppResult.ts';
+import { TemplateBinary } from '../models/TemplateBinary.ts';
+import { TemplateServerConfig } from '../models/TemplateServerConfig.ts';
 import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -102,6 +117,28 @@ export class PromiseAppApi {
         responseProcessor?: AppApiResponseProcessor
     ) {
         this.api = new ObservableAppApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * Check URL reachability for service DNS URLs
+     * @param app The app ID
+     * @param dockerService The docker service ID
+     */
+    public checkServerDnsWithHttpInfo(app: number, dockerService: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Array<DockerServiceDnsReachable>>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.checkServerDnsWithHttpInfo(app, dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Check URL reachability for service DNS URLs
+     * @param app The app ID
+     * @param dockerService The docker service ID
+     */
+    public checkServerDns(app: number, dockerService: number, _options?: PromiseConfigurationOptions): Promise<Array<DockerServiceDnsReachable>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.checkServerDns(app, dockerService, observableOptions);
+        return result.toPromise();
     }
 
     /**
@@ -207,6 +244,66 @@ export class PromiseAppApi {
     public createDockerRegistry(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: PromiseConfigurationOptions): Promise<DockerRegistry> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.createDockerRegistry(storeDockerRegistryRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public createMinecraftTemplateWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createMinecraftTemplateWithHttpInfo(storeMinecraftTemplateRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public createMinecraftTemplate(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createMinecraftTemplate(storeMinecraftTemplateRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param [storeOpenClawTemplateRequest]
+     */
+    public createOpenClawTemplateWithHttpInfo(storeOpenClawTemplateRequest?: StoreOpenClawTemplateRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<TemplateAppResult>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createOpenClawTemplateWithHttpInfo(storeOpenClawTemplateRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param [storeOpenClawTemplateRequest]
+     */
+    public createOpenClawTemplate(storeOpenClawTemplateRequest?: StoreOpenClawTemplateRequest, _options?: PromiseConfigurationOptions): Promise<TemplateAppResult> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createOpenClawTemplate(storeOpenClawTemplateRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public createPalworldTemplateWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createPalworldTemplateWithHttpInfo(storePalworldTemplateRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public createPalworldTemplate(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.createPalworldTemplate(storePalworldTemplateRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -689,6 +786,28 @@ export class PromiseAppApi {
     }
 
     /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param authFsidRequest
+     */
+    public getAuthTokenViaFsidWithHttpInfo(authFsidRequest: AuthFsidRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Auth>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getAuthTokenViaFsidWithHttpInfo(authFsidRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param authFsidRequest
+     */
+    public getAuthTokenViaFsid(authFsidRequest: AuthFsidRequest, _options?: PromiseConfigurationOptions): Promise<Auth> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.getAuthTokenViaFsid(authFsidRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
      * List service backups
      * @param dockerService The docker service ID
      * @param [perPage] The number of items to be shown per page.
@@ -1013,6 +1132,7 @@ export class PromiseAppApi {
      * @param [filterNotes] Filter by notes.
      * @param [filterStatus] Filter by status.
      * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterDnsServiceEnabled] Filter by service-level DNS flag.
      * @param [filterResourcePackageSlug] Filter by resource package slug.
      * @param [filterInUse] Filter by in use flag.
      * @param [filterBinaryName] Filter by binary name.
@@ -1020,9 +1140,9 @@ export class PromiseAppApi {
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
+    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
+        const result = this.api.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
         return result.toPromise();
     }
 
@@ -1041,6 +1161,7 @@ export class PromiseAppApi {
      * @param [filterNotes] Filter by notes.
      * @param [filterStatus] Filter by status.
      * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterDnsServiceEnabled] Filter by service-level DNS flag.
      * @param [filterResourcePackageSlug] Filter by resource package slug.
      * @param [filterInUse] Filter by in use flag.
      * @param [filterBinaryName] Filter by binary name.
@@ -1048,9 +1169,9 @@ export class PromiseAppApi {
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<GetServerConfigs200Response> {
+    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<GetServerConfigs200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
+        const result = this.api.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
         return result.toPromise();
     }
 
@@ -1795,46 +1916,6 @@ export class PromiseAppApi {
     public stopServersForServerConfig(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<void> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.stopServersForServerConfig(serverConfig, observableOptions);
-        return result.toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param [storeMinecraftTemplateRequest]
-     */
-    public templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
-        const observableOptions = wrapOptions(_options);
-        const result = this.api.templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest, observableOptions);
-        return result.toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param [storeMinecraftTemplateRequest]
-     */
-    public templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: PromiseConfigurationOptions): Promise<App> {
-        const observableOptions = wrapOptions(_options);
-        const result = this.api.templateAppMinecraftStore(storeMinecraftTemplateRequest, observableOptions);
-        return result.toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param [storePalworldTemplateRequest]
-     */
-    public templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
-        const observableOptions = wrapOptions(_options);
-        const result = this.api.templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest, observableOptions);
-        return result.toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param [storePalworldTemplateRequest]
-     */
-    public templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: PromiseConfigurationOptions): Promise<App> {
-        const observableOptions = wrapOptions(_options);
-        const result = this.api.templateAppPalworldStore(storePalworldTemplateRequest, observableOptions);
         return result.toPromise();
     }
 

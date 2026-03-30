@@ -15,5 +15,6 @@ import { HttpFile } from '../http/http.ts';
 export enum SteamRuntime {
     Scout = 'scout',
     Soldier = 'soldier',
-    Sniper = 'sniper'
+    Sniper = 'sniper',
+    Steamrt4 = 'steamrt4'
 }

@@ -70,6 +70,10 @@ export class ServerConfig {
     */
     'inUse': boolean;
     /**
+    * Indicates whether service-level DNS is enabled
+    */
+    'dnsServiceEnabled': boolean;
+    /**
     * The policy used to restart this server
     */
     'restartPolicy': RestartPolicy;
@@ -172,6 +176,12 @@ export class ServerConfig {
         {
             "name": "inUse",
             "baseName": "inUse",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "dnsServiceEnabled",
+            "baseName": "dnsServiceEnabled",
             "type": "boolean",
             "format": ""
         },

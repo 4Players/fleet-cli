@@ -10,31 +10,18 @@
  * Do not edit the class manually.
  */
 
-import { DnsMode } from '../models/DnsMode.ts';
-import { Protocol } from '../models/Protocol.ts';
+import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
+export class StoreOpenClawTemplateRequestAppLocationSetting {
     /**
-    * The name of the server config
+    * The placement settings that define the location and other constraints If omitted, no deployment will be created.
     */
-    'name': string;
+    'placement'?: CreateUpdatePlacement | null;
     /**
-    * The protocols to expose
+    * Password required to deploy services to a protected node location. Required when the selected location is password-protected.
     */
-    'protocols': Array<Protocol>;
-    /**
-    * The port to expose
-    */
-    'targetPort': number;
-    /**
-    * The DNS mode
-    */
-    'dnsMode': DnsMode | null;
-    /**
-    * Indicates if the port should be private (not publicly published)
-    */
-    'dnsPrivate': boolean;
+    'password'?: string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -42,42 +29,22 @@ export class PortDefinition {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "placement",
+            "baseName": "placement",
+            "type": "CreateUpdatePlacement",
+            "format": ""
+        },
+        {
+            "name": "password",
+            "baseName": "password",
             "type": "string",
-            "format": ""
-        },
-        {
-            "name": "protocols",
-            "baseName": "protocols",
-            "type": "Array<Protocol>",
-            "format": ""
-        },
-        {
-            "name": "targetPort",
-            "baseName": "targetPort",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "dnsMode",
-            "baseName": "dnsMode",
-            "type": "DnsMode",
-            "format": ""
-        },
-        {
-            "name": "dnsPrivate",
-            "baseName": "dnsPrivate",
-            "type": "boolean",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return StoreOpenClawTemplateRequestAppLocationSetting.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-

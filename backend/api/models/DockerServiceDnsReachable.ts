@@ -10,31 +10,29 @@
  * Do not edit the class manually.
  */
 
-import { DnsMode } from '../models/DnsMode.ts';
-import { Protocol } from '../models/Protocol.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
+export class DockerServiceDnsReachable {
     /**
-    * The name of the server config
+    * The name for the port
     */
     'name': string;
     /**
-    * The protocols to expose
+    * Public URL over http
     */
-    'protocols': Array<Protocol>;
+    'dnsHttp': string | null;
     /**
-    * The port to expose
+    * Public URL over https
     */
-    'targetPort': number;
+    'dnsHttps': string | null;
     /**
-    * The DNS mode
+    * Indicates whether the dnsHttp url is reachable
     */
-    'dnsMode': DnsMode | null;
+    'dnsHttpReachable': boolean;
     /**
-    * Indicates if the port should be private (not publicly published)
+    * Indicates whether the dnsHttps url is reachable
     */
-    'dnsPrivate': boolean;
+    'dnsHttpsReachable': boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -48,36 +46,34 @@ export class PortDefinition {
             "format": ""
         },
         {
-            "name": "protocols",
-            "baseName": "protocols",
-            "type": "Array<Protocol>",
+            "name": "dnsHttp",
+            "baseName": "dnsHttp",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "targetPort",
-            "baseName": "targetPort",
-            "type": "number",
+            "name": "dnsHttps",
+            "baseName": "dnsHttps",
+            "type": "string",
             "format": ""
         },
         {
-            "name": "dnsMode",
-            "baseName": "dnsMode",
-            "type": "DnsMode",
+            "name": "dnsHttpReachable",
+            "baseName": "dnsHttpReachable",
+            "type": "boolean",
             "format": ""
         },
         {
-            "name": "dnsPrivate",
-            "baseName": "dnsPrivate",
+            "name": "dnsHttpsReachable",
+            "baseName": "dnsHttpsReachable",
             "type": "boolean",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return DockerServiceDnsReachable.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-

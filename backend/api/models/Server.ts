@@ -53,6 +53,10 @@ export class Server {
     */
     'statusMessage': string | null;
     /**
+    * The FQDN of the service
+    */
+    'dns': string | null;
+    /**
     * Indicates whether the service can be backed up
     */
     'isBackupable': boolean;
@@ -171,6 +175,12 @@ export class Server {
         {
             "name": "statusMessage",
             "baseName": "status_message",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "dns",
+            "baseName": "dns",
             "type": "string",
             "format": ""
         },

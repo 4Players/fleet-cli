@@ -18,6 +18,7 @@ models/AppLocationSettingStatus.ts
 models/AppStatus.ts
 models/Architecture.ts
 models/Auth.ts
+models/AuthFsidRequest.ts
 models/AuthRequest.ts
 models/Backup.ts
 models/BackupDownload.ts
@@ -29,9 +30,11 @@ models/CreateBackupDockerServiceRequest.ts
 models/CreateUpdateDockerImage.ts
 models/CreateUpdatePlacement.ts
 models/CreateUpdateSteam.ts
+models/DnsMode.ts
 models/DockerImage.ts
 models/DockerRegistry.ts
 models/DockerRegistryType.ts
+models/DockerServiceDnsReachable.ts
 models/EnvironmentVariable.ts
 models/EnvironmentVariableDefinition.ts
 models/EnvironmentVariableType.ts
@@ -41,6 +44,7 @@ models/GetAppLocationSettings200ResponseMeta.ts
 models/GetAppLocationSettings200ResponseMetaLinksInner.ts
 models/GetAppWallets200Response.ts
 models/GetApps200Response.ts
+models/GetAuthTokenViaFsid403Response.ts
 models/GetBackups200Response.ts
 models/GetBinaries200Response.ts
 models/GetDockerRegistries200Response.ts
@@ -66,6 +70,7 @@ models/PatchMetadataRequest.ts
 models/Placement.ts
 models/Port.ts
 models/PortDefinition.ts
+models/PortDefinitionRequest.ts
 models/Protocol.ts
 models/ResourcePackage.ts
 models/ResourcePackageType.ts
@@ -86,10 +91,20 @@ models/StoreAppRequest.ts
 models/StoreBinaryRequest.ts
 models/StoreDockerRegistryRequest.ts
 models/StoreMinecraftTemplateRequest.ts
+models/StoreOpenClawTemplateRequest.ts
+models/StoreOpenClawTemplateRequestApp.ts
+models/StoreOpenClawTemplateRequestAppLocationSetting.ts
+models/StoreOpenClawTemplateRequestPayment.ts
+models/StoreOpenClawTemplateRequestServerConfig.ts
 models/StorePalworldTemplateRequest.ts
 models/StoreServerConfigRequest.ts
 models/TaggedImage.ts
 models/TaggedImageMetaData.ts
+models/TemplateApp.ts
+models/TemplateAppLocationSetting.ts
+models/TemplateAppResult.ts
+models/TemplateBinary.ts
+models/TemplateServerConfig.ts
 models/UpdateAppLocationSetting402Response.ts
 models/UpdateAppLocationSettingRequest.ts
 models/UpdateAppRequest.ts

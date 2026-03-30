@@ -10,31 +10,18 @@
  * Do not edit the class manually.
  */
 
-import { DnsMode } from '../models/DnsMode.ts';
-import { Protocol } from '../models/Protocol.ts';
+import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
+export class StoreOpenClawTemplateRequestServerConfig {
     /**
-    * The name of the server config
+    * The slug of the resource package. If omitted, a default resource package will be used.
     */
-    'name': string;
+    'resourcePackageSlug'?: string | null;
     /**
-    * The protocols to expose
+    * The environment variables of the server configuration.
     */
-    'protocols': Array<Protocol>;
-    /**
-    * The port to expose
-    */
-    'targetPort': number;
-    /**
-    * The DNS mode
-    */
-    'dnsMode': DnsMode | null;
-    /**
-    * Indicates if the port should be private (not publicly published)
-    */
-    'dnsPrivate': boolean;
+    'env'?: Array<EnvironmentVariableDefinition>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -42,42 +29,22 @@ export class PortDefinition {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "resourcePackageSlug",
+            "baseName": "resourcePackageSlug",
             "type": "string",
             "format": ""
         },
         {
-            "name": "protocols",
-            "baseName": "protocols",
-            "type": "Array<Protocol>",
-            "format": ""
-        },
-        {
-            "name": "targetPort",
-            "baseName": "targetPort",
-            "type": "number",
-            "format": ""
-        },
-        {
-            "name": "dnsMode",
-            "baseName": "dnsMode",
-            "type": "DnsMode",
-            "format": ""
-        },
-        {
-            "name": "dnsPrivate",
-            "baseName": "dnsPrivate",
-            "type": "boolean",
+            "name": "env",
+            "baseName": "env",
+            "type": "Array<EnvironmentVariableDefinition>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return StoreOpenClawTemplateRequestServerConfig.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-

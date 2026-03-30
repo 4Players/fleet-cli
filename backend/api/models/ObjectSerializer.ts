@@ -5,6 +5,7 @@ export * from '../models/AppLocationSettingStatus.ts';
 export * from '../models/AppStatus.ts';
 export * from '../models/Architecture.ts';
 export * from '../models/Auth.ts';
+export * from '../models/AuthFsidRequest.ts';
 export * from '../models/AuthRequest.ts';
 export * from '../models/Backup.ts';
 export * from '../models/BackupDownload.ts';
@@ -16,9 +17,11 @@ export * from '../models/CreateBackupDockerServiceRequest.ts';
 export * from '../models/CreateUpdateDockerImage.ts';
 export * from '../models/CreateUpdatePlacement.ts';
 export * from '../models/CreateUpdateSteam.ts';
+export * from '../models/DnsMode.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
 export * from '../models/DockerRegistryType.ts';
+export * from '../models/DockerServiceDnsReachable.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
@@ -28,6 +31,7 @@ export * from '../models/GetAppLocationSettings200ResponseMeta.ts';
 export * from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 export * from '../models/GetAppWallets200Response.ts';
 export * from '../models/GetApps200Response.ts';
+export * from '../models/GetAuthTokenViaFsid403Response.ts';
 export * from '../models/GetBackups200Response.ts';
 export * from '../models/GetBinaries200Response.ts';
 export * from '../models/GetDockerRegistries200Response.ts';
@@ -52,6 +56,7 @@ export * from '../models/PatchMetadataRequest.ts';
 export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
+export * from '../models/PortDefinitionRequest.ts';
 export * from '../models/Protocol.ts';
 export * from '../models/ResourcePackage.ts';
 export * from '../models/ResourcePackageType.ts';
@@ -72,10 +77,20 @@ export * from '../models/StoreAppRequest.ts';
 export * from '../models/StoreBinaryRequest.ts';
 export * from '../models/StoreDockerRegistryRequest.ts';
 export * from '../models/StoreMinecraftTemplateRequest.ts';
+export * from '../models/StoreOpenClawTemplateRequest.ts';
+export * from '../models/StoreOpenClawTemplateRequestApp.ts';
+export * from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+export * from '../models/StoreOpenClawTemplateRequestPayment.ts';
+export * from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 export * from '../models/StorePalworldTemplateRequest.ts';
 export * from '../models/StoreServerConfigRequest.ts';
 export * from '../models/TaggedImage.ts';
 export * from '../models/TaggedImageMetaData.ts';
+export * from '../models/TemplateApp.ts';
+export * from '../models/TemplateAppLocationSetting.ts';
+export * from '../models/TemplateAppResult.ts';
+export * from '../models/TemplateBinary.ts';
+export * from '../models/TemplateServerConfig.ts';
 export * from '../models/UpdateAppLocationSetting402Response.ts';
 export * from '../models/UpdateAppLocationSettingRequest.ts';
 export * from '../models/UpdateAppRequest.ts';
@@ -94,6 +109,7 @@ import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts'
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
@@ -105,9 +121,11 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam            } from '../models/CreateUpdateSteam.ts';
+import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry            } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -117,6 +135,7 @@ import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationS
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetAuthTokenViaFsid403Response } from '../models/GetAuthTokenViaFsid403Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
@@ -139,8 +158,9 @@ import { Node    } from '../models/Node.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
-import { Port     } from '../models/Port.ts';
-import { PortDefinition } from '../models/PortDefinition.ts';
+import { Port         } from '../models/Port.ts';
+import { PortDefinition      } from '../models/PortDefinition.ts';
+import { PortDefinitionRequest      } from '../models/PortDefinitionRequest.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourcePackage         } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -148,7 +168,7 @@ import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
-import { ServerConfig                    } from '../models/ServerConfig.ts';
+import { ServerConfig                     } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
@@ -161,10 +181,20 @@ import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest       } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest           } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StoreOpenClawTemplateRequest } from '../models/StoreOpenClawTemplateRequest.ts';
+import { StoreOpenClawTemplateRequestApp } from '../models/StoreOpenClawTemplateRequestApp.ts';
+import { StoreOpenClawTemplateRequestAppLocationSetting } from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+import { StoreOpenClawTemplateRequestPayment } from '../models/StoreOpenClawTemplateRequestPayment.ts';
+import { StoreOpenClawTemplateRequestServerConfig } from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { TemplateApp } from '../models/TemplateApp.ts';
+import { TemplateAppLocationSetting } from '../models/TemplateAppLocationSetting.ts';
+import { TemplateAppResult } from '../models/TemplateAppResult.ts';
+import { TemplateBinary } from '../models/TemplateBinary.ts';
+import { TemplateServerConfig } from '../models/TemplateServerConfig.ts';
 import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -195,6 +225,7 @@ let enumsMap: Set<string> = new Set<string>([
     "Architecture",
     "BinaryStatus",
     "BinaryType",
+    "DnsMode",
     "DockerRegistryType",
     "EnvironmentVariableType",
     "OperatingSystem",
@@ -211,6 +242,7 @@ let typeMap: {[index: string]: any} = {
     "App": App,
     "AppLocationSetting": AppLocationSetting,
     "Auth": Auth,
+    "AuthFsidRequest": AuthFsidRequest,
     "AuthRequest": AuthRequest,
     "Backup": Backup,
     "BackupDownload": BackupDownload,
@@ -222,6 +254,7 @@ let typeMap: {[index: string]: any} = {
     "CreateUpdateSteam": CreateUpdateSteam,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
+    "DockerServiceDnsReachable": DockerServiceDnsReachable,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
     "GetAppLocationSettings200Response": GetAppLocationSettings200Response,
@@ -230,6 +263,7 @@ let typeMap: {[index: string]: any} = {
     "GetAppLocationSettings200ResponseMetaLinksInner": GetAppLocationSettings200ResponseMetaLinksInner,
     "GetAppWallets200Response": GetAppWallets200Response,
     "GetApps200Response": GetApps200Response,
+    "GetAuthTokenViaFsid403Response": GetAuthTokenViaFsid403Response,
     "GetBackups200Response": GetBackups200Response,
     "GetBinaries200Response": GetBinaries200Response,
     "GetDockerRegistries200Response": GetDockerRegistries200Response,
@@ -253,6 +287,7 @@ let typeMap: {[index: string]: any} = {
     "Placement": Placement,
     "Port": Port,
     "PortDefinition": PortDefinition,
+    "PortDefinitionRequest": PortDefinitionRequest,
     "ResourcePackage": ResourcePackage,
     "RestartPolicy": RestartPolicy,
     "SecretFile": SecretFile,
@@ -268,10 +303,20 @@ let typeMap: {[index: string]: any} = {
     "StoreBinaryRequest": StoreBinaryRequest,
     "StoreDockerRegistryRequest": StoreDockerRegistryRequest,
     "StoreMinecraftTemplateRequest": StoreMinecraftTemplateRequest,
+    "StoreOpenClawTemplateRequest": StoreOpenClawTemplateRequest,
+    "StoreOpenClawTemplateRequestApp": StoreOpenClawTemplateRequestApp,
+    "StoreOpenClawTemplateRequestAppLocationSetting": StoreOpenClawTemplateRequestAppLocationSetting,
+    "StoreOpenClawTemplateRequestPayment": StoreOpenClawTemplateRequestPayment,
+    "StoreOpenClawTemplateRequestServerConfig": StoreOpenClawTemplateRequestServerConfig,
     "StorePalworldTemplateRequest": StorePalworldTemplateRequest,
     "StoreServerConfigRequest": StoreServerConfigRequest,
     "TaggedImage": TaggedImage,
     "TaggedImageMetaData": TaggedImageMetaData,
+    "TemplateApp": TemplateApp,
+    "TemplateAppLocationSetting": TemplateAppLocationSetting,
+    "TemplateAppResult": TemplateAppResult,
+    "TemplateBinary": TemplateBinary,
+    "TemplateServerConfig": TemplateServerConfig,
     "UpdateAppLocationSetting402Response": UpdateAppLocationSetting402Response,
     "UpdateAppLocationSettingRequest": UpdateAppLocationSettingRequest,
     "UpdateAppRequest": UpdateAppRequest,

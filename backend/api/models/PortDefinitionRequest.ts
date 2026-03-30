@@ -14,7 +14,7 @@ import { DnsMode } from '../models/DnsMode.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
+export class PortDefinitionRequest {
     /**
     * The name of the server config
     */
@@ -30,11 +30,11 @@ export class PortDefinition {
     /**
     * The DNS mode
     */
-    'dnsMode': DnsMode | null;
+    'dnsMode'?: DnsMode | null;
     /**
     * Indicates if the port should be private (not publicly published)
     */
-    'dnsPrivate': boolean;
+    'dnsPrivate'?: boolean;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -73,7 +73,7 @@ export class PortDefinition {
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return PortDefinitionRequest.attributeTypeMap;
     }
 
     public constructor() {

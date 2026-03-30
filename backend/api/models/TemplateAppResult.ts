@@ -10,31 +10,29 @@
  * Do not edit the class manually.
  */
 
-import { DnsMode } from '../models/DnsMode.ts';
-import { Protocol } from '../models/Protocol.ts';
+import { TemplateApp } from '../models/TemplateApp.ts';
+import { TemplateAppLocationSetting } from '../models/TemplateAppLocationSetting.ts';
+import { TemplateBinary } from '../models/TemplateBinary.ts';
+import { TemplateServerConfig } from '../models/TemplateServerConfig.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
+export class TemplateAppResult {
     /**
-    * The name of the server config
+    * The created template app
     */
-    'name': string;
+    'app': TemplateApp;
     /**
-    * The protocols to expose
+    * The binaries created for this template app
     */
-    'protocols': Array<Protocol>;
+    'binaries': Array<TemplateBinary>;
     /**
-    * The port to expose
+    * The server configs created for this template app
     */
-    'targetPort': number;
+    'serverConfigs': Array<TemplateServerConfig>;
     /**
-    * The DNS mode
+    * The app location settings created for this template app
     */
-    'dnsMode': DnsMode | null;
-    /**
-    * Indicates if the port should be private (not publicly published)
-    */
-    'dnsPrivate': boolean;
+    'appLocationSettings': Array<TemplateAppLocationSetting>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -42,42 +40,34 @@ export class PortDefinition {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
+            "name": "app",
+            "baseName": "app",
+            "type": "TemplateApp",
             "format": ""
         },
         {
-            "name": "protocols",
-            "baseName": "protocols",
-            "type": "Array<Protocol>",
+            "name": "binaries",
+            "baseName": "binaries",
+            "type": "Array<TemplateBinary>",
             "format": ""
         },
         {
-            "name": "targetPort",
-            "baseName": "targetPort",
-            "type": "number",
+            "name": "serverConfigs",
+            "baseName": "serverConfigs",
+            "type": "Array<TemplateServerConfig>",
             "format": ""
         },
         {
-            "name": "dnsMode",
-            "baseName": "dnsMode",
-            "type": "DnsMode",
-            "format": ""
-        },
-        {
-            "name": "dnsPrivate",
-            "baseName": "dnsPrivate",
-            "type": "boolean",
+            "name": "appLocationSettings",
+            "baseName": "appLocationSettings",
+            "type": "Array<TemplateAppLocationSetting>",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return TemplateAppResult.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-

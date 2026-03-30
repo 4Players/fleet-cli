@@ -12,10 +12,28 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class StoreOpenClawTemplateRequestApp {
+    /**
+    * The name of the template app. If omitted, a default name will be used.
+    */
+    'name'?: string | null;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return StoreOpenClawTemplateRequestApp.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

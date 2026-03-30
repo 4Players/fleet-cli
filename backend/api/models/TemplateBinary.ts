@@ -12,10 +12,38 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class TemplateBinary {
+    /**
+    * The id of the binary
+    */
+    'id': number;
+    /**
+    * The name of the binary
+    */
+    'name': string;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "id",
+            "baseName": "id",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return TemplateBinary.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

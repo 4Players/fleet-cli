@@ -13,7 +13,7 @@
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { Mount } from '../models/Mount.ts';
-import { PortDefinition } from '../models/PortDefinition.ts';
+import { PortDefinitionRequest } from '../models/PortDefinitionRequest.ts';
 import { RestartPolicy } from '../models/RestartPolicy.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { HttpFile } from '../http/http.ts';
@@ -44,6 +44,10 @@ export class StoreServerConfigRequest {
     */
     'resourcePackageSlug': string;
     /**
+    * Enable service-level DNS
+    */
+    'dnsServiceEnabled'?: boolean;
+    /**
     * The config files used in this server configuration
     */
     'configFiles'?: Array<ConfigFile>;
@@ -66,7 +70,7 @@ export class StoreServerConfigRequest {
     /**
     * The port definitions
     */
-    'ports'?: Array<PortDefinition>;
+    'ports'?: Array<PortDefinitionRequest>;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -110,6 +114,12 @@ export class StoreServerConfigRequest {
             "format": ""
         },
         {
+            "name": "dnsServiceEnabled",
+            "baseName": "dnsServiceEnabled",
+            "type": "boolean",
+            "format": ""
+        },
+        {
             "name": "configFiles",
             "baseName": "configFiles",
             "type": "Array<ConfigFile>",
@@ -142,7 +152,7 @@ export class StoreServerConfigRequest {
         {
             "name": "ports",
             "baseName": "ports",
-            "type": "Array<PortDefinition>",
+            "type": "Array<PortDefinitionRequest>",
             "format": ""
         }    ];
 

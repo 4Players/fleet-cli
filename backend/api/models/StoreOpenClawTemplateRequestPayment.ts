@@ -12,10 +12,28 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class StoreOpenClawTemplateRequestPayment {
+    /**
+    * Payment project ID. If omitted, no payment linking will be performed.
+    */
+    'projectId'?: string | null;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "projectId",
+            "baseName": "projectId",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return StoreOpenClawTemplateRequestPayment.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

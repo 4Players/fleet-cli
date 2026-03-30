@@ -9,6 +9,7 @@ import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts'
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
@@ -20,9 +21,11 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
+import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -32,6 +35,7 @@ import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationS
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetAuthTokenViaFsid403Response } from '../models/GetAuthTokenViaFsid403Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
@@ -56,6 +60,7 @@ import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
+import { PortDefinitionRequest } from '../models/PortDefinitionRequest.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -76,10 +81,20 @@ import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StoreOpenClawTemplateRequest } from '../models/StoreOpenClawTemplateRequest.ts';
+import { StoreOpenClawTemplateRequestApp } from '../models/StoreOpenClawTemplateRequestApp.ts';
+import { StoreOpenClawTemplateRequestAppLocationSetting } from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+import { StoreOpenClawTemplateRequestPayment } from '../models/StoreOpenClawTemplateRequestPayment.ts';
+import { StoreOpenClawTemplateRequestServerConfig } from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { TemplateApp } from '../models/TemplateApp.ts';
+import { TemplateAppLocationSetting } from '../models/TemplateAppLocationSetting.ts';
+import { TemplateAppResult } from '../models/TemplateAppResult.ts';
+import { TemplateBinary } from '../models/TemplateBinary.ts';
+import { TemplateServerConfig } from '../models/TemplateServerConfig.ts';
 import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -93,6 +108,23 @@ import { WalletScope } from '../models/WalletScope.ts';
 
 import { ObservableAppApi } from "./ObservableAPI.ts";
 import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts";
+
+export interface AppApiCheckServerDnsRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApicheckServerDns
+     */
+    app: number
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApicheckServerDns
+     */
+    dockerService: number
+}
 
 export interface AppApiCreateAppRequest {
     /**
@@ -158,6 +190,33 @@ export interface AppApiCreateDockerRegistryRequest {
      * @memberof AppApicreateDockerRegistry
      */
     storeDockerRegistryRequest: StoreDockerRegistryRequest
+}
+
+export interface AppApiCreateMinecraftTemplateRequest {
+    /**
+     * 
+     * @type StoreMinecraftTemplateRequest
+     * @memberof AppApicreateMinecraftTemplate
+     */
+    storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest
+}
+
+export interface AppApiCreateOpenClawTemplateRequest {
+    /**
+     * 
+     * @type StoreOpenClawTemplateRequest
+     * @memberof AppApicreateOpenClawTemplate
+     */
+    storeOpenClawTemplateRequest?: StoreOpenClawTemplateRequest
+}
+
+export interface AppApiCreatePalworldTemplateRequest {
+    /**
+     * 
+     * @type StorePalworldTemplateRequest
+     * @memberof AppApicreatePalworldTemplate
+     */
+    storePalworldTemplateRequest?: StorePalworldTemplateRequest
 }
 
 export interface AppApiCreateServerConfigRequest {
@@ -612,6 +671,15 @@ export interface AppApiGetAuthTokenRequest {
      * @memberof AppApigetAuthToken
      */
     authRequest: AuthRequest
+}
+
+export interface AppApiGetAuthTokenViaFsidRequest {
+    /**
+     * 
+     * @type AuthFsidRequest
+     * @memberof AppApigetAuthTokenViaFsid
+     */
+    authFsidRequest: AuthFsidRequest
 }
 
 export interface AppApiGetBackupsRequest {
@@ -1081,6 +1149,13 @@ export interface AppApiGetServerConfigsRequest {
      * @memberof AppApigetServerConfigs
      */
     filterMaintenance?: boolean
+    /**
+     * Filter by service-level DNS flag.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServerConfigs
+     */
+    filterDnsServiceEnabled?: boolean
     /**
      * Filter by resource package slug.
      * Defaults to: undefined
@@ -1751,24 +1826,6 @@ export interface AppApiStopServersForServerConfigRequest {
     serverConfig: number
 }
 
-export interface AppApiTemplateAppMinecraftStoreRequest {
-    /**
-     * 
-     * @type StoreMinecraftTemplateRequest
-     * @memberof AppApitemplateAppMinecraftStore
-     */
-    storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest
-}
-
-export interface AppApiTemplateAppPalworldStoreRequest {
-    /**
-     * 
-     * @type StorePalworldTemplateRequest
-     * @memberof AppApitemplateAppPalworldStore
-     */
-    storePalworldTemplateRequest?: StorePalworldTemplateRequest
-}
-
 export interface AppApiUpdateAppByIdRequest {
     /**
      * The app ID
@@ -1857,6 +1914,22 @@ export class ObjectAppApi {
     }
 
     /**
+     * Check URL reachability for service DNS URLs
+     * @param param the request object
+     */
+    public checkServerDnsWithHttpInfo(param: AppApiCheckServerDnsRequest, options?: ConfigurationOptions): Promise<HttpInfo<Array<DockerServiceDnsReachable>>> {
+        return this.api.checkServerDnsWithHttpInfo(param.app, param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Check URL reachability for service DNS URLs
+     * @param param the request object
+     */
+    public checkServerDns(param: AppApiCheckServerDnsRequest, options?: ConfigurationOptions): Promise<Array<DockerServiceDnsReachable>> {
+        return this.api.checkServerDns(param.app, param.dockerService,  options).toPromise();
+    }
+
+    /**
      * Create an app
      * @param param the request object
      */
@@ -1934,6 +2007,54 @@ export class ObjectAppApi {
      */
     public createDockerRegistry(param: AppApiCreateDockerRegistryRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
         return this.api.createDockerRegistry(param.storeDockerRegistryRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param param the request object
+     */
+    public createMinecraftTemplateWithHttpInfo(param: AppApiCreateMinecraftTemplateRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.createMinecraftTemplateWithHttpInfo(param.storeMinecraftTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param param the request object
+     */
+    public createMinecraftTemplate(param: AppApiCreateMinecraftTemplateRequest = {}, options?: ConfigurationOptions): Promise<App> {
+        return this.api.createMinecraftTemplate(param.storeMinecraftTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param param the request object
+     */
+    public createOpenClawTemplateWithHttpInfo(param: AppApiCreateOpenClawTemplateRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<TemplateAppResult>> {
+        return this.api.createOpenClawTemplateWithHttpInfo(param.storeOpenClawTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param param the request object
+     */
+    public createOpenClawTemplate(param: AppApiCreateOpenClawTemplateRequest = {}, options?: ConfigurationOptions): Promise<TemplateAppResult> {
+        return this.api.createOpenClawTemplate(param.storeOpenClawTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param param the request object
+     */
+    public createPalworldTemplateWithHttpInfo(param: AppApiCreatePalworldTemplateRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.createPalworldTemplateWithHttpInfo(param.storePalworldTemplateRequest,  options).toPromise();
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param param the request object
+     */
+    public createPalworldTemplate(param: AppApiCreatePalworldTemplateRequest = {}, options?: ConfigurationOptions): Promise<App> {
+        return this.api.createPalworldTemplate(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
     /**
@@ -2263,6 +2384,24 @@ export class ObjectAppApi {
     }
 
     /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param param the request object
+     */
+    public getAuthTokenViaFsidWithHttpInfo(param: AppApiGetAuthTokenViaFsidRequest, options?: ConfigurationOptions): Promise<HttpInfo<Auth>> {
+        return this.api.getAuthTokenViaFsidWithHttpInfo(param.authFsidRequest,  options).toPromise();
+    }
+
+    /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param param the request object
+     */
+    public getAuthTokenViaFsid(param: AppApiGetAuthTokenViaFsidRequest, options?: ConfigurationOptions): Promise<Auth> {
+        return this.api.getAuthTokenViaFsid(param.authFsidRequest,  options).toPromise();
+    }
+
+    /**
      * List service backups
      * @param param the request object
      */
@@ -2459,7 +2598,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
-        return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
+        return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
     /**
@@ -2467,7 +2606,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<GetServerConfigs200Response> {
-        return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
+        return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
     }
 
     /**
@@ -2996,38 +3135,6 @@ export class ObjectAppApi {
      */
     public stopServersForServerConfig(param: AppApiStopServersForServerConfigRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.stopServersForServerConfig(param.serverConfig,  options).toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param param the request object
-     */
-    public templateAppMinecraftStoreWithHttpInfo(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
-        return this.api.templateAppMinecraftStoreWithHttpInfo(param.storeMinecraftTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param param the request object
-     */
-    public templateAppMinecraftStore(param: AppApiTemplateAppMinecraftStoreRequest = {}, options?: ConfigurationOptions): Promise<App> {
-        return this.api.templateAppMinecraftStore(param.storeMinecraftTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param param the request object
-     */
-    public templateAppPalworldStoreWithHttpInfo(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
-        return this.api.templateAppPalworldStoreWithHttpInfo(param.storePalworldTemplateRequest,  options).toPromise();
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param param the request object
-     */
-    public templateAppPalworldStore(param: AppApiTemplateAppPalworldStoreRequest = {}, options?: ConfigurationOptions): Promise<App> {
-        return this.api.templateAppPalworldStore(param.storePalworldTemplateRequest,  options).toPromise();
     }
 
     /**

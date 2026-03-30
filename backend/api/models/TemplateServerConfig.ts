@@ -12,10 +12,38 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class TemplateServerConfig {
+    /**
+    * The id of the server config
+    */
+    'id': number;
+    /**
+    * The name of the server config
+    */
+    'name': string;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "id",
+            "baseName": "id",
+            "type": "number",
+            "format": ""
+        },
+        {
+            "name": "name",
+            "baseName": "name",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return TemplateServerConfig.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

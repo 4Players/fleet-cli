@@ -734,6 +734,68 @@ export const updateImage = new Command()
     }
   });
 
+export const reloadImage = new Command()
+  .name("reload")
+  .description("Reload an image (re-pulls Docker image or re-downloads Steam app).")
+  .option("--image-id <imageId:number>", "Image ID.")
+  .action(async (options: CommandOptions) => {
+    const app = await getSelectedAppOrExit(options);
+    let imageId = options.imageId;
+
+    if (!imageId) {
+      let images: Binary[] = [];
+      try {
+        images = await getAllPaginated((
+          page: number,
+        ) => (apiClient.getBinaries(app.id, 50, page)));
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to load images. Error: ",
+          error.body.message,
+          error.code,
+        );
+      }
+
+      imageId = await Select.prompt({
+        message:
+          "Select the image to reload or provide the --image-id=<imageId> flag",
+        options: images.map((image) => {
+          return { name: `${image.name} (${image.version}) - ${image.type}`, value: image.id };
+        }),
+      });
+    }
+
+    let image: Binary;
+    try {
+      image = await apiClient.getBinaryById(imageId);
+    } catch (_error) {
+      logErrorAndExit(
+        `Image ${imageId} does not exist (or not in the app ${app.name}, id: ${app.id})`,
+      );
+    }
+
+    const confirmed = await confirm(
+      options,
+      `Do you want to reload the image ${image!.name}?`,
+    );
+
+    if (confirmed) {
+      try {
+        await apiClient.refreshBinary(imageId);
+        inform(options, "Image reload triggered successfully.");
+      } catch (error) {
+        ensureApiException(error);
+        logErrorAndExit(
+          "Failed to reload image. Error: " + error.body.message,
+          error.code,
+        );
+      }
+    } else {
+      inform(options, "Image reload aborted.");
+    }
+  });
+
 export const images = new Command()
   .name("images")
   .description(
@@ -746,4 +808,5 @@ export const images = new Command()
   .command("get", getImageDetails)
   .command("create", createImage)
   .command("update", updateImage)
-  .command("delete", deleteImage);
+  .command("delete", deleteImage)
+  .command("reload", reloadImage);

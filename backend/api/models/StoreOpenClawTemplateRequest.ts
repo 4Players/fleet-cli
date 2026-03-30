@@ -10,31 +10,17 @@
  * Do not edit the class manually.
  */
 
-import { DnsMode } from '../models/DnsMode.ts';
-import { Protocol } from '../models/Protocol.ts';
+import { StoreOpenClawTemplateRequestApp } from '../models/StoreOpenClawTemplateRequestApp.ts';
+import { StoreOpenClawTemplateRequestAppLocationSetting } from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+import { StoreOpenClawTemplateRequestPayment } from '../models/StoreOpenClawTemplateRequestPayment.ts';
+import { StoreOpenClawTemplateRequestServerConfig } from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 import { HttpFile } from '../http/http.ts';
 
-export class PortDefinition {
-    /**
-    * The name of the server config
-    */
-    'name': string;
-    /**
-    * The protocols to expose
-    */
-    'protocols': Array<Protocol>;
-    /**
-    * The port to expose
-    */
-    'targetPort': number;
-    /**
-    * The DNS mode
-    */
-    'dnsMode': DnsMode | null;
-    /**
-    * Indicates if the port should be private (not publicly published)
-    */
-    'dnsPrivate': boolean;
+export class StoreOpenClawTemplateRequest {
+    'app'?: StoreOpenClawTemplateRequestApp;
+    'serverConfig'?: StoreOpenClawTemplateRequestServerConfig;
+    'appLocationSetting'?: StoreOpenClawTemplateRequestAppLocationSetting;
+    'payment'?: StoreOpenClawTemplateRequestPayment;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -42,42 +28,34 @@ export class PortDefinition {
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "name",
-            "baseName": "name",
-            "type": "string",
+            "name": "app",
+            "baseName": "app",
+            "type": "StoreOpenClawTemplateRequestApp",
             "format": ""
         },
         {
-            "name": "protocols",
-            "baseName": "protocols",
-            "type": "Array<Protocol>",
+            "name": "serverConfig",
+            "baseName": "serverConfig",
+            "type": "StoreOpenClawTemplateRequestServerConfig",
             "format": ""
         },
         {
-            "name": "targetPort",
-            "baseName": "targetPort",
-            "type": "number",
+            "name": "appLocationSetting",
+            "baseName": "appLocationSetting",
+            "type": "StoreOpenClawTemplateRequestAppLocationSetting",
             "format": ""
         },
         {
-            "name": "dnsMode",
-            "baseName": "dnsMode",
-            "type": "DnsMode",
-            "format": ""
-        },
-        {
-            "name": "dnsPrivate",
-            "baseName": "dnsPrivate",
-            "type": "boolean",
+            "name": "payment",
+            "baseName": "payment",
+            "type": "StoreOpenClawTemplateRequestPayment",
             "format": ""
         }    ];
 
     static getAttributeTypeMap() {
-        return PortDefinition.attributeTypeMap;
+        return StoreOpenClawTemplateRequest.attributeTypeMap;
     }
 
     public constructor() {
     }
 }
-
-

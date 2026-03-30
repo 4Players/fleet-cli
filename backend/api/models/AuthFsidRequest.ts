@@ -12,10 +12,28 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class AuthFsidRequest {
+    /**
+    * The fusion session id of the user
+    */
+    'fsid': string;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "fsid",
+            "baseName": "fsid",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return AuthFsidRequest.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

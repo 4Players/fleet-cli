@@ -4,11 +4,15 @@ All URIs are relative to *https://fleet.4players.io/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**checkServerDns**](AppApi.md#checkServerDns) | **GET** /v1/apps/{app}/services/{dockerService}/dns | Check URL reachability for service DNS URLs
 [**createApp**](AppApi.md#createApp) | **POST** /v1/apps | Create an app
 [**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /v1/apps/{app}/location-settings | Create a new location setting
 [**createBackup**](AppApi.md#createBackup) | **POST** /v1/services/{dockerService}/backup | Create service backup
 [**createBinary**](AppApi.md#createBinary) | **POST** /v1/apps/{app}/binaries | Create a binary and the related entity
 [**createDockerRegistry**](AppApi.md#createDockerRegistry) | **POST** /v1/docker-registries | Create a new docker registry
+[**createMinecraftTemplate**](AppApi.md#createMinecraftTemplate) | **POST** /v1/templates/apps/minecraft | Create a Minecraft template app
+[**createOpenClawTemplate**](AppApi.md#createOpenClawTemplate) | **POST** /v1/templates/apps/openclaw | Create an OpenClaw template app
+[**createPalworldTemplate**](AppApi.md#createPalworldTemplate) | **POST** /v1/templates/apps/palworld | Create a Palworld template app
 [**createServerConfig**](AppApi.md#createServerConfig) | **POST** /v1/apps/{app}/configs | Create a new server config
 [**deleteApp**](AppApi.md#deleteApp) | **DELETE** /v1/apps/{app} | Delete a specific app
 [**deleteAppLocationSetting**](AppApi.md#deleteAppLocationSetting) | **DELETE** /v1/app-location-settings/{appLocationSetting} | Delete a location setting
@@ -29,6 +33,7 @@ Method | HTTP request | Description
 [**getAppWallets**](AppApi.md#getAppWallets) | **GET** /v1/apps/{app}/wallets | Show all wallets for a specific app
 [**getApps**](AppApi.md#getApps) | **GET** /v1/apps | Show all apps
 [**getAuthToken**](AppApi.md#getAuthToken) | **POST** /v1/auth/token | Get token
+[**getAuthTokenViaFsid**](AppApi.md#getAuthTokenViaFsid) | **POST** /v1/auth/token/fsid | Get token via fsid
 [**getBackups**](AppApi.md#getBackups) | **GET** /v1/services/{dockerService}/backups | List service backups
 [**getBinaries**](AppApi.md#getBinaries) | **GET** /v1/apps/{app}/binaries | Show all binaries
 [**getBinaryById**](AppApi.md#getBinaryById) | **GET** /v1/binaries/{binary} | Show a specific binary
@@ -75,14 +80,70 @@ Method | HTTP request | Description
 [**stopServersForAppLocationSetting**](AppApi.md#stopServersForAppLocationSetting) | **POST** /v1/app-location-settings/{appLocationSetting}/services/stop | Stop all services related to a specific app location setting
 [**stopServersForBinary**](AppApi.md#stopServersForBinary) | **POST** /v1/binaries/{binary}/services/stop | Stop all services related to a specific binary
 [**stopServersForServerConfig**](AppApi.md#stopServersForServerConfig) | **POST** /v1/server-configs/{serverConfig}/services/stop | Stop all services related to a specific server config
-[**templateAppMinecraftStore**](AppApi.md#templateAppMinecraftStore) | **POST** /v1/templates/apps/minecraft | Create a Minecraft template app
-[**templateAppPalworldStore**](AppApi.md#templateAppPalworldStore) | **POST** /v1/templates/apps/palworld | Create a Palworld template app
 [**updateAppById**](AppApi.md#updateAppById) | **PUT** /v1/apps/{app} | Update a specific app
 [**updateAppLocationSetting**](AppApi.md#updateAppLocationSetting) | **PUT** /v1/app-location-settings/{appLocationSetting} | Update a location setting
 [**updateBinary**](AppApi.md#updateBinary) | **PUT** /v1/binaries/{binary} | Update a binary and the related entity
 [**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /v1/docker-registries/{dockerRegistry} | Update a specific docker registry
 [**updateServerConfig**](AppApi.md#updateServerConfig) | **PUT** /v1/server-configs/{serverConfig} | Update a server config
 
+
+# **checkServerDns**
+> Array<DockerServiceDnsReachable> checkServerDns()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiCheckServerDnsRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiCheckServerDnsRequest = {
+    // The app ID
+  app: 1,
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.checkServerDns(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**Array<DockerServiceDnsReachable>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Array of &#x60;DockerServiceDnsReachable&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createApp**
 > App createApp(storeAppRequest)
@@ -424,6 +485,228 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **createMinecraftTemplate**
+> App createMinecraftTemplate()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiCreateMinecraftTemplateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiCreateMinecraftTemplateRequest = {
+  
+  storeMinecraftTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.createMinecraftTemplate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storeMinecraftTemplateRequest** | **StoreMinecraftTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **createOpenClawTemplate**
+> TemplateAppResult createOpenClawTemplate()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiCreateOpenClawTemplateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiCreateOpenClawTemplateRequest = {
+  
+  storeOpenClawTemplateRequest: {
+    app: {
+      name: "name_example",
+    },
+    serverConfig: {
+      resourcePackageSlug: "resourcePackageSlug_example",
+      env: [
+        {
+          type: "static",
+          key: "key_example",
+          value: "value_example",
+          variable: "variable_example",
+        },
+      ],
+    },
+    appLocationSetting: {
+      placement: {
+        constraints: {
+          city: "city_example",
+          cityDisplay: "cityDisplay_example",
+          continent: "continent_example",
+          country: "country_example",
+          isProtected: true,
+        },
+      },
+      password: "password_example",
+    },
+    payment: {
+      projectId: "projectId_example",
+    },
+  },
+};
+
+const data = await apiInstance.createOpenClawTemplate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storeOpenClawTemplateRequest** | **StoreOpenClawTemplateRequest**|  |
+
+
+### Return type
+
+**TemplateAppResult**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;TemplateAppResult&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+**404** | Payment project not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **createPalworldTemplate**
+> App createPalworldTemplate()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiCreatePalworldTemplateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiCreatePalworldTemplateRequest = {
+  
+  storePalworldTemplateRequest: {
+    appName: "appName_example",
+    resourcePackageSlug: "resourcePackageSlug_example",
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+        isProtected: true,
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.createPalworldTemplate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **storePalworldTemplateRequest** | **StorePalworldTemplateRequest**|  |
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **createServerConfig**
 > ServerConfig createServerConfig(storeServerConfigRequest)
 
@@ -449,6 +732,7 @@ const request: AppApiCreateServerConfigRequest = {
     notes: "notes_example",
     binaryId: 1,
     resourcePackageSlug: "resourcePackageSlug_example",
+    dnsServiceEnabled: true,
     configFiles: [
       {
         target: "target_example",
@@ -485,6 +769,8 @@ const request: AppApiCreateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
+        dnsMode: "dns",
+        dnsPrivate: true,
       },
     ],
   },
@@ -1702,6 +1988,63 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **getAuthTokenViaFsid**
+> Auth getAuthTokenViaFsid(authFsidRequest)
+
+Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiGetAuthTokenViaFsidRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiGetAuthTokenViaFsidRequest = {
+  
+  authFsidRequest: {
+    fsid: "66ed926d7fb6accc041d5628z47dg673",
+  },
+};
+
+const data = await apiInstance.getAuthTokenViaFsid(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **authFsidRequest** | **AuthFsidRequest**|  |
+
+
+### Return type
+
+**Auth**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Auth&#x60; |  -  |
+**403** | An error |  -  |
+**422** | Validation error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **getBackups**
 > GetBackups200Response getBackups()
 
@@ -2520,6 +2863,8 @@ const request: AppApiGetServerConfigsRequest = {
   filterStatus: "filter[status]_example",
     // Filter by maintenance status. (optional)
   filterMaintenance: true,
+    // Filter by service-level DNS flag. (optional)
+  filterDnsServiceEnabled: true,
     // Filter by resource package slug. (optional)
   filterResourcePackageSlug: "filter[resourcePackageSlug]_example",
     // Filter by in use flag. (optional)
@@ -2556,6 +2901,7 @@ Name | Type | Description  | Notes
  **filterNotes** | [**string**] | Filter by notes. | (optional) defaults to undefined
  **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
  **filterMaintenance** | [**boolean**] | Filter by maintenance status. | (optional) defaults to undefined
+ **filterDnsServiceEnabled** | [**boolean**] | Filter by service-level DNS flag. | (optional) defaults to undefined
  **filterResourcePackageSlug** | [**string**] | Filter by resource package slug. | (optional) defaults to undefined
  **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
  **filterBinaryName** | [**string**] | Filter by binary name. | (optional) defaults to undefined
@@ -4546,142 +4892,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
-# **templateAppMinecraftStore**
-> App templateAppMinecraftStore()
-
-
-### Example
-
-
-```typescript
-import { createConfiguration, AppApi } from '';
-import type { AppApiTemplateAppMinecraftStoreRequest } from '';
-
-const configuration = createConfiguration();
-const apiInstance = new AppApi(configuration);
-
-const request: AppApiTemplateAppMinecraftStoreRequest = {
-  
-  storeMinecraftTemplateRequest: {
-    appName: "appName_example",
-    resourcePackageSlug: "resourcePackageSlug_example",
-    placement: {
-      constraints: {
-        city: "city_example",
-        cityDisplay: "cityDisplay_example",
-        continent: "continent_example",
-        country: "country_example",
-        isProtected: true,
-      },
-    },
-    password: "password_example",
-  },
-};
-
-const data = await apiInstance.templateAppMinecraftStore(request);
-console.log('API called successfully. Returned data:', data);
-```
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **storeMinecraftTemplateRequest** | **StoreMinecraftTemplateRequest**|  |
-
-
-### Return type
-
-**App**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | &#x60;App&#x60; |  -  |
-**401** | Unauthenticated |  -  |
-**422** | Validation error |  -  |
-**403** | Authorization error |  -  |
-
-[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
-
-# **templateAppPalworldStore**
-> App templateAppPalworldStore()
-
-
-### Example
-
-
-```typescript
-import { createConfiguration, AppApi } from '';
-import type { AppApiTemplateAppPalworldStoreRequest } from '';
-
-const configuration = createConfiguration();
-const apiInstance = new AppApi(configuration);
-
-const request: AppApiTemplateAppPalworldStoreRequest = {
-  
-  storePalworldTemplateRequest: {
-    appName: "appName_example",
-    resourcePackageSlug: "resourcePackageSlug_example",
-    placement: {
-      constraints: {
-        city: "city_example",
-        cityDisplay: "cityDisplay_example",
-        continent: "continent_example",
-        country: "country_example",
-        isProtected: true,
-      },
-    },
-    password: "password_example",
-  },
-};
-
-const data = await apiInstance.templateAppPalworldStore(request);
-console.log('API called successfully. Returned data:', data);
-```
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **storePalworldTemplateRequest** | **StorePalworldTemplateRequest**|  |
-
-
-### Return type
-
-**App**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | &#x60;App&#x60; |  -  |
-**401** | Unauthenticated |  -  |
-**422** | Validation error |  -  |
-**403** | Authorization error |  -  |
-
-[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
-
 # **updateAppById**
 > App updateAppById(updateAppRequest)
 
@@ -4982,6 +5192,7 @@ const request: AppApiUpdateServerConfigRequest = {
     notes: "notes_example",
     binaryId: 1,
     resourcePackageSlug: "resourcePackageSlug_example",
+    dnsServiceEnabled: true,
     configFiles: [
       {
         target: "target_example",
@@ -5018,6 +5229,8 @@ const request: AppApiUpdateServerConfigRequest = {
           "tcp",
         ],
         targetPort: 1,
+        dnsMode: "dns",
+        dnsPrivate: true,
       },
     ],
   },

@@ -12,10 +12,8 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export enum DnsMode {
+    Dns = 'dns',
+    DnsSsl = 'dns_ssl',
+    DnsSslRedirect = 'dns_ssl_redirect'
 }

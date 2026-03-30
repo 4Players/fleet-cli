@@ -15,7 +15,9 @@ import { HttpFile } from '../http/http.ts';
 export enum WalletCurrencyCode {
     Cpuh = 'CPUH',
     CpuhIndie = 'CPUH_INDIE',
+    CpuhMini = 'CPUH_MINI',
     Ramh = 'RAMH',
     RamhIndie = 'RAMH_INDIE',
+    RamhMini = 'RAMH_MINI',
     Eur = 'EUR'
 }

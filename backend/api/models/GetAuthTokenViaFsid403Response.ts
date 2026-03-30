@@ -12,10 +12,28 @@
 
 import { HttpFile } from '../http/http.ts';
 
-export enum AppBillingState {
-    Free = 'free',
-    Active = 'active',
-    Indie = 'indie',
-    Mini = 'mini',
-    External = 'external'
+export class GetAuthTokenViaFsid403Response {
+    /**
+    * Error overview.
+    */
+    'message': string;
+
+    static readonly discriminator: string | undefined = undefined;
+
+    static readonly mapping: {[index: string]: string} | undefined = undefined;
+
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "message",
+            "baseName": "message",
+            "type": "string",
+            "format": ""
+        }    ];
+
+    static getAttributeTypeMap() {
+        return GetAuthTokenViaFsid403Response.attributeTypeMap;
+    }
+
+    public constructor() {
+    }
 }

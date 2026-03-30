@@ -10,6 +10,7 @@ import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts'
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
 import { Auth } from '../models/Auth.ts';
+import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
@@ -21,9 +22,11 @@ import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerSe
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
+import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
@@ -33,6 +36,7 @@ import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationS
 import { GetAppLocationSettings200ResponseMetaLinksInner } from '../models/GetAppLocationSettings200ResponseMetaLinksInner.ts';
 import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
+import { GetAuthTokenViaFsid403Response } from '../models/GetAuthTokenViaFsid403Response.ts';
 import { GetBackups200Response } from '../models/GetBackups200Response.ts';
 import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
@@ -57,6 +61,7 @@ import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
+import { PortDefinitionRequest } from '../models/PortDefinitionRequest.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { ResourcePackageType } from '../models/ResourcePackageType.ts';
@@ -77,10 +82,20 @@ import { StoreAppRequest } from '../models/StoreAppRequest.ts';
 import { StoreBinaryRequest } from '../models/StoreBinaryRequest.ts';
 import { StoreDockerRegistryRequest } from '../models/StoreDockerRegistryRequest.ts';
 import { StoreMinecraftTemplateRequest } from '../models/StoreMinecraftTemplateRequest.ts';
+import { StoreOpenClawTemplateRequest } from '../models/StoreOpenClawTemplateRequest.ts';
+import { StoreOpenClawTemplateRequestApp } from '../models/StoreOpenClawTemplateRequestApp.ts';
+import { StoreOpenClawTemplateRequestAppLocationSetting } from '../models/StoreOpenClawTemplateRequestAppLocationSetting.ts';
+import { StoreOpenClawTemplateRequestPayment } from '../models/StoreOpenClawTemplateRequestPayment.ts';
+import { StoreOpenClawTemplateRequestServerConfig } from '../models/StoreOpenClawTemplateRequestServerConfig.ts';
 import { StorePalworldTemplateRequest } from '../models/StorePalworldTemplateRequest.ts';
 import { StoreServerConfigRequest } from '../models/StoreServerConfigRequest.ts';
 import { TaggedImage } from '../models/TaggedImage.ts';
 import { TaggedImageMetaData } from '../models/TaggedImageMetaData.ts';
+import { TemplateApp } from '../models/TemplateApp.ts';
+import { TemplateAppLocationSetting } from '../models/TemplateAppLocationSetting.ts';
+import { TemplateAppResult } from '../models/TemplateAppResult.ts';
+import { TemplateBinary } from '../models/TemplateBinary.ts';
+import { TemplateServerConfig } from '../models/TemplateServerConfig.ts';
 import { UpdateAppLocationSetting402Response } from '../models/UpdateAppLocationSetting402Response.ts';
 import { UpdateAppLocationSettingRequest } from '../models/UpdateAppLocationSettingRequest.ts';
 import { UpdateAppRequest } from '../models/UpdateAppRequest.ts';
@@ -106,6 +121,40 @@ export class ObservableAppApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new AppApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new AppApiResponseProcessor();
+    }
+
+    /**
+     * Check URL reachability for service DNS URLs
+     * @param app The app ID
+     * @param dockerService The docker service ID
+     */
+    public checkServerDnsWithHttpInfo(app: number, dockerService: number, _options?: ConfigurationOptions): Observable<HttpInfo<Array<DockerServiceDnsReachable>>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.checkServerDns(app, dockerService, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.checkServerDnsWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Check URL reachability for service DNS URLs
+     * @param app The app ID
+     * @param dockerService The docker service ID
+     */
+    public checkServerDns(app: number, dockerService: number, _options?: ConfigurationOptions): Observable<Array<DockerServiceDnsReachable>> {
+        return this.checkServerDnsWithHttpInfo(app, dockerService, _options).pipe(map((apiResponse: HttpInfo<Array<DockerServiceDnsReachable>>) => apiResponse.data));
     }
 
     /**
@@ -272,6 +321,102 @@ export class ObservableAppApi {
      */
     public createDockerRegistry(storeDockerRegistryRequest: StoreDockerRegistryRequest, _options?: ConfigurationOptions): Observable<DockerRegistry> {
         return this.createDockerRegistryWithHttpInfo(storeDockerRegistryRequest, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public createMinecraftTemplateWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.createMinecraftTemplate(storeMinecraftTemplateRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createMinecraftTemplateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Create a Minecraft template app
+     * @param [storeMinecraftTemplateRequest]
+     */
+    public createMinecraftTemplate(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: ConfigurationOptions): Observable<App> {
+        return this.createMinecraftTemplateWithHttpInfo(storeMinecraftTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param [storeOpenClawTemplateRequest]
+     */
+    public createOpenClawTemplateWithHttpInfo(storeOpenClawTemplateRequest?: StoreOpenClawTemplateRequest, _options?: ConfigurationOptions): Observable<HttpInfo<TemplateAppResult>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.createOpenClawTemplate(storeOpenClawTemplateRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createOpenClawTemplateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Create an OpenClaw template app
+     * @param [storeOpenClawTemplateRequest]
+     */
+    public createOpenClawTemplate(storeOpenClawTemplateRequest?: StoreOpenClawTemplateRequest, _options?: ConfigurationOptions): Observable<TemplateAppResult> {
+        return this.createOpenClawTemplateWithHttpInfo(storeOpenClawTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<TemplateAppResult>) => apiResponse.data));
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public createPalworldTemplateWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.createPalworldTemplate(storePalworldTemplateRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.createPalworldTemplateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Create a Palworld template app
+     * @param [storePalworldTemplateRequest]
+     */
+    public createPalworldTemplate(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: ConfigurationOptions): Observable<App> {
+        return this.createPalworldTemplateWithHttpInfo(storePalworldTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
     }
 
     /**
@@ -993,6 +1138,40 @@ export class ObservableAppApi {
     }
 
     /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param authFsidRequest
+     */
+    public getAuthTokenViaFsidWithHttpInfo(authFsidRequest: AuthFsidRequest, _options?: ConfigurationOptions): Observable<HttpInfo<Auth>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.getAuthTokenViaFsid(authFsidRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.getAuthTokenViaFsidWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Authenticates the user based on the Fusion Session ID (fsid). If the user is authenticated successfully, it returns the user\'s token.  The token is non-expiring and must be used as a Bearer token in subsequent requests.
+     * Get token via fsid
+     * @param authFsidRequest
+     */
+    public getAuthTokenViaFsid(authFsidRequest: AuthFsidRequest, _options?: ConfigurationOptions): Observable<Auth> {
+        return this.getAuthTokenViaFsidWithHttpInfo(authFsidRequest, _options).pipe(map((apiResponse: HttpInfo<Auth>) => apiResponse.data));
+    }
+
+    /**
      * List service backups
      * @param dockerService The docker service ID
      * @param [perPage] The number of items to be shown per page.
@@ -1461,6 +1640,7 @@ export class ObservableAppApi {
      * @param [filterNotes] Filter by notes.
      * @param [filterStatus] Filter by status.
      * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterDnsServiceEnabled] Filter by service-level DNS flag.
      * @param [filterResourcePackageSlug] Filter by resource package slug.
      * @param [filterInUse] Filter by in use flag.
      * @param [filterBinaryName] Filter by binary name.
@@ -1468,10 +1648,10 @@ export class ObservableAppApi {
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigs200Response>> {
+    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigs200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _config);
+        const requestContextPromise = this.requestFactory.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1503,6 +1683,7 @@ export class ObservableAppApi {
      * @param [filterNotes] Filter by notes.
      * @param [filterStatus] Filter by status.
      * @param [filterMaintenance] Filter by maintenance status.
+     * @param [filterDnsServiceEnabled] Filter by service-level DNS flag.
      * @param [filterResourcePackageSlug] Filter by resource package slug.
      * @param [filterInUse] Filter by in use flag.
      * @param [filterBinaryName] Filter by binary name.
@@ -1510,8 +1691,8 @@ export class ObservableAppApi {
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
      */
-    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<GetServerConfigs200Response> {
-        return this.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigs200Response>) => apiResponse.data));
+    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<GetServerConfigs200Response> {
+        return this.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigs200Response>) => apiResponse.data));
     }
 
     /**
@@ -2652,70 +2833,6 @@ export class ObservableAppApi {
      */
     public stopServersForServerConfig(serverConfig: number, _options?: ConfigurationOptions): Observable<void> {
         return this.stopServersForServerConfigWithHttpInfo(serverConfig, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param [storeMinecraftTemplateRequest]
-     */
-    public templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
-        const _config = mergeConfiguration(this.configuration, _options);
-
-        const requestContextPromise = this.requestFactory.templateAppMinecraftStore(storeMinecraftTemplateRequest, _config);
-        // build promise chain
-        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of _config.middleware) {
-            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
-        }
-
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
-            pipe(mergeMap((response: ResponseContext) => {
-                let middlewarePostObservable = of(response);
-                for (const middleware of _config.middleware.reverse()) {
-                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
-                }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.templateAppMinecraftStoreWithHttpInfo(rsp)));
-            }));
-    }
-
-    /**
-     * Create a Minecraft template app
-     * @param [storeMinecraftTemplateRequest]
-     */
-    public templateAppMinecraftStore(storeMinecraftTemplateRequest?: StoreMinecraftTemplateRequest, _options?: ConfigurationOptions): Observable<App> {
-        return this.templateAppMinecraftStoreWithHttpInfo(storeMinecraftTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param [storePalworldTemplateRequest]
-     */
-    public templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
-        const _config = mergeConfiguration(this.configuration, _options);
-
-        const requestContextPromise = this.requestFactory.templateAppPalworldStore(storePalworldTemplateRequest, _config);
-        // build promise chain
-        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
-        for (const middleware of _config.middleware) {
-            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
-        }
-
-        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
-            pipe(mergeMap((response: ResponseContext) => {
-                let middlewarePostObservable = of(response);
-                for (const middleware of _config.middleware.reverse()) {
-                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
-                }
-                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.templateAppPalworldStoreWithHttpInfo(rsp)));
-            }));
-    }
-
-    /**
-     * Create a Palworld template app
-     * @param [storePalworldTemplateRequest]
-     */
-    public templateAppPalworldStore(storePalworldTemplateRequest?: StorePalworldTemplateRequest, _options?: ConfigurationOptions): Observable<App> {
-        return this.templateAppPalworldStoreWithHttpInfo(storePalworldTemplateRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
     }
 
     /**

@@ -1559,6 +1559,61 @@
                 }
             }
         },
+        "\/v1\/auth\/token\/fsid": {
+            "post": {
+                "operationId": "getAuthTokenViaFsid",
+                "description": "Authenticates the user based on the Fusion Session ID (fsid).\nIf the user is authenticated successfully, it returns the user's token.\n\nThe token is non-expiring and must be used as a Bearer token in subsequent requests.",
+                "summary": "Get token via fsid",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/AuthFsidRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Auth`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Auth"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "An error",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "description": "Error overview.",
+                                            "example": "Login is disabled for this account on this environment."
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
         "\/v1\/apps\/{app}\/binaries": {
             "get": {
                 "operationId": "getBinaries",
@@ -2615,6 +2670,60 @@
                             "application\/json": {
                                 "schema": {
                                     "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/apps\/{app}\/services\/{dockerService}\/dns": {
+            "get": {
+                "operationId": "checkServerDns",
+                "summary": "Check URL reachability for service DNS URLs",
+                "tags": [
+                    "Docker",
+                    "DockerService"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of `DockerServiceDnsReachable`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#\/components\/schemas\/DockerServiceDnsReachable"
+                                    }
                                 }
                             }
                         }
@@ -5310,6 +5419,8 @@
                                 "statusMessage",
                                 "-maintenance",
                                 "maintenance",
+                                "-dnsServiceEnabled",
+                                "dnsServiceEnabled",
                                 "-resourcePackageSlug",
                                 "resourcePackageSlug",
                                 "-inUse",
@@ -5398,6 +5509,14 @@
                         "name": "filter[maintenance]",
                         "in": "query",
                         "description": "Filter by maintenance status.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[dnsServiceEnabled]",
+                        "in": "query",
+                        "description": "Filter by service-level DNS flag.",
                         "schema": {
                             "type": "boolean"
                         }
@@ -6002,7 +6121,7 @@
         },
         "\/v1\/templates\/apps\/palworld": {
             "post": {
-                "operationId": "template.app.palworld.store",
+                "operationId": "createPalworldTemplate",
                 "summary": "Create a Palworld template app",
                 "tags": [
                     "Templates",
@@ -6042,7 +6161,7 @@
         },
         "\/v1\/templates\/apps\/minecraft": {
             "post": {
-                "operationId": "template.app.minecraft.store",
+                "operationId": "createMinecraftTemplate",
                 "summary": "Create a Minecraft template app",
                 "tags": [
                     "Templates",
@@ -6076,6 +6195,64 @@
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/templates\/apps\/openclaw": {
+            "post": {
+                "operationId": "createOpenClawTemplate",
+                "summary": "Create an OpenClaw template app",
+                "tags": [
+                    "Templates",
+                    "TemplateApp"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/StoreOpenClawTemplateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`TemplateAppResult`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/TemplateAppResult"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "description": "Payment project not found",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -6134,8 +6311,9 @@
                 "enum": [
                     "free",
                     "active",
-                    "cancelled",
-                    "indie"
+                    "indie",
+                    "mini",
+                    "external"
                 ],
                 "title": "AppBillingState"
             },
@@ -6264,6 +6442,21 @@
                     "token"
                 ],
                 "title": "Auth"
+            },
+            "AuthFsidRequest": {
+                "type": "object",
+                "properties": {
+                    "fsid": {
+                        "type": "string",
+                        "description": "The fusion session id of the user",
+                        "example": "66ed926d7fb6accc041d5628z47dg673",
+                        "maxLength": 191
+                    }
+                },
+                "required": [
+                    "fsid"
+                ],
+                "title": "AuthFsidRequest"
             },
             "AuthRequest": {
                 "type": "object",
@@ -6587,6 +6780,15 @@
                 ],
                 "title": "CreateUpdateSteam"
             },
+            "DnsMode": {
+                "type": "string",
+                "enum": [
+                    "dns",
+                    "dns_ssl",
+                    "dns_ssl_redirect"
+                ],
+                "title": "DnsMode"
+            },
             "DockerImage": {
                 "type": "object",
                 "properties": {
@@ -6706,6 +6908,45 @@
                     "other"
                 ],
                 "title": "DockerRegistryType"
+            },
+            "DockerServiceDnsReachable": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name for the port"
+                    },
+                    "dnsHttp": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Public URL over http"
+                    },
+                    "dnsHttps": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Public URL over https"
+                    },
+                    "dnsHttpReachable": {
+                        "type": "boolean",
+                        "description": "Indicates whether the dnsHttp url is reachable"
+                    },
+                    "dnsHttpsReachable": {
+                        "type": "boolean",
+                        "description": "Indicates whether the dnsHttps url is reachable"
+                    }
+                },
+                "required": [
+                    "name",
+                    "dnsHttp",
+                    "dnsHttps",
+                    "dnsHttpReachable",
+                    "dnsHttpsReachable"
+                ],
+                "title": "DockerServiceDnsReachable"
             },
             "EnvironmentVariable": {
                 "type": "object",
@@ -7034,13 +7275,46 @@
                             "null"
                         ],
                         "description": "The externally published port, which allows external access. If `null`, the port has not yet been assigned."
+                    },
+                    "dnsMode": {
+                        "anyOf": [
+                            {
+                                "description": "DNS mode of the port",
+                                "$ref": "#\/components\/schemas\/DnsMode"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "dnsPrivate": {
+                        "type": "boolean",
+                        "description": "Indicates if the port should be private (not publicly published)"
+                    },
+                    "dnsHttp": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Public URL over http"
+                    },
+                    "dnsHttps": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Public URL over https"
                     }
                 },
                 "required": [
                     "name",
                     "protocol",
                     "targetPort",
-                    "publishedPort"
+                    "publishedPort",
+                    "dnsMode",
+                    "dnsPrivate",
+                    "dnsHttp",
+                    "dnsHttps"
                 ],
                 "title": "Port"
             },
@@ -7061,6 +7335,64 @@
                     "targetPort": {
                         "type": "integer",
                         "description": "The port to expose"
+                    },
+                    "dnsMode": {
+                        "anyOf": [
+                            {
+                                "description": "The DNS mode",
+                                "$ref": "#\/components\/schemas\/DnsMode"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "dnsPrivate": {
+                        "type": "boolean",
+                        "description": "Indicates if the port should be private (not publicly published)"
+                    }
+                },
+                "required": [
+                    "name",
+                    "protocols",
+                    "targetPort",
+                    "dnsMode",
+                    "dnsPrivate"
+                ],
+                "title": "PortDefinition"
+            },
+            "PortDefinitionRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the server config"
+                    },
+                    "protocols": {
+                        "type": "array",
+                        "description": "The protocols to expose",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/Protocol"
+                        }
+                    },
+                    "targetPort": {
+                        "type": "integer",
+                        "description": "The port to expose"
+                    },
+                    "dnsMode": {
+                        "anyOf": [
+                            {
+                                "description": "The DNS mode",
+                                "$ref": "#\/components\/schemas\/DnsMode"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "dnsPrivate": {
+                        "type": "boolean",
+                        "description": "Indicates if the port should be private (not publicly published)"
                     }
                 },
                 "required": [
@@ -7068,7 +7400,7 @@
                     "protocols",
                     "targetPort"
                 ],
-                "title": "PortDefinition"
+                "title": "PortDefinitionRequest"
             },
             "Protocol": {
                 "type": "string",
@@ -7213,6 +7545,13 @@
                         ],
                         "description": "An optional message"
                     },
+                    "dns": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "The FQDN of the service"
+                    },
                     "isBackupable": {
                         "type": "boolean",
                         "description": "Indicates whether the service can be backed up"
@@ -7309,6 +7648,7 @@
                     "name",
                     "status",
                     "status_message",
+                    "dns",
                     "isBackupable",
                     "isRestorable",
                     "isPending",
@@ -7394,6 +7734,10 @@
                         "type": "boolean",
                         "description": "Indicates whether the server config is currently in use"
                     },
+                    "dnsServiceEnabled": {
+                        "type": "boolean",
+                        "description": "Indicates whether service-level DNS is enabled"
+                    },
                     "restartPolicy": {
                         "description": "The policy used to restart this server",
                         "$ref": "#\/components\/schemas\/RestartPolicy"
@@ -7451,6 +7795,7 @@
                     "maintenance",
                     "resourcePackageSlug",
                     "inUse",
+                    "dnsServiceEnabled",
                     "restartPolicy",
                     "env",
                     "mounts",
@@ -7690,7 +8035,8 @@
                 "enum": [
                     "scout",
                     "soldier",
-                    "sniper"
+                    "sniper",
+                    "steamrt4"
                 ],
                 "title": "SteamRuntime"
             },
@@ -7901,6 +8247,88 @@
                 },
                 "title": "StoreMinecraftTemplateRequest"
             },
+            "StoreOpenClawTemplateRequest": {
+                "type": "object",
+                "properties": {
+                    "app": {
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "description": "The name of the template app.\nIf omitted, a default name will be used."
+                            }
+                        }
+                    },
+                    "serverConfig": {
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "properties": {
+                            "resourcePackageSlug": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "description": "The slug of the resource package.\nIf omitted, a default resource package will be used.",
+                                "maxLength": 255
+                            },
+                            "env": {
+                                "type": "array",
+                                "description": "The environment variables of the server configuration.",
+                                "items": {
+                                    "$ref": "#\/components\/schemas\/EnvironmentVariableDefinition"
+                                }
+                            }
+                        }
+                    },
+                    "appLocationSetting": {
+                        "type": [
+                            "object",
+                            "null"
+                        ],
+                        "properties": {
+                            "placement": {
+                                "anyOf": [
+                                    {
+                                        "description": "The placement settings that define the location and other constraints\nIf omitted, no deployment will be created.",
+                                        "$ref": "#\/components\/schemas\/CreateUpdatePlacement"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ]
+                            },
+                            "password": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
+                            }
+                        }
+                    },
+                    "payment": {
+                        "type": "object",
+                        "properties": {
+                            "projectId": {
+                                "type": [
+                                    "string",
+                                    "null"
+                                ],
+                                "description": "Payment project ID. If omitted, no payment linking will be performed."
+                            }
+                        }
+                    }
+                },
+                "title": "StoreOpenClawTemplateRequest"
+            },
             "StorePalworldTemplateRequest": {
                 "type": "object",
                 "properties": {
@@ -7982,6 +8410,10 @@
                         "description": "The slug of the resource package",
                         "maxLength": 255
                     },
+                    "dnsServiceEnabled": {
+                        "type": "boolean",
+                        "description": "Enable service-level DNS"
+                    },
                     "configFiles": {
                         "type": "array",
                         "description": "The config files used in this server configuration",
@@ -8018,7 +8450,7 @@
                         "type": "array",
                         "description": "The port definitions",
                         "items": {
-                            "$ref": "#\/components\/schemas\/PortDefinition"
+                            "$ref": "#\/components\/schemas\/PortDefinitionRequest"
                         }
                     }
                 },
@@ -8077,6 +8509,115 @@
                     "cached_at"
                 ],
                 "title": "TaggedImageMetaData"
+            },
+            "TemplateApp": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The id of the app"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the app"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "TemplateApp"
+            },
+            "TemplateAppLocationSetting": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The id of the app location setting"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the app location setting"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "TemplateAppLocationSetting"
+            },
+            "TemplateAppResult": {
+                "type": "object",
+                "properties": {
+                    "app": {
+                        "description": "The created template app",
+                        "$ref": "#\/components\/schemas\/TemplateApp"
+                    },
+                    "binaries": {
+                        "type": "array",
+                        "description": "The binaries created for this template app",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/TemplateBinary"
+                        }
+                    },
+                    "serverConfigs": {
+                        "type": "array",
+                        "description": "The server configs created for this template app",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/TemplateServerConfig"
+                        }
+                    },
+                    "appLocationSettings": {
+                        "type": "array",
+                        "description": "The app location settings created for this template app",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/TemplateAppLocationSetting"
+                        }
+                    }
+                },
+                "required": [
+                    "app",
+                    "binaries",
+                    "serverConfigs",
+                    "appLocationSettings"
+                ],
+                "title": "TemplateAppResult"
+            },
+            "TemplateBinary": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The id of the binary"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the binary"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "TemplateBinary"
+            },
+            "TemplateServerConfig": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "The id of the server config"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the server config"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "title": "TemplateServerConfig"
             },
             "UpdateAppLocationSettingRequest": {
                 "type": "object",
@@ -8271,6 +8812,10 @@
                         "description": "The slug of the resource package",
                         "maxLength": 255
                     },
+                    "dnsServiceEnabled": {
+                        "type": "boolean",
+                        "description": "Enable service-level DNS"
+                    },
                     "configFiles": {
                         "type": "array",
                         "description": "The config files used in this server configuration",
@@ -8307,7 +8852,7 @@
                         "type": "array",
                         "description": "The port definitions",
                         "items": {
-                            "$ref": "#\/components\/schemas\/PortDefinition"
+                            "$ref": "#\/components\/schemas\/PortDefinitionRequest"
                         }
                     }
                 },
@@ -8397,8 +8942,10 @@
                 "enum": [
                     "CPUH",
                     "CPUH_INDIE",
+                    "CPUH_MINI",
                     "RAMH",
                     "RAMH_INDIE",
+                    "RAMH_MINI",
                     "EUR"
                 ],
                 "title": "WalletCurrencyCode"

@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+import { DnsMode } from '../models/DnsMode.ts';
 import { Protocol } from '../models/Protocol.ts';
 import { HttpFile } from '../http/http.ts';
 
@@ -30,6 +31,22 @@ export class Port {
     * The externally published port, which allows external access. If `null`, the port has not yet been assigned.
     */
     'publishedPort': number | null;
+    /**
+    * DNS mode of the port
+    */
+    'dnsMode': DnsMode | null;
+    /**
+    * Indicates if the port should be private (not publicly published)
+    */
+    'dnsPrivate': boolean;
+    /**
+    * Public URL over http
+    */
+    'dnsHttp': string | null;
+    /**
+    * Public URL over https
+    */
+    'dnsHttps': string | null;
 
     static readonly discriminator: string | undefined = undefined;
 
@@ -58,6 +75,30 @@ export class Port {
             "name": "publishedPort",
             "baseName": "publishedPort",
             "type": "number",
+            "format": ""
+        },
+        {
+            "name": "dnsMode",
+            "baseName": "dnsMode",
+            "type": "DnsMode",
+            "format": ""
+        },
+        {
+            "name": "dnsPrivate",
+            "baseName": "dnsPrivate",
+            "type": "boolean",
+            "format": ""
+        },
+        {
+            "name": "dnsHttp",
+            "baseName": "dnsHttp",
+            "type": "string",
+            "format": ""
+        },
+        {
+            "name": "dnsHttps",
+            "baseName": "dnsHttps",
+            "type": "string",
             "format": ""
         }    ];
 
