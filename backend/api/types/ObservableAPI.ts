@@ -3,9 +3,13 @@ import { Configuration, ConfigurationOptions, mergeConfiguration } from '../conf
 import type { Middleware } from '../middleware.ts';
 import { Observable, of, from } from '../rxjsStub.ts';
 import {mergeMap, map} from  '../rxjsStub.ts';
+import { AllocateAppLocationSettingAutoscalingRequest } from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
+import { AllocateAppLocationSettingAutoscalingRequestFilter } from '../models/AllocateAppLocationSettingAutoscalingRequestFilter.ts';
 import { App } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingAutoscaling } from '../models/AppLocationSettingAutoscaling.ts';
+import { AppLocationSettingCapacity } from '../models/AppLocationSettingCapacity.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -14,11 +18,16 @@ import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
+import { BinariesMetadataSet200Response } from '../models/BinariesMetadataSet200Response.ts';
 import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
+import { CheckCapacityAppLocationSettingRequest } from '../models/CheckCapacityAppLocationSettingRequest.ts';
+import { CheckCapacityAppLocationSettingRequestPlacement } from '../models/CheckCapacityAppLocationSettingRequestPlacement.ts';
+import { CheckCapacityAppLocationSettingRequestPlacementConstraints } from '../models/CheckCapacityAppLocationSettingRequestPlacementConstraints.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateAutoscaling } from '../models/CreateUpdateAutoscaling.ts';
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
@@ -26,10 +35,13 @@ import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceAutoscaling } from '../models/DockerServiceAutoscaling.ts';
+import { DockerServiceAutoscalingStatus } from '../models/DockerServiceAutoscalingStatus.ts';
 import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettingById200Response } from '../models/GetAppLocationSettingById200Response.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
@@ -42,12 +54,14 @@ import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
 import { GetLocations200Response } from '../models/GetLocations200Response.ts';
 import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigById200Response } from '../models/GetServerConfigById200Response.ts';
 import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { LocationIndex } from '../models/LocationIndex.ts';
+import { LocationLoad } from '../models/LocationLoad.ts';
 import { MetricData } from '../models/MetricData.ts';
 import { MetricInstantData } from '../models/MetricInstantData.ts';
 import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
@@ -56,8 +70,14 @@ import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
 import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
+import { OccupiedLocationRequest } from '../models/OccupiedLocationRequest.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchAppLocationSettingMetadataRequest } from '../models/PatchAppLocationSettingMetadataRequest.ts';
+import { PatchAppMetadataRequest } from '../models/PatchAppMetadataRequest.ts';
+import { PatchBinaryMetadataRequest } from '../models/PatchBinaryMetadataRequest.ts';
+import { PatchDockerRegistryMetadataRequest } from '../models/PatchDockerRegistryMetadataRequest.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
+import { PatchServerConfigMetadataRequest } from '../models/PatchServerConfigMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
@@ -72,7 +92,12 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetAppLocationSettingMetadataRequest } from '../models/SetAppLocationSettingMetadataRequest.ts';
+import { SetAppMetadataRequest } from '../models/SetAppMetadataRequest.ts';
+import { SetBinaryMetadataRequest } from '../models/SetBinaryMetadataRequest.ts';
+import { SetDockerRegistryMetadataRequest } from '../models/SetDockerRegistryMetadataRequest.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
+import { SetServerConfigMetadataRequest } from '../models/SetServerConfigMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -121,6 +146,488 @@ export class ObservableAppApi {
         this.configuration = configuration;
         this.requestFactory = requestFactory || new AppApiRequestFactory(configuration);
         this.responseProcessor = responseProcessor || new AppApiResponseProcessor();
+    }
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param appLocationSetting The app location setting ID
+     * @param [allocateAppLocationSettingAutoscalingRequest]
+     */
+    public appLocationSettingsAutoscalingAllocateWithHttpInfo(appLocationSetting: number, allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<Server>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appLocationSettingsAutoscalingAllocate(appLocationSetting, allocateAppLocationSettingAutoscalingRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appLocationSettingsAutoscalingAllocateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param appLocationSetting The app location setting ID
+     * @param [allocateAppLocationSettingAutoscalingRequest]
+     */
+    public appLocationSettingsAutoscalingAllocate(appLocationSetting: number, allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest, _options?: ConfigurationOptions): Observable<Server> {
+        return this.appLocationSettingsAutoscalingAllocateWithHttpInfo(appLocationSetting, allocateAppLocationSettingAutoscalingRequest, _options).pipe(map((apiResponse: HttpInfo<Server>) => apiResponse.data));
+    }
+
+    /**
+     * Delete all metadata
+     * @param appLocationSetting The app location setting ID
+     */
+    public appLocationSettingsMetadataDeleteAllWithHttpInfo(appLocationSetting: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appLocationSettingsMetadataDeleteAll(appLocationSetting, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appLocationSettingsMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata
+     * @param appLocationSetting The app location setting ID
+     */
+    public appLocationSettingsMetadataDeleteAll(appLocationSetting: number, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.appLocationSettingsMetadataDeleteAllWithHttpInfo(appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param appLocationSetting The app location setting ID
+     * @param metadata
+     */
+    public appLocationSettingsMetadataDeleteKeysWithHttpInfo(appLocationSetting: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appLocationSettingsMetadataDeleteKeys(appLocationSetting, metadata, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appLocationSettingsMetadataDeleteKeysWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param appLocationSetting The app location setting ID
+     * @param metadata
+     */
+    public appLocationSettingsMetadataDeleteKeys(appLocationSetting: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.appLocationSettingsMetadataDeleteKeysWithHttpInfo(appLocationSetting, metadata, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [setAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataSetWithHttpInfo(appLocationSetting: number, setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appLocationSettingsMetadataSet(appLocationSetting, setAppLocationSettingMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appLocationSettingsMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [setAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataSet(appLocationSetting: number, setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.appLocationSettingsMetadataSetWithHttpInfo(appLocationSetting, setAppLocationSettingMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [patchAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataUpdateWithHttpInfo(appLocationSetting: number, patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appLocationSettingsMetadataUpdate(appLocationSetting, patchAppLocationSettingMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appLocationSettingsMetadataUpdateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [patchAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataUpdate(appLocationSetting: number, patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.appLocationSettingsMetadataUpdateWithHttpInfo(appLocationSetting, patchAppLocationSettingMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Delete all metadata
+     * @param app The app ID
+     */
+    public appsMetadataDeleteAllWithHttpInfo(app: number, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appsMetadataDeleteAll(app, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appsMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata
+     * @param app The app ID
+     */
+    public appsMetadataDeleteAll(app: number, _options?: ConfigurationOptions): Observable<App> {
+        return this.appsMetadataDeleteAllWithHttpInfo(app, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param app The app ID
+     * @param metadata
+     */
+    public appsMetadataDeleteKeysWithHttpInfo(app: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appsMetadataDeleteKeys(app, metadata, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appsMetadataDeleteKeysWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param app The app ID
+     * @param metadata
+     */
+    public appsMetadataDeleteKeys(app: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<App> {
+        return this.appsMetadataDeleteKeysWithHttpInfo(app, metadata, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param app The app ID
+     * @param [setAppMetadataRequest]
+     */
+    public appsMetadataSetWithHttpInfo(app: number, setAppMetadataRequest?: SetAppMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appsMetadataSet(app, setAppMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appsMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param app The app ID
+     * @param [setAppMetadataRequest]
+     */
+    public appsMetadataSet(app: number, setAppMetadataRequest?: SetAppMetadataRequest, _options?: ConfigurationOptions): Observable<App> {
+        return this.appsMetadataSetWithHttpInfo(app, setAppMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param app The app ID
+     * @param [patchAppMetadataRequest]
+     */
+    public appsMetadataUpdateWithHttpInfo(app: number, patchAppMetadataRequest?: PatchAppMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<App>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.appsMetadataUpdate(app, patchAppMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.appsMetadataUpdateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param app The app ID
+     * @param [patchAppMetadataRequest]
+     */
+    public appsMetadataUpdate(app: number, patchAppMetadataRequest?: PatchAppMetadataRequest, _options?: ConfigurationOptions): Observable<App> {
+        return this.appsMetadataUpdateWithHttpInfo(app, patchAppMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<App>) => apiResponse.data));
+    }
+
+    /**
+     * Delete all metadata
+     * @param binary The binary ID
+     */
+    public binariesMetadataDeleteAllWithHttpInfo(binary: number, _options?: ConfigurationOptions): Observable<HttpInfo<BinariesMetadataSet200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.binariesMetadataDeleteAll(binary, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.binariesMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata
+     * @param binary The binary ID
+     */
+    public binariesMetadataDeleteAll(binary: number, _options?: ConfigurationOptions): Observable<BinariesMetadataSet200Response> {
+        return this.binariesMetadataDeleteAllWithHttpInfo(binary, _options).pipe(map((apiResponse: HttpInfo<BinariesMetadataSet200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param binary The binary ID
+     * @param metadata
+     */
+    public binariesMetadataDeleteKeysWithHttpInfo(binary: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<BinariesMetadataSet200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.binariesMetadataDeleteKeys(binary, metadata, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.binariesMetadataDeleteKeysWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param binary The binary ID
+     * @param metadata
+     */
+    public binariesMetadataDeleteKeys(binary: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<BinariesMetadataSet200Response> {
+        return this.binariesMetadataDeleteKeysWithHttpInfo(binary, metadata, _options).pipe(map((apiResponse: HttpInfo<BinariesMetadataSet200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param binary The binary ID
+     * @param [setBinaryMetadataRequest]
+     */
+    public binariesMetadataSetWithHttpInfo(binary: number, setBinaryMetadataRequest?: SetBinaryMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<BinariesMetadataSet200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.binariesMetadataSet(binary, setBinaryMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.binariesMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param binary The binary ID
+     * @param [setBinaryMetadataRequest]
+     */
+    public binariesMetadataSet(binary: number, setBinaryMetadataRequest?: SetBinaryMetadataRequest, _options?: ConfigurationOptions): Observable<BinariesMetadataSet200Response> {
+        return this.binariesMetadataSetWithHttpInfo(binary, setBinaryMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<BinariesMetadataSet200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param binary The binary ID
+     * @param [patchBinaryMetadataRequest]
+     */
+    public binariesMetadataUpdateWithHttpInfo(binary: number, patchBinaryMetadataRequest?: PatchBinaryMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<BinariesMetadataSet200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.binariesMetadataUpdate(binary, patchBinaryMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.binariesMetadataUpdateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param binary The binary ID
+     * @param [patchBinaryMetadataRequest]
+     */
+    public binariesMetadataUpdate(binary: number, patchBinaryMetadataRequest?: PatchBinaryMetadataRequest, _options?: ConfigurationOptions): Observable<BinariesMetadataSet200Response> {
+        return this.binariesMetadataUpdateWithHttpInfo(binary, patchBinaryMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<BinariesMetadataSet200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param app The app ID
+     * @param checkCapacityAppLocationSettingRequest
+     */
+    public checkCapacityWithHttpInfo(app: number, checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<AppLocationSettingCapacity>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.checkCapacity(app, checkCapacityAppLocationSettingRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.checkCapacityWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param app The app ID
+     * @param checkCapacityAppLocationSettingRequest
+     */
+    public checkCapacity(app: number, checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<AppLocationSettingCapacity> {
+        return this.checkCapacityWithHttpInfo(app, checkCapacityAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<AppLocationSettingCapacity>) => apiResponse.data));
     }
 
     /**
@@ -194,7 +701,7 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest
      */
-    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.createAppLocationSetting(app, storeAppLocationSettingRequest, _config);
@@ -219,8 +726,8 @@ export class ObservableAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest
      */
-    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<AppLocationSetting> {
-        return this.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<AppLocationSetting>) => apiResponse.data));
+    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
     }
 
     /**
@@ -708,6 +1215,272 @@ export class ObservableAppApi {
     }
 
     /**
+     * Delete all metadata
+     * @param dockerRegistry The docker registry ID
+     */
+    public dockerRegistriesMetadataDeleteAllWithHttpInfo(dockerRegistry: number, _options?: ConfigurationOptions): Observable<HttpInfo<DockerRegistry>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerRegistriesMetadataDeleteAll(dockerRegistry, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerRegistriesMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata
+     * @param dockerRegistry The docker registry ID
+     */
+    public dockerRegistriesMetadataDeleteAll(dockerRegistry: number, _options?: ConfigurationOptions): Observable<DockerRegistry> {
+        return this.dockerRegistriesMetadataDeleteAllWithHttpInfo(dockerRegistry, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param dockerRegistry The docker registry ID
+     * @param metadata
+     */
+    public dockerRegistriesMetadataDeleteKeysWithHttpInfo(dockerRegistry: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<DockerRegistry>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerRegistriesMetadataDeleteKeys(dockerRegistry, metadata, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerRegistriesMetadataDeleteKeysWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param dockerRegistry The docker registry ID
+     * @param metadata
+     */
+    public dockerRegistriesMetadataDeleteKeys(dockerRegistry: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<DockerRegistry> {
+        return this.dockerRegistriesMetadataDeleteKeysWithHttpInfo(dockerRegistry, metadata, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [setDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataSetWithHttpInfo(dockerRegistry: number, setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<DockerRegistry>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerRegistriesMetadataSet(dockerRegistry, setDockerRegistryMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerRegistriesMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [setDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataSet(dockerRegistry: number, setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest, _options?: ConfigurationOptions): Observable<DockerRegistry> {
+        return this.dockerRegistriesMetadataSetWithHttpInfo(dockerRegistry, setDockerRegistryMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [patchDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataUpdateWithHttpInfo(dockerRegistry: number, patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<DockerRegistry>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerRegistriesMetadataUpdate(dockerRegistry, patchDockerRegistryMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerRegistriesMetadataUpdateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [patchDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataUpdate(dockerRegistry: number, patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest, _options?: ConfigurationOptions): Observable<DockerRegistry> {
+        return this.dockerRegistriesMetadataUpdateWithHttpInfo(dockerRegistry, patchDockerRegistryMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<DockerRegistry>) => apiResponse.data));
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingAllocateWithHttpInfo(dockerService: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerServicesAutoscalingAllocate(dockerService, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesAutoscalingAllocateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingAllocate(dockerService: number, _options?: ConfigurationOptions): Observable<void> {
+        return this.dockerServicesAutoscalingAllocateWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingHealthWithHttpInfo(dockerService: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerServicesAutoscalingHealth(dockerService, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesAutoscalingHealthWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingHealth(dockerService: number, _options?: ConfigurationOptions): Observable<void> {
+        return this.dockerServicesAutoscalingHealthWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingReadyWithHttpInfo(dockerService: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerServicesAutoscalingReady(dockerService, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesAutoscalingReadyWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingReady(dockerService: number, _options?: ConfigurationOptions): Observable<void> {
+        return this.dockerServicesAutoscalingReadyWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingShutdownWithHttpInfo(dockerService: number, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.dockerServicesAutoscalingShutdown(dockerService, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.dockerServicesAutoscalingShutdownWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingShutdown(dockerService: number, _options?: ConfigurationOptions): Observable<void> {
+        return this.dockerServicesAutoscalingShutdownWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
      * Delete all service metadata
      * @param dockerService The docker service ID
      */
@@ -915,7 +1688,7 @@ export class ObservableAppApi {
      * Show a specific app location setting
      * @param appLocationSetting The app location setting ID
      */
-    public getAppLocationSettingByIdWithHttpInfo(appLocationSetting: number, _options?: ConfigurationOptions): Observable<HttpInfo<AppLocationSetting>> {
+    public getAppLocationSettingByIdWithHttpInfo(appLocationSetting: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.getAppLocationSettingById(appLocationSetting, _config);
@@ -939,8 +1712,8 @@ export class ObservableAppApi {
      * Show a specific app location setting
      * @param appLocationSetting The app location setting ID
      */
-    public getAppLocationSettingById(appLocationSetting: number, _options?: ConfigurationOptions): Observable<AppLocationSetting> {
-        return this.getAppLocationSettingByIdWithHttpInfo(appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<AppLocationSetting>) => apiResponse.data));
+    public getAppLocationSettingById(appLocationSetting: number, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.getAppLocationSettingByIdWithHttpInfo(appLocationSetting, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
     }
 
     /**
@@ -967,11 +1740,12 @@ export class ObservableAppApi {
      * @param [filterServerConfigStatus] Filter by ServerConfig status.
      * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
      * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppLocationSettingsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettings200Response>> {
+    public getAppLocationSettingsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettings200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getAppLocationSettings(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, _config);
+        const requestContextPromise = this.requestFactory.getAppLocationSettings(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, filterMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1012,9 +1786,10 @@ export class ObservableAppApi {
      * @param [filterServerConfigStatus] Filter by ServerConfig status.
      * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
      * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: ConfigurationOptions): Observable<GetAppLocationSettings200Response> {
-        return this.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettings200Response>) => apiResponse.data));
+    public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<GetAppLocationSettings200Response> {
+        return this.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettings200Response>) => apiResponse.data));
     }
 
     /**
@@ -1026,7 +1801,7 @@ export class ObservableAppApi {
      * @param [filterId] Filter by id.
      * @param [filterBalance] Filter by balance.
      */
-    public getAppWalletsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppWallets200Response>> {
+    public getAppWalletsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-balance' | 'balance'>, filterId?: number, filterBalance?: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppWallets200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.getAppWallets(app, perPage, page, sort, filterId, filterBalance, _config);
@@ -1055,7 +1830,7 @@ export class ObservableAppApi {
      * @param [filterId] Filter by id.
      * @param [filterBalance] Filter by balance.
      */
-    public getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: ConfigurationOptions): Observable<GetAppWallets200Response> {
+    public getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-balance' | 'balance'>, filterId?: number, filterBalance?: number, _options?: ConfigurationOptions): Observable<GetAppWallets200Response> {
         return this.getAppWalletsWithHttpInfo(app, perPage, page, sort, filterId, filterBalance, _options).pipe(map((apiResponse: HttpInfo<GetAppWallets200Response>) => apiResponse.data));
     }
 
@@ -1068,11 +1843,12 @@ export class ObservableAppApi {
      * @param [filterName] Filter by name.
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppsWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: ConfigurationOptions): Observable<HttpInfo<GetApps200Response>> {
+    public getAppsWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, filterMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetApps200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getApps(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, _config);
+        const requestContextPromise = this.requestFactory.getApps(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, filterMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1098,9 +1874,10 @@ export class ObservableAppApi {
      * @param [filterName] Filter by name.
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getApps(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: ConfigurationOptions): Observable<GetApps200Response> {
-        return this.getAppsWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, _options).pipe(map((apiResponse: HttpInfo<GetApps200Response>) => apiResponse.data));
+    public getApps(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, filterMetadata?: string, _options?: ConfigurationOptions): Observable<GetApps200Response> {
+        return this.getAppsWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetApps200Response>) => apiResponse.data));
     }
 
     /**
@@ -1180,7 +1957,7 @@ export class ObservableAppApi {
      * @param [filterName] Filter by name.
      * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackupsWithHttpInfo(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetBackups200Response>> {
+    public getBackupsWithHttpInfo(dockerService: number, perPage?: number, page?: number, sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>, filterName?: string, filterArchiveName?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetBackups200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.getBackups(dockerService, perPage, page, sort, filterName, filterArchiveName, _config);
@@ -1209,7 +1986,7 @@ export class ObservableAppApi {
      * @param [filterName] Filter by name.
      * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: ConfigurationOptions): Observable<GetBackups200Response> {
+    public getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>, filterName?: string, filterArchiveName?: string, _options?: ConfigurationOptions): Observable<GetBackups200Response> {
         return this.getBackupsWithHttpInfo(dockerService, perPage, page, sort, filterName, filterArchiveName, _options).pipe(map((apiResponse: HttpInfo<GetBackups200Response>) => apiResponse.data));
     }
 
@@ -1227,11 +2004,12 @@ export class ObservableAppApi {
      * @param [filterMaintenance] Filter by maintenance status.
      * @param [filterStatus] Filter by status.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getBinariesWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: ConfigurationOptions): Observable<HttpInfo<GetBinaries200Response>> {
+    public getBinariesWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, filterMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetBinaries200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getBinaries(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, _config);
+        const requestContextPromise = this.requestFactory.getBinaries(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, filterMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1262,9 +2040,10 @@ export class ObservableAppApi {
      * @param [filterMaintenance] Filter by maintenance status.
      * @param [filterStatus] Filter by status.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getBinaries(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: ConfigurationOptions): Observable<GetBinaries200Response> {
-        return this.getBinariesWithHttpInfo(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, _options).pipe(map((apiResponse: HttpInfo<GetBinaries200Response>) => apiResponse.data));
+    public getBinaries(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, filterMetadata?: string, _options?: ConfigurationOptions): Observable<GetBinaries200Response> {
+        return this.getBinariesWithHttpInfo(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetBinaries200Response>) => apiResponse.data));
     }
 
     /**
@@ -1310,11 +2089,12 @@ export class ObservableAppApi {
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterUrl] Filter by url.
      * @param [filterOrganization] Filter by organization.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getDockerRegistriesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetDockerRegistries200Response>> {
+    public getDockerRegistriesWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetDockerRegistries200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getDockerRegistries(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, _config);
+        const requestContextPromise = this.requestFactory.getDockerRegistries(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, filterMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1342,9 +2122,10 @@ export class ObservableAppApi {
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterUrl] Filter by url.
      * @param [filterOrganization] Filter by organization.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getDockerRegistries(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: ConfigurationOptions): Observable<GetDockerRegistries200Response> {
-        return this.getDockerRegistriesWithHttpInfo(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, _options).pipe(map((apiResponse: HttpInfo<GetDockerRegistries200Response>) => apiResponse.data));
+    public getDockerRegistries(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<GetDockerRegistries200Response> {
+        return this.getDockerRegistriesWithHttpInfo(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetDockerRegistries200Response>) => apiResponse.data));
     }
 
     /**
@@ -1490,7 +2271,7 @@ export class ObservableAppApi {
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      */
-    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetResourcePackages200Response>> {
+    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetResourcePackages200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.getResourcePackages(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, _config);
@@ -1523,7 +2304,7 @@ export class ObservableAppApi {
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      */
-    public getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: ConfigurationOptions): Observable<GetResourcePackages200Response> {
+    public getResourcePackages(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: ConfigurationOptions): Observable<GetResourcePackages200Response> {
         return this.getResourcePackagesWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, _options).pipe(map((apiResponse: HttpInfo<GetResourcePackages200Response>) => apiResponse.data));
     }
 
@@ -1597,7 +2378,7 @@ export class ObservableAppApi {
      * Show a specific server config
      * @param serverConfig The server config ID
      */
-    public getServerConfigByIdWithHttpInfo(serverConfig: number, _options?: ConfigurationOptions): Observable<HttpInfo<ServerConfig>> {
+    public getServerConfigByIdWithHttpInfo(serverConfig: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigById200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.getServerConfigById(serverConfig, _config);
@@ -1621,8 +2402,8 @@ export class ObservableAppApi {
      * Show a specific server config
      * @param serverConfig The server config ID
      */
-    public getServerConfigById(serverConfig: number, _options?: ConfigurationOptions): Observable<ServerConfig> {
-        return this.getServerConfigByIdWithHttpInfo(serverConfig, _options).pipe(map((apiResponse: HttpInfo<ServerConfig>) => apiResponse.data));
+    public getServerConfigById(serverConfig: number, _options?: ConfigurationOptions): Observable<GetServerConfigById200Response> {
+        return this.getServerConfigByIdWithHttpInfo(serverConfig, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigById200Response>) => apiResponse.data));
     }
 
     /**
@@ -1647,11 +2428,12 @@ export class ObservableAppApi {
      * @param [filterBinaryVersion] Filter by binary version.
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigs200Response>> {
+    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigs200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _config);
+        const requestContextPromise = this.requestFactory.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, filterMetadata, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1690,9 +2472,10 @@ export class ObservableAppApi {
      * @param [filterBinaryVersion] Filter by binary version.
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: ConfigurationOptions): Observable<GetServerConfigs200Response> {
-        return this.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigs200Response>) => apiResponse.data));
+    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, filterMetadata?: string, _options?: ConfigurationOptions): Observable<GetServerConfigs200Response> {
+        return this.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, filterMetadata, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigs200Response>) => apiResponse.data));
     }
 
     /**
@@ -1740,6 +2523,7 @@ export class ObservableAppApi {
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterAutoscalingEnabled] Filter by whether the service belongs to an autoscaled AppLocationSetting.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
      * @param [filterServerConfigName] Filter by ServerConfig name.
      * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
@@ -1757,10 +2541,10 @@ export class ObservableAppApi {
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<GetServers200Response>> {
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterAutoscalingEnabled?: boolean, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>, _options?: ConfigurationOptions): Observable<HttpInfo<GetServers200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
-        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _config);
+        const requestContextPromise = this.requestFactory.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterAutoscalingEnabled, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _config);
         // build promise chain
         let middlewarePreObservable = from<RequestContext>(requestContextPromise);
         for (const middleware of _config.middleware) {
@@ -1784,6 +2568,7 @@ export class ObservableAppApi {
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterAutoscalingEnabled] Filter by whether the service belongs to an autoscaled AppLocationSetting.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
      * @param [filterServerConfigName] Filter by ServerConfig name.
      * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
@@ -1801,8 +2586,8 @@ export class ObservableAppApi {
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: ConfigurationOptions): Observable<GetServers200Response> {
-        return this.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterAutoscalingEnabled?: boolean, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>, _options?: ConfigurationOptions): Observable<GetServers200Response> {
+        return this.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterAutoscalingEnabled, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, _options).pipe(map((apiResponse: HttpInfo<GetServers200Response>) => apiResponse.data));
     }
 
     /**
@@ -2386,6 +3171,38 @@ export class ObservableAppApi {
     }
 
     /**
+     * Submit a new location request
+     * @param occupiedLocationRequest
+     */
+    public requestLocationWithHttpInfo(occupiedLocationRequest: OccupiedLocationRequest, _options?: ConfigurationOptions): Observable<HttpInfo<void>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.requestLocation(occupiedLocationRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.requestLocationWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Submit a new location request
+     * @param occupiedLocationRequest
+     */
+    public requestLocation(occupiedLocationRequest: OccupiedLocationRequest, _options?: ConfigurationOptions): Observable<void> {
+        return this.requestLocationWithHttpInfo(occupiedLocationRequest, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
      * Restart service
      * @param dockerService The docker service ID
      */
@@ -2447,6 +3264,144 @@ export class ObservableAppApi {
      */
     public restoreBackup(dockerService: number, _options?: ConfigurationOptions): Observable<void> {
         return this.restoreBackupWithHttpInfo(dockerService, _options).pipe(map((apiResponse: HttpInfo<void>) => apiResponse.data));
+    }
+
+    /**
+     * Delete all metadata
+     * @param serverConfig The server config ID
+     */
+    public serverConfigsMetadataDeleteAllWithHttpInfo(serverConfig: number, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.serverConfigsMetadataDeleteAll(serverConfig, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.serverConfigsMetadataDeleteAllWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete all metadata
+     * @param serverConfig The server config ID
+     */
+    public serverConfigsMetadataDeleteAll(serverConfig: number, _options?: ConfigurationOptions): Observable<GetServerConfigById200Response> {
+        return this.serverConfigsMetadataDeleteAllWithHttpInfo(serverConfig, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param serverConfig The server config ID
+     * @param metadata
+     */
+    public serverConfigsMetadataDeleteKeysWithHttpInfo(serverConfig: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.serverConfigsMetadataDeleteKeys(serverConfig, metadata, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.serverConfigsMetadataDeleteKeysWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Delete metadata keys
+     * @param serverConfig The server config ID
+     * @param metadata
+     */
+    public serverConfigsMetadataDeleteKeys(serverConfig: number, metadata: Array<string>, _options?: ConfigurationOptions): Observable<GetServerConfigById200Response> {
+        return this.serverConfigsMetadataDeleteKeysWithHttpInfo(serverConfig, metadata, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param serverConfig The server config ID
+     * @param [setServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataSetWithHttpInfo(serverConfig: number, setServerConfigMetadataRequest?: SetServerConfigMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.serverConfigsMetadataSet(serverConfig, setServerConfigMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.serverConfigsMetadataSetWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param serverConfig The server config ID
+     * @param [setServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataSet(serverConfig: number, setServerConfigMetadataRequest?: SetServerConfigMetadataRequest, _options?: ConfigurationOptions): Observable<GetServerConfigById200Response> {
+        return this.serverConfigsMetadataSetWithHttpInfo(serverConfig, setServerConfigMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigById200Response>) => apiResponse.data));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param serverConfig The server config ID
+     * @param [patchServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataUpdateWithHttpInfo(serverConfig: number, patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetServerConfigById200Response>> {
+        const _config = mergeConfiguration(this.configuration, _options);
+
+        const requestContextPromise = this.requestFactory.serverConfigsMetadataUpdate(serverConfig, patchServerConfigMetadataRequest, _config);
+        // build promise chain
+        let middlewarePreObservable = from<RequestContext>(requestContextPromise);
+        for (const middleware of _config.middleware) {
+            middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+        }
+
+        return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => _config.httpApi.send(ctx))).
+            pipe(mergeMap((response: ResponseContext) => {
+                let middlewarePostObservable = of(response);
+                for (const middleware of _config.middleware.reverse()) {
+                    middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+                }
+                return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.serverConfigsMetadataUpdateWithHttpInfo(rsp)));
+            }));
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param serverConfig The server config ID
+     * @param [patchServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataUpdate(serverConfig: number, patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest, _options?: ConfigurationOptions): Observable<GetServerConfigById200Response> {
+        return this.serverConfigsMetadataUpdateWithHttpInfo(serverConfig, patchServerConfigMetadataRequest, _options).pipe(map((apiResponse: HttpInfo<GetServerConfigById200Response>) => apiResponse.data));
     }
 
     /**
@@ -2874,7 +3829,7 @@ export class ObservableAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest
      */
-    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<HttpInfo<GetAppLocationSettingById200Response>> {
         const _config = mergeConfiguration(this.configuration, _options);
 
         const requestContextPromise = this.requestFactory.updateAppLocationSetting(appLocationSetting, updateAppLocationSettingRequest, _config);
@@ -2899,8 +3854,8 @@ export class ObservableAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest
      */
-    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<AppLocationSetting> {
-        return this.updateAppLocationSettingWithHttpInfo(appLocationSetting, updateAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<AppLocationSetting>) => apiResponse.data));
+    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: ConfigurationOptions): Observable<GetAppLocationSettingById200Response> {
+        return this.updateAppLocationSettingWithHttpInfo(appLocationSetting, updateAppLocationSettingRequest, _options).pipe(map((apiResponse: HttpInfo<GetAppLocationSettingById200Response>) => apiResponse.data));
     }
 
     /**

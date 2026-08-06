@@ -4,6 +4,20 @@ All URIs are relative to *https://fleet.4players.io/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**appLocationSettingsAutoscalingAllocate**](AppApi.md#appLocationSettingsAutoscalingAllocate) | **POST** /v1/app-location-settings/{appLocationSetting}/autoscaling/allocate | Allocate a ready autoscaling instance
+[**appLocationSettingsMetadataDeleteAll**](AppApi.md#appLocationSettingsMetadataDeleteAll) | **DELETE** /v1/app-location-settings/{appLocationSetting}/metadata | Delete all metadata
+[**appLocationSettingsMetadataDeleteKeys**](AppApi.md#appLocationSettingsMetadataDeleteKeys) | **DELETE** /v1/app-location-settings/{appLocationSetting}/metadata/keys | Delete metadata keys
+[**appLocationSettingsMetadataSet**](AppApi.md#appLocationSettingsMetadataSet) | **PUT** /v1/app-location-settings/{appLocationSetting}/metadata | Set metadata
+[**appLocationSettingsMetadataUpdate**](AppApi.md#appLocationSettingsMetadataUpdate) | **PATCH** /v1/app-location-settings/{appLocationSetting}/metadata | Update metadata
+[**appsMetadataDeleteAll**](AppApi.md#appsMetadataDeleteAll) | **DELETE** /v1/apps/{app}/metadata | Delete all metadata
+[**appsMetadataDeleteKeys**](AppApi.md#appsMetadataDeleteKeys) | **DELETE** /v1/apps/{app}/metadata/keys | Delete metadata keys
+[**appsMetadataSet**](AppApi.md#appsMetadataSet) | **PUT** /v1/apps/{app}/metadata | Set metadata
+[**appsMetadataUpdate**](AppApi.md#appsMetadataUpdate) | **PATCH** /v1/apps/{app}/metadata | Update metadata
+[**binariesMetadataDeleteAll**](AppApi.md#binariesMetadataDeleteAll) | **DELETE** /v1/binaries/{binary}/metadata | Delete all metadata
+[**binariesMetadataDeleteKeys**](AppApi.md#binariesMetadataDeleteKeys) | **DELETE** /v1/binaries/{binary}/metadata/keys | Delete metadata keys
+[**binariesMetadataSet**](AppApi.md#binariesMetadataSet) | **PUT** /v1/binaries/{binary}/metadata | Set metadata
+[**binariesMetadataUpdate**](AppApi.md#binariesMetadataUpdate) | **PATCH** /v1/binaries/{binary}/metadata | Update metadata
+[**checkCapacity**](AppApi.md#checkCapacity) | **POST** /v1/apps/{app}/location-settings/capacity | Estimate the available capacity in a location based on a ServerConfig
 [**checkServerDns**](AppApi.md#checkServerDns) | **GET** /v1/apps/{app}/services/{dockerService}/dns | Check URL reachability for service DNS URLs
 [**createApp**](AppApi.md#createApp) | **POST** /v1/apps | Create an app
 [**createAppLocationSetting**](AppApi.md#createAppLocationSetting) | **POST** /v1/apps/{app}/location-settings | Create a new location setting
@@ -22,6 +36,14 @@ Method | HTTP request | Description
 [**deleteUnusedApps**](AppApi.md#deleteUnusedApps) | **DELETE** /v1/apps/unused | Delete all unused apps
 [**deleteUnusedBinaries**](AppApi.md#deleteUnusedBinaries) | **DELETE** /v1/apps/{app}/binaries/unused | Delete all unused binaries
 [**deleteUnusedServerConfigs**](AppApi.md#deleteUnusedServerConfigs) | **DELETE** /v1/apps/{app}/configs/unused | Delete all unused server configs
+[**dockerRegistriesMetadataDeleteAll**](AppApi.md#dockerRegistriesMetadataDeleteAll) | **DELETE** /v1/docker-registries/{dockerRegistry}/metadata | Delete all metadata
+[**dockerRegistriesMetadataDeleteKeys**](AppApi.md#dockerRegistriesMetadataDeleteKeys) | **DELETE** /v1/docker-registries/{dockerRegistry}/metadata/keys | Delete metadata keys
+[**dockerRegistriesMetadataSet**](AppApi.md#dockerRegistriesMetadataSet) | **PUT** /v1/docker-registries/{dockerRegistry}/metadata | Set metadata
+[**dockerRegistriesMetadataUpdate**](AppApi.md#dockerRegistriesMetadataUpdate) | **PATCH** /v1/docker-registries/{dockerRegistry}/metadata | Update metadata
+[**dockerServicesAutoscalingAllocate**](AppApi.md#dockerServicesAutoscalingAllocate) | **POST** /v1/services/{dockerService}/autoscaling/allocate | Set autoscaling status to allocated
+[**dockerServicesAutoscalingHealth**](AppApi.md#dockerServicesAutoscalingHealth) | **POST** /v1/services/{dockerService}/autoscaling/health | Record an autoscaling heartbeat
+[**dockerServicesAutoscalingReady**](AppApi.md#dockerServicesAutoscalingReady) | **POST** /v1/services/{dockerService}/autoscaling/ready | Set autoscaling status to ready
+[**dockerServicesAutoscalingShutdown**](AppApi.md#dockerServicesAutoscalingShutdown) | **POST** /v1/services/{dockerService}/autoscaling/shutdown | Set autoscaling status to shutdown
 [**dockerServicesMetadataDeleteAll**](AppApi.md#dockerServicesMetadataDeleteAll) | **DELETE** /v1/services/{dockerService}/metadata | Delete all service metadata
 [**dockerServicesMetadataDeleteKeys**](AppApi.md#dockerServicesMetadataDeleteKeys) | **DELETE** /v1/services/{dockerService}/metadata/keys | Delete service metadata keys
 [**dockerServicesMetadataSet**](AppApi.md#dockerServicesMetadataSet) | **PUT** /v1/services/{dockerService}/metadata | Set service metadata
@@ -66,8 +88,13 @@ Method | HTTP request | Description
 [**refreshAuthToken**](AppApi.md#refreshAuthToken) | **PUT** /v1/auth/token | Refresh token
 [**refreshBinary**](AppApi.md#refreshBinary) | **PUT** /v1/binaries/{binary}/refresh | Refresh a binary and the related entity
 [**refreshTaggedImages**](AppApi.md#refreshTaggedImages) | **GET** /v1/docker-registries/{dockerRegistry}/tagged-images/refresh | Refresh the cache for all available tagged images
+[**requestLocation**](AppApi.md#requestLocation) | **POST** /v1/nodes/locations/request | Submit a new location request
 [**restartServer**](AppApi.md#restartServer) | **POST** /v1/services/{dockerService}/restart | Restart service
 [**restoreBackup**](AppApi.md#restoreBackup) | **POST** /v1/services/{dockerService}/restore | Restore latest service backup
+[**serverConfigsMetadataDeleteAll**](AppApi.md#serverConfigsMetadataDeleteAll) | **DELETE** /v1/server-configs/{serverConfig}/metadata | Delete all metadata
+[**serverConfigsMetadataDeleteKeys**](AppApi.md#serverConfigsMetadataDeleteKeys) | **DELETE** /v1/server-configs/{serverConfig}/metadata/keys | Delete metadata keys
+[**serverConfigsMetadataSet**](AppApi.md#serverConfigsMetadataSet) | **PUT** /v1/server-configs/{serverConfig}/metadata | Set metadata
+[**serverConfigsMetadataUpdate**](AppApi.md#serverConfigsMetadataUpdate) | **PATCH** /v1/server-configs/{serverConfig}/metadata | Update metadata
 [**startServer**](AppApi.md#startServer) | **POST** /v1/services/{dockerService}/start | Start service
 [**startServersForApp**](AppApi.md#startServersForApp) | **POST** /v1/apps/{app}/services/start | Start all services related to a specific app
 [**startServersForAppLocationSetting**](AppApi.md#startServersForAppLocationSetting) | **POST** /v1/app-location-settings/{appLocationSetting}/services/start | Start all services related to a specific app location setting
@@ -86,6 +113,872 @@ Method | HTTP request | Description
 [**updateDockerRegistry**](AppApi.md#updateDockerRegistry) | **PUT** /v1/docker-registries/{dockerRegistry} | Update a specific docker registry
 [**updateServerConfig**](AppApi.md#updateServerConfig) | **PUT** /v1/server-configs/{serverConfig} | Update a server config
 
+
+# **appLocationSettingsAutoscalingAllocate**
+> Server appLocationSettingsAutoscalingAllocate()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppLocationSettingsAutoscalingAllocateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppLocationSettingsAutoscalingAllocateRequest = {
+    // The app location setting ID
+  appLocationSetting: 1,
+  
+  allocateAppLocationSettingAutoscalingRequest: {
+    filter: {
+      metadata: "metadata_example",
+    },
+  },
+};
+
+const data = await apiInstance.appLocationSettingsAutoscalingAllocate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **allocateAppLocationSettingAutoscalingRequest** | **AllocateAppLocationSettingAutoscalingRequest**|  |
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**Server**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Server&#x60; |  -  |
+**404** | Not found |  -  |
+**403** | Authorization error |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**409** | Could not find an allocatable instance. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appLocationSettingsMetadataDeleteAll**
+> GetAppLocationSettingById200Response appLocationSettingsMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppLocationSettingsMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppLocationSettingsMetadataDeleteAllRequest = {
+    // The app location setting ID
+  appLocationSetting: 1,
+};
+
+const data = await apiInstance.appLocationSettingsMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**GetAppLocationSettingById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSetting&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appLocationSettingsMetadataDeleteKeys**
+> GetAppLocationSettingById200Response appLocationSettingsMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppLocationSettingsMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppLocationSettingsMetadataDeleteKeysRequest = {
+    // The app location setting ID
+  appLocationSetting: 1,
+  
+  metadata: [
+    "metadata[]_example",
+  ],
+};
+
+const data = await apiInstance.appLocationSettingsMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**GetAppLocationSettingById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSetting&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appLocationSettingsMetadataSet**
+> GetAppLocationSettingById200Response appLocationSettingsMetadataSet()
+
+Replaces the entire metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppLocationSettingsMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppLocationSettingsMetadataSetRequest = {
+    // The app location setting ID
+  appLocationSetting: 1,
+  
+  setAppLocationSettingMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.appLocationSettingsMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setAppLocationSettingMetadataRequest** | **SetAppLocationSettingMetadataRequest**|  |
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**GetAppLocationSettingById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSetting&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appLocationSettingsMetadataUpdate**
+> GetAppLocationSettingById200Response appLocationSettingsMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting other metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppLocationSettingsMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppLocationSettingsMetadataUpdateRequest = {
+    // The app location setting ID
+  appLocationSetting: 1,
+  
+  patchAppLocationSettingMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.appLocationSettingsMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchAppLocationSettingMetadataRequest** | **PatchAppLocationSettingMetadataRequest**|  |
+ **appLocationSetting** | [**number**] | The app location setting ID | defaults to undefined
+
+
+### Return type
+
+**GetAppLocationSettingById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSetting&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appsMetadataDeleteAll**
+> App appsMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppsMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppsMetadataDeleteAllRequest = {
+    // The app ID
+  app: 1,
+};
+
+const data = await apiInstance.appsMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appsMetadataDeleteKeys**
+> App appsMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppsMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppsMetadataDeleteKeysRequest = {
+    // The app ID
+  app: 1,
+  
+  metadata: [
+    "metadata[]_example",
+  ],
+};
+
+const data = await apiInstance.appsMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app** | [**number**] | The app ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appsMetadataSet**
+> App appsMetadataSet()
+
+Replaces the entire metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppsMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppsMetadataSetRequest = {
+    // The app ID
+  app: 1,
+  
+  setAppMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.appsMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setAppMetadataRequest** | **SetAppMetadataRequest**|  |
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **appsMetadataUpdate**
+> App appsMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting other metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiAppsMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiAppsMetadataUpdateRequest = {
+    // The app ID
+  app: 1,
+  
+  patchAppMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.appsMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchAppMetadataRequest** | **PatchAppMetadataRequest**|  |
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**App**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;App&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **binariesMetadataDeleteAll**
+> BinariesMetadataSet200Response binariesMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiBinariesMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiBinariesMetadataDeleteAllRequest = {
+    // The binary ID
+  binary: 1,
+};
+
+const data = await apiInstance.binariesMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **binary** | [**number**] | The binary ID | defaults to undefined
+
+
+### Return type
+
+**BinariesMetadataSet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Binary&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **binariesMetadataDeleteKeys**
+> BinariesMetadataSet200Response binariesMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiBinariesMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiBinariesMetadataDeleteKeysRequest = {
+    // The binary ID
+  binary: 1,
+  
+  metadata: [
+    "metadata[]_example",
+  ],
+};
+
+const data = await apiInstance.binariesMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **binary** | [**number**] | The binary ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**BinariesMetadataSet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Binary&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **binariesMetadataSet**
+> BinariesMetadataSet200Response binariesMetadataSet()
+
+Replaces the entire metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiBinariesMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiBinariesMetadataSetRequest = {
+    // The binary ID
+  binary: 1,
+  
+  setBinaryMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.binariesMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setBinaryMetadataRequest** | **SetBinaryMetadataRequest**|  |
+ **binary** | [**number**] | The binary ID | defaults to undefined
+
+
+### Return type
+
+**BinariesMetadataSet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Binary&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **binariesMetadataUpdate**
+> BinariesMetadataSet200Response binariesMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting other metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiBinariesMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiBinariesMetadataUpdateRequest = {
+    // The binary ID
+  binary: 1,
+  
+  patchBinaryMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.binariesMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchBinaryMetadataRequest** | **PatchBinaryMetadataRequest**|  |
+ **binary** | [**number**] | The binary ID | defaults to undefined
+
+
+### Return type
+
+**BinariesMetadataSet200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;Binary&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **checkCapacity**
+> AppLocationSettingCapacity checkCapacity(checkCapacityAppLocationSettingRequest)
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiCheckCapacityRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiCheckCapacityRequest = {
+    // The app ID
+  app: 1,
+  
+  checkCapacityAppLocationSettingRequest: {
+    serverConfigId: 1,
+    placement: {
+      constraints: {
+        city: "city_example",
+        cityDisplay: "cityDisplay_example",
+        continent: "continent_example",
+        country: "country_example",
+      },
+    },
+    password: "password_example",
+  },
+};
+
+const data = await apiInstance.checkCapacity(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **checkCapacityAppLocationSettingRequest** | **CheckCapacityAppLocationSettingRequest**|  |
+ **app** | [**number**] | The app ID | defaults to undefined
+
+
+### Return type
+
+**AppLocationSettingCapacity**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;AppLocationSettingCapacity&#x60; |  -  |
+**403** | Authorization error |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **checkServerDns**
 > Array<DockerServiceDnsReachable> checkServerDns()
@@ -203,7 +1096,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **createAppLocationSetting**
-> AppLocationSetting createAppLocationSetting(storeAppLocationSettingRequest)
+> GetAppLocationSettingById200Response createAppLocationSetting(storeAppLocationSettingRequest)
 
 
 ### Example
@@ -234,6 +1127,16 @@ const request: AppApiCreateAppLocationSettingRequest = {
       },
     },
     password: "password_example",
+    autoscaling: {
+      enabled: true,
+      healthEnabled: true,
+      healthInitialDelaySeconds: 1,
+      healthPeriodSeconds: 1,
+      healthFailureThreshold: 1,
+      minInstances: 1,
+      maxInstances: 1,
+      bufferSize: 1,
+    },
   },
 };
 
@@ -252,7 +1155,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AppLocationSetting**
+**GetAppLocationSettingById200Response**
 
 ### Authorization
 
@@ -727,7 +1630,7 @@ const request: AppApiCreateServerConfigRequest = {
   
   storeServerConfigRequest: {
     name: "name_example",
-    args: "/usr/local/etc/enshrouded/bootstrap",
+    args: "args_example",
     command: "command_example",
     notes: "notes_example",
     binaryId: 1,
@@ -1246,6 +2149,474 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **dockerRegistriesMetadataDeleteAll**
+> DockerRegistry dockerRegistriesMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerRegistriesMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerRegistriesMetadataDeleteAllRequest = {
+    // The docker registry ID
+  dockerRegistry: 1,
+};
+
+const data = await apiInstance.dockerRegistriesMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+
+
+### Return type
+
+**DockerRegistry**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;DockerRegistry&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerRegistriesMetadataDeleteKeys**
+> DockerRegistry dockerRegistriesMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerRegistriesMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerRegistriesMetadataDeleteKeysRequest = {
+    // The docker registry ID
+  dockerRegistry: 1,
+  
+  metadata: [
+    "metadata[]_example",
+  ],
+};
+
+const data = await apiInstance.dockerRegistriesMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**DockerRegistry**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;DockerRegistry&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerRegistriesMetadataSet**
+> DockerRegistry dockerRegistriesMetadataSet()
+
+Replaces the entire metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerRegistriesMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerRegistriesMetadataSetRequest = {
+    // The docker registry ID
+  dockerRegistry: 1,
+  
+  setDockerRegistryMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.dockerRegistriesMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setDockerRegistryMetadataRequest** | **SetDockerRegistryMetadataRequest**|  |
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+
+
+### Return type
+
+**DockerRegistry**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;DockerRegistry&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerRegistriesMetadataUpdate**
+> DockerRegistry dockerRegistriesMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting other metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerRegistriesMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerRegistriesMetadataUpdateRequest = {
+    // The docker registry ID
+  dockerRegistry: 1,
+  
+  patchDockerRegistryMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.dockerRegistriesMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchDockerRegistryMetadataRequest** | **PatchDockerRegistryMetadataRequest**|  |
+ **dockerRegistry** | [**number**] | The docker registry ID | defaults to undefined
+
+
+### Return type
+
+**DockerRegistry**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;DockerRegistry&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesAutoscalingAllocate**
+> void dockerServicesAutoscalingAllocate()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesAutoscalingAllocateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesAutoscalingAllocateRequest = {
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.dockerServicesAutoscalingAllocate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**void**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+**409** | Autoscaling is not enabled for this service. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesAutoscalingHealth**
+> void dockerServicesAutoscalingHealth()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesAutoscalingHealthRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesAutoscalingHealthRequest = {
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.dockerServicesAutoscalingHealth(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**void**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+**409** | Autoscaling is not enabled for this service. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesAutoscalingReady**
+> void dockerServicesAutoscalingReady()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesAutoscalingReadyRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesAutoscalingReadyRequest = {
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.dockerServicesAutoscalingReady(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**void**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+**409** | Autoscaling is not enabled for this service. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **dockerServicesAutoscalingShutdown**
+> void dockerServicesAutoscalingShutdown()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiDockerServicesAutoscalingShutdownRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiDockerServicesAutoscalingShutdownRequest = {
+    // The docker service ID
+  dockerService: 1,
+};
+
+const data = await apiInstance.dockerServicesAutoscalingShutdown(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dockerService** | [**number**] | The docker service ID | defaults to undefined
+
+
+### Return type
+
+**void**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+**409** | Autoscaling is not enabled for this service. |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **dockerServicesMetadataDeleteAll**
 > Server dockerServicesMetadataDeleteAll()
 
@@ -1605,7 +2976,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getAppLocationSettingById**
-> AppLocationSetting getAppLocationSettingById()
+> GetAppLocationSettingById200Response getAppLocationSettingById()
 
 
 ### Example
@@ -1637,7 +3008,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AppLocationSetting**
+**GetAppLocationSettingById200Response**
 
 ### Authorization
 
@@ -1682,7 +3053,7 @@ const request: AppApiGetAppLocationSettingsRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -1720,6 +3091,8 @@ const request: AppApiGetAppLocationSettingsRequest = {
   filterServerConfigMaintenance: true,
     // Filter by ServerConfig resource package slug. (optional)
   filterServerConfigResourcePackageSlug: "filter[serverConfigResourcePackageSlug]_example",
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): ``` filter[metadata]=players=\"foobar\" filter[metadata]=player_ids=37 filter[metadata]=array=true filter[metadata]=array=null ```  Works for nested arrays as well: ``` filter[metadata]=gameData.players=\"foobar\" ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getAppLocationSettings(request);
@@ -1734,7 +3107,7 @@ Name | Type | Description  | Notes
  **app** | [**number**] | The app ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-serverConfigId&#39; &#124; &#39;serverConfigId&#39; &#124; &#39;-numInstances&#39; &#124; &#39;numInstances&#39; &#124; &#39;-status&#39; &#124; &#39;status&#39; &#124; &#39;-statusMessage&#39; &#124; &#39;statusMessage&#39; &#124; &#39;-maintenance&#39; &#124; &#39;maintenance&#39; &#124; &#39;-locationCity&#39; &#124; &#39;locationCity&#39; &#124; &#39;-locationCityDisplay&#39; &#124; &#39;locationCityDisplay&#39; &#124; &#39;-locationContinent&#39; &#124; &#39;locationContinent&#39; &#124; &#39;-locationCountry&#39; &#124; &#39;locationCountry&#39; &#124; &#39;-serverConfigId&#39; &#124; &#39;serverConfigId&#39; &#124; &#39;-serverConfigName&#39; &#124; &#39;serverConfigName&#39; &#124; &#39;-serverConfigCommand&#39; &#124; &#39;serverConfigCommand&#39; &#124; &#39;-serverConfigArgs&#39; &#124; &#39;serverConfigArgs&#39; &#124; &#39;-serverConfigNotes&#39; &#124; &#39;serverConfigNotes&#39; &#124; &#39;-serverConfigStatus&#39; &#124; &#39;serverConfigStatus&#39; &#124; &#39;-serverConfigMaintenance&#39; &#124; &#39;serverConfigMaintenance&#39; &#124; &#39;-serverConfigResourcePackageSlug&#39; &#124; &#39;serverConfigResourcePackageSlug&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
@@ -1753,6 +3126,7 @@ Name | Type | Description  | Notes
  **filterServerConfigStatus** | [**string**] | Filter by ServerConfig status. | (optional) defaults to undefined
  **filterServerConfigMaintenance** | [**boolean**] | Filter by ServerConfig maintenance. | (optional) defaults to undefined
  **filterServerConfigResourcePackageSlug** | [**string**] | Filter by ServerConfig resource package slug. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -1803,7 +3177,7 @@ const request: AppApiGetAppWalletsRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -1823,7 +3197,7 @@ Name | Type | Description  | Notes
  **app** | [**number**] | The app ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-balance&#39; &#124; &#39;balance&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterBalance** | [**number**] | Filter by balance. | (optional) defaults to undefined
 
@@ -1874,7 +3248,7 @@ const request: AppApiGetAppsRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -1884,6 +3258,8 @@ const request: AppApiGetAppsRequest = {
   filterNamePartial: "filter[namePartial]_example",
     // Filter by in use flag. (optional)
   filterInUse: true,
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): ``` filter[metadata]=players=\"foobar\" filter[metadata]=player_ids=37 filter[metadata]=array=true filter[metadata]=array=null ```  Works for nested arrays as well: ``` filter[metadata]=gameData.players=\"foobar\" ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getApps(request);
@@ -1897,11 +3273,12 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-inUse&#39; &#124; &#39;inUse&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
  **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -1948,7 +3325,7 @@ const request: AppApiGetAuthTokenRequest = {
   authRequest: {
     email: "email_example",
     password: "password_example",
-    sid: "1234567890ABCDEFG",
+    sid: "sid_example",
   },
 };
 
@@ -2006,7 +3383,7 @@ const apiInstance = new AppApi(configuration);
 const request: AppApiGetAuthTokenViaFsidRequest = {
   
   authFsidRequest: {
-    fsid: "66ed926d7fb6accc041d5628z47dg673",
+    fsid: "fsid_example",
   },
 };
 
@@ -2068,7 +3445,7 @@ const request: AppApiGetBackupsRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  ``` sort[]=name sort[]=-archiveName ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=name&sort[]=-archiveName ``` (optional)
   sort: [
-    "sort[]_example",
+    "-name",
   ],
     // Filter by name. (optional)
   filterName: "filter[name]_example",
@@ -2088,7 +3465,7 @@ Name | Type | Description  | Notes
  **dockerService** | [**number**] | The docker service ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-archiveName&#39; &#124; &#39;archiveName&#39; &#124; &#39;-createdAt&#39; &#124; &#39;createdAt&#39; &#124; &#39;-restoredAt&#39; &#124; &#39;restoredAt&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterArchiveName** | [**string**] | Filter by archive name. | (optional) defaults to undefined
 
@@ -2141,7 +3518,7 @@ const request: AppApiGetBinariesRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by name. (optional)
   filterName: "filter[name]_example",
@@ -2159,6 +3536,8 @@ const request: AppApiGetBinariesRequest = {
   filterStatus: "filter[status]_example",
     // Filter by in use flag. (optional)
   filterInUse: true,
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): ``` filter[metadata]=players=\"foobar\" filter[metadata]=player_ids=37 filter[metadata]=array=true filter[metadata]=array=null ```  Works for nested arrays as well: ``` filter[metadata]=gameData.players=\"foobar\" ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getBinaries(request);
@@ -2173,7 +3552,7 @@ Name | Type | Description  | Notes
  **app** | [**number**] | The app ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-version&#39; &#124; &#39;version&#39; &#124; &#39;-type&#39; &#124; &#39;type&#39; &#124; &#39;-os&#39; &#124; &#39;os&#39; &#124; &#39;-status&#39; &#124; &#39;status&#39; &#124; &#39;-statusMessage&#39; &#124; &#39;statusMessage&#39; &#124; &#39;-progress&#39; &#124; &#39;progress&#39; &#124; &#39;-progressMessage&#39; &#124; &#39;progressMessage&#39; &#124; &#39;-inUse&#39; &#124; &#39;inUse&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
  **filterVersion** | [**string**] | Filter by version. | (optional) defaults to undefined
@@ -2182,6 +3561,7 @@ Name | Type | Description  | Notes
  **filterMaintenance** | [**boolean**] | Filter by maintenance status. | (optional) defaults to undefined
  **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
  **filterInUse** | [**boolean**] | Filter by in use flag. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2285,7 +3665,7 @@ const request: AppApiGetDockerRegistriesRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -2299,6 +3679,8 @@ const request: AppApiGetDockerRegistriesRequest = {
   filterUrl: "filter[url]_example",
     // Filter by organization. (optional)
   filterOrganization: "filter[organization]_example",
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): ``` filter[metadata]=players=\"foobar\" filter[metadata]=player_ids=37 filter[metadata]=array=true filter[metadata]=array=null ```  Works for nested arrays as well: ``` filter[metadata]=gameData.players=\"foobar\" ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getDockerRegistries(request);
@@ -2312,13 +3694,14 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-type&#39; &#124; &#39;type&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-url&#39; &#124; &#39;url&#39; &#124; &#39;-organization&#39; &#124; &#39;organization&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterType** | [**string**] | Filter by type. | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
  **filterUrl** | [**string**] | Filter by url. | (optional) defaults to undefined
  **filterOrganization** | [**string**] | Filter by organization. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -2506,7 +3889,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Paginated set of &#x60;Location&#x60; |  -  |
+**200** | Paginated set of &#x60;LocationIndex&#x60; |  -  |
 **401** | Unauthenticated |  -  |
 **422** | Validation error |  -  |
 **403** | Authorization error |  -  |
@@ -2589,7 +3972,7 @@ const request: AppApiGetResourcePackagesRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -2618,7 +4001,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-slug&#39; &#124; &#39;slug&#39; &#124; &#39;-type&#39; &#124; &#39;type&#39; &#124; &#39;-cpuLimit&#39; &#124; &#39;cpuLimit&#39; &#124; &#39;-memoryLimitMiB&#39; &#124; &#39;memoryLimitMiB&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
  **filterNamePartial** | [**string**] | Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
@@ -2766,7 +4149,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **getServerConfigById**
-> ServerConfig getServerConfigById()
+> GetServerConfigById200Response getServerConfigById()
 
 
 ### Example
@@ -2798,7 +4181,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**ServerConfig**
+**GetServerConfigById200Response**
 
 ### Authorization
 
@@ -2843,7 +4226,7 @@ const request: AppApiGetServerConfigsRequest = {
   page: 1,
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  ``` sort[]=id sort[]=-name ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-name ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
     // Filter by id. (optional)
   filterId: 1,
@@ -2877,6 +4260,8 @@ const request: AppApiGetServerConfigsRequest = {
   filterBinaryType: "filter[binaryType]_example",
     // Filter by binary operating system. (optional)
   filterBinaryOs: "filter[binaryOs]_example",
+    // Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where `idle` is false (boolean): ``` filter[metadata]=idle=false ```  To filter where `string` is exactly \"a\": ``` filter[metadata]=string=\"a\" ```  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where `score` is null: ``` filter[metadata]=score=null ```  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival` is exactly \"hardcore\": ``` filter[metadata]=gameSettings.survival.difficulty=\"hardcore\" ```  To filter for a nested field with a native `null` value, leave the null unquoted: ``` filter[metadata]=gameSettings.stats.score=null ```  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): ``` filter[metadata]=players=\"foobar\" filter[metadata]=player_ids=37 filter[metadata]=array=true filter[metadata]=array=null ```  Works for nested arrays as well: ``` filter[metadata]=gameData.players=\"foobar\" ```  **Multiple Filters:** Combine multiple filters by separating them with commas: ``` filter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\" ``` (optional)
+  filterMetadata: "filter[metadata]_example",
 };
 
 const data = await apiInstance.getServerConfigs(request);
@@ -2891,7 +4276,7 @@ Name | Type | Description  | Notes
  **app** | [**number**] | The app ID | defaults to undefined
  **perPage** | [**number**] | The number of items to be shown per page. | (optional) defaults to undefined
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-binaryId&#39; &#124; &#39;binaryId&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-command&#39; &#124; &#39;command&#39; &#124; &#39;-args&#39; &#124; &#39;args&#39; &#124; &#39;-notes&#39; &#124; &#39;notes&#39; &#124; &#39;-status&#39; &#124; &#39;status&#39; &#124; &#39;-statusMessage&#39; &#124; &#39;statusMessage&#39; &#124; &#39;-maintenance&#39; &#124; &#39;maintenance&#39; &#124; &#39;-dnsServiceEnabled&#39; &#124; &#39;dnsServiceEnabled&#39; &#124; &#39;-resourcePackageSlug&#39; &#124; &#39;resourcePackageSlug&#39; &#124; &#39;-inUse&#39; &#124; &#39;inUse&#39; &#124; &#39;binaryId&#39; &#124; &#39;-binaryId&#39; &#124; &#39;binaryName&#39; &#124; &#39;-binaryName&#39; &#124; &#39;binaryVersion&#39; &#124; &#39;-binaryVersion&#39; &#124; &#39;binaryType&#39; &#124; &#39;-binaryType&#39; &#124; &#39;binaryOs&#39; &#124; &#39;-binaryOs&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60; | (optional) defaults to undefined
  **filterId** | [**number**] | Filter by id. | (optional) defaults to undefined
  **filterBinaryId** | [**number**] | Filter by binary id. | (optional) defaults to undefined
  **filterName** | [**string**] | Filter by name. | (optional) defaults to undefined
@@ -2908,6 +4293,7 @@ Name | Type | Description  | Notes
  **filterBinaryVersion** | [**string**] | Filter by binary version. | (optional) defaults to undefined
  **filterBinaryType** | [**string**] | Filter by binary type. | (optional) defaults to undefined
  **filterBinaryOs** | [**string**] | Filter by binary operating system. | (optional) defaults to undefined
+ **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -3025,6 +4411,8 @@ const request: AppApiGetServersRequest = {
   filterStatus: "filter[status]_example",
     // Filter by AppLocationSetting ID. (optional)
   filterAppLocationSettingId: 1,
+    // Filter by whether the service belongs to an autoscaled AppLocationSetting. (optional)
+  filterAutoscalingEnabled: true,
     // Filter by ServerConfig ID. (optional)
   filterServerConfigId: 1,
     // Filter by ServerConfig name. (optional)
@@ -3057,7 +4445,7 @@ const request: AppApiGetServersRequest = {
   filterMetadata: "filter[metadata]_example",
     // Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  ``` sort[]=id sort[]=-instance ```  **Multiple Sorts:** Combine multiple sorts by separating them with commas: ``` sort[]=id&sort[]=-instance ``` (optional)
   sort: [
-    "sort[]_example",
+    "-id",
   ],
 };
 
@@ -3075,6 +4463,7 @@ Name | Type | Description  | Notes
  **page** | [**number**] | Specifies the page number to retrieve in the paginated results. | (optional) defaults to undefined
  **filterStatus** | [**string**] | Filter by status. | (optional) defaults to undefined
  **filterAppLocationSettingId** | [**number**] | Filter by AppLocationSetting ID. | (optional) defaults to undefined
+ **filterAutoscalingEnabled** | [**boolean**] | Filter by whether the service belongs to an autoscaled AppLocationSetting. | (optional) defaults to undefined
  **filterServerConfigId** | [**number**] | Filter by ServerConfig ID. | (optional) defaults to undefined
  **filterServerConfigName** | [**string**] | Filter by ServerConfig name. | (optional) defaults to undefined
  **filterServerConfigNamePartial** | [**string**] | Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;. | (optional) defaults to undefined
@@ -3090,7 +4479,7 @@ Name | Type | Description  | Notes
  **filterBinaryId** | [**number**] | Filter by Binary ID. | (optional) defaults to undefined
  **filterIsStopped** | [**boolean**] | Filter by whether the service is currenctly stopped. | (optional) defaults to undefined
  **filterMetadata** | [**string**] | Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60; | (optional) defaults to undefined
- **sort** | **Array&lt;string&gt;** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60; | (optional) defaults to undefined
+ **sort** | **Array<&#39;-id&#39; &#124; &#39;id&#39; &#124; &#39;-instance&#39; &#124; &#39;instance&#39; &#124; &#39;-status&#39; &#124; &#39;status&#39; &#124; &#39;-status_message&#39; &#124; &#39;status_message&#39; &#124; &#39;-serverConfigId&#39; &#124; &#39;serverConfigId&#39; &#124; &#39;-serverConfigName&#39; &#124; &#39;serverConfigName&#39; &#124; &#39;-appLocationSettingId&#39; &#124; &#39;appLocationSettingId&#39; &#124; &#39;-name&#39; &#124; &#39;name&#39; &#124; &#39;-locationCity&#39; &#124; &#39;locationCity&#39; &#124; &#39;-locationCityDisplay&#39; &#124; &#39;locationCityDisplay&#39; &#124; &#39;-locationContinent&#39; &#124; &#39;locationContinent&#39; &#124; &#39;-locationCountry&#39; &#124; &#39;locationCountry&#39; &#124; &#39;isBackupable&#39; &#124; &#39;-isBackupable&#39; &#124; &#39;isRestorable&#39; &#124; &#39;-isRestorable&#39; &#124; &#39;isPending&#39; &#124; &#39;-isPending&#39; &#124; &#39;isNotFound&#39; &#124; &#39;-isNotFound&#39; &#124; &#39;isHealthy&#39; &#124; &#39;-isHealthy&#39; &#124; &#39;isStopped&#39; &#124; &#39;-isStopped&#39; &#124; &#39;-createdAt&#39; &#124; &#39;createdAt&#39; &#124; &#39;-updatedAt&#39; &#124; &#39;updatedAt&#39;>** | Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60; | (optional) defaults to undefined
 
 
 ### Return type
@@ -4112,6 +5501,68 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
+# **requestLocation**
+> void requestLocation(occupiedLocationRequest)
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiRequestLocationRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiRequestLocationRequest = {
+  
+  occupiedLocationRequest: {
+    location: "location_example",
+    numInstances: 1,
+    projectName: "projectName_example",
+    company: "company_example",
+    message: "message_example",
+  },
+};
+
+const data = await apiInstance.requestLocation(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **occupiedLocationRequest** | **OccupiedLocationRequest**|  |
+
+
+### Return type
+
+**void**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**202** |  |  -  |
+**422** | Validation error |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+**429** | Too Many Requests |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
 # **restartServer**
 > void restartServer()
 
@@ -4221,6 +5672,250 @@ No authorization required
 **403** | Authorization error |  -  |
 **401** | Unauthenticated |  -  |
 **402** | Payment required |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **serverConfigsMetadataDeleteAll**
+> GetServerConfigById200Response serverConfigsMetadataDeleteAll()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiServerConfigsMetadataDeleteAllRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiServerConfigsMetadataDeleteAllRequest = {
+    // The server config ID
+  serverConfig: 1,
+};
+
+const data = await apiInstance.serverConfigsMetadataDeleteAll(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **serverConfig** | [**number**] | The server config ID | defaults to undefined
+
+
+### Return type
+
+**GetServerConfigById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;ServerConfig&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **serverConfigsMetadataDeleteKeys**
+> GetServerConfigById200Response serverConfigsMetadataDeleteKeys()
+
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiServerConfigsMetadataDeleteKeysRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiServerConfigsMetadataDeleteKeysRequest = {
+    // The server config ID
+  serverConfig: 1,
+  
+  metadata: [
+    "metadata[]_example",
+  ],
+};
+
+const data = await apiInstance.serverConfigsMetadataDeleteKeys(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **serverConfig** | [**number**] | The server config ID | defaults to undefined
+ **metadata** | **Array&lt;string&gt;** |  | defaults to undefined
+
+
+### Return type
+
+**GetServerConfigById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;ServerConfig&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **serverConfigsMetadataSet**
+> GetServerConfigById200Response serverConfigsMetadataSet()
+
+Replaces the entire metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiServerConfigsMetadataSetRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiServerConfigsMetadataSetRequest = {
+    // The server config ID
+  serverConfig: 1,
+  
+  setServerConfigMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.serverConfigsMetadataSet(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **setServerConfigMetadataRequest** | **SetServerConfigMetadataRequest**|  |
+ **serverConfig** | [**number**] | The server config ID | defaults to undefined
+
+
+### Return type
+
+**GetServerConfigById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;ServerConfig&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
+
+[[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
+
+# **serverConfigsMetadataUpdate**
+> GetServerConfigById200Response serverConfigsMetadataUpdate()
+
+Updates existing metadata keys or adds new keys without deleting other metadata.
+
+### Example
+
+
+```typescript
+import { createConfiguration, AppApi } from '';
+import type { AppApiServerConfigsMetadataUpdateRequest } from '';
+
+const configuration = createConfiguration();
+const apiInstance = new AppApi(configuration);
+
+const request: AppApiServerConfigsMetadataUpdateRequest = {
+    // The server config ID
+  serverConfig: 1,
+  
+  patchServerConfigMetadataRequest: {
+    metadata: {
+      "key": null,
+    },
+  },
+};
+
+const data = await apiInstance.serverConfigsMetadataUpdate(request);
+console.log('API called successfully. Returned data:', data);
+```
+
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **patchServerConfigMetadataRequest** | **PatchServerConfigMetadataRequest**|  |
+ **serverConfig** | [**number**] | The server config ID | defaults to undefined
+
+
+### Return type
+
+**GetServerConfigById200Response**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | &#x60;ServerConfig&#x60; |  -  |
+**404** | Not found |  -  |
+**401** | Unauthenticated |  -  |
+**422** | Validation error |  -  |
+**403** | Authorization error |  -  |
 
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
@@ -4954,7 +6649,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](README.md#documentation-for-api-endpoints) [[Back to Model list]](README.md#documentation-for-models) [[Back to README]](README.md)
 
 # **updateAppLocationSetting**
-> AppLocationSetting updateAppLocationSetting(updateAppLocationSettingRequest)
+> GetAppLocationSettingById200Response updateAppLocationSetting(updateAppLocationSettingRequest)
 
 
 ### Example
@@ -4974,6 +6669,16 @@ const request: AppApiUpdateAppLocationSettingRequest = {
   updateAppLocationSettingRequest: {
     name: "name_example",
     numInstances: 1,
+    autoscaling: {
+      enabled: true,
+      healthEnabled: true,
+      healthInitialDelaySeconds: 1,
+      healthPeriodSeconds: 1,
+      healthFailureThreshold: 1,
+      minInstances: 1,
+      maxInstances: 1,
+      bufferSize: 1,
+    },
   },
 };
 
@@ -4992,7 +6697,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**AppLocationSetting**
+**GetAppLocationSettingById200Response**
 
 ### Authorization
 
@@ -5187,7 +6892,7 @@ const request: AppApiUpdateServerConfigRequest = {
   
   updateServerConfigRequest: {
     name: "name_example",
-    args: "/usr/local/etc/enshrouded/bootstrap",
+    args: "args_example",
     command: "command_example",
     notes: "notes_example",
     binaryId: 1,

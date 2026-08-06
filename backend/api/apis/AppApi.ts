@@ -8,17 +8,21 @@ import {canConsumeForm, isCodeInRange} from '../util.ts';
 import {SecurityAuthentication} from '../auth/auth.ts';
 
 
+import { AllocateAppLocationSettingAutoscalingRequest } from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
 import { App } from '../models/App.ts';
-import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingCapacity } from '../models/AppLocationSettingCapacity.ts';
 import { Auth } from '../models/Auth.ts';
 import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
+import { BinariesMetadataSet200Response } from '../models/BinariesMetadataSet200Response.ts';
 import { Binary } from '../models/Binary.ts';
+import { CheckCapacityAppLocationSettingRequest } from '../models/CheckCapacityAppLocationSettingRequest.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
+import { GetAppLocationSettingById200Response } from '../models/GetAppLocationSettingById200Response.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
 import { GetAppWallets200Response } from '../models/GetAppWallets200Response.ts';
 import { GetApps200Response } from '../models/GetApps200Response.ts';
@@ -28,20 +32,31 @@ import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
 import { GetLocations200Response } from '../models/GetLocations200Response.ts';
 import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigById200Response } from '../models/GetServerConfigById200Response.ts';
 import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
 import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
+import { OccupiedLocationRequest } from '../models/OccupiedLocationRequest.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchAppLocationSettingMetadataRequest } from '../models/PatchAppLocationSettingMetadataRequest.ts';
+import { PatchAppMetadataRequest } from '../models/PatchAppMetadataRequest.ts';
+import { PatchBinaryMetadataRequest } from '../models/PatchBinaryMetadataRequest.ts';
+import { PatchDockerRegistryMetadataRequest } from '../models/PatchDockerRegistryMetadataRequest.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
+import { PatchServerConfigMetadataRequest } from '../models/PatchServerConfigMetadataRequest.ts';
 import { ResourcePackage } from '../models/ResourcePackage.ts';
 import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetAppLocationSettingMetadataRequest } from '../models/SetAppLocationSettingMetadataRequest.ts';
+import { SetAppMetadataRequest } from '../models/SetAppMetadataRequest.ts';
+import { SetBinaryMetadataRequest } from '../models/SetBinaryMetadataRequest.ts';
+import { SetDockerRegistryMetadataRequest } from '../models/SetDockerRegistryMetadataRequest.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
+import { SetServerConfigMetadataRequest } from '../models/SetServerConfigMetadataRequest.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
 import { StoreAppLocationSettingRequest } from '../models/StoreAppLocationSettingRequest.ts';
@@ -64,6 +79,600 @@ import { UpdateServerConfigRequest } from '../models/UpdateServerConfigRequest.t
  * no description
  */
 export class AppApiRequestFactory extends BaseAPIRequestFactory {
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param appLocationSetting The app location setting ID
+     * @param allocateAppLocationSettingAutoscalingRequest 
+     */
+    public async appLocationSettingsAutoscalingAllocate(appLocationSetting: number, allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsAutoscalingAllocate", "appLocationSetting");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/autoscaling/allocate'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(allocateAppLocationSettingAutoscalingRequest, "AllocateAppLocationSettingAutoscalingRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete all metadata
+     * @param appLocationSetting The app location setting ID
+     */
+    public async appLocationSettingsMetadataDeleteAll(appLocationSetting: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsMetadataDeleteAll", "appLocationSetting");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/metadata'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete metadata keys
+     * @param appLocationSetting The app location setting ID
+     * @param metadata 
+     */
+    public async appLocationSettingsMetadataDeleteKeys(appLocationSetting: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsMetadataDeleteKeys", "appLocationSetting");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/metadata/keys'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (metadata !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(metadata, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("metadata[]", serializedParam);
+            }
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param appLocationSetting The app location setting ID
+     * @param setAppLocationSettingMetadataRequest 
+     */
+    public async appLocationSettingsMetadataSet(appLocationSetting: number, setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsMetadataSet", "appLocationSetting");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/metadata'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(setAppLocationSettingMetadataRequest, "SetAppLocationSettingMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param appLocationSetting The app location setting ID
+     * @param patchAppLocationSettingMetadataRequest 
+     */
+    public async appLocationSettingsMetadataUpdate(appLocationSetting: number, patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'appLocationSetting' is not null or undefined
+        if (appLocationSetting === null || appLocationSetting === undefined) {
+            throw new RequiredError("AppApi", "appLocationSettingsMetadataUpdate", "appLocationSetting");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/app-location-settings/{appLocationSetting}/metadata'
+            .replace('{' + 'appLocationSetting' + '}', encodeURIComponent(String(appLocationSetting)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchAppLocationSettingMetadataRequest, "PatchAppLocationSettingMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete all metadata
+     * @param app The app ID
+     */
+    public async appsMetadataDeleteAll(app: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "appsMetadataDeleteAll", "app");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/metadata'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete metadata keys
+     * @param app The app ID
+     * @param metadata 
+     */
+    public async appsMetadataDeleteKeys(app: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "appsMetadataDeleteKeys", "app");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "appsMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/metadata/keys'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (metadata !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(metadata, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("metadata[]", serializedParam);
+            }
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param app The app ID
+     * @param setAppMetadataRequest 
+     */
+    public async appsMetadataSet(app: number, setAppMetadataRequest?: SetAppMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "appsMetadataSet", "app");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/metadata'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(setAppMetadataRequest, "SetAppMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param app The app ID
+     * @param patchAppMetadataRequest 
+     */
+    public async appsMetadataUpdate(app: number, patchAppMetadataRequest?: PatchAppMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "appsMetadataUpdate", "app");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/metadata'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchAppMetadataRequest, "PatchAppMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete all metadata
+     * @param binary The binary ID
+     */
+    public async binariesMetadataDeleteAll(binary: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "binariesMetadataDeleteAll", "binary");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/metadata'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete metadata keys
+     * @param binary The binary ID
+     * @param metadata 
+     */
+    public async binariesMetadataDeleteKeys(binary: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "binariesMetadataDeleteKeys", "binary");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "binariesMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/metadata/keys'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (metadata !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(metadata, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("metadata[]", serializedParam);
+            }
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param binary The binary ID
+     * @param setBinaryMetadataRequest 
+     */
+    public async binariesMetadataSet(binary: number, setBinaryMetadataRequest?: SetBinaryMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "binariesMetadataSet", "binary");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/metadata'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(setBinaryMetadataRequest, "SetBinaryMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param binary The binary ID
+     * @param patchBinaryMetadataRequest 
+     */
+    public async binariesMetadataUpdate(binary: number, patchBinaryMetadataRequest?: PatchBinaryMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'binary' is not null or undefined
+        if (binary === null || binary === undefined) {
+            throw new RequiredError("AppApi", "binariesMetadataUpdate", "binary");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/binaries/{binary}/metadata'
+            .replace('{' + 'binary' + '}', encodeURIComponent(String(binary)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchBinaryMetadataRequest, "PatchBinaryMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param app The app ID
+     * @param checkCapacityAppLocationSettingRequest 
+     */
+    public async checkCapacity(app: number, checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'app' is not null or undefined
+        if (app === null || app === undefined) {
+            throw new RequiredError("AppApi", "checkCapacity", "app");
+        }
+
+
+        // verify required parameter 'checkCapacityAppLocationSettingRequest' is not null or undefined
+        if (checkCapacityAppLocationSettingRequest === null || checkCapacityAppLocationSettingRequest === undefined) {
+            throw new RequiredError("AppApi", "checkCapacity", "checkCapacityAppLocationSettingRequest");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/apps/{app}/location-settings/capacity'
+            .replace('{' + 'app' + '}', encodeURIComponent(String(app)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(checkCapacityAppLocationSettingRequest, "CheckCapacityAppLocationSettingRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
 
     /**
      * Check URL reachability for service DNS URLs
@@ -731,6 +1340,297 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Delete all metadata
+     * @param dockerRegistry The docker registry ID
+     */
+    public async dockerRegistriesMetadataDeleteAll(dockerRegistry: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "dockerRegistriesMetadataDeleteAll", "dockerRegistry");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/metadata'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete metadata keys
+     * @param dockerRegistry The docker registry ID
+     * @param metadata 
+     */
+    public async dockerRegistriesMetadataDeleteKeys(dockerRegistry: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "dockerRegistriesMetadataDeleteKeys", "dockerRegistry");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "dockerRegistriesMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/metadata/keys'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (metadata !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(metadata, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("metadata[]", serializedParam);
+            }
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param dockerRegistry The docker registry ID
+     * @param setDockerRegistryMetadataRequest 
+     */
+    public async dockerRegistriesMetadataSet(dockerRegistry: number, setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "dockerRegistriesMetadataSet", "dockerRegistry");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/metadata'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(setDockerRegistryMetadataRequest, "SetDockerRegistryMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param dockerRegistry The docker registry ID
+     * @param patchDockerRegistryMetadataRequest 
+     */
+    public async dockerRegistriesMetadataUpdate(dockerRegistry: number, patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerRegistry' is not null or undefined
+        if (dockerRegistry === null || dockerRegistry === undefined) {
+            throw new RequiredError("AppApi", "dockerRegistriesMetadataUpdate", "dockerRegistry");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/docker-registries/{dockerRegistry}/metadata'
+            .replace('{' + 'dockerRegistry' + '}', encodeURIComponent(String(dockerRegistry)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchDockerRegistryMetadataRequest, "PatchDockerRegistryMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param dockerService The docker service ID
+     */
+    public async dockerServicesAutoscalingAllocate(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesAutoscalingAllocate", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/autoscaling/allocate'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param dockerService The docker service ID
+     */
+    public async dockerServicesAutoscalingHealth(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesAutoscalingHealth", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/autoscaling/health'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param dockerService The docker service ID
+     */
+    public async dockerServicesAutoscalingReady(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesAutoscalingReady", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/autoscaling/ready'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param dockerService The docker service ID
+     */
+    public async dockerServicesAutoscalingShutdown(dockerService: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'dockerService' is not null or undefined
+        if (dockerService === null || dockerService === undefined) {
+            throw new RequiredError("AppApi", "dockerServicesAutoscalingShutdown", "dockerService");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/services/{dockerService}/autoscaling/shutdown'
+            .replace('{' + 'dockerService' + '}', encodeURIComponent(String(dockerService)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
      * Delete all service metadata
      * @param dockerService The docker service ID
      */
@@ -1021,14 +1921,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterServerConfigStatus Filter by ServerConfig status.
      * @param filterServerConfigMaintenance Filter by ServerConfig maintenance.
      * @param filterServerConfigResourcePackageSlug Filter by ServerConfig resource package slug.
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public async getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getAppLocationSettings", "app");
         }
+
 
 
 
@@ -1072,7 +1974,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1168,6 +2070,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("filter[serverConfigResourcePackageSlug]", ObjectSerializer.serialize(filterServerConfigResourcePackageSlug, "string", ""));
         }
 
+        // Query Params
+        if (filterMetadata !== undefined) {
+            requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
+        }
+
 
         
         const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
@@ -1187,7 +2094,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterId Filter by id.
      * @param filterBalance Filter by balance.
      */
-    public async getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: Configuration): Promise<RequestContext> {
+    public async getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-balance' | 'balance'>, filterId?: number, filterBalance?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
@@ -1221,7 +2128,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-balance' | 'balance'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1256,9 +2163,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterName Filter by name.
      * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param filterInUse Filter by in use flag.
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public async getApps(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: Configuration): Promise<RequestContext> {
+    public async getApps(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
 
 
 
@@ -1286,7 +2195,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1310,6 +2219,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterInUse !== undefined) {
             requestContext.setQueryParam("filter[inUse]", ObjectSerializer.serialize(filterInUse, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterMetadata !== undefined) {
+            requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
         }
 
 
@@ -1415,7 +2329,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterName Filter by name.
      * @param filterArchiveName Filter by archive name.
      */
-    public async getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>, filterName?: string, filterArchiveName?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'dockerService' is not null or undefined
@@ -1449,7 +2363,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1489,14 +2403,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterMaintenance Filter by maintenance status.
      * @param filterStatus Filter by status.
      * @param filterInUse Filter by in use flag.
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public async getBinaries(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: Configuration): Promise<RequestContext> {
+    public async getBinaries(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getBinaries", "app");
         }
+
 
 
 
@@ -1530,7 +2446,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1574,6 +2490,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterInUse !== undefined) {
             requestContext.setQueryParam("filter[inUse]", ObjectSerializer.serialize(filterInUse, "boolean", ""));
+        }
+
+        // Query Params
+        if (filterMetadata !== undefined) {
+            requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
         }
 
 
@@ -1628,9 +2549,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterNamePartial Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param filterUrl Filter by url.
      * @param filterOrganization Filter by organization.
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public async getDockerRegistries(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getDockerRegistries(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
+
 
 
 
@@ -1660,7 +2583,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -1694,6 +2617,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterOrganization !== undefined) {
             requestContext.setQueryParam("filter[organization]", ObjectSerializer.serialize(filterOrganization, "string", ""));
+        }
+
+        // Query Params
+        if (filterMetadata !== undefined) {
+            requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
         }
 
 
@@ -1849,7 +2777,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterCpuLimit Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
      * @param filterMemoryLimitMiB Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      */
-    public async getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: Configuration): Promise<RequestContext> {
+    public async getResourcePackages(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
 
@@ -1881,7 +2809,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -2055,14 +2983,16 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterBinaryVersion Filter by binary version.
      * @param filterBinaryType Filter by binary type.
      * @param filterBinaryOs Filter by binary operating system.
+     * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public async getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: Configuration): Promise<RequestContext> {
+    public async getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, filterMetadata?: string, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServerConfigs", "app");
         }
+
 
 
 
@@ -2104,7 +3034,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -2190,6 +3120,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
             requestContext.setQueryParam("filter[binaryOs]", ObjectSerializer.serialize(filterBinaryOs, "string", ""));
         }
 
+        // Query Params
+        if (filterMetadata !== undefined) {
+            requestContext.setQueryParam("filter[metadata]", ObjectSerializer.serialize(filterMetadata, "string", ""));
+        }
+
 
         
         const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
@@ -2259,6 +3194,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param page Specifies the page number to retrieve in the paginated results.
      * @param filterStatus Filter by status.
      * @param filterAppLocationSettingId Filter by AppLocationSetting ID.
+     * @param filterAutoscalingEnabled Filter by whether the service belongs to an autoscaled AppLocationSetting.
      * @param filterServerConfigId Filter by ServerConfig ID.
      * @param filterServerConfigName Filter by ServerConfig name.
      * @param filterServerConfigNamePartial Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
@@ -2276,13 +3212,14 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
      * @param filterMetadata Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param sort Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: Configuration): Promise<RequestContext> {
+    public async getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterAutoscalingEnabled?: boolean, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>, _options?: Configuration): Promise<RequestContext> {
         let _config = _options || this.configuration;
 
         // verify required parameter 'app' is not null or undefined
         if (app === null || app === undefined) {
             throw new RequiredError("AppApi", "getServers", "app");
         }
+
 
 
 
@@ -2331,6 +3268,11 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
         if (filterAppLocationSettingId !== undefined) {
             requestContext.setQueryParam("filter[appLocationSettingId]", ObjectSerializer.serialize(filterAppLocationSettingId, "number", ""));
+        }
+
+        // Query Params
+        if (filterAutoscalingEnabled !== undefined) {
+            requestContext.setQueryParam("filter[autoscalingEnabled]", ObjectSerializer.serialize(filterAutoscalingEnabled, "boolean", ""));
         }
 
         // Query Params
@@ -2410,7 +3352,7 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (sort !== undefined) {
-            const serializedParams = ObjectSerializer.serialize(sort, "Array<string>", "");
+            const serializedParams = ObjectSerializer.serialize(sort, "Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>", "");
             for (const serializedParam of serializedParams) {
                 requestContext.appendQueryParam("sort[]", serializedParam);
             }
@@ -3170,6 +4112,47 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
     }
 
     /**
+     * Submit a new location request
+     * @param occupiedLocationRequest 
+     */
+    public async requestLocation(occupiedLocationRequest: OccupiedLocationRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'occupiedLocationRequest' is not null or undefined
+        if (occupiedLocationRequest === null || occupiedLocationRequest === undefined) {
+            throw new RequiredError("AppApi", "requestLocation", "occupiedLocationRequest");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/nodes/locations/request';
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(occupiedLocationRequest, "OccupiedLocationRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
      * Restart service
      * @param dockerService The docker service ID
      */
@@ -3221,6 +4204,173 @@ export class AppApiRequestFactory extends BaseAPIRequestFactory {
         const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
 
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete all metadata
+     * @param serverConfig The server config ID
+     */
+    public async serverConfigsMetadataDeleteAll(serverConfig: number, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "serverConfigsMetadataDeleteAll", "serverConfig");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/metadata'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Delete metadata keys
+     * @param serverConfig The server config ID
+     * @param metadata 
+     */
+    public async serverConfigsMetadataDeleteKeys(serverConfig: number, metadata: Array<string>, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "serverConfigsMetadataDeleteKeys", "serverConfig");
+        }
+
+
+        // verify required parameter 'metadata' is not null or undefined
+        if (metadata === null || metadata === undefined) {
+            throw new RequiredError("AppApi", "serverConfigsMetadataDeleteKeys", "metadata");
+        }
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/metadata/keys'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+        if (metadata !== undefined) {
+            const serializedParams = ObjectSerializer.serialize(metadata, "Array<string>", "");
+            for (const serializedParam of serializedParams) {
+                requestContext.appendQueryParam("metadata[]", serializedParam);
+            }
+        }
+
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param serverConfig The server config ID
+     * @param setServerConfigMetadataRequest 
+     */
+    public async serverConfigsMetadataSet(serverConfig: number, setServerConfigMetadataRequest?: SetServerConfigMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "serverConfigsMetadataSet", "serverConfig");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/metadata'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(setServerConfigMetadataRequest, "SetServerConfigMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+
+        
+        const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
+        if (defaultAuth?.applySecurityAuthentication) {
+            await defaultAuth?.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param serverConfig The server config ID
+     * @param patchServerConfigMetadataRequest 
+     */
+    public async serverConfigsMetadataUpdate(serverConfig: number, patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest, _options?: Configuration): Promise<RequestContext> {
+        let _config = _options || this.configuration;
+
+        // verify required parameter 'serverConfig' is not null or undefined
+        if (serverConfig === null || serverConfig === undefined) {
+            throw new RequiredError("AppApi", "serverConfigsMetadataUpdate", "serverConfig");
+        }
+
+
+
+        // Path Params
+        const localVarPath = '/v1/server-configs/{serverConfig}/metadata'
+            .replace('{' + 'serverConfig' + '}', encodeURIComponent(String(serverConfig)));
+
+        // Make Request Context
+        const requestContext = _config.baseServer.makeRequestContext(localVarPath, HttpMethod.PATCH);
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+
+        // Body Params
+        const contentType = ObjectSerializer.getPreferredMediaType([
+            "application/json"
+        ]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize(patchServerConfigMetadataRequest, "PatchServerConfigMetadataRequest", ""),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
 
         
         const defaultAuth: SecurityAuthentication | undefined = _config?.authMethods?.default
@@ -3871,6 +5021,790 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to appLocationSettingsAutoscalingAllocate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appLocationSettingsAutoscalingAllocateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Server >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("409", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Could not find an allocatable instance.", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: Server = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "Server", ""
+            ) as Server;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appLocationSettingsMetadataDeleteAll
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appLocationSettingsMetadataDeleteAllWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appLocationSettingsMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appLocationSettingsMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appLocationSettingsMetadataSet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appLocationSettingsMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appLocationSettingsMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appLocationSettingsMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appsMetadataDeleteAll
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appsMetadataDeleteAllWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appsMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appsMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appsMetadataSet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appsMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to appsMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async appsMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<App >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: App = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "App", ""
+            ) as App;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to binariesMetadataDeleteAll
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async binariesMetadataDeleteAllWithHttpInfo(response: ResponseContext): Promise<HttpInfo<BinariesMetadataSet200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to binariesMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async binariesMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<BinariesMetadataSet200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to binariesMetadataSet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async binariesMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<BinariesMetadataSet200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to binariesMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async binariesMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<BinariesMetadataSet200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: BinariesMetadataSet200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "BinariesMetadataSet200Response", ""
+            ) as BinariesMetadataSet200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to checkCapacity
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async checkCapacityWithHttpInfo(response: ResponseContext): Promise<HttpInfo<AppLocationSettingCapacity >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: AppLocationSettingCapacity = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "AppLocationSettingCapacity", ""
+            ) as AppLocationSettingCapacity;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: AppLocationSettingCapacity = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "AppLocationSettingCapacity", ""
+            ) as AppLocationSettingCapacity;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to checkServerDns
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -3884,25 +5818,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -3934,25 +5868,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -3974,42 +5908,42 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to createAppLocationSetting
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async createAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<AppLocationSetting >> {
+     public async createAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
-        }
-        if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -4021,10 +5955,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -4044,32 +5978,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
-        }
-        if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -4108,32 +6042,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4165,25 +6099,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4215,25 +6149,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4265,25 +6199,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -4322,25 +6256,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4372,32 +6306,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4425,25 +6359,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4471,25 +6405,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4517,25 +6451,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4563,25 +6497,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4609,25 +6543,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4655,18 +6589,18 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4694,25 +6628,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4740,25 +6674,458 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerRegistriesMetadataDeleteAll
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerRegistriesMetadataDeleteAllWithHttpInfo(response: ResponseContext): Promise<HttpInfo<DockerRegistry >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerRegistriesMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerRegistriesMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<DockerRegistry >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerRegistriesMetadataSet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerRegistriesMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<DockerRegistry >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerRegistriesMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerRegistriesMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<DockerRegistry >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: DockerRegistry = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "DockerRegistry", ""
+            ) as DockerRegistry;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerServicesAutoscalingAllocate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesAutoscalingAllocateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("204", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("409", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Autoscaling is not enabled for this service.", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerServicesAutoscalingHealth
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesAutoscalingHealthWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("204", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("409", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Autoscaling is not enabled for this service.", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerServicesAutoscalingReady
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesAutoscalingReadyWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("204", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("409", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Autoscaling is not enabled for this service.", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to dockerServicesAutoscalingShutdown
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async dockerServicesAutoscalingShutdownWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("204", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("409", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Autoscaling is not enabled for this service.", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4790,25 +7157,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4840,32 +7207,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4897,32 +7264,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -4954,32 +7321,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5011,32 +7378,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5068,25 +7435,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5108,43 +7475,43 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getAppLocationSettingById
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getAppLocationSettingByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<AppLocationSetting >> {
+     public async getAppLocationSettingByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -5168,32 +7535,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5225,32 +7592,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5282,25 +7649,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5332,25 +7699,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5389,11 +7756,11 @@ export class AppApiResponseProcessor {
             throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "An error", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
+            const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5425,32 +7792,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5482,32 +7849,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5539,25 +7906,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5589,25 +7956,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5639,25 +8006,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5689,25 +8056,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5739,25 +8106,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5789,25 +8156,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5839,25 +8206,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5889,25 +8256,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5939,25 +8306,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -5979,43 +8346,43 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to getServerConfigById
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async getServerConfigByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<ServerConfig >> {
+     public async getServerConfigByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigById200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: ServerConfig = ObjectSerializer.deserialize(
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "ServerConfig", ""
-            ) as ServerConfig;
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: ServerConfig = ObjectSerializer.deserialize(
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "ServerConfig", ""
-            ) as ServerConfig;
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -6039,32 +8406,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6096,32 +8463,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6153,32 +8520,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6210,25 +8577,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6260,25 +8627,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6310,25 +8677,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6360,32 +8727,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6417,32 +8784,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6474,25 +8841,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6524,32 +8891,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6581,25 +8948,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6631,32 +8998,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6688,32 +9055,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6745,32 +9112,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6802,32 +9169,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6859,32 +9226,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6916,32 +9283,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -6973,18 +9340,18 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7016,32 +9383,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7073,25 +9440,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7100,6 +9467,59 @@ export class AppApiResponseProcessor {
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "GetTaggedImages200Response", ""
             ) as GetTaggedImages200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to requestLocation
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async requestLocationWithHttpInfo(response: ResponseContext): Promise<HttpInfo<void >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("202", response.httpStatusCode)) {
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+        if (isCodeInRange("429", response.httpStatusCode)) {
+            const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "UpdateAppLocationSetting402Response", ""
+            ) as UpdateAppLocationSetting402Response;
+            throw new ApiException<UpdateAppLocationSetting402Response>(response.httpStatusCode, "Too Many Requests", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: void = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "void", ""
+            ) as void;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -7119,25 +9539,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7172,25 +9592,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7216,6 +9636,227 @@ export class AppApiResponseProcessor {
      * Unwraps the actual response sent by the server from the response context and deserializes the response content
      * to the expected objects
      *
+     * @params response Response returned by the server for a request to serverConfigsMetadataDeleteAll
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async serverConfigsMetadataDeleteAllWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to serverConfigsMetadataDeleteKeys
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async serverConfigsMetadataDeleteKeysWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to serverConfigsMetadataSet
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async serverConfigsMetadataSetWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to serverConfigsMetadataUpdate
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async serverConfigsMetadataUpdateWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetServerConfigById200Response >> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
+        }
+        if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
+            const body: InlineObject = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "InlineObject", ""
+            ) as InlineObject;
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
+        }
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const body: GetServerConfigById200Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetServerConfigById200Response", ""
+            ) as GetServerConfigById200Response;
+            return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
+        }
+
+        throw new ApiException<string | Blob | undefined>(response.httpStatusCode, "Unknown API Status Code!", await response.getBodyAsAny(), response.headers);
+    }
+
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
      * @params response Response returned by the server for a request to startServer
      * @throws ApiException if the response code was not in [200, 299]
      */
@@ -7225,25 +9866,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7278,25 +9919,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7331,25 +9972,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7384,25 +10025,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7437,25 +10078,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7494,25 +10135,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7544,25 +10185,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7590,25 +10231,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7636,25 +10277,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7682,25 +10323,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7728,25 +10369,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7774,25 +10415,25 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, undefined);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7824,32 +10465,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -7871,42 +10512,42 @@ export class AppApiResponseProcessor {
      * @params response Response returned by the server for a request to updateAppLocationSetting
      * @throws ApiException if the response code was not in [200, 299]
      */
-     public async updateAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<AppLocationSetting >> {
+     public async updateAppLocationSettingWithHttpInfo(response: ResponseContext): Promise<HttpInfo<GetAppLocationSettingById200Response >> {
         const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
         if (isCodeInRange("200", response.httpStatusCode)) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("403", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+        }
+        if (isCodeInRange("422", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
-        }
-        if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
         }
         if (isCodeInRange("402", response.httpStatusCode)) {
             const body: UpdateAppLocationSetting402Response = ObjectSerializer.deserialize(
@@ -7918,10 +10559,10 @@ export class AppApiResponseProcessor {
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
-            const body: AppLocationSetting = ObjectSerializer.deserialize(
+            const body: GetAppLocationSettingById200Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "AppLocationSetting", ""
-            ) as AppLocationSetting;
+                "GetAppLocationSettingById200Response", ""
+            ) as GetAppLocationSettingById200Response;
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
 
@@ -7945,32 +10586,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -8002,32 +10643,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml
@@ -8059,32 +10700,32 @@ export class AppApiResponseProcessor {
             return new HttpInfo(response.httpStatusCode, response.headers, response.body, body);
         }
         if (isCodeInRange("404", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Not found", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Not found", body, response.headers);
         }
         if (isCodeInRange("401", response.httpStatusCode)) {
-            const body: InlineObject = ObjectSerializer.deserialize(
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject", ""
-            ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Unauthenticated", body, response.headers);
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Unauthenticated", body, response.headers);
         }
         if (isCodeInRange("422", response.httpStatusCode)) {
-            const body: InlineObject1 = ObjectSerializer.deserialize(
-                ObjectSerializer.parse(await response.body.text(), contentType),
-                "InlineObject1", ""
-            ) as InlineObject1;
-            throw new ApiException<InlineObject1>(response.httpStatusCode, "Validation error", body, response.headers);
-        }
-        if (isCodeInRange("403", response.httpStatusCode)) {
             const body: InlineObject = ObjectSerializer.deserialize(
                 ObjectSerializer.parse(await response.body.text(), contentType),
                 "InlineObject", ""
             ) as InlineObject;
-            throw new ApiException<InlineObject>(response.httpStatusCode, "Authorization error", body, response.headers);
+            throw new ApiException<InlineObject>(response.httpStatusCode, "Validation error", body, response.headers);
+        }
+        if (isCodeInRange("403", response.httpStatusCode)) {
+            const body: GetAuthTokenViaFsid403Response = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "GetAuthTokenViaFsid403Response", ""
+            ) as GetAuthTokenViaFsid403Response;
+            throw new ApiException<GetAuthTokenViaFsid403Response>(response.httpStatusCode, "Authorization error", body, response.headers);
         }
 
         // Work around for missing responses in specification, e.g. for petstore.yaml

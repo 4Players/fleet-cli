@@ -2,9 +2,13 @@ import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/htt
 import { Configuration, ConfigurationOptions } from '../configuration.ts'
 import type { Middleware } from '../middleware.ts';
 
+import { AllocateAppLocationSettingAutoscalingRequest } from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
+import { AllocateAppLocationSettingAutoscalingRequestFilter } from '../models/AllocateAppLocationSettingAutoscalingRequestFilter.ts';
 import { App } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingAutoscaling } from '../models/AppLocationSettingAutoscaling.ts';
+import { AppLocationSettingCapacity } from '../models/AppLocationSettingCapacity.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -13,11 +17,16 @@ import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
+import { BinariesMetadataSet200Response } from '../models/BinariesMetadataSet200Response.ts';
 import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
+import { CheckCapacityAppLocationSettingRequest } from '../models/CheckCapacityAppLocationSettingRequest.ts';
+import { CheckCapacityAppLocationSettingRequestPlacement } from '../models/CheckCapacityAppLocationSettingRequestPlacement.ts';
+import { CheckCapacityAppLocationSettingRequestPlacementConstraints } from '../models/CheckCapacityAppLocationSettingRequestPlacementConstraints.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateAutoscaling } from '../models/CreateUpdateAutoscaling.ts';
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
@@ -25,10 +34,13 @@ import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceAutoscaling } from '../models/DockerServiceAutoscaling.ts';
+import { DockerServiceAutoscalingStatus } from '../models/DockerServiceAutoscalingStatus.ts';
 import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettingById200Response } from '../models/GetAppLocationSettingById200Response.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
@@ -41,12 +53,14 @@ import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
 import { GetLocations200Response } from '../models/GetLocations200Response.ts';
 import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigById200Response } from '../models/GetServerConfigById200Response.ts';
 import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { LocationIndex } from '../models/LocationIndex.ts';
+import { LocationLoad } from '../models/LocationLoad.ts';
 import { MetricData } from '../models/MetricData.ts';
 import { MetricInstantData } from '../models/MetricInstantData.ts';
 import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
@@ -55,8 +69,14 @@ import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
 import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
+import { OccupiedLocationRequest } from '../models/OccupiedLocationRequest.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchAppLocationSettingMetadataRequest } from '../models/PatchAppLocationSettingMetadataRequest.ts';
+import { PatchAppMetadataRequest } from '../models/PatchAppMetadataRequest.ts';
+import { PatchBinaryMetadataRequest } from '../models/PatchBinaryMetadataRequest.ts';
+import { PatchDockerRegistryMetadataRequest } from '../models/PatchDockerRegistryMetadataRequest.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
+import { PatchServerConfigMetadataRequest } from '../models/PatchServerConfigMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
@@ -71,7 +91,12 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetAppLocationSettingMetadataRequest } from '../models/SetAppLocationSettingMetadataRequest.ts';
+import { SetAppMetadataRequest } from '../models/SetAppMetadataRequest.ts';
+import { SetBinaryMetadataRequest } from '../models/SetBinaryMetadataRequest.ts';
+import { SetDockerRegistryMetadataRequest } from '../models/SetDockerRegistryMetadataRequest.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
+import { SetServerConfigMetadataRequest } from '../models/SetServerConfigMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -108,6 +133,215 @@ import { WalletScope } from '../models/WalletScope.ts';
 
 import { ObservableAppApi } from "./ObservableAPI.ts";
 import { AppApiRequestFactory, AppApiResponseProcessor} from "../apis/AppApi.ts";
+
+export interface AppApiAppLocationSettingsAutoscalingAllocateRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappLocationSettingsAutoscalingAllocate
+     */
+    appLocationSetting: number
+    /**
+     * 
+     * @type AllocateAppLocationSettingAutoscalingRequest
+     * @memberof AppApiappLocationSettingsAutoscalingAllocate
+     */
+    allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest
+}
+
+export interface AppApiAppLocationSettingsMetadataDeleteAllRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappLocationSettingsMetadataDeleteAll
+     */
+    appLocationSetting: number
+}
+
+export interface AppApiAppLocationSettingsMetadataDeleteKeysRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappLocationSettingsMetadataDeleteKeys
+     */
+    appLocationSetting: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApiappLocationSettingsMetadataDeleteKeys
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiAppLocationSettingsMetadataSetRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappLocationSettingsMetadataSet
+     */
+    appLocationSetting: number
+    /**
+     * 
+     * @type SetAppLocationSettingMetadataRequest
+     * @memberof AppApiappLocationSettingsMetadataSet
+     */
+    setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest
+}
+
+export interface AppApiAppLocationSettingsMetadataUpdateRequest {
+    /**
+     * The app location setting ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappLocationSettingsMetadataUpdate
+     */
+    appLocationSetting: number
+    /**
+     * 
+     * @type PatchAppLocationSettingMetadataRequest
+     * @memberof AppApiappLocationSettingsMetadataUpdate
+     */
+    patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest
+}
+
+export interface AppApiAppsMetadataDeleteAllRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappsMetadataDeleteAll
+     */
+    app: number
+}
+
+export interface AppApiAppsMetadataDeleteKeysRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappsMetadataDeleteKeys
+     */
+    app: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApiappsMetadataDeleteKeys
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiAppsMetadataSetRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappsMetadataSet
+     */
+    app: number
+    /**
+     * 
+     * @type SetAppMetadataRequest
+     * @memberof AppApiappsMetadataSet
+     */
+    setAppMetadataRequest?: SetAppMetadataRequest
+}
+
+export interface AppApiAppsMetadataUpdateRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiappsMetadataUpdate
+     */
+    app: number
+    /**
+     * 
+     * @type PatchAppMetadataRequest
+     * @memberof AppApiappsMetadataUpdate
+     */
+    patchAppMetadataRequest?: PatchAppMetadataRequest
+}
+
+export interface AppApiBinariesMetadataDeleteAllRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApibinariesMetadataDeleteAll
+     */
+    binary: number
+}
+
+export interface AppApiBinariesMetadataDeleteKeysRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApibinariesMetadataDeleteKeys
+     */
+    binary: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApibinariesMetadataDeleteKeys
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiBinariesMetadataSetRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApibinariesMetadataSet
+     */
+    binary: number
+    /**
+     * 
+     * @type SetBinaryMetadataRequest
+     * @memberof AppApibinariesMetadataSet
+     */
+    setBinaryMetadataRequest?: SetBinaryMetadataRequest
+}
+
+export interface AppApiBinariesMetadataUpdateRequest {
+    /**
+     * The binary ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApibinariesMetadataUpdate
+     */
+    binary: number
+    /**
+     * 
+     * @type PatchBinaryMetadataRequest
+     * @memberof AppApibinariesMetadataUpdate
+     */
+    patchBinaryMetadataRequest?: PatchBinaryMetadataRequest
+}
+
+export interface AppApiCheckCapacityRequest {
+    /**
+     * The app ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApicheckCapacity
+     */
+    app: number
+    /**
+     * 
+     * @type CheckCapacityAppLocationSettingRequest
+     * @memberof AppApicheckCapacity
+     */
+    checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest
+}
 
 export interface AppApiCheckServerDnsRequest {
     /**
@@ -308,6 +542,105 @@ export interface AppApiDeleteUnusedServerConfigsRequest {
     app: number
 }
 
+export interface AppApiDockerRegistriesMetadataDeleteAllRequest {
+    /**
+     * The docker registry ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerRegistriesMetadataDeleteAll
+     */
+    dockerRegistry: number
+}
+
+export interface AppApiDockerRegistriesMetadataDeleteKeysRequest {
+    /**
+     * The docker registry ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerRegistriesMetadataDeleteKeys
+     */
+    dockerRegistry: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApidockerRegistriesMetadataDeleteKeys
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiDockerRegistriesMetadataSetRequest {
+    /**
+     * The docker registry ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerRegistriesMetadataSet
+     */
+    dockerRegistry: number
+    /**
+     * 
+     * @type SetDockerRegistryMetadataRequest
+     * @memberof AppApidockerRegistriesMetadataSet
+     */
+    setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest
+}
+
+export interface AppApiDockerRegistriesMetadataUpdateRequest {
+    /**
+     * The docker registry ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerRegistriesMetadataUpdate
+     */
+    dockerRegistry: number
+    /**
+     * 
+     * @type PatchDockerRegistryMetadataRequest
+     * @memberof AppApidockerRegistriesMetadataUpdate
+     */
+    patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest
+}
+
+export interface AppApiDockerServicesAutoscalingAllocateRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesAutoscalingAllocate
+     */
+    dockerService: number
+}
+
+export interface AppApiDockerServicesAutoscalingHealthRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesAutoscalingHealth
+     */
+    dockerService: number
+}
+
+export interface AppApiDockerServicesAutoscalingReadyRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesAutoscalingReady
+     */
+    dockerService: number
+}
+
+export interface AppApiDockerServicesAutoscalingShutdownRequest {
+    /**
+     * The docker service ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApidockerServicesAutoscalingShutdown
+     */
+    dockerService: number
+}
+
 export interface AppApiDockerServicesMetadataDeleteAllRequest {
     /**
      * The docker service ID
@@ -431,10 +764,10 @@ export interface AppApiGetAppLocationSettingsRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-serverConfigId&#39; | &#39;serverConfigId&#39; | &#39;-numInstances&#39; | &#39;numInstances&#39; | &#39;-status&#39; | &#39;status&#39; | &#39;-statusMessage&#39; | &#39;statusMessage&#39; | &#39;-maintenance&#39; | &#39;maintenance&#39; | &#39;-locationCity&#39; | &#39;locationCity&#39; | &#39;-locationCityDisplay&#39; | &#39;locationCityDisplay&#39; | &#39;-locationContinent&#39; | &#39;locationContinent&#39; | &#39;-locationCountry&#39; | &#39;locationCountry&#39; | &#39;-serverConfigId&#39; | &#39;serverConfigId&#39; | &#39;-serverConfigName&#39; | &#39;serverConfigName&#39; | &#39;-serverConfigCommand&#39; | &#39;serverConfigCommand&#39; | &#39;-serverConfigArgs&#39; | &#39;serverConfigArgs&#39; | &#39;-serverConfigNotes&#39; | &#39;serverConfigNotes&#39; | &#39;-serverConfigStatus&#39; | &#39;serverConfigStatus&#39; | &#39;-serverConfigMaintenance&#39; | &#39;serverConfigMaintenance&#39; | &#39;-serverConfigResourcePackageSlug&#39; | &#39;serverConfigResourcePackageSlug&#39;&gt;
      * @memberof AppApigetAppLocationSettings
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -561,6 +894,13 @@ export interface AppApiGetAppLocationSettingsRequest {
      * @memberof AppApigetAppLocationSettings
      */
     filterServerConfigResourcePackageSlug?: string
+    /**
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetAppLocationSettings
+     */
+    filterMetadata?: string
 }
 
 export interface AppApiGetAppWalletsRequest {
@@ -590,10 +930,10 @@ export interface AppApiGetAppWalletsRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-balance&#39; | &#39;balance&#39;&gt;
      * @memberof AppApigetAppWallets
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-balance' | 'balance'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -630,10 +970,10 @@ export interface AppApiGetAppsRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-inUse&#39; | &#39;inUse&#39;&gt;
      * @memberof AppApigetApps
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -662,6 +1002,13 @@ export interface AppApiGetAppsRequest {
      * @memberof AppApigetApps
      */
     filterInUse?: boolean
+    /**
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetApps
+     */
+    filterMetadata?: string
 }
 
 export interface AppApiGetAuthTokenRequest {
@@ -707,10 +1054,10 @@ export interface AppApiGetBackupsRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;name sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;name&amp;sort[]&#x3D;-archiveName &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-name&#39; | &#39;name&#39; | &#39;-archiveName&#39; | &#39;archiveName&#39; | &#39;-createdAt&#39; | &#39;createdAt&#39; | &#39;-restoredAt&#39; | &#39;restoredAt&#39;&gt;
      * @memberof AppApigetBackups
      */
-    sort?: Array<string>
+    sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>
     /**
      * Filter by name.
      * Defaults to: undefined
@@ -754,10 +1101,10 @@ export interface AppApiGetBinariesRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-version&#39; | &#39;version&#39; | &#39;-type&#39; | &#39;type&#39; | &#39;-os&#39; | &#39;os&#39; | &#39;-status&#39; | &#39;status&#39; | &#39;-statusMessage&#39; | &#39;statusMessage&#39; | &#39;-progress&#39; | &#39;progress&#39; | &#39;-progressMessage&#39; | &#39;progressMessage&#39; | &#39;-inUse&#39; | &#39;inUse&#39;&gt;
      * @memberof AppApigetBinaries
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>
     /**
      * Filter by name.
      * Defaults to: undefined
@@ -814,6 +1161,13 @@ export interface AppApiGetBinariesRequest {
      * @memberof AppApigetBinaries
      */
     filterInUse?: boolean
+    /**
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetBinaries
+     */
+    filterMetadata?: string
 }
 
 export interface AppApiGetBinaryByIdRequest {
@@ -846,10 +1200,10 @@ export interface AppApiGetDockerRegistriesRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-type&#39; | &#39;type&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-url&#39; | &#39;url&#39; | &#39;-organization&#39; | &#39;organization&#39;&gt;
      * @memberof AppApigetDockerRegistries
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -892,6 +1246,13 @@ export interface AppApiGetDockerRegistriesRequest {
      * @memberof AppApigetDockerRegistries
      */
     filterOrganization?: string
+    /**
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetDockerRegistries
+     */
+    filterMetadata?: string
 }
 
 export interface AppApiGetDockerRegistryByIdRequest {
@@ -963,10 +1324,10 @@ export interface AppApiGetResourcePackagesRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-slug&#39; | &#39;slug&#39; | &#39;-type&#39; | &#39;type&#39; | &#39;-cpuLimit&#39; | &#39;cpuLimit&#39; | &#39;-memoryLimitMiB&#39; | &#39;memoryLimitMiB&#39;&gt;
      * @memberof AppApigetResourcePackages
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -1082,10 +1443,10 @@ export interface AppApiGetServerConfigsRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by name in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-name &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-name &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-binaryId&#39; | &#39;binaryId&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-command&#39; | &#39;command&#39; | &#39;-args&#39; | &#39;args&#39; | &#39;-notes&#39; | &#39;notes&#39; | &#39;-status&#39; | &#39;status&#39; | &#39;-statusMessage&#39; | &#39;statusMessage&#39; | &#39;-maintenance&#39; | &#39;maintenance&#39; | &#39;-dnsServiceEnabled&#39; | &#39;dnsServiceEnabled&#39; | &#39;-resourcePackageSlug&#39; | &#39;resourcePackageSlug&#39; | &#39;-inUse&#39; | &#39;inUse&#39; | &#39;binaryId&#39; | &#39;-binaryId&#39; | &#39;binaryName&#39; | &#39;-binaryName&#39; | &#39;binaryVersion&#39; | &#39;-binaryVersion&#39; | &#39;binaryType&#39; | &#39;-binaryType&#39; | &#39;binaryOs&#39; | &#39;-binaryOs&#39;&gt;
      * @memberof AppApigetServerConfigs
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>
     /**
      * Filter by id.
      * Defaults to: undefined
@@ -1198,6 +1559,13 @@ export interface AppApiGetServerConfigsRequest {
      * @memberof AppApigetServerConfigs
      */
     filterBinaryOs?: string
+    /**
+     * Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
+     * Defaults to: undefined
+     * @type string
+     * @memberof AppApigetServerConfigs
+     */
+    filterMetadata?: string
 }
 
 export interface AppApiGetServerLogsRequest {
@@ -1269,6 +1637,13 @@ export interface AppApiGetServersRequest {
      * @memberof AppApigetServers
      */
     filterAppLocationSettingId?: number
+    /**
+     * Filter by whether the service belongs to an autoscaled AppLocationSetting.
+     * Defaults to: undefined
+     * @type boolean
+     * @memberof AppApigetServers
+     */
+    filterAutoscalingEnabled?: boolean
     /**
      * Filter by ServerConfig ID.
      * Defaults to: undefined
@@ -1377,10 +1752,10 @@ export interface AppApiGetServersRequest {
     /**
      * Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      * Defaults to: undefined
-     * @type Array&lt;string&gt;
+     * @type Array&lt;&#39;-id&#39; | &#39;id&#39; | &#39;-instance&#39; | &#39;instance&#39; | &#39;-status&#39; | &#39;status&#39; | &#39;-status_message&#39; | &#39;status_message&#39; | &#39;-serverConfigId&#39; | &#39;serverConfigId&#39; | &#39;-serverConfigName&#39; | &#39;serverConfigName&#39; | &#39;-appLocationSettingId&#39; | &#39;appLocationSettingId&#39; | &#39;-name&#39; | &#39;name&#39; | &#39;-locationCity&#39; | &#39;locationCity&#39; | &#39;-locationCityDisplay&#39; | &#39;locationCityDisplay&#39; | &#39;-locationContinent&#39; | &#39;locationContinent&#39; | &#39;-locationCountry&#39; | &#39;locationCountry&#39; | &#39;isBackupable&#39; | &#39;-isBackupable&#39; | &#39;isRestorable&#39; | &#39;-isRestorable&#39; | &#39;isPending&#39; | &#39;-isPending&#39; | &#39;isNotFound&#39; | &#39;-isNotFound&#39; | &#39;isHealthy&#39; | &#39;-isHealthy&#39; | &#39;isStopped&#39; | &#39;-isStopped&#39; | &#39;-createdAt&#39; | &#39;createdAt&#39; | &#39;-updatedAt&#39; | &#39;updatedAt&#39;&gt;
      * @memberof AppApigetServers
      */
-    sort?: Array<string>
+    sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>
 }
 
 export interface AppApiGetTaggedImagesRequest {
@@ -1679,6 +2054,15 @@ export interface AppApiRefreshTaggedImagesRequest {
     dockerRegistry: number
 }
 
+export interface AppApiRequestLocationRequest {
+    /**
+     * 
+     * @type OccupiedLocationRequest
+     * @memberof AppApirequestLocation
+     */
+    occupiedLocationRequest: OccupiedLocationRequest
+}
+
 export interface AppApiRestartServerRequest {
     /**
      * The docker service ID
@@ -1697,6 +2081,65 @@ export interface AppApiRestoreBackupRequest {
      * @memberof AppApirestoreBackup
      */
     dockerService: number
+}
+
+export interface AppApiServerConfigsMetadataDeleteAllRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiserverConfigsMetadataDeleteAll
+     */
+    serverConfig: number
+}
+
+export interface AppApiServerConfigsMetadataDeleteKeysRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiserverConfigsMetadataDeleteKeys
+     */
+    serverConfig: number
+    /**
+     * 
+     * Defaults to: undefined
+     * @type Array&lt;string&gt;
+     * @memberof AppApiserverConfigsMetadataDeleteKeys
+     */
+    metadata: Array<string>
+}
+
+export interface AppApiServerConfigsMetadataSetRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiserverConfigsMetadataSet
+     */
+    serverConfig: number
+    /**
+     * 
+     * @type SetServerConfigMetadataRequest
+     * @memberof AppApiserverConfigsMetadataSet
+     */
+    setServerConfigMetadataRequest?: SetServerConfigMetadataRequest
+}
+
+export interface AppApiServerConfigsMetadataUpdateRequest {
+    /**
+     * The server config ID
+     * Defaults to: undefined
+     * @type number
+     * @memberof AppApiserverConfigsMetadataUpdate
+     */
+    serverConfig: number
+    /**
+     * 
+     * @type PatchServerConfigMetadataRequest
+     * @memberof AppApiserverConfigsMetadataUpdate
+     */
+    patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest
 }
 
 export interface AppApiStartServerRequest {
@@ -1914,6 +2357,242 @@ export class ObjectAppApi {
     }
 
     /**
+     * Allocate a ready autoscaling instance
+     * @param param the request object
+     */
+    public appLocationSettingsAutoscalingAllocateWithHttpInfo(param: AppApiAppLocationSettingsAutoscalingAllocateRequest, options?: ConfigurationOptions): Promise<HttpInfo<Server>> {
+        return this.api.appLocationSettingsAutoscalingAllocateWithHttpInfo(param.appLocationSetting, param.allocateAppLocationSettingAutoscalingRequest,  options).toPromise();
+    }
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param param the request object
+     */
+    public appLocationSettingsAutoscalingAllocate(param: AppApiAppLocationSettingsAutoscalingAllocateRequest, options?: ConfigurationOptions): Promise<Server> {
+        return this.api.appLocationSettingsAutoscalingAllocate(param.appLocationSetting, param.allocateAppLocationSettingAutoscalingRequest,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataDeleteAllWithHttpInfo(param: AppApiAppLocationSettingsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        return this.api.appLocationSettingsMetadataDeleteAllWithHttpInfo(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataDeleteAll(param: AppApiAppLocationSettingsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        return this.api.appLocationSettingsMetadataDeleteAll(param.appLocationSetting,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataDeleteKeysWithHttpInfo(param: AppApiAppLocationSettingsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        return this.api.appLocationSettingsMetadataDeleteKeysWithHttpInfo(param.appLocationSetting, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataDeleteKeys(param: AppApiAppLocationSettingsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        return this.api.appLocationSettingsMetadataDeleteKeys(param.appLocationSetting, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataSetWithHttpInfo(param: AppApiAppLocationSettingsMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        return this.api.appLocationSettingsMetadataSetWithHttpInfo(param.appLocationSetting, param.setAppLocationSettingMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataSet(param: AppApiAppLocationSettingsMetadataSetRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        return this.api.appLocationSettingsMetadataSet(param.appLocationSetting, param.setAppLocationSettingMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataUpdateWithHttpInfo(param: AppApiAppLocationSettingsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        return this.api.appLocationSettingsMetadataUpdateWithHttpInfo(param.appLocationSetting, param.patchAppLocationSettingMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public appLocationSettingsMetadataUpdate(param: AppApiAppLocationSettingsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        return this.api.appLocationSettingsMetadataUpdate(param.appLocationSetting, param.patchAppLocationSettingMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public appsMetadataDeleteAllWithHttpInfo(param: AppApiAppsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.appsMetadataDeleteAllWithHttpInfo(param.app,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public appsMetadataDeleteAll(param: AppApiAppsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<App> {
+        return this.api.appsMetadataDeleteAll(param.app,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public appsMetadataDeleteKeysWithHttpInfo(param: AppApiAppsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.appsMetadataDeleteKeysWithHttpInfo(param.app, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public appsMetadataDeleteKeys(param: AppApiAppsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<App> {
+        return this.api.appsMetadataDeleteKeys(param.app, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public appsMetadataSetWithHttpInfo(param: AppApiAppsMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.appsMetadataSetWithHttpInfo(param.app, param.setAppMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public appsMetadataSet(param: AppApiAppsMetadataSetRequest, options?: ConfigurationOptions): Promise<App> {
+        return this.api.appsMetadataSet(param.app, param.setAppMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public appsMetadataUpdateWithHttpInfo(param: AppApiAppsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<App>> {
+        return this.api.appsMetadataUpdateWithHttpInfo(param.app, param.patchAppMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public appsMetadataUpdate(param: AppApiAppsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<App> {
+        return this.api.appsMetadataUpdate(param.app, param.patchAppMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public binariesMetadataDeleteAllWithHttpInfo(param: AppApiBinariesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        return this.api.binariesMetadataDeleteAllWithHttpInfo(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public binariesMetadataDeleteAll(param: AppApiBinariesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        return this.api.binariesMetadataDeleteAll(param.binary,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public binariesMetadataDeleteKeysWithHttpInfo(param: AppApiBinariesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        return this.api.binariesMetadataDeleteKeysWithHttpInfo(param.binary, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public binariesMetadataDeleteKeys(param: AppApiBinariesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        return this.api.binariesMetadataDeleteKeys(param.binary, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public binariesMetadataSetWithHttpInfo(param: AppApiBinariesMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        return this.api.binariesMetadataSetWithHttpInfo(param.binary, param.setBinaryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public binariesMetadataSet(param: AppApiBinariesMetadataSetRequest, options?: ConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        return this.api.binariesMetadataSet(param.binary, param.setBinaryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public binariesMetadataUpdateWithHttpInfo(param: AppApiBinariesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        return this.api.binariesMetadataUpdateWithHttpInfo(param.binary, param.patchBinaryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public binariesMetadataUpdate(param: AppApiBinariesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        return this.api.binariesMetadataUpdate(param.binary, param.patchBinaryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param param the request object
+     */
+    public checkCapacityWithHttpInfo(param: AppApiCheckCapacityRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSettingCapacity>> {
+        return this.api.checkCapacityWithHttpInfo(param.app, param.checkCapacityAppLocationSettingRequest,  options).toPromise();
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param param the request object
+     */
+    public checkCapacity(param: AppApiCheckCapacityRequest, options?: ConfigurationOptions): Promise<AppLocationSettingCapacity> {
+        return this.api.checkCapacity(param.app, param.checkCapacityAppLocationSettingRequest,  options).toPromise();
+    }
+
+    /**
      * Check URL reachability for service DNS URLs
      * @param param the request object
      */
@@ -1949,7 +2628,7 @@ export class ObjectAppApi {
      * Create a new location setting
      * @param param the request object
      */
-    public createAppLocationSettingWithHttpInfo(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         return this.api.createAppLocationSettingWithHttpInfo(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -1957,7 +2636,7 @@ export class ObjectAppApi {
      * Create a new location setting
      * @param param the request object
      */
-    public createAppLocationSetting(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
+    public createAppLocationSetting(param: AppApiCreateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         return this.api.createAppLocationSetting(param.app, param.storeAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -2202,6 +2881,138 @@ export class ObjectAppApi {
     }
 
     /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataDeleteAllWithHttpInfo(param: AppApiDockerRegistriesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        return this.api.dockerRegistriesMetadataDeleteAllWithHttpInfo(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataDeleteAll(param: AppApiDockerRegistriesMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
+        return this.api.dockerRegistriesMetadataDeleteAll(param.dockerRegistry,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataDeleteKeysWithHttpInfo(param: AppApiDockerRegistriesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        return this.api.dockerRegistriesMetadataDeleteKeysWithHttpInfo(param.dockerRegistry, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataDeleteKeys(param: AppApiDockerRegistriesMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
+        return this.api.dockerRegistriesMetadataDeleteKeys(param.dockerRegistry, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataSetWithHttpInfo(param: AppApiDockerRegistriesMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        return this.api.dockerRegistriesMetadataSetWithHttpInfo(param.dockerRegistry, param.setDockerRegistryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataSet(param: AppApiDockerRegistriesMetadataSetRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
+        return this.api.dockerRegistriesMetadataSet(param.dockerRegistry, param.setDockerRegistryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataUpdateWithHttpInfo(param: AppApiDockerRegistriesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        return this.api.dockerRegistriesMetadataUpdateWithHttpInfo(param.dockerRegistry, param.patchDockerRegistryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public dockerRegistriesMetadataUpdate(param: AppApiDockerRegistriesMetadataUpdateRequest, options?: ConfigurationOptions): Promise<DockerRegistry> {
+        return this.api.dockerRegistriesMetadataUpdate(param.dockerRegistry, param.patchDockerRegistryMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingAllocateWithHttpInfo(param: AppApiDockerServicesAutoscalingAllocateRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.dockerServicesAutoscalingAllocateWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingAllocate(param: AppApiDockerServicesAutoscalingAllocateRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.dockerServicesAutoscalingAllocate(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingHealthWithHttpInfo(param: AppApiDockerServicesAutoscalingHealthRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.dockerServicesAutoscalingHealthWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingHealth(param: AppApiDockerServicesAutoscalingHealthRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.dockerServicesAutoscalingHealth(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingReadyWithHttpInfo(param: AppApiDockerServicesAutoscalingReadyRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.dockerServicesAutoscalingReadyWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingReady(param: AppApiDockerServicesAutoscalingReadyRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.dockerServicesAutoscalingReady(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingShutdownWithHttpInfo(param: AppApiDockerServicesAutoscalingShutdownRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.dockerServicesAutoscalingShutdownWithHttpInfo(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param param the request object
+     */
+    public dockerServicesAutoscalingShutdown(param: AppApiDockerServicesAutoscalingShutdownRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.dockerServicesAutoscalingShutdown(param.dockerService,  options).toPromise();
+    }
+
+    /**
      * Delete all service metadata
      * @param param the request object
      */
@@ -2305,7 +3116,7 @@ export class ObjectAppApi {
      * Show a specific app location setting
      * @param param the request object
      */
-    public getAppLocationSettingByIdWithHttpInfo(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public getAppLocationSettingByIdWithHttpInfo(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         return this.api.getAppLocationSettingByIdWithHttpInfo(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2313,7 +3124,7 @@ export class ObjectAppApi {
      * Show a specific app location setting
      * @param param the request object
      */
-    public getAppLocationSettingById(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
+    public getAppLocationSettingById(param: AppApiGetAppLocationSettingByIdRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         return this.api.getAppLocationSettingById(param.appLocationSetting,  options).toPromise();
     }
 
@@ -2322,7 +3133,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getAppLocationSettingsWithHttpInfo(param: AppApiGetAppLocationSettingsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettings200Response>> {
-        return this.api.getAppLocationSettingsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
+        return this.api.getAppLocationSettingsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2330,7 +3141,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getAppLocationSettings(param: AppApiGetAppLocationSettingsRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettings200Response> {
-        return this.api.getAppLocationSettings(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug,  options).toPromise();
+        return this.api.getAppLocationSettings(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterServerConfigId, param.filterNumInstances, param.filterStatus, param.filterMaintenance, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterServerConfigName, param.filterServerConfigCommand, param.filterServerConfigArgs, param.filterServerConfigNotes, param.filterServerConfigStatus, param.filterServerConfigMaintenance, param.filterServerConfigResourcePackageSlug, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2354,7 +3165,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getAppsWithHttpInfo(param: AppApiGetAppsRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetApps200Response>> {
-        return this.api.getAppsWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
+        return this.api.getAppsWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2362,7 +3173,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getApps(param: AppApiGetAppsRequest = {}, options?: ConfigurationOptions): Promise<GetApps200Response> {
-        return this.api.getApps(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse,  options).toPromise();
+        return this.api.getApps(param.perPage, param.page, param.sort, param.filterId, param.filterName, param.filterNamePartial, param.filterInUse, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2422,7 +3233,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getBinariesWithHttpInfo(param: AppApiGetBinariesRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetBinaries200Response>> {
-        return this.api.getBinariesWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
+        return this.api.getBinariesWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2430,7 +3241,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getBinaries(param: AppApiGetBinariesRequest, options?: ConfigurationOptions): Promise<GetBinaries200Response> {
-        return this.api.getBinaries(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse,  options).toPromise();
+        return this.api.getBinaries(param.app, param.perPage, param.page, param.sort, param.filterName, param.filterNamePartial, param.filterVersion, param.filterType, param.filterOs, param.filterMaintenance, param.filterStatus, param.filterInUse, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2454,7 +3265,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getDockerRegistriesWithHttpInfo(param: AppApiGetDockerRegistriesRequest = {}, options?: ConfigurationOptions): Promise<HttpInfo<GetDockerRegistries200Response>> {
-        return this.api.getDockerRegistriesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
+        return this.api.getDockerRegistriesWithHttpInfo(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2462,7 +3273,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getDockerRegistries(param: AppApiGetDockerRegistriesRequest = {}, options?: ConfigurationOptions): Promise<GetDockerRegistries200Response> {
-        return this.api.getDockerRegistries(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization,  options).toPromise();
+        return this.api.getDockerRegistries(param.perPage, param.page, param.sort, param.filterId, param.filterType, param.filterName, param.filterNamePartial, param.filterUrl, param.filterOrganization, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2581,7 +3392,7 @@ export class ObjectAppApi {
      * Show a specific server config
      * @param param the request object
      */
-    public getServerConfigByIdWithHttpInfo(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<ServerConfig>> {
+    public getServerConfigByIdWithHttpInfo(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
         return this.api.getServerConfigByIdWithHttpInfo(param.serverConfig,  options).toPromise();
     }
 
@@ -2589,7 +3400,7 @@ export class ObjectAppApi {
      * Show a specific server config
      * @param param the request object
      */
-    public getServerConfigById(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<ServerConfig> {
+    public getServerConfigById(param: AppApiGetServerConfigByIdRequest, options?: ConfigurationOptions): Promise<GetServerConfigById200Response> {
         return this.api.getServerConfigById(param.serverConfig,  options).toPromise();
     }
 
@@ -2598,7 +3409,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerConfigsWithHttpInfo(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
-        return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
+        return this.api.getServerConfigsWithHttpInfo(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2606,7 +3417,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServerConfigs(param: AppApiGetServerConfigsRequest, options?: ConfigurationOptions): Promise<GetServerConfigs200Response> {
-        return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs,  options).toPromise();
+        return this.api.getServerConfigs(param.app, param.perPage, param.page, param.sort, param.filterId, param.filterBinaryId, param.filterName, param.filterNamePartial, param.filterCommand, param.filterArgs, param.filterNotes, param.filterStatus, param.filterMaintenance, param.filterDnsServiceEnabled, param.filterResourcePackageSlug, param.filterInUse, param.filterBinaryName, param.filterBinaryVersion, param.filterBinaryType, param.filterBinaryOs, param.filterMetadata,  options).toPromise();
     }
 
     /**
@@ -2630,7 +3441,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServersWithHttpInfo(param: AppApiGetServersRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServers200Response>> {
-        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServersWithHttpInfo(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterAutoscalingEnabled, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
@@ -2638,7 +3449,7 @@ export class ObjectAppApi {
      * @param param the request object
      */
     public getServers(param: AppApiGetServersRequest, options?: ConfigurationOptions): Promise<GetServers200Response> {
-        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
+        return this.api.getServers(param.app, param.perPage, param.page, param.filterStatus, param.filterAppLocationSettingId, param.filterAutoscalingEnabled, param.filterServerConfigId, param.filterServerConfigName, param.filterServerConfigNamePartial, param.filterLocationCity, param.filterLocationCityDisplay, param.filterLocationContinent, param.filterLocationCountry, param.filterIsBackupable, param.filterIsRestorable, param.filterIsPending, param.filterIsNotFound, param.filterIsHealthy, param.filterBinaryId, param.filterIsStopped, param.filterMetadata, param.sort,  options).toPromise();
     }
 
     /**
@@ -2914,6 +3725,22 @@ export class ObjectAppApi {
     }
 
     /**
+     * Submit a new location request
+     * @param param the request object
+     */
+    public requestLocationWithHttpInfo(param: AppApiRequestLocationRequest, options?: ConfigurationOptions): Promise<HttpInfo<void>> {
+        return this.api.requestLocationWithHttpInfo(param.occupiedLocationRequest,  options).toPromise();
+    }
+
+    /**
+     * Submit a new location request
+     * @param param the request object
+     */
+    public requestLocation(param: AppApiRequestLocationRequest, options?: ConfigurationOptions): Promise<void> {
+        return this.api.requestLocation(param.occupiedLocationRequest,  options).toPromise();
+    }
+
+    /**
      * Restart service
      * @param param the request object
      */
@@ -2943,6 +3770,74 @@ export class ObjectAppApi {
      */
     public restoreBackup(param: AppApiRestoreBackupRequest, options?: ConfigurationOptions): Promise<void> {
         return this.api.restoreBackup(param.dockerService,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataDeleteAllWithHttpInfo(param: AppApiServerConfigsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        return this.api.serverConfigsMetadataDeleteAllWithHttpInfo(param.serverConfig,  options).toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataDeleteAll(param: AppApiServerConfigsMetadataDeleteAllRequest, options?: ConfigurationOptions): Promise<GetServerConfigById200Response> {
+        return this.api.serverConfigsMetadataDeleteAll(param.serverConfig,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public serverConfigsMetadataDeleteKeysWithHttpInfo(param: AppApiServerConfigsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        return this.api.serverConfigsMetadataDeleteKeysWithHttpInfo(param.serverConfig, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param param the request object
+     */
+    public serverConfigsMetadataDeleteKeys(param: AppApiServerConfigsMetadataDeleteKeysRequest, options?: ConfigurationOptions): Promise<GetServerConfigById200Response> {
+        return this.api.serverConfigsMetadataDeleteKeys(param.serverConfig, param.metadata,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataSetWithHttpInfo(param: AppApiServerConfigsMetadataSetRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        return this.api.serverConfigsMetadataSetWithHttpInfo(param.serverConfig, param.setServerConfigMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataSet(param: AppApiServerConfigsMetadataSetRequest, options?: ConfigurationOptions): Promise<GetServerConfigById200Response> {
+        return this.api.serverConfigsMetadataSet(param.serverConfig, param.setServerConfigMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataUpdateWithHttpInfo(param: AppApiServerConfigsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        return this.api.serverConfigsMetadataUpdateWithHttpInfo(param.serverConfig, param.patchServerConfigMetadataRequest,  options).toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param param the request object
+     */
+    public serverConfigsMetadataUpdate(param: AppApiServerConfigsMetadataUpdateRequest, options?: ConfigurationOptions): Promise<GetServerConfigById200Response> {
+        return this.api.serverConfigsMetadataUpdate(param.serverConfig, param.patchServerConfigMetadataRequest,  options).toPromise();
     }
 
     /**
@@ -3157,7 +4052,7 @@ export class ObjectAppApi {
      * Update a location setting
      * @param param the request object
      */
-    public updateAppLocationSettingWithHttpInfo(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         return this.api.updateAppLocationSettingWithHttpInfo(param.appLocationSetting, param.updateAppLocationSettingRequest,  options).toPromise();
     }
 
@@ -3165,7 +4060,7 @@ export class ObjectAppApi {
      * Update a location setting
      * @param param the request object
      */
-    public updateAppLocationSetting(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<AppLocationSetting> {
+    public updateAppLocationSetting(param: AppApiUpdateAppLocationSettingRequest, options?: ConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         return this.api.updateAppLocationSetting(param.appLocationSetting, param.updateAppLocationSettingRequest,  options).toPromise();
     }
 

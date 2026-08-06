@@ -1,6 +1,10 @@
+export * from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
+export * from '../models/AllocateAppLocationSettingAutoscalingRequestFilter.ts';
 export * from '../models/App.ts';
 export * from '../models/AppBillingState.ts';
 export * from '../models/AppLocationSetting.ts';
+export * from '../models/AppLocationSettingAutoscaling.ts';
+export * from '../models/AppLocationSettingCapacity.ts';
 export * from '../models/AppLocationSettingStatus.ts';
 export * from '../models/AppStatus.ts';
 export * from '../models/Architecture.ts';
@@ -9,11 +13,16 @@ export * from '../models/AuthFsidRequest.ts';
 export * from '../models/AuthRequest.ts';
 export * from '../models/Backup.ts';
 export * from '../models/BackupDownload.ts';
+export * from '../models/BinariesMetadataSet200Response.ts';
 export * from '../models/Binary.ts';
 export * from '../models/BinaryStatus.ts';
 export * from '../models/BinaryType.ts';
+export * from '../models/CheckCapacityAppLocationSettingRequest.ts';
+export * from '../models/CheckCapacityAppLocationSettingRequestPlacement.ts';
+export * from '../models/CheckCapacityAppLocationSettingRequestPlacementConstraints.ts';
 export * from '../models/ConfigFile.ts';
 export * from '../models/CreateBackupDockerServiceRequest.ts';
+export * from '../models/CreateUpdateAutoscaling.ts';
 export * from '../models/CreateUpdateDockerImage.ts';
 export * from '../models/CreateUpdatePlacement.ts';
 export * from '../models/CreateUpdateSteam.ts';
@@ -21,10 +30,13 @@ export * from '../models/DnsMode.ts';
 export * from '../models/DockerImage.ts';
 export * from '../models/DockerRegistry.ts';
 export * from '../models/DockerRegistryType.ts';
+export * from '../models/DockerServiceAutoscaling.ts';
+export * from '../models/DockerServiceAutoscalingStatus.ts';
 export * from '../models/DockerServiceDnsReachable.ts';
 export * from '../models/EnvironmentVariable.ts';
 export * from '../models/EnvironmentVariableDefinition.ts';
 export * from '../models/EnvironmentVariableType.ts';
+export * from '../models/GetAppLocationSettingById200Response.ts';
 export * from '../models/GetAppLocationSettings200Response.ts';
 export * from '../models/GetAppLocationSettings200ResponseLinks.ts';
 export * from '../models/GetAppLocationSettings200ResponseMeta.ts';
@@ -37,12 +49,14 @@ export * from '../models/GetBinaries200Response.ts';
 export * from '../models/GetDockerRegistries200Response.ts';
 export * from '../models/GetLocations200Response.ts';
 export * from '../models/GetResourcePackages200Response.ts';
+export * from '../models/GetServerConfigById200Response.ts';
 export * from '../models/GetServerConfigs200Response.ts';
 export * from '../models/GetServers200Response.ts';
 export * from '../models/GetTaggedImages200Response.ts';
 export * from '../models/InlineObject.ts';
-export * from '../models/InlineObject1.ts';
 export * from '../models/Location.ts';
+export * from '../models/LocationIndex.ts';
+export * from '../models/LocationLoad.ts';
 export * from '../models/MetricData.ts';
 export * from '../models/MetricInstantData.ts';
 export * from '../models/MetricInstantResponse.ts';
@@ -51,8 +65,14 @@ export * from '../models/MetricRangeResponse.ts';
 export * from '../models/MetricTimeResult.ts';
 export * from '../models/Mount.ts';
 export * from '../models/Node.ts';
+export * from '../models/OccupiedLocationRequest.ts';
 export * from '../models/OperatingSystem.ts';
+export * from '../models/PatchAppLocationSettingMetadataRequest.ts';
+export * from '../models/PatchAppMetadataRequest.ts';
+export * from '../models/PatchBinaryMetadataRequest.ts';
+export * from '../models/PatchDockerRegistryMetadataRequest.ts';
 export * from '../models/PatchMetadataRequest.ts';
+export * from '../models/PatchServerConfigMetadataRequest.ts';
 export * from '../models/Placement.ts';
 export * from '../models/Port.ts';
 export * from '../models/PortDefinition.ts';
@@ -67,7 +87,12 @@ export * from '../models/Server.ts';
 export * from '../models/ServerConfig.ts';
 export * from '../models/ServerConfigStatus.ts';
 export * from '../models/ServiceLogs.ts';
+export * from '../models/SetAppLocationSettingMetadataRequest.ts';
+export * from '../models/SetAppMetadataRequest.ts';
+export * from '../models/SetBinaryMetadataRequest.ts';
+export * from '../models/SetDockerRegistryMetadataRequest.ts';
 export * from '../models/SetMetadataRequest.ts';
+export * from '../models/SetServerConfigMetadataRequest.ts';
 export * from '../models/Steam.ts';
 export * from '../models/SteamBranch.ts';
 export * from '../models/SteamLauncher.ts';
@@ -102,9 +127,13 @@ export * from '../models/WalletCurrency.ts';
 export * from '../models/WalletCurrencyCode.ts';
 export * from '../models/WalletScope.ts';
 
-import { App        } from '../models/App.ts';
+import { AllocateAppLocationSettingAutoscalingRequest } from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
+import { AllocateAppLocationSettingAutoscalingRequestFilter } from '../models/AllocateAppLocationSettingAutoscalingRequestFilter.ts';
+import { App         } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
-import { AppLocationSetting               } from '../models/AppLocationSetting.ts';
+import { AppLocationSetting              } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingAutoscaling } from '../models/AppLocationSettingAutoscaling.ts';
+import { AppLocationSettingCapacity } from '../models/AppLocationSettingCapacity.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -113,22 +142,30 @@ import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
-import { Binary               } from '../models/Binary.ts';
+import { BinariesMetadataSet200Response                } from '../models/BinariesMetadataSet200Response.ts';
+import { Binary                } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
+import { CheckCapacityAppLocationSettingRequest } from '../models/CheckCapacityAppLocationSettingRequest.ts';
+import { CheckCapacityAppLocationSettingRequestPlacement } from '../models/CheckCapacityAppLocationSettingRequestPlacement.ts';
+import { CheckCapacityAppLocationSettingRequestPlacementConstraints } from '../models/CheckCapacityAppLocationSettingRequestPlacementConstraints.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateAutoscaling } from '../models/CreateUpdateAutoscaling.ts';
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam            } from '../models/CreateUpdateSteam.ts';
 import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
-import { DockerRegistry            } from '../models/DockerRegistry.ts';
+import { DockerRegistry             } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceAutoscaling       } from '../models/DockerServiceAutoscaling.ts';
+import { DockerServiceAutoscalingStatus } from '../models/DockerServiceAutoscalingStatus.ts';
 import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition     } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettingById200Response              } from '../models/GetAppLocationSettingById200Response.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
@@ -141,12 +178,14 @@ import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
 import { GetLocations200Response } from '../models/GetLocations200Response.ts';
 import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigById200Response                      } from '../models/GetServerConfigById200Response.ts';
 import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { LocationIndex       } from '../models/LocationIndex.ts';
+import { LocationLoad } from '../models/LocationLoad.ts';
 import { MetricData } from '../models/MetricData.ts';
 import { MetricInstantData } from '../models/MetricInstantData.ts';
 import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
@@ -155,8 +194,14 @@ import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
 import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node    } from '../models/Node.ts';
+import { OccupiedLocationRequest } from '../models/OccupiedLocationRequest.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchAppLocationSettingMetadataRequest } from '../models/PatchAppLocationSettingMetadataRequest.ts';
+import { PatchAppMetadataRequest } from '../models/PatchAppMetadataRequest.ts';
+import { PatchBinaryMetadataRequest } from '../models/PatchBinaryMetadataRequest.ts';
+import { PatchDockerRegistryMetadataRequest } from '../models/PatchDockerRegistryMetadataRequest.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
+import { PatchServerConfigMetadataRequest } from '../models/PatchServerConfigMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port         } from '../models/Port.ts';
 import { PortDefinition      } from '../models/PortDefinition.ts';
@@ -168,10 +213,15 @@ import { RestartPolicy  } from '../models/RestartPolicy.ts';
 import { RestartPolicyCondition } from '../models/RestartPolicyCondition.ts';
 import { SecretFile } from '../models/SecretFile.ts';
 import { Server } from '../models/Server.ts';
-import { ServerConfig                     } from '../models/ServerConfig.ts';
+import { ServerConfig                      } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetAppLocationSettingMetadataRequest } from '../models/SetAppLocationSettingMetadataRequest.ts';
+import { SetAppMetadataRequest } from '../models/SetAppMetadataRequest.ts';
+import { SetBinaryMetadataRequest } from '../models/SetBinaryMetadataRequest.ts';
+import { SetDockerRegistryMetadataRequest } from '../models/SetDockerRegistryMetadataRequest.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
+import { SetServerConfigMetadataRequest } from '../models/SetServerConfigMetadataRequest.ts';
 import { Steam             } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -227,7 +277,9 @@ let enumsMap: Set<string> = new Set<string>([
     "BinaryType",
     "DnsMode",
     "DockerRegistryType",
+    "DockerServiceAutoscalingStatus",
     "EnvironmentVariableType",
+    "LocationLoad",
     "OperatingSystem",
     "Protocol",
     "ResourcePackageType",
@@ -239,24 +291,35 @@ let enumsMap: Set<string> = new Set<string>([
 ]);
 
 let typeMap: {[index: string]: any} = {
+    "AllocateAppLocationSettingAutoscalingRequest": AllocateAppLocationSettingAutoscalingRequest,
+    "AllocateAppLocationSettingAutoscalingRequestFilter": AllocateAppLocationSettingAutoscalingRequestFilter,
     "App": App,
     "AppLocationSetting": AppLocationSetting,
+    "AppLocationSettingAutoscaling": AppLocationSettingAutoscaling,
+    "AppLocationSettingCapacity": AppLocationSettingCapacity,
     "Auth": Auth,
     "AuthFsidRequest": AuthFsidRequest,
     "AuthRequest": AuthRequest,
     "Backup": Backup,
     "BackupDownload": BackupDownload,
+    "BinariesMetadataSet200Response": BinariesMetadataSet200Response,
     "Binary": Binary,
+    "CheckCapacityAppLocationSettingRequest": CheckCapacityAppLocationSettingRequest,
+    "CheckCapacityAppLocationSettingRequestPlacement": CheckCapacityAppLocationSettingRequestPlacement,
+    "CheckCapacityAppLocationSettingRequestPlacementConstraints": CheckCapacityAppLocationSettingRequestPlacementConstraints,
     "ConfigFile": ConfigFile,
     "CreateBackupDockerServiceRequest": CreateBackupDockerServiceRequest,
+    "CreateUpdateAutoscaling": CreateUpdateAutoscaling,
     "CreateUpdateDockerImage": CreateUpdateDockerImage,
     "CreateUpdatePlacement": CreateUpdatePlacement,
     "CreateUpdateSteam": CreateUpdateSteam,
     "DockerImage": DockerImage,
     "DockerRegistry": DockerRegistry,
+    "DockerServiceAutoscaling": DockerServiceAutoscaling,
     "DockerServiceDnsReachable": DockerServiceDnsReachable,
     "EnvironmentVariable": EnvironmentVariable,
     "EnvironmentVariableDefinition": EnvironmentVariableDefinition,
+    "GetAppLocationSettingById200Response": GetAppLocationSettingById200Response,
     "GetAppLocationSettings200Response": GetAppLocationSettings200Response,
     "GetAppLocationSettings200ResponseLinks": GetAppLocationSettings200ResponseLinks,
     "GetAppLocationSettings200ResponseMeta": GetAppLocationSettings200ResponseMeta,
@@ -269,12 +332,13 @@ let typeMap: {[index: string]: any} = {
     "GetDockerRegistries200Response": GetDockerRegistries200Response,
     "GetLocations200Response": GetLocations200Response,
     "GetResourcePackages200Response": GetResourcePackages200Response,
+    "GetServerConfigById200Response": GetServerConfigById200Response,
     "GetServerConfigs200Response": GetServerConfigs200Response,
     "GetServers200Response": GetServers200Response,
     "GetTaggedImages200Response": GetTaggedImages200Response,
     "InlineObject": InlineObject,
-    "InlineObject1": InlineObject1,
     "Location": Location,
+    "LocationIndex": LocationIndex,
     "MetricData": MetricData,
     "MetricInstantData": MetricInstantData,
     "MetricInstantResponse": MetricInstantResponse,
@@ -283,7 +347,13 @@ let typeMap: {[index: string]: any} = {
     "MetricTimeResult": MetricTimeResult,
     "Mount": Mount,
     "Node": Node,
+    "OccupiedLocationRequest": OccupiedLocationRequest,
+    "PatchAppLocationSettingMetadataRequest": PatchAppLocationSettingMetadataRequest,
+    "PatchAppMetadataRequest": PatchAppMetadataRequest,
+    "PatchBinaryMetadataRequest": PatchBinaryMetadataRequest,
+    "PatchDockerRegistryMetadataRequest": PatchDockerRegistryMetadataRequest,
     "PatchMetadataRequest": PatchMetadataRequest,
+    "PatchServerConfigMetadataRequest": PatchServerConfigMetadataRequest,
     "Placement": Placement,
     "Port": Port,
     "PortDefinition": PortDefinition,
@@ -294,7 +364,12 @@ let typeMap: {[index: string]: any} = {
     "Server": Server,
     "ServerConfig": ServerConfig,
     "ServiceLogs": ServiceLogs,
+    "SetAppLocationSettingMetadataRequest": SetAppLocationSettingMetadataRequest,
+    "SetAppMetadataRequest": SetAppMetadataRequest,
+    "SetBinaryMetadataRequest": SetBinaryMetadataRequest,
+    "SetDockerRegistryMetadataRequest": SetDockerRegistryMetadataRequest,
     "SetMetadataRequest": SetMetadataRequest,
+    "SetServerConfigMetadataRequest": SetServerConfigMetadataRequest,
     "Steam": Steam,
     "SteamBranch": SteamBranch,
     "SteamLauncher": SteamLauncher,

@@ -74,12 +74,29 @@ deno install --allow-scripts
 To update the underlying SDK, you can simply run the following command:
 
 ```bash
-deno task generate-api-from-backend
+npm run generate-api-from-backend
 ```
 
 This will pull the latest OpenAPI specification file and generate the SDK from
-it. The generated SDK will be placed in the `src/api` directory. The CLI tool
-uses this SDK to interact with the ODIN APIs.
+it. The generated SDK will be placed in the `backend/api` directory. The CLI
+tool uses this SDK to interact with the ODIN APIs.
+
+To generate against an API that has not been released to production yet, use
+`npm run generate-api-from-staging` or, for a backend running on your machine,
+`npm run generate-api-from-local-api`. Both write the host they were generated
+from into the specification and the SDK, which must always point at the
+production API. Reset the host afterwards:
+
+```bash
+git checkout -- backend/api/servers.ts
+# and change the `servers` entry in backend/api.json plus the first line of
+# backend/api/AppApi.md back to https://fleet.4players.io/api
+```
+
+Note that the generate tasks clear `backend/api` before they run, so a
+specification the generator rejects leaves you without an SDK. Restore the
+previous one with `git checkout -- backend/api` and fix the specification in
+the backend.
 
 ### Testing the CLI tool
 

@@ -2,9 +2,13 @@ import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/htt
 import { Configuration, PromiseConfigurationOptions, wrapOptions } from '../configuration.ts'
 import { PromiseMiddleware, Middleware, PromiseMiddlewareWrapper } from '../middleware.ts';
 
+import { AllocateAppLocationSettingAutoscalingRequest } from '../models/AllocateAppLocationSettingAutoscalingRequest.ts';
+import { AllocateAppLocationSettingAutoscalingRequestFilter } from '../models/AllocateAppLocationSettingAutoscalingRequestFilter.ts';
 import { App } from '../models/App.ts';
 import { AppBillingState } from '../models/AppBillingState.ts';
 import { AppLocationSetting } from '../models/AppLocationSetting.ts';
+import { AppLocationSettingAutoscaling } from '../models/AppLocationSettingAutoscaling.ts';
+import { AppLocationSettingCapacity } from '../models/AppLocationSettingCapacity.ts';
 import { AppLocationSettingStatus } from '../models/AppLocationSettingStatus.ts';
 import { AppStatus } from '../models/AppStatus.ts';
 import { Architecture } from '../models/Architecture.ts';
@@ -13,11 +17,16 @@ import { AuthFsidRequest } from '../models/AuthFsidRequest.ts';
 import { AuthRequest } from '../models/AuthRequest.ts';
 import { Backup } from '../models/Backup.ts';
 import { BackupDownload } from '../models/BackupDownload.ts';
+import { BinariesMetadataSet200Response } from '../models/BinariesMetadataSet200Response.ts';
 import { Binary } from '../models/Binary.ts';
 import { BinaryStatus } from '../models/BinaryStatus.ts';
 import { BinaryType } from '../models/BinaryType.ts';
+import { CheckCapacityAppLocationSettingRequest } from '../models/CheckCapacityAppLocationSettingRequest.ts';
+import { CheckCapacityAppLocationSettingRequestPlacement } from '../models/CheckCapacityAppLocationSettingRequestPlacement.ts';
+import { CheckCapacityAppLocationSettingRequestPlacementConstraints } from '../models/CheckCapacityAppLocationSettingRequestPlacementConstraints.ts';
 import { ConfigFile } from '../models/ConfigFile.ts';
 import { CreateBackupDockerServiceRequest } from '../models/CreateBackupDockerServiceRequest.ts';
+import { CreateUpdateAutoscaling } from '../models/CreateUpdateAutoscaling.ts';
 import { CreateUpdateDockerImage } from '../models/CreateUpdateDockerImage.ts';
 import { CreateUpdatePlacement } from '../models/CreateUpdatePlacement.ts';
 import { CreateUpdateSteam } from '../models/CreateUpdateSteam.ts';
@@ -25,10 +34,13 @@ import { DnsMode } from '../models/DnsMode.ts';
 import { DockerImage } from '../models/DockerImage.ts';
 import { DockerRegistry } from '../models/DockerRegistry.ts';
 import { DockerRegistryType } from '../models/DockerRegistryType.ts';
+import { DockerServiceAutoscaling } from '../models/DockerServiceAutoscaling.ts';
+import { DockerServiceAutoscalingStatus } from '../models/DockerServiceAutoscalingStatus.ts';
 import { DockerServiceDnsReachable } from '../models/DockerServiceDnsReachable.ts';
 import { EnvironmentVariable } from '../models/EnvironmentVariable.ts';
 import { EnvironmentVariableDefinition } from '../models/EnvironmentVariableDefinition.ts';
 import { EnvironmentVariableType } from '../models/EnvironmentVariableType.ts';
+import { GetAppLocationSettingById200Response } from '../models/GetAppLocationSettingById200Response.ts';
 import { GetAppLocationSettings200Response } from '../models/GetAppLocationSettings200Response.ts';
 import { GetAppLocationSettings200ResponseLinks } from '../models/GetAppLocationSettings200ResponseLinks.ts';
 import { GetAppLocationSettings200ResponseMeta } from '../models/GetAppLocationSettings200ResponseMeta.ts';
@@ -41,12 +53,14 @@ import { GetBinaries200Response } from '../models/GetBinaries200Response.ts';
 import { GetDockerRegistries200Response } from '../models/GetDockerRegistries200Response.ts';
 import { GetLocations200Response } from '../models/GetLocations200Response.ts';
 import { GetResourcePackages200Response } from '../models/GetResourcePackages200Response.ts';
+import { GetServerConfigById200Response } from '../models/GetServerConfigById200Response.ts';
 import { GetServerConfigs200Response } from '../models/GetServerConfigs200Response.ts';
 import { GetServers200Response } from '../models/GetServers200Response.ts';
 import { GetTaggedImages200Response } from '../models/GetTaggedImages200Response.ts';
 import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Location } from '../models/Location.ts';
+import { LocationIndex } from '../models/LocationIndex.ts';
+import { LocationLoad } from '../models/LocationLoad.ts';
 import { MetricData } from '../models/MetricData.ts';
 import { MetricInstantData } from '../models/MetricInstantData.ts';
 import { MetricInstantResponse } from '../models/MetricInstantResponse.ts';
@@ -55,8 +69,14 @@ import { MetricRangeResponse } from '../models/MetricRangeResponse.ts';
 import { MetricTimeResult } from '../models/MetricTimeResult.ts';
 import { Mount } from '../models/Mount.ts';
 import { Node } from '../models/Node.ts';
+import { OccupiedLocationRequest } from '../models/OccupiedLocationRequest.ts';
 import { OperatingSystem } from '../models/OperatingSystem.ts';
+import { PatchAppLocationSettingMetadataRequest } from '../models/PatchAppLocationSettingMetadataRequest.ts';
+import { PatchAppMetadataRequest } from '../models/PatchAppMetadataRequest.ts';
+import { PatchBinaryMetadataRequest } from '../models/PatchBinaryMetadataRequest.ts';
+import { PatchDockerRegistryMetadataRequest } from '../models/PatchDockerRegistryMetadataRequest.ts';
 import { PatchMetadataRequest } from '../models/PatchMetadataRequest.ts';
+import { PatchServerConfigMetadataRequest } from '../models/PatchServerConfigMetadataRequest.ts';
 import { Placement } from '../models/Placement.ts';
 import { Port } from '../models/Port.ts';
 import { PortDefinition } from '../models/PortDefinition.ts';
@@ -71,7 +91,12 @@ import { Server } from '../models/Server.ts';
 import { ServerConfig } from '../models/ServerConfig.ts';
 import { ServerConfigStatus } from '../models/ServerConfigStatus.ts';
 import { ServiceLogs } from '../models/ServiceLogs.ts';
+import { SetAppLocationSettingMetadataRequest } from '../models/SetAppLocationSettingMetadataRequest.ts';
+import { SetAppMetadataRequest } from '../models/SetAppMetadataRequest.ts';
+import { SetBinaryMetadataRequest } from '../models/SetBinaryMetadataRequest.ts';
+import { SetDockerRegistryMetadataRequest } from '../models/SetDockerRegistryMetadataRequest.ts';
 import { SetMetadataRequest } from '../models/SetMetadataRequest.ts';
+import { SetServerConfigMetadataRequest } from '../models/SetServerConfigMetadataRequest.ts';
 import { Steam } from '../models/Steam.ts';
 import { SteamBranch } from '../models/SteamBranch.ts';
 import { SteamLauncher } from '../models/SteamLauncher.ts';
@@ -117,6 +142,320 @@ export class PromiseAppApi {
         responseProcessor?: AppApiResponseProcessor
     ) {
         this.api = new ObservableAppApi(configuration, requestFactory, responseProcessor);
+    }
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param appLocationSetting The app location setting ID
+     * @param [allocateAppLocationSettingAutoscalingRequest]
+     */
+    public appLocationSettingsAutoscalingAllocateWithHttpInfo(appLocationSetting: number, allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<Server>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsAutoscalingAllocateWithHttpInfo(appLocationSetting, allocateAppLocationSettingAutoscalingRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Allocate a ready autoscaling instance
+     * @param appLocationSetting The app location setting ID
+     * @param [allocateAppLocationSettingAutoscalingRequest]
+     */
+    public appLocationSettingsAutoscalingAllocate(appLocationSetting: number, allocateAppLocationSettingAutoscalingRequest?: AllocateAppLocationSettingAutoscalingRequest, _options?: PromiseConfigurationOptions): Promise<Server> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsAutoscalingAllocate(appLocationSetting, allocateAppLocationSettingAutoscalingRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param appLocationSetting The app location setting ID
+     */
+    public appLocationSettingsMetadataDeleteAllWithHttpInfo(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataDeleteAllWithHttpInfo(appLocationSetting, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param appLocationSetting The app location setting ID
+     */
+    public appLocationSettingsMetadataDeleteAll(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataDeleteAll(appLocationSetting, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param appLocationSetting The app location setting ID
+     * @param metadata
+     */
+    public appLocationSettingsMetadataDeleteKeysWithHttpInfo(appLocationSetting: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataDeleteKeysWithHttpInfo(appLocationSetting, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param appLocationSetting The app location setting ID
+     * @param metadata
+     */
+    public appLocationSettingsMetadataDeleteKeys(appLocationSetting: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataDeleteKeys(appLocationSetting, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [setAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataSetWithHttpInfo(appLocationSetting: number, setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataSetWithHttpInfo(appLocationSetting, setAppLocationSettingMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [setAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataSet(appLocationSetting: number, setAppLocationSettingMetadataRequest?: SetAppLocationSettingMetadataRequest, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataSet(appLocationSetting, setAppLocationSettingMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [patchAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataUpdateWithHttpInfo(appLocationSetting: number, patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataUpdateWithHttpInfo(appLocationSetting, patchAppLocationSettingMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param appLocationSetting The app location setting ID
+     * @param [patchAppLocationSettingMetadataRequest]
+     */
+    public appLocationSettingsMetadataUpdate(appLocationSetting: number, patchAppLocationSettingMetadataRequest?: PatchAppLocationSettingMetadataRequest, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appLocationSettingsMetadataUpdate(appLocationSetting, patchAppLocationSettingMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param app The app ID
+     */
+    public appsMetadataDeleteAllWithHttpInfo(app: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataDeleteAllWithHttpInfo(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param app The app ID
+     */
+    public appsMetadataDeleteAll(app: number, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataDeleteAll(app, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param app The app ID
+     * @param metadata
+     */
+    public appsMetadataDeleteKeysWithHttpInfo(app: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataDeleteKeysWithHttpInfo(app, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param app The app ID
+     * @param metadata
+     */
+    public appsMetadataDeleteKeys(app: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataDeleteKeys(app, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param app The app ID
+     * @param [setAppMetadataRequest]
+     */
+    public appsMetadataSetWithHttpInfo(app: number, setAppMetadataRequest?: SetAppMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataSetWithHttpInfo(app, setAppMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param app The app ID
+     * @param [setAppMetadataRequest]
+     */
+    public appsMetadataSet(app: number, setAppMetadataRequest?: SetAppMetadataRequest, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataSet(app, setAppMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param app The app ID
+     * @param [patchAppMetadataRequest]
+     */
+    public appsMetadataUpdateWithHttpInfo(app: number, patchAppMetadataRequest?: PatchAppMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<App>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataUpdateWithHttpInfo(app, patchAppMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param app The app ID
+     * @param [patchAppMetadataRequest]
+     */
+    public appsMetadataUpdate(app: number, patchAppMetadataRequest?: PatchAppMetadataRequest, _options?: PromiseConfigurationOptions): Promise<App> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.appsMetadataUpdate(app, patchAppMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param binary The binary ID
+     */
+    public binariesMetadataDeleteAllWithHttpInfo(binary: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataDeleteAllWithHttpInfo(binary, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param binary The binary ID
+     */
+    public binariesMetadataDeleteAll(binary: number, _options?: PromiseConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataDeleteAll(binary, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param binary The binary ID
+     * @param metadata
+     */
+    public binariesMetadataDeleteKeysWithHttpInfo(binary: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataDeleteKeysWithHttpInfo(binary, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param binary The binary ID
+     * @param metadata
+     */
+    public binariesMetadataDeleteKeys(binary: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataDeleteKeys(binary, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param binary The binary ID
+     * @param [setBinaryMetadataRequest]
+     */
+    public binariesMetadataSetWithHttpInfo(binary: number, setBinaryMetadataRequest?: SetBinaryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataSetWithHttpInfo(binary, setBinaryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param binary The binary ID
+     * @param [setBinaryMetadataRequest]
+     */
+    public binariesMetadataSet(binary: number, setBinaryMetadataRequest?: SetBinaryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataSet(binary, setBinaryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param binary The binary ID
+     * @param [patchBinaryMetadataRequest]
+     */
+    public binariesMetadataUpdateWithHttpInfo(binary: number, patchBinaryMetadataRequest?: PatchBinaryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<BinariesMetadataSet200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataUpdateWithHttpInfo(binary, patchBinaryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param binary The binary ID
+     * @param [patchBinaryMetadataRequest]
+     */
+    public binariesMetadataUpdate(binary: number, patchBinaryMetadataRequest?: PatchBinaryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<BinariesMetadataSet200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.binariesMetadataUpdate(binary, patchBinaryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param app The app ID
+     * @param checkCapacityAppLocationSettingRequest
+     */
+    public checkCapacityWithHttpInfo(app: number, checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<AppLocationSettingCapacity>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.checkCapacityWithHttpInfo(app, checkCapacityAppLocationSettingRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Estimate the available capacity in a location based on a ServerConfig
+     * @param app The app ID
+     * @param checkCapacityAppLocationSettingRequest
+     */
+    public checkCapacity(app: number, checkCapacityAppLocationSettingRequest: CheckCapacityAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<AppLocationSettingCapacity> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.checkCapacity(app, checkCapacityAppLocationSettingRequest, observableOptions);
+        return result.toPromise();
     }
 
     /**
@@ -166,7 +505,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest
      */
-    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public createAppLocationSettingWithHttpInfo(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.createAppLocationSettingWithHttpInfo(app, storeAppLocationSettingRequest, observableOptions);
         return result.toPromise();
@@ -177,7 +516,7 @@ export class PromiseAppApi {
      * @param app The app ID
      * @param storeAppLocationSettingRequest
      */
-    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<AppLocationSetting> {
+    public createAppLocationSetting(app: number, storeAppLocationSettingRequest: StoreAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.createAppLocationSetting(app, storeAppLocationSettingRequest, observableOptions);
         return result.toPromise();
@@ -488,6 +827,176 @@ export class PromiseAppApi {
     }
 
     /**
+     * Delete all metadata
+     * @param dockerRegistry The docker registry ID
+     */
+    public dockerRegistriesMetadataDeleteAllWithHttpInfo(dockerRegistry: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataDeleteAllWithHttpInfo(dockerRegistry, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param dockerRegistry The docker registry ID
+     */
+    public dockerRegistriesMetadataDeleteAll(dockerRegistry: number, _options?: PromiseConfigurationOptions): Promise<DockerRegistry> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataDeleteAll(dockerRegistry, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param dockerRegistry The docker registry ID
+     * @param metadata
+     */
+    public dockerRegistriesMetadataDeleteKeysWithHttpInfo(dockerRegistry: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataDeleteKeysWithHttpInfo(dockerRegistry, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param dockerRegistry The docker registry ID
+     * @param metadata
+     */
+    public dockerRegistriesMetadataDeleteKeys(dockerRegistry: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<DockerRegistry> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataDeleteKeys(dockerRegistry, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [setDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataSetWithHttpInfo(dockerRegistry: number, setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataSetWithHttpInfo(dockerRegistry, setDockerRegistryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [setDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataSet(dockerRegistry: number, setDockerRegistryMetadataRequest?: SetDockerRegistryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<DockerRegistry> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataSet(dockerRegistry, setDockerRegistryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [patchDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataUpdateWithHttpInfo(dockerRegistry: number, patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<DockerRegistry>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataUpdateWithHttpInfo(dockerRegistry, patchDockerRegistryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param dockerRegistry The docker registry ID
+     * @param [patchDockerRegistryMetadataRequest]
+     */
+    public dockerRegistriesMetadataUpdate(dockerRegistry: number, patchDockerRegistryMetadataRequest?: PatchDockerRegistryMetadataRequest, _options?: PromiseConfigurationOptions): Promise<DockerRegistry> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerRegistriesMetadataUpdate(dockerRegistry, patchDockerRegistryMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingAllocateWithHttpInfo(dockerService: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingAllocateWithHttpInfo(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to allocated
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingAllocate(dockerService: number, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingAllocate(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingHealthWithHttpInfo(dockerService: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingHealthWithHttpInfo(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Record an autoscaling heartbeat
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingHealth(dockerService: number, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingHealth(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingReadyWithHttpInfo(dockerService: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingReadyWithHttpInfo(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to ready
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingReady(dockerService: number, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingReady(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingShutdownWithHttpInfo(dockerService: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingShutdownWithHttpInfo(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Set autoscaling status to shutdown
+     * @param dockerService The docker service ID
+     */
+    public dockerServicesAutoscalingShutdown(dockerService: number, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.dockerServicesAutoscalingShutdown(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
      * Delete all service metadata
      * @param dockerService The docker service ID
      */
@@ -623,7 +1132,7 @@ export class PromiseAppApi {
      * Show a specific app location setting
      * @param appLocationSetting The app location setting ID
      */
-    public getAppLocationSettingByIdWithHttpInfo(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public getAppLocationSettingByIdWithHttpInfo(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getAppLocationSettingByIdWithHttpInfo(appLocationSetting, observableOptions);
         return result.toPromise();
@@ -633,7 +1142,7 @@ export class PromiseAppApi {
      * Show a specific app location setting
      * @param appLocationSetting The app location setting ID
      */
-    public getAppLocationSettingById(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<AppLocationSetting> {
+    public getAppLocationSettingById(appLocationSetting: number, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getAppLocationSettingById(appLocationSetting, observableOptions);
         return result.toPromise();
@@ -663,10 +1172,11 @@ export class PromiseAppApi {
      * @param [filterServerConfigStatus] Filter by ServerConfig status.
      * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
      * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppLocationSettingsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettings200Response>> {
+    public getAppLocationSettingsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettings200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, observableOptions);
+        const result = this.api.getAppLocationSettingsWithHttpInfo(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -694,10 +1204,11 @@ export class PromiseAppApi {
      * @param [filterServerConfigStatus] Filter by ServerConfig status.
      * @param [filterServerConfigMaintenance] Filter by ServerConfig maintenance.
      * @param [filterServerConfigResourcePackageSlug] Filter by ServerConfig resource package slug.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettings200Response> {
+    public getAppLocationSettings(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-serverConfigId' | 'serverConfigId' | '-numInstances' | 'numInstances' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-serverConfigCommand' | 'serverConfigCommand' | '-serverConfigArgs' | 'serverConfigArgs' | '-serverConfigNotes' | 'serverConfigNotes' | '-serverConfigStatus' | 'serverConfigStatus' | '-serverConfigMaintenance' | 'serverConfigMaintenance' | '-serverConfigResourcePackageSlug' | 'serverConfigResourcePackageSlug'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterServerConfigId?: number, filterNumInstances?: number, filterStatus?: string, filterMaintenance?: boolean, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterServerConfigName?: string, filterServerConfigCommand?: string, filterServerConfigArgs?: string, filterServerConfigNotes?: string, filterServerConfigStatus?: string, filterServerConfigMaintenance?: boolean, filterServerConfigResourcePackageSlug?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettings200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getAppLocationSettings(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, observableOptions);
+        const result = this.api.getAppLocationSettings(app, perPage, page, sort, filterId, filterName, filterNamePartial, filterServerConfigId, filterNumInstances, filterStatus, filterMaintenance, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterServerConfigName, filterServerConfigCommand, filterServerConfigArgs, filterServerConfigNotes, filterServerConfigStatus, filterServerConfigMaintenance, filterServerConfigResourcePackageSlug, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -710,7 +1221,7 @@ export class PromiseAppApi {
      * @param [filterId] Filter by id.
      * @param [filterBalance] Filter by balance.
      */
-    public getAppWalletsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppWallets200Response>> {
+    public getAppWalletsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-balance' | 'balance'>, filterId?: number, filterBalance?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppWallets200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getAppWalletsWithHttpInfo(app, perPage, page, sort, filterId, filterBalance, observableOptions);
         return result.toPromise();
@@ -725,7 +1236,7 @@ export class PromiseAppApi {
      * @param [filterId] Filter by id.
      * @param [filterBalance] Filter by balance.
      */
-    public getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBalance?: number, _options?: PromiseConfigurationOptions): Promise<GetAppWallets200Response> {
+    public getAppWallets(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-balance' | 'balance'>, filterId?: number, filterBalance?: number, _options?: PromiseConfigurationOptions): Promise<GetAppWallets200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getAppWallets(app, perPage, page, sort, filterId, filterBalance, observableOptions);
         return result.toPromise();
@@ -740,10 +1251,11 @@ export class PromiseAppApi {
      * @param [filterName] Filter by name.
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getAppsWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetApps200Response>> {
+    public getAppsWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetApps200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getAppsWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, observableOptions);
+        const result = this.api.getAppsWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -756,10 +1268,11 @@ export class PromiseAppApi {
      * @param [filterName] Filter by name.
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getApps(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, _options?: PromiseConfigurationOptions): Promise<GetApps200Response> {
+    public getApps(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-inUse' | 'inUse'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterInUse?: boolean, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<GetApps200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getApps(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, observableOptions);
+        const result = this.api.getApps(perPage, page, sort, filterId, filterName, filterNamePartial, filterInUse, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -816,7 +1329,7 @@ export class PromiseAppApi {
      * @param [filterName] Filter by name.
      * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackupsWithHttpInfo(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetBackups200Response>> {
+    public getBackupsWithHttpInfo(dockerService: number, perPage?: number, page?: number, sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>, filterName?: string, filterArchiveName?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetBackups200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getBackupsWithHttpInfo(dockerService, perPage, page, sort, filterName, filterArchiveName, observableOptions);
         return result.toPromise();
@@ -831,7 +1344,7 @@ export class PromiseAppApi {
      * @param [filterName] Filter by name.
      * @param [filterArchiveName] Filter by archive name.
      */
-    public getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterArchiveName?: string, _options?: PromiseConfigurationOptions): Promise<GetBackups200Response> {
+    public getBackups(dockerService: number, perPage?: number, page?: number, sort?: Array<'-name' | 'name' | '-archiveName' | 'archiveName' | '-createdAt' | 'createdAt' | '-restoredAt' | 'restoredAt'>, filterName?: string, filterArchiveName?: string, _options?: PromiseConfigurationOptions): Promise<GetBackups200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getBackups(dockerService, perPage, page, sort, filterName, filterArchiveName, observableOptions);
         return result.toPromise();
@@ -851,10 +1364,11 @@ export class PromiseAppApi {
      * @param [filterMaintenance] Filter by maintenance status.
      * @param [filterStatus] Filter by status.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getBinariesWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetBinaries200Response>> {
+    public getBinariesWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetBinaries200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getBinariesWithHttpInfo(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, observableOptions);
+        const result = this.api.getBinariesWithHttpInfo(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -872,10 +1386,11 @@ export class PromiseAppApi {
      * @param [filterMaintenance] Filter by maintenance status.
      * @param [filterStatus] Filter by status.
      * @param [filterInUse] Filter by in use flag.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getBinaries(app: number, perPage?: number, page?: number, sort?: Array<string>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, _options?: PromiseConfigurationOptions): Promise<GetBinaries200Response> {
+    public getBinaries(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-version' | 'version' | '-type' | 'type' | '-os' | 'os' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-progress' | 'progress' | '-progressMessage' | 'progressMessage' | '-inUse' | 'inUse'>, filterName?: string, filterNamePartial?: string, filterVersion?: string, filterType?: string, filterOs?: string, filterMaintenance?: boolean, filterStatus?: string, filterInUse?: boolean, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<GetBinaries200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getBinaries(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, observableOptions);
+        const result = this.api.getBinaries(app, perPage, page, sort, filterName, filterNamePartial, filterVersion, filterType, filterOs, filterMaintenance, filterStatus, filterInUse, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -910,10 +1425,11 @@ export class PromiseAppApi {
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterUrl] Filter by url.
      * @param [filterOrganization] Filter by organization.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getDockerRegistriesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetDockerRegistries200Response>> {
+    public getDockerRegistriesWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetDockerRegistries200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getDockerRegistriesWithHttpInfo(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, observableOptions);
+        const result = this.api.getDockerRegistriesWithHttpInfo(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -928,10 +1444,11 @@ export class PromiseAppApi {
      * @param [filterNamePartial] Filter by name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
      * @param [filterUrl] Filter by url.
      * @param [filterOrganization] Filter by organization.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getDockerRegistries(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, _options?: PromiseConfigurationOptions): Promise<GetDockerRegistries200Response> {
+    public getDockerRegistries(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-type' | 'type' | '-name' | 'name' | '-url' | 'url' | '-organization' | 'organization'>, filterId?: number, filterType?: string, filterName?: string, filterNamePartial?: string, filterUrl?: string, filterOrganization?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<GetDockerRegistries200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getDockerRegistries(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, observableOptions);
+        const result = this.api.getDockerRegistries(perPage, page, sort, filterId, filterType, filterName, filterNamePartial, filterUrl, filterOrganization, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -1030,7 +1547,7 @@ export class PromiseAppApi {
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      */
-    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
+    public getResourcePackagesWithHttpInfo(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetResourcePackages200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getResourcePackagesWithHttpInfo(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, observableOptions);
         return result.toPromise();
@@ -1049,7 +1566,7 @@ export class PromiseAppApi {
      * @param [filterCpuLimit] Filter by CPU limit. Maps to the &#x60;cpu_limit&#x60; column.
      * @param [filterMemoryLimitMiB] Filter by memory limit in MiB. Maps to the &#x60;memory_limit_mebibytes&#x60; column.
      */
-    public getResourcePackages(perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<GetResourcePackages200Response> {
+    public getResourcePackages(perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-name' | 'name' | '-slug' | 'slug' | '-type' | 'type' | '-cpuLimit' | 'cpuLimit' | '-memoryLimitMiB' | 'memoryLimitMiB'>, filterId?: number, filterName?: string, filterNamePartial?: string, filterSlug?: string, filterType?: string, filterCpuLimit?: number, filterMemoryLimitMiB?: number, _options?: PromiseConfigurationOptions): Promise<GetResourcePackages200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getResourcePackages(perPage, page, sort, filterId, filterName, filterNamePartial, filterSlug, filterType, filterCpuLimit, filterMemoryLimitMiB, observableOptions);
         return result.toPromise();
@@ -1101,7 +1618,7 @@ export class PromiseAppApi {
      * Show a specific server config
      * @param serverConfig The server config ID
      */
-    public getServerConfigByIdWithHttpInfo(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<ServerConfig>> {
+    public getServerConfigByIdWithHttpInfo(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getServerConfigByIdWithHttpInfo(serverConfig, observableOptions);
         return result.toPromise();
@@ -1111,7 +1628,7 @@ export class PromiseAppApi {
      * Show a specific server config
      * @param serverConfig The server config ID
      */
-    public getServerConfigById(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<ServerConfig> {
+    public getServerConfigById(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<GetServerConfigById200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.getServerConfigById(serverConfig, observableOptions);
         return result.toPromise();
@@ -1139,10 +1656,11 @@ export class PromiseAppApi {
      * @param [filterBinaryVersion] Filter by binary version.
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
+    public getServerConfigsWithHttpInfo(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigs200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
+        const result = this.api.getServerConfigsWithHttpInfo(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -1168,10 +1686,11 @@ export class PromiseAppApi {
      * @param [filterBinaryVersion] Filter by binary version.
      * @param [filterBinaryType] Filter by binary type.
      * @param [filterBinaryOs] Filter by binary operating system.
+     * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      */
-    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<string>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, _options?: PromiseConfigurationOptions): Promise<GetServerConfigs200Response> {
+    public getServerConfigs(app: number, perPage?: number, page?: number, sort?: Array<'-id' | 'id' | '-binaryId' | 'binaryId' | '-name' | 'name' | '-command' | 'command' | '-args' | 'args' | '-notes' | 'notes' | '-status' | 'status' | '-statusMessage' | 'statusMessage' | '-maintenance' | 'maintenance' | '-dnsServiceEnabled' | 'dnsServiceEnabled' | '-resourcePackageSlug' | 'resourcePackageSlug' | '-inUse' | 'inUse' | 'binaryId' | '-binaryId' | 'binaryName' | '-binaryName' | 'binaryVersion' | '-binaryVersion' | 'binaryType' | '-binaryType' | 'binaryOs' | '-binaryOs'>, filterId?: number, filterBinaryId?: number, filterName?: string, filterNamePartial?: string, filterCommand?: string, filterArgs?: string, filterNotes?: string, filterStatus?: string, filterMaintenance?: boolean, filterDnsServiceEnabled?: boolean, filterResourcePackageSlug?: string, filterInUse?: boolean, filterBinaryName?: string, filterBinaryVersion?: string, filterBinaryType?: string, filterBinaryOs?: string, filterMetadata?: string, _options?: PromiseConfigurationOptions): Promise<GetServerConfigs200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, observableOptions);
+        const result = this.api.getServerConfigs(app, perPage, page, sort, filterId, filterBinaryId, filterName, filterNamePartial, filterCommand, filterArgs, filterNotes, filterStatus, filterMaintenance, filterDnsServiceEnabled, filterResourcePackageSlug, filterInUse, filterBinaryName, filterBinaryVersion, filterBinaryType, filterBinaryOs, filterMetadata, observableOptions);
         return result.toPromise();
     }
 
@@ -1208,6 +1727,7 @@ export class PromiseAppApi {
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterAutoscalingEnabled] Filter by whether the service belongs to an autoscaled AppLocationSetting.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
      * @param [filterServerConfigName] Filter by ServerConfig name.
      * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
@@ -1225,9 +1745,9 @@ export class PromiseAppApi {
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServers200Response>> {
+    public getServersWithHttpInfo(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterAutoscalingEnabled?: boolean, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServers200Response>> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, observableOptions);
+        const result = this.api.getServersWithHttpInfo(app, perPage, page, filterStatus, filterAppLocationSettingId, filterAutoscalingEnabled, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, observableOptions);
         return result.toPromise();
     }
 
@@ -1238,6 +1758,7 @@ export class PromiseAppApi {
      * @param [page] Specifies the page number to retrieve in the paginated results.
      * @param [filterStatus] Filter by status.
      * @param [filterAppLocationSettingId] Filter by AppLocationSetting ID.
+     * @param [filterAutoscalingEnabled] Filter by whether the service belongs to an autoscaled AppLocationSetting.
      * @param [filterServerConfigId] Filter by ServerConfig ID.
      * @param [filterServerConfigName] Filter by ServerConfig name.
      * @param [filterServerConfigNamePartial] Filter by ServerConfig name using partial matching. For example, \&quot;ann\&quot; matches \&quot;Joanna\&quot; or \&quot;Annie\&quot;.
@@ -1255,9 +1776,9 @@ export class PromiseAppApi {
      * @param [filterMetadata] Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.  **Simple Filters:** To filter where &#x60;idle&#x60; is false (boolean): &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false &#x60;&#x60;&#x60;  To filter where &#x60;string&#x60; is exactly \&quot;a\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;string&#x3D;\&quot;a\&quot; &#x60;&#x60;&#x60;  **Filtering for Null Values:** To filter for a native null value, use unquoted null. For example, to filter where &#x60;score&#x60; is null: &#x60;&#x60;&#x60; filter[metadata]&#x3D;score&#x3D;null &#x60;&#x60;&#x60;  **Nested Filters:** For nested metadata fields use dot notation. For example, to filter where &#x60;difficulty&#x60; within &#x60;gameSettings.survival&#x60; is exactly \&quot;hardcore\&quot;: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;  To filter for a nested field with a native &#x60;null&#x60; value, leave the null unquoted: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameSettings.stats.score&#x3D;null &#x60;&#x60;&#x60;  **Array Contains Filter:** To filter where an array contains a given value (string, number, boolean or null): &#x60;&#x60;&#x60; filter[metadata]&#x3D;players&#x3D;\&quot;foobar\&quot; filter[metadata]&#x3D;player_ids&#x3D;37 filter[metadata]&#x3D;array&#x3D;true filter[metadata]&#x3D;array&#x3D;null &#x60;&#x60;&#x60;  Works for nested arrays as well: &#x60;&#x60;&#x60; filter[metadata]&#x3D;gameData.players&#x3D;\&quot;foobar\&quot; &#x60;&#x60;&#x60;  **Multiple Filters:** Combine multiple filters by separating them with commas: &#x60;&#x60;&#x60; filter[metadata]&#x3D;idle&#x3D;false,max_players&#x3D;20,gameSettings.survival.difficulty&#x3D;\&quot;hardcore\&quot; &#x60;&#x60;&#x60;
      * @param [sort] Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).  **Simple Sort:** To sort by id in ascending order or by instance in descending order:  &#x60;&#x60;&#x60; sort[]&#x3D;id sort[]&#x3D;-instance &#x60;&#x60;&#x60;  **Multiple Sorts:** Combine multiple sorts by separating them with commas: &#x60;&#x60;&#x60; sort[]&#x3D;id&amp;sort[]&#x3D;-instance &#x60;&#x60;&#x60;
      */
-    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<string>, _options?: PromiseConfigurationOptions): Promise<GetServers200Response> {
+    public getServers(app: number, perPage?: number, page?: number, filterStatus?: string, filterAppLocationSettingId?: number, filterAutoscalingEnabled?: boolean, filterServerConfigId?: number, filterServerConfigName?: string, filterServerConfigNamePartial?: string, filterLocationCity?: string, filterLocationCityDisplay?: string, filterLocationContinent?: string, filterLocationCountry?: string, filterIsBackupable?: boolean, filterIsRestorable?: boolean, filterIsPending?: boolean, filterIsNotFound?: boolean, filterIsHealthy?: boolean, filterBinaryId?: number, filterIsStopped?: boolean, filterMetadata?: string, sort?: Array<'-id' | 'id' | '-instance' | 'instance' | '-status' | 'status' | '-status_message' | 'status_message' | '-serverConfigId' | 'serverConfigId' | '-serverConfigName' | 'serverConfigName' | '-appLocationSettingId' | 'appLocationSettingId' | '-name' | 'name' | '-locationCity' | 'locationCity' | '-locationCityDisplay' | 'locationCityDisplay' | '-locationContinent' | 'locationContinent' | '-locationCountry' | 'locationCountry' | 'isBackupable' | '-isBackupable' | 'isRestorable' | '-isRestorable' | 'isPending' | '-isPending' | 'isNotFound' | '-isNotFound' | 'isHealthy' | '-isHealthy' | 'isStopped' | '-isStopped' | '-createdAt' | 'createdAt' | '-updatedAt' | 'updatedAt'>, _options?: PromiseConfigurationOptions): Promise<GetServers200Response> {
         const observableOptions = wrapOptions(_options);
-        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, observableOptions);
+        const result = this.api.getServers(app, perPage, page, filterStatus, filterAppLocationSettingId, filterAutoscalingEnabled, filterServerConfigId, filterServerConfigName, filterServerConfigNamePartial, filterLocationCity, filterLocationCityDisplay, filterLocationContinent, filterLocationCountry, filterIsBackupable, filterIsRestorable, filterIsPending, filterIsNotFound, filterIsHealthy, filterBinaryId, filterIsStopped, filterMetadata, sort, observableOptions);
         return result.toPromise();
     }
 
@@ -1638,6 +2159,26 @@ export class PromiseAppApi {
     }
 
     /**
+     * Submit a new location request
+     * @param occupiedLocationRequest
+     */
+    public requestLocationWithHttpInfo(occupiedLocationRequest: OccupiedLocationRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<void>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.requestLocationWithHttpInfo(occupiedLocationRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Submit a new location request
+     * @param occupiedLocationRequest
+     */
+    public requestLocation(occupiedLocationRequest: OccupiedLocationRequest, _options?: PromiseConfigurationOptions): Promise<void> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.requestLocation(occupiedLocationRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
      * Restart service
      * @param dockerService The docker service ID
      */
@@ -1674,6 +2215,96 @@ export class PromiseAppApi {
     public restoreBackup(dockerService: number, _options?: PromiseConfigurationOptions): Promise<void> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.restoreBackup(dockerService, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param serverConfig The server config ID
+     */
+    public serverConfigsMetadataDeleteAllWithHttpInfo(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataDeleteAllWithHttpInfo(serverConfig, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete all metadata
+     * @param serverConfig The server config ID
+     */
+    public serverConfigsMetadataDeleteAll(serverConfig: number, _options?: PromiseConfigurationOptions): Promise<GetServerConfigById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataDeleteAll(serverConfig, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param serverConfig The server config ID
+     * @param metadata
+     */
+    public serverConfigsMetadataDeleteKeysWithHttpInfo(serverConfig: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataDeleteKeysWithHttpInfo(serverConfig, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Delete metadata keys
+     * @param serverConfig The server config ID
+     * @param metadata
+     */
+    public serverConfigsMetadataDeleteKeys(serverConfig: number, metadata: Array<string>, _options?: PromiseConfigurationOptions): Promise<GetServerConfigById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataDeleteKeys(serverConfig, metadata, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param serverConfig The server config ID
+     * @param [setServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataSetWithHttpInfo(serverConfig: number, setServerConfigMetadataRequest?: SetServerConfigMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataSetWithHttpInfo(serverConfig, setServerConfigMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Replaces the entire metadata.
+     * Set metadata
+     * @param serverConfig The server config ID
+     * @param [setServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataSet(serverConfig: number, setServerConfigMetadataRequest?: SetServerConfigMetadataRequest, _options?: PromiseConfigurationOptions): Promise<GetServerConfigById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataSet(serverConfig, setServerConfigMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param serverConfig The server config ID
+     * @param [patchServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataUpdateWithHttpInfo(serverConfig: number, patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetServerConfigById200Response>> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataUpdateWithHttpInfo(serverConfig, patchServerConfigMetadataRequest, observableOptions);
+        return result.toPromise();
+    }
+
+    /**
+     * Updates existing metadata keys or adds new keys without deleting other metadata.
+     * Update metadata
+     * @param serverConfig The server config ID
+     * @param [patchServerConfigMetadataRequest]
+     */
+    public serverConfigsMetadataUpdate(serverConfig: number, patchServerConfigMetadataRequest?: PatchServerConfigMetadataRequest, _options?: PromiseConfigurationOptions): Promise<GetServerConfigById200Response> {
+        const observableOptions = wrapOptions(_options);
+        const result = this.api.serverConfigsMetadataUpdate(serverConfig, patchServerConfigMetadataRequest, observableOptions);
         return result.toPromise();
     }
 
@@ -1946,7 +2577,7 @@ export class PromiseAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest
      */
-    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<AppLocationSetting>> {
+    public updateAppLocationSettingWithHttpInfo(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<HttpInfo<GetAppLocationSettingById200Response>> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.updateAppLocationSettingWithHttpInfo(appLocationSetting, updateAppLocationSettingRequest, observableOptions);
         return result.toPromise();
@@ -1957,7 +2588,7 @@ export class PromiseAppApi {
      * @param appLocationSetting The app location setting ID
      * @param updateAppLocationSettingRequest
      */
-    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<AppLocationSetting> {
+    public updateAppLocationSetting(appLocationSetting: number, updateAppLocationSettingRequest: UpdateAppLocationSettingRequest, _options?: PromiseConfigurationOptions): Promise<GetAppLocationSettingById200Response> {
         const observableOptions = wrapOptions(_options);
         const result = this.api.updateAppLocationSetting(appLocationSetting, updateAppLocationSettingRequest, observableOptions);
         return result.toPromise();

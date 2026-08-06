@@ -2,8 +2,8 @@
     "openapi": "3.1.0",
     "info": {
         "title": "ODIN Fleet API",
-        "version": "0.9.3",
-        "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nAlternatively, you can copy your API key directly from our **[`console`](https:\/\/console.4players.io)** by opening any app, and then going to **Settings -> API Keys**."
+        "version": "0.9.5",
+        "description": "API to access Odin Fleet, empowering developers to deploy gameservers all around the world in just a few lines of code.\n\nTo authenticate, users must send their email, password, and session ID to the **[`\/api\/auth`](\/operations\/getAuthToken)** endpoint. Upon successful authentication, an API token will be provided. This token should be included in the `Authorization` header as a Bearer token for all subsequent requests.\n    \nThe API token can also be retrieved manually via the Console Dashboard (https:\/\/console.4players.io) under **User Settings > Tokens**."
     },
     "servers": [
         {
@@ -47,7 +47,17 @@
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -141,7 +151,17 @@
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -151,6 +171,250 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/app-location-settings\/{appLocationSetting}\/metadata": {
+            "put": {
+                "operationId": "app-location-settings.metadata.set",
+                "description": "Replaces the entire metadata.",
+                "summary": "Set metadata",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetAppLocationSettingMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSetting`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "app-location-settings.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting other metadata.",
+                "summary": "Update metadata",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchAppLocationSettingMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSetting`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "app-location-settings.metadata.delete.all",
+                "summary": "Delete all metadata",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSetting`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/app-location-settings\/{appLocationSetting}\/metadata\/keys": {
+            "delete": {
+                "operationId": "app-location-settings.metadata.delete.keys",
+                "summary": "Delete metadata keys",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSetting`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -246,6 +510,78 @@
                 }
             }
         },
+        "\/v1\/app-location-settings\/{appLocationSetting}\/autoscaling\/allocate": {
+            "post": {
+                "operationId": "app-location-settings.autoscaling.allocate",
+                "summary": "Allocate a ready autoscaling instance",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSettingAutoscaling"
+                ],
+                "parameters": [
+                    {
+                        "name": "appLocationSetting",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app location setting ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/AllocateAppLocationSettingAutoscalingRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Server`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Server"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "409": {
+                        "description": "Could not find an allocatable instance.",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "\/v1\/apps\/{app}\/location-settings": {
             "get": {
                 "operationId": "getAppLocationSettings",
@@ -288,48 +624,48 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-name",
-                                "name",
-                                "-serverConfigId",
-                                "serverConfigId",
-                                "-numInstances",
-                                "numInstances",
-                                "-status",
-                                "status",
-                                "-statusMessage",
-                                "statusMessage",
-                                "-maintenance",
-                                "maintenance",
-                                "-locationCity",
-                                "locationCity",
-                                "-locationCityDisplay",
-                                "locationCityDisplay",
-                                "-locationContinent",
-                                "locationContinent",
-                                "-locationCountry",
-                                "locationCountry",
-                                "-serverConfigId",
-                                "serverConfigId",
-                                "-serverConfigName",
-                                "serverConfigName",
-                                "-serverConfigCommand",
-                                "serverConfigCommand",
-                                "-serverConfigArgs",
-                                "serverConfigArgs",
-                                "-serverConfigNotes",
-                                "serverConfigNotes",
-                                "-serverConfigStatus",
-                                "serverConfigStatus",
-                                "-serverConfigMaintenance",
-                                "serverConfigMaintenance",
-                                "-serverConfigResourcePackageSlug",
-                                "serverConfigResourcePackageSlug"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-name",
+                                    "name",
+                                    "-serverConfigId",
+                                    "serverConfigId",
+                                    "-numInstances",
+                                    "numInstances",
+                                    "-status",
+                                    "status",
+                                    "-statusMessage",
+                                    "statusMessage",
+                                    "-maintenance",
+                                    "maintenance",
+                                    "-locationCity",
+                                    "locationCity",
+                                    "-locationCityDisplay",
+                                    "locationCityDisplay",
+                                    "-locationContinent",
+                                    "locationContinent",
+                                    "-locationCountry",
+                                    "locationCountry",
+                                    "-serverConfigId",
+                                    "serverConfigId",
+                                    "-serverConfigName",
+                                    "serverConfigName",
+                                    "-serverConfigCommand",
+                                    "serverConfigCommand",
+                                    "-serverConfigArgs",
+                                    "serverConfigArgs",
+                                    "-serverConfigNotes",
+                                    "serverConfigNotes",
+                                    "-serverConfigStatus",
+                                    "serverConfigStatus",
+                                    "-serverConfigMaintenance",
+                                    "serverConfigMaintenance",
+                                    "-serverConfigResourcePackageSlug",
+                                    "serverConfigResourcePackageSlug"
+                                ]
                             }
                         }
                     },
@@ -476,6 +812,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -531,16 +875,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -584,18 +931,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -667,7 +1017,17 @@
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/AppLocationSetting"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "serverConfig"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -759,6 +1119,61 @@
                 }
             }
         },
+        "\/v1\/apps\/{app}\/location-settings\/capacity": {
+            "post": {
+                "operationId": "checkCapacity",
+                "summary": "Estimate the available capacity in a location based on a ServerConfig",
+                "tags": [
+                    "AppLocationSettings",
+                    "AppLocationSetting"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/CheckCapacityAppLocationSettingRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`AppLocationSettingCapacity`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/AppLocationSettingCapacity"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    }
+                }
+            }
+        },
         "\/v1\/apps": {
             "get": {
                 "operationId": "getApps",
@@ -792,16 +1207,16 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-name",
-                                "name",
-                                "-inUse",
-                                "inUse"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-name",
+                                    "name",
+                                    "-inUse",
+                                    "inUse"
+                                ]
                             }
                         }
                     },
@@ -835,6 +1250,14 @@
                         "description": "Filter by in use flag.",
                         "schema": {
                             "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -891,16 +1314,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -944,18 +1370,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -1158,6 +1587,210 @@
                 }
             }
         },
+        "\/v1\/apps\/{app}\/metadata": {
+            "put": {
+                "operationId": "apps.metadata.set",
+                "description": "Replaces the entire metadata.",
+                "summary": "Set metadata",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetAppMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "apps.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting other metadata.",
+                "summary": "Update metadata",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchAppMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "apps.metadata.delete.all",
+                "summary": "Delete all metadata",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/apps\/{app}\/metadata\/keys": {
+            "delete": {
+                "operationId": "apps.metadata.delete.keys",
+                "summary": "Delete metadata keys",
+                "tags": [
+                    "Apps",
+                    "App"
+                ],
+                "parameters": [
+                    {
+                        "name": "app",
+                        "in": "path",
+                        "required": true,
+                        "description": "The app ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`App`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/App"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/apps\/{app}\/services\/start": {
             "post": {
                 "operationId": "startServersForApp",
@@ -1288,14 +1921,14 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-balance",
-                                "balance"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-balance",
+                                    "balance"
+                                ]
                             }
                         }
                     },
@@ -1369,16 +2002,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -1422,18 +2058,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -1598,7 +2237,9 @@
                                         "message": {
                                             "type": "string",
                                             "description": "Error overview.",
-                                            "example": "Login is disabled for this account on this environment."
+                                            "examples": [
+                                                "Login is disabled for this account on this environment."
+                                            ]
                                         }
                                     },
                                     "required": [
@@ -1656,30 +2297,30 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-name",
-                                "name",
-                                "-version",
-                                "version",
-                                "-type",
-                                "type",
-                                "-os",
-                                "os",
-                                "-status",
-                                "status",
-                                "-statusMessage",
-                                "statusMessage",
-                                "-progress",
-                                "progress",
-                                "-progressMessage",
-                                "progressMessage",
-                                "-inUse",
-                                "inUse"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-name",
+                                    "name",
+                                    "-version",
+                                    "version",
+                                    "-type",
+                                    "type",
+                                    "-os",
+                                    "os",
+                                    "-status",
+                                    "status",
+                                    "-statusMessage",
+                                    "statusMessage",
+                                    "-progress",
+                                    "progress",
+                                    "-progressMessage",
+                                    "progressMessage",
+                                    "-inUse",
+                                    "inUse"
+                                ]
                             }
                         }
                     },
@@ -1746,6 +2387,14 @@
                         "schema": {
                             "type": "boolean"
                         }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -1801,16 +2450,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -1854,18 +2506,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -2120,6 +2775,254 @@
                 }
             }
         },
+        "\/v1\/binaries\/{binary}\/metadata": {
+            "put": {
+                "operationId": "binaries.metadata.set",
+                "description": "Replaces the entire metadata.",
+                "summary": "Set metadata",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetBinaryMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Binary`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/Binary"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "dockerImage",
+                                                "steam"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "binaries.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting other metadata.",
+                "summary": "Update metadata",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchBinaryMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`Binary`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/Binary"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "dockerImage",
+                                                "steam"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "binaries.metadata.delete.all",
+                "summary": "Delete all metadata",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Binary`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/Binary"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "dockerImage",
+                                                "steam"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/binaries\/{binary}\/metadata\/keys": {
+            "delete": {
+                "operationId": "binaries.metadata.delete.keys",
+                "summary": "Delete metadata keys",
+                "tags": [
+                    "Binaries",
+                    "Binary"
+                ],
+                "parameters": [
+                    {
+                        "name": "binary",
+                        "in": "path",
+                        "required": true,
+                        "description": "The binary ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Binary`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/Binary"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "dockerImage",
+                                                "steam"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
         "\/v1\/binaries\/{binary}\/refresh": {
             "put": {
                 "operationId": "refreshBinary",
@@ -2306,6 +3209,14 @@
                         }
                     },
                     {
+                        "name": "filter[autoscalingEnabled]",
+                        "in": "query",
+                        "description": "Filter by whether the service belongs to an autoscaled AppLocationSetting.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
                         "name": "filter[serverConfigId]",
                         "in": "query",
                         "description": "Filter by ServerConfig ID.",
@@ -2431,50 +3342,50 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by instance in descending order:\n\n```\nsort[]=id\nsort[]=-instance\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-instance\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-instance",
-                                "instance",
-                                "-status",
-                                "status",
-                                "-status_message",
-                                "status_message",
-                                "-serverConfigId",
-                                "serverConfigId",
-                                "-serverConfigName",
-                                "serverConfigName",
-                                "-appLocationSettingId",
-                                "appLocationSettingId",
-                                "-name",
-                                "name",
-                                "-locationCity",
-                                "locationCity",
-                                "-locationCityDisplay",
-                                "locationCityDisplay",
-                                "-locationContinent",
-                                "locationContinent",
-                                "-locationCountry",
-                                "locationCountry",
-                                "isBackupable",
-                                "-isBackupable",
-                                "isRestorable",
-                                "-isRestorable",
-                                "isPending",
-                                "-isPending",
-                                "isNotFound",
-                                "-isNotFound",
-                                "isHealthy",
-                                "-isHealthy",
-                                "isStopped",
-                                "-isStopped",
-                                "-createdAt",
-                                "createdAt",
-                                "-updatedAt",
-                                "updatedAt"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-instance",
+                                    "instance",
+                                    "-status",
+                                    "status",
+                                    "-status_message",
+                                    "status_message",
+                                    "-serverConfigId",
+                                    "serverConfigId",
+                                    "-serverConfigName",
+                                    "serverConfigName",
+                                    "-appLocationSettingId",
+                                    "appLocationSettingId",
+                                    "-name",
+                                    "name",
+                                    "-locationCity",
+                                    "locationCity",
+                                    "-locationCityDisplay",
+                                    "locationCityDisplay",
+                                    "-locationContinent",
+                                    "locationContinent",
+                                    "-locationCountry",
+                                    "locationCountry",
+                                    "isBackupable",
+                                    "-isBackupable",
+                                    "isRestorable",
+                                    "-isRestorable",
+                                    "isPending",
+                                    "-isPending",
+                                    "isNotFound",
+                                    "-isNotFound",
+                                    "isHealthy",
+                                    "-isHealthy",
+                                    "isStopped",
+                                    "-isStopped",
+                                    "-createdAt",
+                                    "createdAt",
+                                    "-updatedAt",
+                                    "updatedAt"
+                                ]
                             }
                         }
                     }
@@ -2532,16 +3443,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -2585,18 +3499,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -2773,20 +3690,20 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-type",
-                                "type",
-                                "-name",
-                                "name",
-                                "-url",
-                                "url",
-                                "-organization",
-                                "organization"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-type",
+                                    "type",
+                                    "-name",
+                                    "name",
+                                    "-url",
+                                    "url",
+                                    "-organization",
+                                    "organization"
+                                ]
                             }
                         }
                     },
@@ -2834,6 +3751,14 @@
                         "name": "filter[organization]",
                         "in": "query",
                         "description": "Filter by organization.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
                         "schema": {
                             "type": "string"
                         }
@@ -2892,16 +3817,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -2945,18 +3873,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -3152,6 +4083,210 @@
                     },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/docker-registries\/{dockerRegistry}\/metadata": {
+            "put": {
+                "operationId": "docker-registries.metadata.set",
+                "description": "Replaces the entire metadata.",
+                "summary": "Set metadata",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetDockerRegistryMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`DockerRegistry`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DockerRegistry"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "docker-registries.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting other metadata.",
+                "summary": "Update metadata",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchDockerRegistryMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`DockerRegistry`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DockerRegistry"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "docker-registries.metadata.delete.all",
+                "summary": "Delete all metadata",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`DockerRegistry`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DockerRegistry"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/docker-registries\/{dockerRegistry}\/metadata\/keys": {
+            "delete": {
+                "operationId": "docker-registries.metadata.delete.keys",
+                "summary": "Delete metadata keys",
+                "tags": [
+                    "Docker",
+                    "DockerRegistry"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerRegistry",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker registry ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`DockerRegistry`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/DockerRegistry"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
@@ -3602,18 +4737,18 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** For example, to sort by name in ascending order or by archiveName in descending order:\n\n```\nsort[]=name\nsort[]=-archiveName\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=name&sort[]=-archiveName\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-name",
-                                "name",
-                                "-archiveName",
-                                "archiveName",
-                                "-createdAt",
-                                "createdAt",
-                                "-restoredAt",
-                                "restoredAt"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-name",
+                                    "name",
+                                    "-archiveName",
+                                    "archiveName",
+                                    "-createdAt",
+                                    "createdAt",
+                                    "-restoredAt",
+                                    "restoredAt"
+                                ]
                             }
                         }
                     },
@@ -3687,16 +4822,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -3740,18 +4878,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -4168,11 +5309,223 @@
                     "404": {
                         "$ref": "#\/components\/responses\/ModelNotFoundException"
                     },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/autoscaling\/ready": {
+            "post": {
+                "operationId": "docker-services.autoscaling.ready",
+                "summary": "Set autoscaling status to ready",
+                "tags": [
+                    "Docker",
+                    "DockerServiceAutoscaling"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
                     "401": {
                         "$ref": "#\/components\/responses\/AuthenticationException"
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "409": {
+                        "description": "Autoscaling is not enabled for this service.",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/autoscaling\/allocate": {
+            "post": {
+                "operationId": "docker-services.autoscaling.allocate",
+                "summary": "Set autoscaling status to allocated",
+                "tags": [
+                    "Docker",
+                    "DockerServiceAutoscaling"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "409": {
+                        "description": "Autoscaling is not enabled for this service.",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/autoscaling\/shutdown": {
+            "post": {
+                "operationId": "docker-services.autoscaling.shutdown",
+                "summary": "Set autoscaling status to shutdown",
+                "tags": [
+                    "Docker",
+                    "DockerServiceAutoscaling"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "409": {
+                        "description": "Autoscaling is not enabled for this service.",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/v1\/services\/{dockerService}\/autoscaling\/health": {
+            "post": {
+                "operationId": "docker-services.autoscaling.health",
+                "summary": "Record an autoscaling heartbeat",
+                "tags": [
+                    "Docker",
+                    "DockerServiceAutoscaling"
+                ],
+                "parameters": [
+                    {
+                        "name": "dockerService",
+                        "in": "path",
+                        "required": true,
+                        "description": "The docker service ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "409": {
+                        "description": "Autoscaling is not enabled for this service.",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -4906,7 +6259,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Paginated set of `Location`",
+                        "description": "Paginated set of `LocationIndex`",
                         "content": {
                             "application\/json": {
                                 "schema": {
@@ -4915,7 +6268,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#\/components\/schemas\/Location"
+                                                "$ref": "#\/components\/schemas\/LocationIndex"
                                             }
                                         },
                                         "links": {
@@ -4957,16 +6310,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -5010,18 +6366,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -5053,6 +6412,58 @@
                     },
                     "403": {
                         "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/nodes\/locations\/request": {
+            "post": {
+                "operationId": "requestLocation",
+                "summary": "Submit a new location request",
+                "tags": [
+                    "Nodes",
+                    "DockerNode"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/OccupiedLocationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    },
+                    "429": {
+                        "description": "Too Many Requests",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -5089,22 +6500,22 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-name",
-                                "name",
-                                "-slug",
-                                "slug",
-                                "-type",
-                                "type",
-                                "-cpuLimit",
-                                "cpuLimit",
-                                "-memoryLimitMiB",
-                                "memoryLimitMiB"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-name",
+                                    "name",
+                                    "-slug",
+                                    "slug",
+                                    "-type",
+                                    "type",
+                                    "-cpuLimit",
+                                    "cpuLimit",
+                                    "-memoryLimitMiB",
+                                    "memoryLimitMiB"
+                                ]
                             }
                         }
                     },
@@ -5218,16 +6629,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -5271,18 +6685,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -5400,44 +6817,44 @@
                         "description": "Allows sorting of results. By default, sorting is in ascending order. To reverse the order, prepend the sort key with a hyphen (-).\n\n**Simple Sort:** To sort by id in ascending order or by name in descending order:\n\n```\nsort[]=id\nsort[]=-name\n```\n\n**Multiple Sorts:** Combine multiple sorts by separating them with commas:\n```\nsort[]=id&sort[]=-name\n```",
                         "schema": {
                             "type": "array",
-                            "enum": [
-                                "-id",
-                                "id",
-                                "-binaryId",
-                                "binaryId",
-                                "-name",
-                                "name",
-                                "-command",
-                                "command",
-                                "-args",
-                                "args",
-                                "-notes",
-                                "notes",
-                                "-status",
-                                "status",
-                                "-statusMessage",
-                                "statusMessage",
-                                "-maintenance",
-                                "maintenance",
-                                "-dnsServiceEnabled",
-                                "dnsServiceEnabled",
-                                "-resourcePackageSlug",
-                                "resourcePackageSlug",
-                                "-inUse",
-                                "inUse",
-                                "binaryId",
-                                "-binaryId",
-                                "binaryName",
-                                "-binaryName",
-                                "binaryVersion",
-                                "-binaryVersion",
-                                "binaryType",
-                                "-binaryType",
-                                "binaryOs",
-                                "-binaryOs"
-                            ],
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "enum": [
+                                    "-id",
+                                    "id",
+                                    "-binaryId",
+                                    "binaryId",
+                                    "-name",
+                                    "name",
+                                    "-command",
+                                    "command",
+                                    "-args",
+                                    "args",
+                                    "-notes",
+                                    "notes",
+                                    "-status",
+                                    "status",
+                                    "-statusMessage",
+                                    "statusMessage",
+                                    "-maintenance",
+                                    "maintenance",
+                                    "-dnsServiceEnabled",
+                                    "dnsServiceEnabled",
+                                    "-resourcePackageSlug",
+                                    "resourcePackageSlug",
+                                    "-inUse",
+                                    "inUse",
+                                    "binaryId",
+                                    "-binaryId",
+                                    "binaryName",
+                                    "-binaryName",
+                                    "binaryVersion",
+                                    "-binaryVersion",
+                                    "binaryType",
+                                    "-binaryType",
+                                    "binaryOs",
+                                    "-binaryOs"
+                                ]
                             }
                         }
                     },
@@ -5568,6 +6985,14 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "filter[metadata]",
+                        "in": "query",
+                        "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -5623,16 +7048,19 @@
                                             "type": "object",
                                             "properties": {
                                                 "current_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "from": {
                                                     "type": [
                                                         "integer",
                                                         "null"
-                                                    ]
+                                                    ],
+                                                    "minimum": 1
                                                 },
                                                 "last_page": {
-                                                    "type": "integer"
+                                                    "type": "integer",
+                                                    "minimum": 1
                                                 },
                                                 "links": {
                                                     "type": "array",
@@ -5676,18 +7104,21 @@
                                                 },
                                                 "per_page": {
                                                     "type": "integer",
-                                                    "description": "Number of items shown per page."
+                                                    "description": "Number of items shown per page.",
+                                                    "minimum": 0
                                                 },
                                                 "to": {
                                                     "type": [
                                                         "integer",
                                                         "null"
                                                     ],
-                                                    "description": "Number of the last item in the slice."
+                                                    "description": "Number of the last item in the slice.",
+                                                    "minimum": 1
                                                 },
                                                 "total": {
                                                     "type": "integer",
-                                                    "description": "Total number of items being paginated."
+                                                    "description": "Total number of items being paginated.",
+                                                    "minimum": 0
                                                 }
                                             },
                                             "required": [
@@ -5836,7 +7267,17 @@
                         "content": {
                             "application\/json": {
                                 "schema": {
-                                    "$ref": "#\/components\/schemas\/ServerConfig"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/ServerConfig"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "binary"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -5918,6 +7359,246 @@
                             "application\/json": {
                                 "schema": {
                                     "$ref": "#\/components\/schemas\/ServerConfig"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/server-configs\/{serverConfig}\/metadata": {
+            "put": {
+                "operationId": "server-configs.metadata.set",
+                "description": "Replaces the entire metadata.",
+                "summary": "Set metadata",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/SetServerConfigMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`ServerConfig`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/ServerConfig"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "binary"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "patch": {
+                "operationId": "server-configs.metadata.update",
+                "description": "Updates existing metadata keys or adds new keys without deleting other metadata.",
+                "summary": "Update metadata",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PatchServerConfigMetadataRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`ServerConfig`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/ServerConfig"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "binary"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "422": {
+                        "$ref": "#\/components\/responses\/ValidationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "server-configs.metadata.delete.all",
+                "summary": "Delete all metadata",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ServerConfig`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/ServerConfig"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "binary"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#\/components\/responses\/ModelNotFoundException"
+                    },
+                    "401": {
+                        "$ref": "#\/components\/responses\/AuthenticationException"
+                    },
+                    "403": {
+                        "$ref": "#\/components\/responses\/AuthorizationException"
+                    }
+                }
+            }
+        },
+        "\/v1\/server-configs\/{serverConfig}\/metadata\/keys": {
+            "delete": {
+                "operationId": "server-configs.metadata.delete.keys",
+                "summary": "Delete metadata keys",
+                "tags": [
+                    "ServerConfig"
+                ],
+                "parameters": [
+                    {
+                        "name": "serverConfig",
+                        "in": "path",
+                        "required": true,
+                        "description": "The server config ID",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "metadata[]",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`ServerConfig`",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#\/components\/schemas\/ServerConfig"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "required": [
+                                                "binary"
+                                            ]
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -6260,6 +7941,21 @@
     },
     "components": {
         "schemas": {
+            "AllocateAppLocationSettingAutoscalingRequest": {
+                "type": "object",
+                "properties": {
+                    "filter": {
+                        "type": "object",
+                        "properties": {
+                            "metadata": {
+                                "type": "string",
+                                "description": "Filter by metadata. Allows filtering based on metadata key-value pairs, supporting both simple and nested metadata fields using dot notation.\n\n**Simple Filters:**\nTo filter where `idle` is false (boolean):\n```\nfilter[metadata]=idle=false\n```\n\nTo filter where `string` is exactly \"a\":\n```\nfilter[metadata]=string=\"a\"\n```\n\n**Filtering for Null Values:**\nTo filter for a native null value, use unquoted null. For example, to filter where `score` is null:\n```\nfilter[metadata]=score=null\n```\n\n**Nested Filters:**\nFor nested metadata fields use dot notation. For example, to filter where `difficulty` within `gameSettings.survival`\nis exactly \"hardcore\":\n```\nfilter[metadata]=gameSettings.survival.difficulty=\"hardcore\"\n```\n\nTo filter for a nested field with a native `null` value, leave the null unquoted:\n```\nfilter[metadata]=gameSettings.stats.score=null\n```\n\n**Array Contains Filter:**\nTo filter where an array contains a given value (string, number, boolean or null):\n```\nfilter[metadata]=players=\"foobar\"\nfilter[metadata]=player_ids=37\nfilter[metadata]=array=true\nfilter[metadata]=array=null\n```\n\nWorks for nested arrays as well:\n```\nfilter[metadata]=gameData.players=\"foobar\"\n```\n\n**Multiple Filters:**\nCombine multiple filters by separating them with commas:\n```\nfilter[metadata]=idle=false,max_players=20,gameSettings.survival.difficulty=\"hardcore\"\n```"
+                            }
+                        }
+                    }
+                },
+                "title": "AllocateAppLocationSettingAutoscalingRequest"
+            },
             "App": {
                 "type": "object",
                 "properties": {
@@ -6293,6 +7989,11 @@
                             "null"
                         ],
                         "description": "An optional status message"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the app",
+                        "additionalProperties": {}
                     }
                 },
                 "required": [
@@ -6302,7 +8003,8 @@
                     "billingState",
                     "maintenance",
                     "status",
-                    "statusMessage"
+                    "statusMessage",
+                    "metadata"
                 ],
                 "title": "App"
             },
@@ -6340,18 +8042,6 @@
                         "type": "integer",
                         "description": "The number of instances that should run at the specific location"
                     },
-                    "autoScalerEnabled": {
-                        "type": "boolean",
-                        "description": "Whether the auto scaler is enabled"
-                    },
-                    "autoScalerMin": {
-                        "type": "integer",
-                        "description": "The minimum number of instances that should run at the specific location"
-                    },
-                    "autoScalerMax": {
-                        "type": "integer",
-                        "description": "The maximum number of instances that should run at the specific location"
-                    },
                     "status": {
                         "description": "The current status",
                         "$ref": "#\/components\/schemas\/AppLocationSettingStatus"
@@ -6378,6 +8068,15 @@
                     "serverConfig": {
                         "description": "The server config to use",
                         "$ref": "#\/components\/schemas\/ServerConfig"
+                    },
+                    "autoscaling": {
+                        "description": "Autoscaling state",
+                        "$ref": "#\/components\/schemas\/AppLocationSettingAutoscaling"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the app location setting",
+                        "additionalProperties": {}
                     }
                 },
                 "required": [
@@ -6386,14 +8085,105 @@
                     "appId",
                     "serverConfigId",
                     "numInstances",
-                    "autoScalerEnabled",
                     "status",
                     "statusMessage",
                     "maintenance",
                     "inUse",
-                    "placement"
+                    "placement",
+                    "autoscaling",
+                    "metadata"
                 ],
                 "title": "AppLocationSetting"
+            },
+            "AppLocationSettingAutoscaling": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Indicates if autoscaling is enabled"
+                    },
+                    "healthEnabled": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ],
+                        "description": "Indicates if autoscaling health checks are enabled"
+                    },
+                    "healthInitialDelaySeconds": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Grace period in seconds before failed health pings are counted"
+                    },
+                    "healthPeriodSeconds": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Seconds between expected health pings"
+                    },
+                    "healthFailureThreshold": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Number of failed health pings before an instance is considered unhealthy"
+                    },
+                    "minInstances": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The minimum autoscaled instances"
+                    },
+                    "maxInstances": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The maximum autoscaled instances"
+                    },
+                    "bufferSize": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "Number of ready instances above allocated instances"
+                    },
+                    "currentInstances": {
+                        "type": [
+                            "integer",
+                            "null"
+                        ],
+                        "description": "The current number of autoscaled instances"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "healthEnabled",
+                    "healthInitialDelaySeconds",
+                    "healthPeriodSeconds",
+                    "healthFailureThreshold",
+                    "minInstances",
+                    "maxInstances",
+                    "bufferSize",
+                    "currentInstances"
+                ],
+                "title": "AppLocationSettingAutoscaling"
+            },
+            "AppLocationSettingCapacity": {
+                "type": "object",
+                "properties": {
+                    "capacity": {
+                        "type": "integer",
+                        "description": "Estimated capacity in the location"
+                    }
+                },
+                "required": [
+                    "capacity"
+                ],
+                "title": "AppLocationSettingCapacity"
             },
             "AppLocationSettingStatus": {
                 "type": "string",
@@ -6449,7 +8239,9 @@
                     "fsid": {
                         "type": "string",
                         "description": "The fusion session id of the user",
-                        "example": "66ed926d7fb6accc041d5628z47dg673",
+                        "examples": [
+                            "66ed926d7fb6accc041d5628z47dg673"
+                        ],
                         "maxLength": 191
                     }
                 },
@@ -6474,7 +8266,9 @@
                     "sid": {
                         "type": "string",
                         "description": "The fusion session id of the user",
-                        "example": "1234567890ABCDEFG",
+                        "examples": [
+                            "1234567890ABCDEFG"
+                        ],
                         "maxLength": 191
                     }
                 },
@@ -6605,6 +8399,11 @@
                     "steam": {
                         "description": "The steam of the binary",
                         "$ref": "#\/components\/schemas\/Steam"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the binary",
+                        "additionalProperties": {}
                     }
                 },
                 "required": [
@@ -6617,7 +8416,8 @@
                     "maintenance",
                     "status",
                     "statusMessage",
-                    "inUse"
+                    "inUse",
+                    "metadata"
                 ],
                 "title": "Binary"
             },
@@ -6641,6 +8441,64 @@
                     "steam"
                 ],
                 "title": "BinaryType"
+            },
+            "CheckCapacityAppLocationSettingRequest": {
+                "type": "object",
+                "properties": {
+                    "serverConfigId": {
+                        "type": "integer",
+                        "description": "The id of the server configuration to check against"
+                    },
+                    "placement": {
+                        "type": "object",
+                        "description": "The placement constraints that define the location",
+                        "properties": {
+                            "constraints": {
+                                "type": "object",
+                                "properties": {
+                                    "city": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "cityDisplay": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "continent": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "minLength": 2,
+                                        "maxLength": 2
+                                    }
+                                },
+                                "required": [
+                                    "city",
+                                    "cityDisplay",
+                                    "continent",
+                                    "country"
+                                ]
+                            }
+                        },
+                        "required": [
+                            "constraints"
+                        ]
+                    },
+                    "password": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Password required when the selected location is password-protected."
+                    }
+                },
+                "required": [
+                    "serverConfigId",
+                    "placement"
+                ],
+                "title": "CheckCapacityAppLocationSettingRequest"
             },
             "ConfigFile": {
                 "type": "object",
@@ -6673,6 +8531,54 @@
                     "name"
                 ],
                 "title": "CreateBackupDockerServiceRequest"
+            },
+            "CreateUpdateAutoscaling": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Enable or disable autoscaling"
+                    },
+                    "healthEnabled": {
+                        "type": "boolean",
+                        "description": "Enable or disable autoscaling health checks"
+                    },
+                    "healthInitialDelaySeconds": {
+                        "type": "integer",
+                        "description": "Grace period in seconds before failed health pings are counted"
+                    },
+                    "healthPeriodSeconds": {
+                        "type": "integer",
+                        "description": "Seconds between expected health pings"
+                    },
+                    "healthFailureThreshold": {
+                        "type": "integer",
+                        "description": "Number of failed health pings before an instance is considered unhealthy"
+                    },
+                    "minInstances": {
+                        "type": "integer",
+                        "description": "The minimum autoscaled instances"
+                    },
+                    "maxInstances": {
+                        "type": "integer",
+                        "description": "The maximum autoscaled instances"
+                    },
+                    "bufferSize": {
+                        "type": "integer",
+                        "description": "Number of ready instances above allocated instances"
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "healthEnabled",
+                    "healthInitialDelaySeconds",
+                    "healthPeriodSeconds",
+                    "healthFailureThreshold",
+                    "minInstances",
+                    "maxInstances",
+                    "bufferSize"
+                ],
+                "title": "CreateUpdateAutoscaling"
             },
             "CreateUpdateDockerImage": {
                 "type": "object",
@@ -6878,6 +8784,11 @@
                             "null"
                         ],
                         "description": "AWS secret access key"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the docker registry",
+                        "additionalProperties": {}
                     }
                 },
                 "required": [
@@ -6891,7 +8802,8 @@
                     "instanceUrl",
                     "organization",
                     "awsAccessKey",
-                    "awsSecretAccessKey"
+                    "awsSecretAccessKey",
+                    "metadata"
                 ],
                 "title": "DockerRegistry"
             },
@@ -6908,6 +8820,77 @@
                     "other"
                 ],
                 "title": "DockerRegistryType"
+            },
+            "DockerServiceAutoscaling": {
+                "type": "object",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "description": "Indicates if autoscaling is enabled"
+                    },
+                    "healthEnabled": {
+                        "type": [
+                            "boolean",
+                            "null"
+                        ],
+                        "description": "Indicates if autoscaling health checks are enabled"
+                    },
+                    "status": {
+                        "anyOf": [
+                            {
+                                "description": "The current autoscaling status.",
+                                "$ref": "#\/components\/schemas\/DockerServiceAutoscalingStatus"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "lastReadyAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "The date\/time the service was last flagged as ready."
+                    },
+                    "lastAllocatedAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "The date\/time the service was last flagged as allocated."
+                    },
+                    "lastHealthAt": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "date-time",
+                        "description": "The date\/time the service reported itself as healthy."
+                    }
+                },
+                "required": [
+                    "enabled",
+                    "healthEnabled",
+                    "status",
+                    "lastReadyAt",
+                    "lastAllocatedAt",
+                    "lastHealthAt"
+                ],
+                "title": "DockerServiceAutoscaling"
+            },
+            "DockerServiceAutoscalingStatus": {
+                "type": "string",
+                "enum": [
+                    "preparing",
+                    "ready",
+                    "allocated",
+                    "shutdown",
+                    "unhealthy"
+                ],
+                "title": "DockerServiceAutoscalingStatus"
             },
             "DockerServiceDnsReachable": {
                 "type": "object",
@@ -7036,6 +9019,54 @@
                     "isProtected"
                 ],
                 "title": "Location"
+            },
+            "LocationIndex": {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string",
+                        "description": "The name of the city"
+                    },
+                    "cityDisplay": {
+                        "type": "string",
+                        "description": "The display-friendly name of the city"
+                    },
+                    "continent": {
+                        "type": "string",
+                        "description": "The continent name"
+                    },
+                    "country": {
+                        "type": "string",
+                        "description": "The country name"
+                    },
+                    "isProtected": {
+                        "type": "boolean",
+                        "description": "Indicates if the location is password protected"
+                    },
+                    "load": {
+                        "description": "Indicates how loaded the location is",
+                        "$ref": "#\/components\/schemas\/LocationLoad"
+                    }
+                },
+                "required": [
+                    "city",
+                    "cityDisplay",
+                    "continent",
+                    "country",
+                    "isProtected",
+                    "load"
+                ],
+                "title": "LocationIndex"
+            },
+            "LocationLoad": {
+                "type": "string",
+                "enum": [
+                    "low",
+                    "medium",
+                    "high",
+                    "overloaded"
+                ],
+                "title": "LocationLoad"
             },
             "MetricData": {
                 "type": "object",
@@ -7223,6 +9254,43 @@
                 ],
                 "title": "Node"
             },
+            "OccupiedLocationRequest": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "numInstances": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "projectName": {
+                        "type": "string",
+                        "maxLength": 255
+                    },
+                    "company": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 255
+                    },
+                    "message": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "maxLength": 5000
+                    }
+                },
+                "required": [
+                    "location",
+                    "numInstances",
+                    "projectName"
+                ],
+                "title": "OccupiedLocationRequest"
+            },
             "OperatingSystem": {
                 "type": "string",
                 "enum": [
@@ -7230,6 +9298,46 @@
                     "linux"
                 ],
                 "title": "OperatingSystem"
+            },
+            "PatchAppLocationSettingMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchAppLocationSettingMetadataRequest"
+            },
+            "PatchAppMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchAppMetadataRequest"
+            },
+            "PatchBinaryMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchBinaryMetadataRequest"
+            },
+            "PatchDockerRegistryMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchDockerRegistryMetadataRequest"
             },
             "PatchMetadataRequest": {
                 "type": "object",
@@ -7240,6 +9348,16 @@
                     }
                 },
                 "title": "PatchMetadataRequest"
+            },
+            "PatchServerConfigMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "PatchServerConfigMetadataRequest"
             },
             "Placement": {
                 "type": "object",
@@ -7617,6 +9735,10 @@
                             "$ref": "#\/components\/schemas\/Backup"
                         }
                     },
+                    "autoscaling": {
+                        "description": "Autoscaling state and health information",
+                        "$ref": "#\/components\/schemas\/DockerServiceAutoscaling"
+                    },
                     "metadata": {
                         "type": "object",
                         "description": "The metadata for the service",
@@ -7662,6 +9784,7 @@
                     "location",
                     "resources",
                     "backups",
+                    "autoscaling",
                     "metadata",
                     "createdAt",
                     "updatedAt"
@@ -7780,6 +9903,11 @@
                     "binary": {
                         "description": "The image that is used in this server config",
                         "$ref": "#\/components\/schemas\/Binary"
+                    },
+                    "metadata": {
+                        "type": "object",
+                        "description": "The metadata for the server config",
+                        "additionalProperties": {}
                     }
                 },
                 "required": [
@@ -7801,7 +9929,8 @@
                     "mounts",
                     "ports",
                     "configFiles",
-                    "secretFiles"
+                    "secretFiles",
+                    "metadata"
                 ],
                 "title": "ServerConfig"
             },
@@ -7834,6 +9963,46 @@
                 ],
                 "title": "ServiceLogs"
             },
+            "SetAppLocationSettingMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "SetAppLocationSettingMetadataRequest"
+            },
+            "SetAppMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "SetAppMetadataRequest"
+            },
+            "SetBinaryMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "SetBinaryMetadataRequest"
+            },
+            "SetDockerRegistryMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "SetDockerRegistryMetadataRequest"
+            },
             "SetMetadataRequest": {
                 "type": "object",
                 "properties": {
@@ -7843,6 +10012,16 @@
                     }
                 },
                 "title": "SetMetadataRequest"
+            },
+            "SetServerConfigMetadataRequest": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "title": "SetServerConfigMetadataRequest"
             },
             "Steam": {
                 "type": "object",
@@ -8054,7 +10233,7 @@
                     },
                     "numInstances": {
                         "type": "integer",
-                        "description": "The number of instances that should run at the specific location",
+                        "description": "The number of instances that should run at the specific location. Ignored when autoscaling is enabled.",
                         "minimum": 1
                     },
                     "placement": {
@@ -8067,6 +10246,10 @@
                             "null"
                         ],
                         "description": "Password required to deploy services to a protected node location.\nRequired when the selected location is password-protected."
+                    },
+                    "autoscaling": {
+                        "description": "The autoscaling configuration",
+                        "$ref": "#\/components\/schemas\/CreateUpdateAutoscaling"
                     }
                 },
                 "required": [
@@ -8382,7 +10565,9 @@
                             "null"
                         ],
                         "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
-                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap",
+                        "examples": [
+                            "\/usr\/local\/etc\/enshrouded\/bootstrap"
+                        ],
                         "maxLength": 255
                     },
                     "command": {
@@ -8629,8 +10814,12 @@
                     },
                     "numInstances": {
                         "type": "integer",
-                        "description": "The number of instances that should run at the specific location",
+                        "description": "The number of instances that should run at the specific location. Ignored when autoscaling is enabled.",
                         "minimum": 1
+                    },
+                    "autoscaling": {
+                        "description": "The autoscaling configuration.",
+                        "$ref": "#\/components\/schemas\/CreateUpdateAutoscaling"
                     }
                 },
                 "required": [
@@ -8784,7 +10973,9 @@
                             "null"
                         ],
                         "description": "The arguments to pass to the command (overrides CMD of the Dockerfile)",
-                        "example": "\/usr\/local\/etc\/enshrouded\/bootstrap",
+                        "examples": [
+                            "\/usr\/local\/etc\/enshrouded\/bootstrap"
+                        ],
                         "maxLength": 255
                     },
                     "command": {
