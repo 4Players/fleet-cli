@@ -7,6 +7,7 @@ import { App, StoreAppRequest } from "../../backend/api/index.ts";
 import { apiClient } from "../client.ts";
 import { filterArray } from "../filter.ts";
 import { getConfig, saveConfig } from "../config.ts";
+import { createMetadataCommand } from "./metadata.ts";
 import {
   ensureApiException,
   getAllPaginated,
@@ -228,6 +229,20 @@ const create = new Command()
     }
   });
 
+// Apps are addressed through the global `--app-id` option, so the metadata
+// command group does not register an id flag of its own.
+const metadata = createMetadataCommand({
+  resourceName: "app",
+  resolveTarget: async (options) => (await getApp(options)).id,
+  api: {
+    get: (id) => apiClient.getAppById(id),
+    set: (id, metadata) => apiClient.appsMetadataSet(id, { metadata }),
+    update: (id, metadata) => apiClient.appsMetadataUpdate(id, { metadata }),
+    deleteAll: (id) => apiClient.appsMetadataDeleteAll(id),
+    deleteKeys: (id, keys) => apiClient.appsMetadataDeleteKeys(id, keys),
+  },
+});
+
 export const apps = new Command()
   .name("apps")
   .description("Manage ODIN apps.")
@@ -237,4 +252,5 @@ export const apps = new Command()
   .command("create", create)
   .command("list", appList)
   .command("get", getAppDetails)
-  .command("select", selectApp);
+  .command("select", selectApp)
+  .command("metadata", metadata);

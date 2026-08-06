@@ -17,6 +17,7 @@ import {
 
 import { getSelectedAppOrExit } from "../apps.ts";
 import { apiClient } from "../../client.ts";
+import { createMetadataCommand } from "../metadata.ts";
 import {
   confirm,
   ensureApiException,
@@ -609,6 +610,61 @@ const deleteConfig = new Command()
     }
   });
 
+/**
+ * Resolves the server config the command should operate on, falling back to an
+ * interactive selection when `--config-id` was not provided.
+ */
+const resolveConfigId = async (options: CommandOptions): Promise<number> => {
+  if (options.configId) {
+    return options.configId;
+  }
+
+  const app = await getSelectedAppOrExit(options);
+
+  let configs: ServerConfig[] = [];
+  try {
+    configs = await getAllPaginated((
+      page: number,
+    ) => (apiClient.getServerConfigs(app.id, 50, page)));
+  } catch (error) {
+    ensureApiException(error);
+    logErrorAndExit(
+      "Failed to load configs. Error: ",
+      error.body.message,
+      error.code,
+    );
+  }
+
+  if (configs.length === 0) {
+    logErrorAndExit(
+      "No server configurations found. Use `odin fleet configs create` to create one.",
+    );
+  }
+
+  return await Select.prompt<number>({
+    message: "Select the config or provide the --config-id=<configId> flag",
+    options: configs.map((config) => {
+      return { name: config.name, value: config.id };
+    }),
+  });
+};
+
+const metadata = createMetadataCommand({
+  resourceName: "server configuration",
+  idOption: "--config-id <configId:number>",
+  idDescription: "Config ID.",
+  resolveTarget: resolveConfigId,
+  api: {
+    get: (id) => apiClient.getServerConfigById(id),
+    set: (id, metadata) => apiClient.serverConfigsMetadataSet(id, { metadata }),
+    update: (id, metadata) =>
+      apiClient.serverConfigsMetadataUpdate(id, { metadata }),
+    deleteAll: (id) => apiClient.serverConfigsMetadataDeleteAll(id),
+    deleteKeys: (id, keys) =>
+      apiClient.serverConfigsMetadataDeleteKeys(id, keys),
+  },
+});
+
 export const configs = new Command()
   .name("configs")
   .description("Manage ODIN Fleet server configurations")
@@ -619,4 +675,5 @@ export const configs = new Command()
   .command("update", updateConfig)
   .command("get", getConfigDetails)
   .command("create", createConfig)
-  .command("delete", deleteConfig);
+  .command("delete", deleteConfig)
+  .command("metadata", metadata);

@@ -15,6 +15,7 @@ import {
   stdout,
 } from "../../utils.ts";
 import { filterArray } from "../../filter.ts";
+import { createMetadataCommand } from "../metadata.ts";
 import { Input, Select } from "@cliffy/prompt";
 import { Table } from "@cliffy/table";
 
@@ -706,132 +707,175 @@ const backup = new Command()
   .command("download-url", getBackupDownloadUrl)
   .command("restore", restoreBackup);
 
-const getMetadata = new Command()
-  .name("get-metadata")
-  .description("Get the current metadata for a server.")
+/**
+ * Resolves the server the command should operate on, falling back to an
+ * interactive selection when `--server-id` was not provided.
+ */
+const resolveServer = async (
+  options: CommandOptions,
+): Promise<{ appId: number; serverId: number }> => {
+  const app = await getSelectedAppOrExit(options);
+
+  if (options.serverId) {
+    return { appId: app.id, serverId: Number(options.serverId) };
+  }
+
+  let servers: Server[] = [];
+  try {
+    servers = await getAllPaginated((
+      page: number,
+    ) => (apiClient.getServers(app.id, 50, page)));
+  } catch (error) {
+    ensureApiException(error);
+    logErrorAndExit(
+      "Failed to load servers. Error: ",
+      error.body.message,
+      error.code,
+    );
+  }
+
+  if (servers.length === 0) {
+    // Having no servers at all is not treated as an error, matching how the
+    // other server commands report an empty fleet.
+    inform(
+      options,
+      "No servers found. Create a deployment with `fleet deployments create` to start a server.",
+    );
+    Deno.exit(0);
+  }
+
+  const serverId = await Select.prompt<number>({
+    message: "Select server:",
+    options: servers.map((server) => {
+      return {
+        name: `${server.id} - ${
+          server.location!.city
+        } - ${server.serverConfigName} - ${server.node?.address}`,
+        value: server.id,
+      };
+    }),
+  });
+
+  return { appId: app.id, serverId };
+};
+
+const metadata = createMetadataCommand({
+  resourceName: "server",
+  idOption: "--server-id=<serverId:string>",
+  idDescription: "Server ID.",
+  resolveTarget: resolveServer,
+  api: {
+    get: ({ appId, serverId }) => apiClient.getServerById(appId, serverId),
+    set: ({ serverId }, metadata) =>
+      apiClient.dockerServicesMetadataSet(serverId, { metadata }),
+    update: ({ serverId }, metadata) =>
+      apiClient.dockerServicesMetadataUpdate(serverId, { metadata }),
+    deleteAll: ({ serverId }) =>
+      apiClient.dockerServicesMetadataDeleteAll(serverId),
+    deleteKeys: ({ serverId }, keys) =>
+      apiClient.dockerServicesMetadataDeleteKeys(serverId, keys),
+  },
+});
+
+const autoscalingStatus = new Command()
+  .name("status")
+  .description("Show the autoscaling state of a server.")
   .option("--server-id=<serverId:string>", "Server ID.")
   .action(async (options: CommandOptions) => {
-    const app = await getSelectedAppOrExit(options);
+    const { appId, serverId } = await resolveServer(options);
 
-    let serverId = options.serverId;
-    if (!serverId) {
-      let servers: Server[] = [];
-      try {
-        servers = await getAllPaginated((
-          page: number,
-        ) => (apiClient.getServers(app.id, 50, page)));
-        if (servers.length === 0) {
-          inform(
-            options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
-          );
-          return;
-        }
-      } catch (error) {
-        ensureApiException(error);
-        logErrorAndExit(
-          "Failed to load servers. Error: ",
-          error.body.message,
-          error.code,
-        );
-        Deno.exit(1);
-      }
-      serverId = await Select.prompt<number>({
-        message: "Select server:",
-        options: servers.map((server) => {
-          return {
-            name: `${server.id} - ${
-              server.location!.city
-            } - ${server.serverConfigName} - ${server.node?.address}`,
-            value: server.id,
-          };
-        }),
-      });
+    let server: Server;
+    try {
+      server = await apiClient.getServerById(appId, serverId);
+    } catch (error) {
+      ensureApiException(error);
+      logErrorAndExit(
+        "Failed to load server. Error: " + error.body.message,
+        error.code,
+      );
     }
 
-    const server = await apiClient.getServerById(app.id, serverId);
-    if (!server) {
-      logErrorAndExit("Server not found.");
-    }
-
-    await stdout(server.metadata, options, "text");
+    await stdout(
+      server!.autoscaling,
+      options,
+      "table(enabled,healthEnabled,status,lastReadyAt,lastAllocatedAt,lastHealthAt)",
+    );
   });
 
-const setMetadata = new Command()
-  .name("set-metadata")
-  .description("Set the current metadata for a server.")
-  .option("--server-id=<serverId:string>", "Server ID.")
-  .arguments("<metadata>")
-  .action(async (options: CommandOptions, metadata: string) => {
-    let _metadata;
-    try {
-      _metadata = JSON.parse(metadata);
-      if (typeof _metadata !== "object" || Array.isArray(_metadata)) {
-        logErrorAndExit(
-          "Metadata needs to be a JSON object.",
-        );
-      }
-    } catch {
-      logErrorAndExit("Metadata is not a valid JSON object.");
-    }
+/**
+ * The autoscaling lifecycle endpoints are meant to be called by the game
+ * server itself. They are exposed here so the transitions can be triggered
+ * manually while integrating or debugging an autoscaled deployment.
+ */
+const createAutoscalingSignal = (
+  name: string,
+  description: string,
+  signal: (serverId: number) => Promise<void>,
+  success: string,
+) =>
+  new Command()
+    .name(name)
+    .description(description)
+    .option("--server-id=<serverId:string>", "Server ID.")
+    .action(async (options: CommandOptions) => {
+      const { serverId } = await resolveServer(options);
 
-    const app = await getSelectedAppOrExit(options);
-
-    let serverId = options.serverId;
-    if (!serverId) {
-      let servers: Server[] = [];
       try {
-        servers = await getAllPaginated((
-          page: number,
-        ) => (apiClient.getServers(app.id, 50, page)));
-        if (servers.length === 0) {
-          inform(
-            options,
-            "No servers found. Create a deployment with `fleet deployments create` to start a server.",
-          );
-          return;
-        }
+        await signal(serverId);
       } catch (error) {
         ensureApiException(error);
         logErrorAndExit(
-          "Failed to load servers. Error: ",
-          error.body.message,
+          `Failed to flag the server as ${name}. Error: ` + error.body.message,
           error.code,
         );
-        Deno.exit(1);
       }
-      serverId = await Select.prompt<number>({
-        message: "Select server:",
-        options: servers.map((server) => {
-          return {
-            name: `${server.id} - ${
-              server.location!.city
-            } - ${server.serverConfigName} - ${server.node?.address}`,
-            value: server.id,
-          };
-        }),
-      });
-    }
 
-    const server = await apiClient.dockerServicesMetadataSet(serverId, {
-      metadata: JSON.parse(metadata),
+      inform(options, success);
     });
 
-    if (!server) {
-      logErrorAndExit("Server not found.");
-    }
-
-    await stdout(server.metadata, options, "text");
-  });
-
-const metadata = new Command()
-  .name("metadata")
-  .description("Manage metadata for individual servers.")
+const autoscaling = new Command()
+  .name("autoscaling")
+  .description("Inspect and drive the autoscaling lifecycle of a server.")
   .action(() => {
-    metadata.showHelp();
+    autoscaling.showHelp();
   })
-  .command("get", getMetadata)
-  .command("set", setMetadata);
+  .command("status", autoscalingStatus)
+  .command(
+    "ready",
+    createAutoscalingSignal(
+      "ready",
+      "Flag the server as ready to accept players.",
+      (serverId) => apiClient.dockerServicesAutoscalingReady(serverId),
+      "Server flagged as ready.",
+    ),
+  )
+  .command(
+    "allocate",
+    createAutoscalingSignal(
+      "allocate",
+      "Flag the server as allocated so the autoscaler stops handing it out.",
+      (serverId) => apiClient.dockerServicesAutoscalingAllocate(serverId),
+      "Server flagged as allocated.",
+    ),
+  )
+  .command(
+    "health",
+    createAutoscalingSignal(
+      "health",
+      "Send a health ping for the server.",
+      (serverId) => apiClient.dockerServicesAutoscalingHealth(serverId),
+      "Health ping sent.",
+    ),
+  )
+  .command(
+    "shutdown",
+    createAutoscalingSignal(
+      "shutdown",
+      "Flag the server as shutting down so the autoscaler replaces it.",
+      (serverId) => apiClient.dockerServicesAutoscalingShutdown(serverId),
+      "Server flagged as shutting down.",
+    ),
+  );
 
 export const servers = new Command()
   .name("servers")
@@ -851,4 +895,5 @@ export const servers = new Command()
   .command("backup", backup)
   .command("get", showServerInfo)
   .command("address", serverAddress)
-  .command("metadata", metadata);
+  .command("metadata", metadata)
+  .command("autoscaling", autoscaling);

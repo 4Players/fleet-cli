@@ -24,6 +24,7 @@ import {
 import { getSelectedAppOrExit } from "../apps.ts";
 import { apiClient } from "../../client.ts";
 import { filterArray } from "../../filter.ts";
+import { createMetadataCommand } from "../metadata.ts";
 
 export const imageList = new Command()
   .name("list")
@@ -796,6 +797,63 @@ export const reloadImage = new Command()
     }
   });
 
+/**
+ * Resolves the image the command should operate on, falling back to an
+ * interactive selection when `--image-id` was not provided.
+ */
+const resolveImageId = async (options: CommandOptions): Promise<number> => {
+  if (options.imageId) {
+    return options.imageId;
+  }
+
+  const app = await getSelectedAppOrExit(options);
+
+  let images: Binary[] = [];
+  try {
+    images = await getAllPaginated((
+      page: number,
+    ) => (apiClient.getBinaries(app.id, 50, page)));
+  } catch (error) {
+    ensureApiException(error);
+    logErrorAndExit(
+      "Failed to load images. Error: ",
+      error.body.message,
+      error.code,
+    );
+  }
+
+  if (images.length === 0) {
+    logErrorAndExit(
+      "No images found. Use `odin fleet images create` to create one.",
+    );
+  }
+
+  return await Select.prompt<number>({
+    message: "Select the image or provide the --image-id=<imageId> flag",
+    options: images.map((image) => {
+      return {
+        name: `${image.name} (${image.version}) - ${image.type}`,
+        value: image.id,
+      };
+    }),
+  });
+};
+
+const metadata = createMetadataCommand({
+  resourceName: "image",
+  idOption: "--image-id <imageId:number>",
+  idDescription: "Image ID.",
+  resolveTarget: resolveImageId,
+  api: {
+    get: (id) => apiClient.getBinaryById(id),
+    set: (id, metadata) => apiClient.binariesMetadataSet(id, { metadata }),
+    update: (id, metadata) =>
+      apiClient.binariesMetadataUpdate(id, { metadata }),
+    deleteAll: (id) => apiClient.binariesMetadataDeleteAll(id),
+    deleteKeys: (id, keys) => apiClient.binariesMetadataDeleteKeys(id, keys),
+  },
+});
+
 export const images = new Command()
   .name("images")
   .description(
@@ -809,4 +867,5 @@ export const images = new Command()
   .command("create", createImage)
   .command("update", updateImage)
   .command("delete", deleteImage)
-  .command("reload", reloadImage);
+  .command("reload", reloadImage)
+  .command("metadata", metadata);
